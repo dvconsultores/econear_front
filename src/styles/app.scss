@@ -1,0 +1,48 @@
+@forward "base";
+@forward "variables";
+@forward "mixins";
+@forward "default-settings";
+@forward "personal-classes";
+@forward "responsive";
+@use "variables" as *;
+@use "mixins" as *;
+
+
+///////////////////// global ///////////////////////
+
+//- close -//
+.close {
+  --top: 0;
+  --right: 0;
+  position: absolute;
+  top: var(--top);
+  right: var(--right);
+}
+
+//- desplegable menu -//
+.menu_list.v-list {
+  background-color: hsl(212 47% 12% / .7) !important;
+  border: 1px solid $success;
+  border-radius: $border-btn;
+  position: relative;
+  margin-top: 3px;
+  &::before {
+    content: "";
+    --size: 5px;
+    @include absolute(auto,-6px,6px);
+    border: var(--size) solid transparent;
+    border-top: 0;
+    border-bottom: calc(var(--size) * 1) solid $success;
+  }
+  &::after {
+    content: "";
+    --size: 4px;
+    @include absolute(auto,-4px,7px);
+    border: var(--size) solid transparent;
+    border-top: 0;
+    border-bottom: calc(var(--size) * 1) solid hsl(212 47% 12% / .7);
+  }
+  .v-list-item {
+    &.active {background-color: #112131 !important}
+  }
+}

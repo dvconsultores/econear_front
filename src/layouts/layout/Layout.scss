@@ -1,0 +1,14 @@
+@use "@/styles/app" as *;
+
+// // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // /
+// // // layout // // // 
+// // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // /
+#layout {
+  background: top no-repeat url(../../assets/images/bg.png);
+  background-size: cover;
+  & .with {
+    padding-bottom: 30em !important;
+    @include media(max, small) {padding-bottom: 37em !important}
+  }
+  & .without {padding-bottom: 0em !important}
+}

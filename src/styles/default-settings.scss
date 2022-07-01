@@ -1,0 +1,336 @@
+@use "variables" as *;
+@use "mixins" as *;
+
+// // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // /
+/* // // limit size // // */ 
+// // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // /
+.parent {
+  max-width: 1600px;
+  width: 100%;
+  margin-inline: auto;
+}
+.subparent {
+  max-width: 1900px;
+  width: 100%;
+  margin-inline: auto;
+}
+.section {
+  padding-inline: clamp(0em, 15vw, 15em);
+  @include media(max, small) {padding-inline: clamp(1em, 5vw, 4em) !important}
+}
+.sectionmobile {
+  @include media(max, small) {padding-inline: clamp(1em, 5vw, 4em) !important}
+}
+
+
+
+
+// // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // /
+/* // // scrollbar // // */ 
+// // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // /
+@include reducedMotion {
+  ::-webkit-scrollbar {
+    width: 10px;
+    background: $primary;
+    // &:hover {background: var(--clr-bg-scroll)}
+  }
+  ::-webkit-scrollbar-thumb {
+    border-radius: 15px;
+    background: var(--clr-scroll);
+  }
+}
+
+
+// // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // /
+/* // // defautl color // // */ 
+// // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // /
+:is(span, p, a, h1, h2, h3, h4, h5, h6, .v-list-item__title, button, label, ul, img, button i, div i,.v-input input):not(.not_clr, .not) {
+  color: var(--c);
+}
+:is(span, p, a, h1, h2, h3, h4, h5, h6, .v-list-item__title, button, label, ul, img):not(.not_clr, .not) {
+  -webkit-text-stroke: var(--stroke) var(--c);
+  -moz-text-stroke: var(--stroke) var(--c);
+  -ms-text-stroke: var(--stroke) var(--c);
+  -o-text-stroke: var(--stroke) var(--c);
+}
+* {caret-color: var(--primary)}
+::selection {
+  background-color: $clr-btn-inactive;
+  color: $clr-btn-pressed;
+}
+.v-input__slot::before {background: var(--c)}
+.v-input:hover {
+  .v-input__slot::before {border-color: var(--clr-inv);opacity: .4}
+}
+/* // // elements-active // // */ 
+:is(.primary--text, button[type].primary--text) {
+  color: var(--primary) !important;
+  & :is(span, i) {color: var(--primary) !important}
+  & .v-input__slot::after {
+    background: var(--primary) !important;
+    border-color: var(--primary) !important;
+  }
+}
+
+/* // // ripple clases // // */ 
+.activeRipple {
+  span {
+    color: var(--primary);
+    // background-color: $clr-btn
+  }
+}
+
+// // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // /
+/* // // typography // // */ 
+// // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // /
+input {font-family: var(--font1) !important}
+a:not(.not_typography, .not) {text-decoration: none}
+button:not(.not_typography, .not) {&::first-letter, & ::first-letter {text-transform: uppercase}}
+h1:not(.not_typography, .not) {
+  font-weight: 400;
+  font-size: clamp(6em, 9vw, 9em);
+}
+h2:not(.not_typography, .not) {
+  font-weight: 400;
+  font-size: clamp(7em, 9vw, 9em);
+}
+h3:not(.not_typography, .not) {
+  font-weight: 400;
+  font-size: clamp(4em, 5vw, 6em);
+}
+
+
+
+
+//---------------------------------------------------------------------------------------------//
+// // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // /
+/* // // html (tags) // // */ 
+// // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // /
+img {
+  --w: auto;
+  --h: auto;
+  --a: ;
+  --p: ;
+  --b: ;
+  --br: ;
+  --bs: ;
+  --f: ;
+  --t: ;
+  width: var(--w);
+  height: var(--h);
+  aspect-ratio: var(--a);
+  padding: var(--p);
+  border: var(--b);
+  border-radius: var(--br);
+  box-shadow: var(--bs);
+  transform: var(--t);
+  filter: var(--f);
+}
+
+// // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // /
+/* // //  vuetify classes (components) // // */ 
+// // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // /
+//- defaut v-btn -//
+
+// icon class
+.v-btn--icon {
+  --bg: ;
+  --p: ;
+  --br: 50%;
+  background: var(--bg);
+  padding: var(--p);
+  border-radius: var(--br);
+}
+
+// normal class
+.v-btn {
+  --c: var(--clr);
+  --fs: 1em;
+  --t: ;
+  --f: ;
+  color: var(--c);
+  transform: var(--t);
+  filter: var(--f);
+  & :is(span, img, i) {
+    text-transform: none;
+    letter-spacing: normal;
+    color: var(--c);
+    font-size: var(--fs);
+  }
+  .v-btn__content {
+    & :is(img, i) {margin-left: .2em}
+    &:empty {:is(img, i) {margin-left: 0}}
+  }
+}
+//- default input slot -//
+.v-text-field--solo {
+  --bg: #FFFFFF;
+  --c: #000000;
+  --label: #A6ADB4;
+  --b: ;
+  --br: .4vmax;
+  --p: 0 12px;
+  --w: ;
+  --h: max-content;
+  --bs: ;
+  --fs: 1em;
+  --fw: 400;
+  --f: ;
+  --t: ;
+  width: var(--w);
+  & .v-input__slot {
+    background: var(--bg) !important;
+    border-radius: var(--br) !important;
+    border: var(--b);
+    padding: var(--p) !important;
+    height: var(--h);
+    min-height: var(--h);
+    box-shadow: var(--bs) !important;
+    transform: var(--t);
+    filter: var(--f);
+  }
+  & :is(input[type], button[type]) {
+    color: var(--c);
+    font-size: var(--fs);
+    font-weight: var(--fw);
+    -webkit-text-stroke: var(--stroke) var(--c);
+    -moz-text-stroke: var(--stroke) var(--c);
+    -ms-text-stroke: var(--stroke) var(--c);
+    -o-text-stroke: var(--stroke) var(--c);
+  }
+  & label.v-label {
+    color: var(--label);
+    font-size: calc(var(--fs) - .15em);
+    font-weight: var(--fw);
+    -webkit-text-stroke: var(--stroke) var(--c);
+    -moz-text-stroke: var(--stroke) var(--c);
+    -ms-text-stroke: var(--stroke) var(--c);
+    -o-text-stroke: var(--stroke) var(--c);
+  }
+}
+//- defaut badge -//
+.v-badge {
+  --bg: var(--clr-badge);
+  --c: var(--clr-inv);
+  --b: ;
+  --fs: 0.75em;
+  --fw: 400;
+  --size: max-content;
+  --t: ;
+  .v-badge__badge {
+    display: grid;
+    place-content: center;
+    width: var(--size);
+    height: var(--size);
+    background: var(--bg) !important;
+    color: var(--c) !important;
+    border: var(--b) !important;
+    border-radius: 50%;
+    font-size: var(--fs);
+    font-weight: var(--fw);
+    transform: var(--t);
+    -webkit-text-stroke: var(--stroke) var(--c);
+    -moz-text-stroke: var(--stroke) var(--c);
+    -ms-text-stroke: var(--stroke) var(--c);
+    -o-text-stroke: var(--stroke) var(--c);
+  }
+}
+
+//- menu select (desplegable menu) -//
+.v-select-list {
+  font-family: var(--font1) !important;background: var(--clr-btn-2) !important;
+  border-radius: 0 $border-btn $border-btn $border-btn !important;overflow: hidden;
+  span {color: var(--clr-text-btn-2) !important;&::first-letter {text-transform: uppercase}}
+  .v-list-item--active {
+    background: var(--primary) !important;
+    span {color: $clr-text-btn !important}
+  }
+}
+
+//- dialog -//
+.v-dialog--scrollable {
+  @include media(max, small) {margin: 0 !important; min-height: 100% !important}
+  padding: 1em;
+  border-radius: 20px 30px 50px 50px / 100px !important;
+  // border: 2px solid $primary !important;
+  background: var(--clr-card-2) !important;
+  &>*,.v-card {background-color: transparent}
+}
+//---------------------------------------------------------------------------------------------//
+
+
+// // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // /
+/* // // custome classes // // */ 
+// // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // /
+//- buttons -//
+@mixin btn() {
+  --bg: #60D2CA;
+  --c: #FFFFFF;
+  --b: ;
+  --p: 1.5em 1.7em;
+  --w: max-content;
+  --h: max-content;
+  --br: .4vmax;
+  --bs: 0px 3px 6px 1px #6FFFE9;
+  --fw: 400;
+  --f: ;
+  --t: ;
+  background: var(--bg) !important;
+  color: var(--c) !important;
+  box-shadow: var(--bs) !important;
+  border-radius: var(--br) !important;
+  padding: var(--p) !important;
+  min-width: var(--w);
+  min-height: var(--h);
+  border: var(--b) !important;
+  font-weight: var(--fw) !important;
+  transform: var(--t);
+  filter: var(--f);
+}
+:is(span, a).btn {
+  --fs: 1em;
+  @include btn;
+  font-size: var(--fs);
+}
+.btn {
+  --fs: 1em;
+  @include btn;
+  & :is(span, img, i) {
+    color: var(--c) !important;
+    font-size: var(--fs);
+  }
+  & :is(img, i) {margin-left: .2em}
+  & :is(img, i):only-child {margin-left: 0 !important}
+}
+
+//- cards -//
+@mixin card() {
+  --w: ;
+  --h: ;
+  --bg: var(--clr-card);
+  --c: var(--clr);
+  --b: ;
+  --p: 1em;
+  --br: 1.5vmax;
+  --bs: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  --fs: 1em;
+  --fw: 400;
+  --f: ;
+  --t: ;
+  width: var(--w);
+  height: var(--h);
+  background: var(--bg) !important;
+  color: var(--c) !important;
+  box-shadow: var(--bs) !important;
+  border-radius: var(--br) !important;
+  padding: var(--p) !important;
+  border: var(--b) !important;
+  font-size: var(--fs);
+  font-weight: var(--fw) !important;
+  transform: var(--t);
+  filter: var(--f);
+}
+.card {
+  @include card;
+}
+

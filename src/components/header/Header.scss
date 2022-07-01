@@ -1,0 +1,56 @@
+@use "@/styles/app" as *;
+
+// // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // /
+// // // header // // // 
+// // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // /
+#header {
+  font-size: 16px;
+  @include media(min, 2500px) {font-size: 19px}
+  @include media(max, 1200px) {font-size: 14px}
+  @include media(max, 1050px) {font-size: 12px}
+  @include media(max, 910px) {font-size: 11px}
+  @include media(max, small) {font-size: 16px}
+  #headerApp {
+    margin-inline: auto;
+    transition: 0.4s ease-in-out;
+    .v-toolbar__content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-inline: var(--margin-global);
+    }
+  }
+
+
+
+// // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // /
+// // // menu header // // // 
+// // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // /
+  #menuHeader {
+    .conttitle {
+      max-width: 60%;
+      margin-inline: auto;
+    }
+    .v-expansion-panel {
+      background-color: transparent;
+      .icon {width: 28px;aspect-ratio: 1 / 1;border-radius: 50%}
+      span {font-weight: 700}
+      &::after, &::before {display: none !important}
+      .v-expansion-panel-header {
+        padding-inline: clamp(1em, 1vw, 1.5em);
+        .icon {
+          background-color: $clr-text-btn;
+          border: 3px solid $clr-text-btn;
+        }
+      }
+      .v-expansion-panel-content__wrap {padding-inline: 0}
+      .v-list {
+        background-color: transparent;
+        .v-list-item {
+          background-color: transparent;
+          padding-inline: clamp(1em, 1vw, 1.5em);
+        }
+      }
+    }
+  }
+}
