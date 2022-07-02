@@ -148,6 +148,7 @@ img {
   --fs: 1em;
   --t: ;
   --f: ;
+  --m: ;
   color: var(--c);
   transform: var(--t);
   filter: var(--f);
@@ -158,8 +159,7 @@ img {
     font-size: var(--fs);
   }
   .v-btn__content {
-    & :is(img, i) {margin-left: .2em}
-    &:empty {:is(img, i) {margin-left: 0}}
+    & :is(img, i) {margin-left: var(--m)}
   }
 }
 //- default input slot -//
@@ -178,6 +178,12 @@ img {
   --f: ;
   --t: ;
   width: var(--w);
+  // under testing
+  & .v-input__control {
+    display: flex;
+    justify-content: center;
+  }
+  // under testing
   & .v-input__slot {
     background: var(--bg) !important;
     border-radius: var(--br) !important;
@@ -189,7 +195,7 @@ img {
     transform: var(--t);
     filter: var(--f);
   }
-  & :is(input[type], button[type]) {
+  & :is(input[type], button[type], .v-select__selection) {
     color: var(--c);
     font-size: var(--fs);
     font-weight: var(--fw);
@@ -238,8 +244,9 @@ img {
 
 //- menu select (desplegable menu) -//
 .v-select-list {
-  font-family: var(--font1) !important;background: var(--clr-btn-2) !important;
-  border-radius: 0 $border-btn $border-btn $border-btn !important;overflow: hidden;
+  font-family: var(--font1) !important;background: #0D2C3F !important;
+  border-radius: $border-btn !important;overflow: hidden;
+  box-shadow: 3px 0 5px 1px rgb(0,0,0,.4);
   span {color: var(--clr-text-btn-2) !important;&::first-letter {text-transform: uppercase}}
   .v-list-item--active {
     background: var(--primary) !important;

@@ -122,21 +122,21 @@ export default {
           title: "Highest VOL Gainers",
           list: [
             {
-              img: require('@/assets/images/m1.png'),
+              img: require('@/assets/nfts/nft1.png'),
               name: "Collection o Nft Name",
               user: "Nftloremipsum.near",
               percent: "123,45",
               state: true,
             },
             {
-              img: require('@/assets/images/m1.png'),
+              img: require('@/assets/nfts/nft1.png'),
               name: "Collection o Nft Name",
               user: "Nftloremipsum.near",
               percent: "123,45",
               state: true,
             },
             {
-              img: require('@/assets/images/m1.png'),
+              img: require('@/assets/nfts/nft1.png'),
               name: "Collection o Nft Name",
               user: "Nftloremipsum.near",
               percent: "123,45",
@@ -148,7 +148,7 @@ export default {
           title: "Sales Of The Day",
           list: [
             {
-              img: require('@/assets/images/m1.png'),
+              img: require('@/assets/nfts/nft1.png'),
               name: "Collection o Nft Name",
               user: "Nftloremipsum.near",
               near: "45 N",
@@ -156,7 +156,7 @@ export default {
               state: true,
             },
             {
-              img: require('@/assets/images/m1.png'),
+              img: require('@/assets/nfts/nft1.png'),
               name: "Collection o Nft Name",
               user: "Nftloremipsum.near",
               near: "45 N",
@@ -164,7 +164,7 @@ export default {
               state: true,
             },
             {
-              img: require('@/assets/images/m1.png'),
+              img: require('@/assets/nfts/nft1.png'),
               name: "Collection o Nft Name",
               user: "Nftloremipsum.near",
               near: "45 N",
@@ -177,7 +177,7 @@ export default {
           title: "Recently Added",
           list: [
             {
-              img: require('@/assets/images/m1.png'),
+              img: require('@/assets/nfts/nft1.png'),
               name: "Collection o Nft Name",
               user: "Nftloremipsum.near",
               near: "123,45 N",
@@ -185,7 +185,7 @@ export default {
               state: true,
             },
             {
-              img: require('@/assets/images/m1.png'),
+              img: require('@/assets/nfts/nft1.png'),
               name: "Collection o Nft Name",
               user: "Nftloremipsum.near",
               near: "23,45 N",
@@ -193,7 +193,7 @@ export default {
               state: true,
             },
             {
-              img: require('@/assets/images/m1.png'),
+              img: require('@/assets/nfts/nft1.png'),
               name: "Collection o Nft Name",
               user: "Nftloremipsum.near",
               near: "5 N",
