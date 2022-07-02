@@ -42,7 +42,7 @@
             <template v-slot:append>
               <v-btn rounded class="btn h11_em" @click="SendEmail()"
                 style="--b: 1px solid #6FFFE9;--bg:var(--clr-btn);--h:clamp(2.7em, 3.1vw, 3.1em);--p:0 16px;--bs:none">
-                Subscribe
+                <span style="color:#FFFFFF !important">Subscribe</span>
               </v-btn>
             </template>
           </v-text-field>

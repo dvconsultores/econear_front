@@ -5,7 +5,7 @@
     </h1>
 
     <v-btn class="btn h10_em center"
-      style="--p:0 2em;--h:64px;--w:13.5em;--bs:0 3px 4px 1px hsl(176, 60%, 40%, .7)">Get Started</v-btn>
+      style="--p:0 2em;--h:62px;--w:13.5em;--bs:0 3px 4px 1px hsl(176, 60%, 40%, .7)">Get Started</v-btn>
 
     <blockquote class="fill_w">
       <aside v-for="(item,i) in dataCards" :key="i" class="wrapperCards"
@@ -33,27 +33,27 @@ export default {
         {
           img: require('@/assets/images/c1.png'),
           title: "New Collection",
-          style: { clip: leftCards, top: "-200px", left: "0"}
+          style: { clip: leftCards, top: "-12.5em", left: "0"}
         },
         {
           img: require('@/assets/images/c2.png'),
           title: "Top Volume Projects",
-          style: { clip: leftCards, top: "-50px", left: "20%"}
+          style: { clip: leftCards, top: "-3.125em", left: "20%"}
         },
         {
           img: require('@/assets/images/c3.png'),
           title: "Top Collection",
-          style: { clip: rightCards , top: "50px"}
+          style: { clip: rightCards , top: "3.125em"}
         },
         {
           img: require('@/assets/images/c4.png'),
           title: "Top Voted Projects",
-          style: { clip: rightCards, top: "-50px", right: "20%"}
+          style: { clip: rightCards, top: "-3.125em", right: "20%"}
         },
         {
           img: require('@/assets/images/c5.png'),
           title: "Top Floor Featured Projects",
-          style: { clip: rightCards, top: "-200px", right: "0"}
+          style: { clip: rightCards, top: "-12.5em", right: "0"}
         },
       ]
     }

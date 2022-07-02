@@ -1,14 +1,14 @@
 <template>
   <section id="market" class="divcol gap2">
     <section class="marketContainer divcol acenter gap2">
-      <aside class="sectionTop fill_w fwrap gap1" style="--fb: 1 1 200px">
+      <aside class="sectionTop fill_w fwrap gap1" style="--fb: 1 1">
         <v-card v-for="(item,i) in dataMarket" :key="i"
-          class="divcol jcenter">
-          <div class="space bold h10_em gap1">
+          class="divcol jcenter tnowrap">
+          <div class="space bold h11_em gap1">
             <span>{{item.name}}</span>
             <span>{{item.price}}</span>
           </div>
-          <div class="space semibold h11_em gap1">
+          <div class="space semibold h12_em gap1">
             <span class="acenter">
               {{item.state?'+':'-'}}{{item.value}}
               <img class="margin1left" :src="item.state?require('@/assets/icons/increase.svg'):require('@/assets/icons/decrease.svg')">
@@ -18,7 +18,7 @@
         </v-card>
       </aside>
 
-      <aside class="sectionDown fill_w fwrap gap1" style="--fb:1 1 300px">
+      <aside class="sectionDown fill_w fwrap gap1" style="--fb:1 1">
         <v-card v-for="(item,i) in dataBoard" :key="i" class="divcol">
           <div class="space">
             <h3 class="h9_em">{{item.title}}</h3>
@@ -27,26 +27,27 @@
 
           <div class="divcol gap1">
             <aside v-for="(item2,i2) in item.list" :key="i2"
-              class="space gap1">
+              class="space gap1 tnowrap">
               <div class="acenter gap1">
                 <span>{{i2+1}}</span>
                 <img :src="item2.img" alt="Referencial Image" style="--w:clamp(4em,4.7vw,4.75em)">
                 <div class="divcol">
-                  <span>{{item2.name}}</span>
-                  <span>{{item2.user}}</span>
+                  <span class="h11_em">{{item2.name}}</span>
+                  <span class="h12_em">{{item2.user}}</span>
                 </div>
               </div>
 
               <div class="divcol jcenter aend tend">
-                <span v-if="item2.percent" :style="item2.state?'color:var(--success)':'color:var(--error)'">
+                <span v-if="item2.percent" :style="item2.state?'color:var(--success)':'color:var(--error)'"
+                  class="h11_em">
                   {{item2.state?'+':'-'}}{{item2.percent}}%
                 </span>
 
                 <div v-if="item2.near&&item2.dollar" class="divcol">
-                  <span :style="item2.state?'color:var(--success)':'color:var(--error)'">
+                  <span :style="item2.state?'color:var(--success)':'color:var(--error)'" class="h11_em">
                     {{item2.near}}
                   </span>
-                  <span>{{item2.dollar}}</span>
+                  <span class="h12_em">{{item2.dollar}}</span>
                 </div>
               </div>
             </aside>
@@ -56,11 +57,11 @@
     </section>
 
     <article>
-      <v-card class="fwrap center overflow" style="--fb: 1 1 500px">
+      <v-card class="fwrap center overflow" style="--fb: 1 1 495px">
         <img src="@/assets/images/anuncio.png" alt="Announcement Image" style="--w:min(100%,40em)">
 
         <div class="container-info space gap2">
-          <h2 class="h7_em">Our Collection MonkeONear</h2>
+          <h3 class="h7_em p">Our Collection MonkeONear</h3>
           <p class="p h11_em">
             The first ever community voting tool and wallet management tool that comes with 
             built-in data analysis system to find the best project on NEAR PROTOCOLV

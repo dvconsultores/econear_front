@@ -32,6 +32,9 @@
     background-color: rgba(#112131, .46);
     padding: 2em;
     border-radius: $border-card;
+    @include media(max,1650px) {font-size: 14px};
+    @include media(max,1450px) {font-size: 12px};
+    @include media(max,1268px) {font-size: 15px};
     .v-card {
       height: min-content !important;
       min-height: min-content !important;
@@ -41,9 +44,10 @@
       box-shadow: 0 0 1.5px 1.2px $clr-btn !important;
       .container-info {
         padding-inline: clamp(1em, 2vw, 2em);
+        @include media(max,1268px) {padding-block: clamp(1em, 2vw, 2em)};
         h2 {max-width: 11ch}
         p {
-          max-width: 25ch;
+          @include media(min,1268px) {max-width: 25ch};
           max-height: 12em;
           position: relative;
           &::before {

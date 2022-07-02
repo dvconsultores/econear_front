@@ -23,6 +23,9 @@
     }
   }
   blockquote {
+    @include media(max, 1400px) {font-size: 14px}
+    @include media(max, 1200px) {font-size: 12px}
+    @include media(max, 1050px) {font-size: 10px}
     margin-top: 2em;
     min-height: 24.375em;
     display: inline-grid;
