@@ -64,11 +64,11 @@
 }
 /* // // elements-active // // */ 
 :is(.primary--text, button[type].primary--text) {
-  color: var(--primary) !important;
-  & :is(span, i) {color: var(--primary) !important}
+  color: var(--active) !important;
+  & :is(span, i) {color: var(--active) !important}
   & .v-input__slot::after {
-    background: var(--primary) !important;
-    border-color: var(--primary) !important;
+    background: var(--active) !important;
+    border-color: var(--active) !important;
   }
 }
 
@@ -166,12 +166,12 @@ img {
 .v-text-field--solo {
   --bg: #FFFFFF;
   --c: #000000;
-  --label: #A6ADB4;
+  --label: #FFFFFF;
   --b: ;
   --br: .4vmax;
   --p: 0 12px;
   --w: ;
-  --h: max-content;
+  --h: 48px;
   --bs: ;
   --fs: 1em;
   --fw: 400;
@@ -307,13 +307,12 @@ img {
 @mixin card() {
   --w: ;
   --h: ;
-  --bg: var(--clr-card);
-  --c: var(--clr);
-  --b: ;
+  --bg: #122432;
+  --c: #FFFFFF;
+  --b: .8px solid rgba(#707070, .1);
   --p: 1em;
-  --br: 1.5vmax;
-  --bs: 0px 4px 4px rgba(0, 0, 0, 0.25);
-  --fs: 1em;
+  --br: .3vmax;
+  --bs: ;
   --fw: 400;
   --f: ;
   --t: ;
@@ -325,7 +324,6 @@ img {
   border-radius: var(--br) !important;
   padding: var(--p) !important;
   border: var(--b) !important;
-  font-size: var(--fs);
   font-weight: var(--fw) !important;
   transform: var(--t);
   filter: var(--f);

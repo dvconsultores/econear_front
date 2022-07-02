@@ -1,7 +1,7 @@
 <template>
   <section id="header">
     <MenuHeader ref="menu"></MenuHeader>
-    <v-app-bar id="headerApp" color="transparent" height="100px" fixed class="font2">
+    <v-app-bar id="headerApp" color="transparent" height="100px" fixed>
       <aside class="left acenter">
         <!-- logo -->
         <router-link :to="('/')" class="eliminarmobile">
