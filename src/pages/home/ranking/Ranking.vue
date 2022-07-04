@@ -150,6 +150,15 @@
         </tr>
       </tbody>
     </table>
+
+    <section class="divcol gap1" style="padding-block:6em 7em">
+      <h2 class="h6_em tcenter">Want to get Your Project Listed?</h2>
+      <p class="divcol center">
+        <span>Can't find your project? List your favorite project now!</span>
+        <span>Get your community to vote for your project and gain exposure.</span>
+      </p>
+      <v-btn class="h10_em btn align" style="--p:1em 1.5em">Upload Collection</v-btn>
+    </section>
   </section>
 </template>
 

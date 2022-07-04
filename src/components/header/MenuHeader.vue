@@ -52,6 +52,22 @@
         </template>
       </v-expansion-panels>
     </v-navigation-drawer>
+
+    <v-menu offset-y :close-on-content-click="false" activator=".openNotifications">
+      <v-card class="menu_list notifications divcol">
+        <h3 class="h9_em light">Notifications</h3>
+        <v-list color="hsl(212 47% 12% / .7)" class="divcol gap1">
+          <v-list-item v-for="(item,i) in dataNotifications" :key="i" class="padd0 space" style="gap:1em">
+            <div class="acenter" style="gap:.5em;">
+              <img :src="item.img" alt="profile" style="--w:3.125em">
+              <span class="h11_em">{{item.desc}}</span>
+            </div>
+            <span class="h11_em marginaleft" style="color:var(--success)">{{item.ago}}</span>
+          </v-list-item>
+        </v-list>
+        <a class="tcenter">Ver Todas</a>
+      </v-card>
+    </v-menu>
   </section>
 </template>
 
@@ -87,6 +103,23 @@ export default {
           },
         ],
       },
+      dataNotifications: [
+        {
+          img: require('@/assets/logos/user.png'),
+          desc: "Collection Name ofer...",
+          ago: "45 min",
+        },
+        {
+          img: require('@/assets/logos/user.png'),
+          desc: "Lorem ipsum dolor sit Lorem ipsum dolor sit...",
+          ago: "60 min",
+        },
+        {
+          img: require('@/assets/logos/user.png'),
+          desc: "Collection Name ofer...",
+          ago: "45 min",
+        },
+      ]
     };
   },
   methods: {

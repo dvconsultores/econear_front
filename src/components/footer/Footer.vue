@@ -37,7 +37,7 @@
             :rules="[rules.email]"
             label="example@email.com"
             style="--p: 0 0 0 12px;margin-left:auto;--w:clamp(20em, 24vw, 24.848125em);
-              --h:clamp(2.6em, 3vw, 3em)"
+              --h:clamp(2.6em, 3vw, 3em);--label:black"
           >
             <template v-slot:append>
               <v-btn rounded class="btn h11_em" @click="SendEmail()"

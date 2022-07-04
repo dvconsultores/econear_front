@@ -17,15 +17,66 @@
         <a v-for="(item,i) in dataHeader" :key="i" :href="item.to" class="h11_em">
           {{item.name}}
         </a>
-        <button class="h11_em">
-          More<v-icon medium color="var(--success)">mdi-chevron-down</v-icon>
-        </button>
+        <v-menu offset-y>
+          <!-- slot -->
+          <template v-slot:activator="{ on, attrs}">
+            <button class="h11_em" v-on="on" v-bind="attrs">
+              More<v-icon medium color="var(--success)">mdi-chevron-down</v-icon>
+            </button>
+          </template>
+
+          <v-card class="menu_list morelist">
+            <v-list v-for="(item,i) in dataMore" :key="i" color="hsl(212 47% 12% / .7)">
+              <template v-for="(item2,i2) in item.list">
+                <v-list-item :key="i2" disabled>
+                  <v-list-item-title class="Title">{{item2.title}}</v-list-item-title>
+                </v-list-item>
+
+                <v-list-item :key="i2" href="#">
+                  <v-list-item-title>{{item2.name}}</v-list-item-title>
+                </v-list-item>
+              </template>
+            </v-list>
+
+            <aside class="divcol center">
+              <span>Join us on:</span>
+              <div class="acenter" style="gap:.5em">
+                <v-btn icon>
+                  <img src="@/assets/icons/twitter.svg" alt="twitter" style="--w:1.5625em">
+                </v-btn>
+                <v-btn icon>
+                  <img src="@/assets/icons/discord.svg" alt="discord" style="--w:1.5625em">
+                </v-btn>
+                <v-btn icon>
+                  <img src="@/assets/icons/telegram.svg" alt="telegram" style="--w:1.5625em">
+                </v-btn>
+              </div>
+            </aside>
+          </v-card>
+        </v-menu>
+
+        <v-menu offset-y>
+          <!-- slot -->
+          <template v-slot:activator="{ on, attrs}">
+            <button v-if="!user" class="h11_em eliminarmobile" v-on="on" v-bind="attrs">
+              {{languageText}}<v-icon color="var(--success)">mdi-chevron-down</v-icon>
+            </button>
+          </template>
+
+          <v-list class="menu_list">
+            <v-list-item v-for="(item, i) in dataLanguage" :key="i" :class="{active:item.active}"
+              @click="CambiarLanguage(item.key);dataLanguage.forEach(e=>{e.active=false});item.active=true;languageText=item.key">
+              <v-list-item-title class="h11_em">{{item.name}}</v-list-item-title>
+            </v-list-item>
+          </v-list>
+        </v-menu>
       </aside>
 
-      <aside class="right acenter gap1">
+      <aside class="right acenter" style="gap:clamp(1em, 1.5vw, 1.5em)">
         <v-menu offset-y>
+          <!-- slot -->
           <template v-slot:activator="{ on, attrs}">
-            <button class="h11_em eliminarmobile" v-on="on" v-bind="attrs">
+            <button v-if="user" class="h11_em eliminarmobile" v-on="on" v-bind="attrs">
               {{languageText}}<v-icon color="var(--success)">mdi-chevron-down</v-icon>
             </button>
           </template>
@@ -38,14 +89,59 @@
           </v-list>
         </v-menu>
 
-        <v-btn v-if="user" class="btn h11_em" @click="signIn()"
+        <v-btn v-show="user" class="btn h11_em" @click="signIn()"
           style="--p: clamp(.8em, 1.5vw, 1.5em) clamp(1em, 1.7vw, 1.7em)">
           Connect Wallet
         </v-btn>
-        <v-btn v-else class="btn" @click="signOut()"
-          style="--fs:var(--step-em--1);--p: clamp(.8em, 1.5vw, 1.5em) clamp(1em, 1.7vw, 1.7em)">
-          Log Out
+
+        <v-badge overlap :content="messages" :value="messages" class="openNotifications"
+          style="--bg:var(--error);--c:#FFFFFF;--b:1.5px solid var(--success);--t:translate(-30%, 30%)">
+          <v-btn icon>
+            <img src="@/assets/icons/bell.svg" alt="notifications" style="width:1.775em;height:1.971875em">
+          </v-btn>
+        </v-badge>
+
+        <v-btn v-show="!user" class="btn avatarBtn"
+          style="--p: clamp(1em, 1.5vw, 1.5em) .2em clamp(1em, 1.5vw, 1.5em) 0;--br:.2vmax;
+          --bs: 0 2px 8px 3px #6FFFE9;">
+          <v-avatar style="box-shadow:0px 0px 8px 3px #6FFFE9" width="4.6em" height="4.6em">
+            <img src="@/assets/logos/user.png" alt="Avatar">
+          </v-avatar>
+          <div class="divcol">
+            <span class="h11_em">Disconnect Wallet</span>
+            <span class="h12_em">pedrogperez23.near</span>
+          </div>
+          <v-icon color="#6FFFE9">mdi-menu-down</v-icon>
         </v-btn>
+
+        <v-menu v-model="avatarMenu" offset-y :close-on-content-click="false" activator=".avatarBtn">
+          <v-card class="menu_list morelist">
+            <v-list color="transparent" class="cabecera">
+              <v-list-item>
+                <v-list-item-title class="h10_em">pedrogperez23.near</v-list-item-title>
+              </v-list-item>
+            </v-list>
+
+            <v-list color="hsl(212 47% 12% / .5)">
+              <v-list-item class="divcol">
+                <div class="space fill_w h11_em">
+                  <span class="h11_em">NEAR</span>
+                  <span class="h12_em" style="color:var(--success)">478.5 N</span>
+                </div>
+                <div class="space fill_w">
+                  <span class="h11_em">ECO</span>
+                  <span class="h12_em" style="color:var(--success)">234.72 E</span>
+                </div>
+              </v-list-item>
+            </v-list>
+
+            <v-list v-for="(item,i) in dataLogout" :key="i" color="#112131">
+              <v-list-item v-for="(item2,i2) in item.list" :key="i2" @click="SelectItemAvatarMenu(item2)">
+                <v-list-item-title>{{item2.name}}</v-list-item-title>
+              </v-list-item>
+            </v-list>
+          </v-card>
+        </v-menu>
       </aside>
     </v-app-bar>
   </section>
@@ -97,11 +193,71 @@ export default {
         { key: "snipe", name: "Snipe tool", to: "" },
         { key: "contact", name: "Contact us", to: "" },
       ],
+      dataMore: [
+        {
+          list: [
+            { title: "Account" },
+            { key: "login", name: "Login" },
+            { key: "watchlist", name: "Watchlist" },
+            { key: "register", name: "Register" },
+          ]
+        },
+        {
+          list: [
+            { title: "NFTS" },
+            { key: "compare-projects", name: "Compare Projectss" },
+            { key: "upcoming-projects", name: "Upcoming Projects (Drops)" },
+            { key: "new-projects", name: "New Projects" },
+          ]
+        },
+        {
+          list: [
+            { title: "ECONEAR" },
+            { key: "wallet-submission", name: "Wallet Submission" },
+            { key: "vote", name: "Vote" },
+            { key: "contact-us", name: "Contact Us" },
+          ]
+        },
+        {
+          list: [
+            { title: "Others" },
+            { key: "marketplace-stats", name: "Marketplace Stats" },
+            { key: "alert", name: "Alert" },
+            { key: "bulk-nft-management", name: "Bulk NFT Management" },
+            { key: "active-wallets-stats", name: "Active Wallets Stats" },
+          ]
+        },
+        {
+          list: [
+            { title: "Services" },
+            { key: "advertising", name: "Advertising" },
+            { key: "ama-hosting", name: "AMA Hosting" },
+            { key: "twitter-space", name: "Twitter Space" },
+            { key: "giveaways", name: "Giveaways" },
+          ]
+        }
+      ],
       languageText: "EN",
       dataLanguage: [
         {key: "EN", name: "English", active: false},
         {key: "ES", name: "Spanish", active: false},
         {key: "PR", name: "Portuguese", active: false},
+      ],
+      avatarMenu: false,
+      dataLogout: [
+        {
+          list: [
+            { key: "profile", name: "My Pofile" },
+            { key: "portafolio", name: "My Portafolio" },
+            { key: "settings", name: "Settings" },
+          ]
+        },
+        {
+          list: [
+            { key: "switch", name: "Switch Account" },
+            { key: "logout", name: "Log out" },
+          ]
+        },
       ]
     };
   },
@@ -137,6 +293,10 @@ export default {
         localStorage.language = lang;
         i18n.locale = lang;
       }
+    },
+    SelectItemAvatarMenu(item) {
+      this.avatarMenu = false
+      if (item.key=='logout') {this.signOut()}
     },
     async getData () {
       this.account = {}
