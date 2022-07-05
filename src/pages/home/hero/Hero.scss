@@ -79,3 +79,19 @@
     }
   }
 }
+
+.modalProject {
+  .labels {
+    &::before {
+      content: var(--tag);
+      color: #FFFFFF;
+      background-color: #000000;
+      padding: .2em .35em;
+      border-radius: .25vmax;
+      margin-right: .5em;
+    }
+  }
+  .v-input--checkbox {
+    i {color: var(--clr-inv) !important}
+  }
+}

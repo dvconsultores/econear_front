@@ -107,3 +107,64 @@
     }
   }
 }
+
+.modalSwitchAccount {
+  .v-list {
+    span {color: var(--clr-inv) !important; line-height: 1.2}
+    &-item {
+      border-radius: 1.5vmax;
+      overflow: hidden;
+      &::after {display: none}
+      .divcol {
+        position: relative;
+        &::before {
+          content: "";
+          @include absolute(auto,auto,0,-2px);
+          width: calc(100%);
+          height: 1px;
+          background-color: rgba(#60D2CA, .5);
+        }
+      }
+    }
+  }
+  .v-input--checkbox {
+    i {color: var(--clr-inv) !important}
+  }
+}
+
+.modalSettings {
+  .v-sheet {
+    section {
+    & > *:not(:first-child) {margin-bottom: 14px}
+  }
+}
+  label, span {color: var(--clr-inv) !important; font-weight: 700}
+  .switch {
+    cursor: pointer;
+    background-color: var(--color);
+    width: 5.3125em;
+    height: 1.1875em;
+    border-radius: 2vmax;
+    position: relative;
+    transition: .5s $ease-return;
+    &:after {
+      content: "";
+      @include absolute(2px,0,auto,0);
+      width: 15px;
+      height: 15px;
+      border-radius: 50%;
+      background-color: #FFFFFF;
+      @include animation(.5s $ease-return) {
+        from {transform: translateX(60px)}
+        to {transform: translateX(0)}
+      }
+    }
+    &.active:after {
+      @include absolute(auto,0,2px,0);
+      @include animation(.5s $ease-return) {
+        from {transform: translateX(-60px)}
+        to {transform: translateX(0)}
+      }
+    }
+  }
+}

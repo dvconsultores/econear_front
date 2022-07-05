@@ -32,7 +32,7 @@
                   <v-list-item-title class="Title">{{item2.title}}</v-list-item-title>
                 </v-list-item>
 
-                <v-list-item :key="i2" href="#">
+                <v-list-item :key="i2" @click="SelectItem_More(item2)">
                   <v-list-item-title>{{item2.name}}</v-list-item-title>
                 </v-list-item>
               </template>
@@ -136,7 +136,7 @@
             </v-list>
 
             <v-list v-for="(item,i) in dataLogout" :key="i" color="#112131">
-              <v-list-item v-for="(item2,i2) in item.list" :key="i2" @click="SelectItemAvatarMenu(item2)">
+              <v-list-item v-for="(item2,i2) in item.list" :key="i2" @click="SelectItem_AvatarMenu(item2)">
                 <v-list-item-title>{{item2.name}}</v-list-item-title>
               </v-list-item>
             </v-list>
@@ -294,9 +294,14 @@ export default {
         i18n.locale = lang;
       }
     },
-    SelectItemAvatarMenu(item) {
+    SelectItem_More(item) {
+      if (item.key=='register') {this.$refs.menu.modalRegister = true}
+    },
+    SelectItem_AvatarMenu(item) {
       this.avatarMenu = false
       if (item.key=='logout') {this.signOut()}
+      if (item.key=='switch') {this.$refs.menu.modalSwitchAccount = true}
+      if (item.key=='settings') {this.$refs.menu.modalSettings = true}
     },
     async getData () {
       this.account = {}

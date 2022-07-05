@@ -68,6 +68,139 @@
         <a class="tcenter">Ver Todas</a>
       </v-card>
     </v-menu>
+
+    <v-dialog
+      v-model="modalRegister"
+      max-width="82.358125em"
+    >
+      <v-card color="var(--primary)" style="padding:6em">
+        <v-btn icon class="close" @click="modalRegister = false">
+          <img src="@/assets/icons/close.svg" alt="close" style="--w:0.921875em">
+        </v-btn>
+        <h3 class="h7_em tcenter">Register</h3>
+        <v-sheet class="divcol center" style="padding:2em">
+          <section class="fill_w grid" style="--gtc:repeat(auto-fit, minmax(min(100%,350px), 1fr));gap:2em;margin-bottom:1em">
+            <v-text-field
+              label="Username"
+              style="--c:#000000"
+            ></v-text-field>
+
+            <v-text-field
+              label="Email"
+              placeholder="example@domain.com"
+              style="--c:#000000"
+            ></v-text-field>
+
+            <v-text-field
+              label="Discord ID"
+              placeholder="Username#321"
+              style="--c:#000000"
+            ></v-text-field>
+
+            <v-text-field
+              label="Twitter Account"
+              style="--c:#000000"
+            ></v-text-field>
+          </section>
+
+          <v-btn class="btn h10_em" style="--bs:none;width:min(90%,517px);">
+            Register
+          </v-btn>
+        </v-sheet>
+      </v-card>
+    </v-dialog>
+
+    <v-dialog
+      v-model="modalSwitchAccount"
+      max-width="62.358125em"
+    >
+      <v-card color="var(--primary)" style="padding:6em" class="modalSwitchAccount">
+        <v-btn icon class="close" @click="modalSwitchAccount = false">
+          <img src="@/assets/icons/close.svg" alt="close" style="--w:0.921875em">
+        </v-btn>
+        <h3 class="h7_em tcenter">Switch Account</h3>
+        <v-sheet class="divcol center" style="padding:2em">
+          <section class="fill_w grid" style="gap:2em;margin-bottom:1em;place-content:center">
+            <v-list class="divcol gap1">
+              <v-list-item v-for="(item,i) in dataSwitchAccount" :key="i" class="acenter gap1"
+                @click="dataSwitchAccount.forEach(e=>{e.select=false});item.select=true">
+                <aside class="acenter gap1">
+                  <v-avatar size="4em">
+                    <img :src="item.img" alt="user">
+                  </v-avatar>
+                  <div class="divcol">
+                    <span>{{item.name}}</span>
+                    <span>{{item.amount}}</span>
+                  </div>
+                </aside>
+
+                <v-checkbox
+                  v-model="item.select"
+                ></v-checkbox>
+              </v-list-item>
+            </v-list>
+          </section>
+
+          <v-btn class="btn h10_em" style="--bs:none;width:min(90%,417px);">
+            Add Account
+          </v-btn>
+        </v-sheet>
+      </v-card>
+    </v-dialog>
+
+    
+    <v-dialog
+      v-model="modalSettings"
+      max-width="62.358125em"
+    >
+      <v-card color="var(--primary)" style="padding:6em" class="modalSettings">
+        <v-btn icon class="close" @click="modalSettings = false">
+          <img src="@/assets/icons/close.svg" alt="close" style="--w:0.921875em">
+        </v-btn>
+        <h3 class="h7_em tcenter">Settings</h3>
+        <v-sheet class="divcol center" style="padding:2em 3em">
+          <section class="fill_w divcol" style="margin-bottom:1em">
+            <v-text-field
+              label="Add Email"
+              placeholder="example@domain.com"
+              style="--c:#0000000"
+            ></v-text-field>
+            <span class="h10_em">Notification preferences</span>
+            <div class="space">
+              <label for="nft-drop">NFT Drops</label>
+              <div id="nft-drop" class="switch" :style="`--color:${nftdrops?'var(--success)':'var(--error)'}`"
+                :class="{active:nftdrops}" @click="nftdrops=!nftdrops" />
+            </div>
+            
+            <div class="space">
+              <label for="transaction-notification">Notification your transaction</label>
+              <div id="transaction-notification" class="switch" :style="`--color:${transactionNotification?'var(--success)':'var(--error)'}`"
+                :class="{active:transactionNotification}" @click="transactionNotification=!transactionNotification" />
+            </div>
+
+            <div class="space gap2 wrap">
+              <aside class="divcol">
+                <label for="Minimum-offer">Minimum Offer Price</label>
+                <span class="light" style="max-width: 25ch;line-height:1.2">
+                  Set the minimum offer you want for your collectibles
+                </span>
+              </aside>
+
+              <v-text-field
+                id="Minimum-offer"
+                placeholder="123.45 N"
+                reverse
+                style="--c:#000000;max-width:20ch"
+              ></v-text-field>
+            </div>
+          </section>
+
+          <v-btn class="btn h10_em" style="--bs:none;width:100%">
+            Save
+          </v-btn>
+        </v-sheet>
+      </v-card>
+    </v-dialog>
   </section>
 </template>
 
@@ -84,6 +217,11 @@ export default {
     return {
       messages: 1,
       drawer: false,
+      modalRegister: false,
+      modalSwitchAccount: false,
+      modalSettings: false,
+      nftdrops: false,
+      transactionNotification: true,
       dataDrawer: {
         list: [
           { key: "home", name: "Home", to: "" },
@@ -119,7 +257,15 @@ export default {
           desc: "Collection Name ofer...",
           ago: "45 min",
         },
-      ]
+      ],
+      dataSwitchAccount: [
+        {
+          img: require('@/assets/logos/user.png'),
+          name: "pedrogperez23.near",
+          amount: "456.67 N",
+          select: false,
+        },
+      ],
     };
   },
   methods: {
