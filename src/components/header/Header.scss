@@ -12,7 +12,7 @@
   @include media(max, small) {font-size: 16px}
   #headerApp {
     margin-inline: auto;
-    transition: 0.4s ease-in-out;
+    transition: all 0.4s ease-in-out;
     .v-toolbar__content {
       display: flex;
       justify-content: space-between;
@@ -139,32 +139,4 @@
   }
 }
   label, span {color: var(--clr-inv) !important; font-weight: 700}
-  .switch {
-    cursor: pointer;
-    background-color: var(--color);
-    width: 5.3125em;
-    height: 1.1875em;
-    border-radius: 2vmax;
-    position: relative;
-    transition: .5s $ease-return;
-    &:after {
-      content: "";
-      @include absolute(2px,0,auto,0);
-      width: 15px;
-      height: 15px;
-      border-radius: 50%;
-      background-color: #FFFFFF;
-      @include animation(.5s $ease-return) {
-        from {transform: translateX(60px)}
-        to {transform: translateX(0)}
-      }
-    }
-    &.active:after {
-      @include absolute(auto,0,2px,0);
-      @include animation(.5s $ease-return) {
-        from {transform: translateX(-60px)}
-        to {transform: translateX(0)}
-      }
-    }
-  }
 }

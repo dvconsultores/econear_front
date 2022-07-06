@@ -168,14 +168,14 @@
             <span class="h10_em">Notification preferences</span>
             <div class="space">
               <label for="nft-drop">NFT Drops</label>
-              <div id="nft-drop" class="switch" :style="`--color:${nftdrops?'var(--success)':'var(--error)'}`"
-                :class="{active:nftdrops}" @click="nftdrops=!nftdrops" />
+              <div id="nft-drop" class="switch" :style="`--color:${settings.nftdrops?'var(--success)':'var(--error)'}`"
+                :class="{active:settings.nftdrops}" @click="settings.nftdrops=!settings.nftdrops" />
             </div>
             
             <div class="space">
               <label for="transaction-notification">Notification your transaction</label>
-              <div id="transaction-notification" class="switch" :style="`--color:${transactionNotification?'var(--success)':'var(--error)'}`"
-                :class="{active:transactionNotification}" @click="transactionNotification=!transactionNotification" />
+              <div id="transaction-notification" class="switch" :style="`--color:${settings.transactionNotification?'var(--success)':'var(--error)'}`"
+                :class="{active:settings.transactionNotification}" @click="settings.transactionNotification=!settings.transactionNotification" />
             </div>
 
             <div class="space gap2 wrap">
@@ -220,8 +220,7 @@ export default {
       modalRegister: false,
       modalSwitchAccount: false,
       modalSettings: false,
-      nftdrops: false,
-      transactionNotification: true,
+      settings: { nftdrops: false, transactionNotification: true },
       dataDrawer: {
         list: [
           { key: "home", name: "Home", to: "" },

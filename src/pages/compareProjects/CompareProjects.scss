@@ -1,0 +1,84 @@
+@use "@/styles/app" as *;
+
+// // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // /
+/* // // compareProjects // // */ 
+// // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // /
+#compareProjects {
+  margin-top: 140px;
+  padding-top: 1em;
+  padding-inline: var(--margin-global);
+  .container-controls {
+    .v-tabs {max-width: max-content}
+    .v-item-group {
+      background-color: var(--primary);
+      border: .8px solid rgba(#707070, .1);
+      border-radius: .3vmax;
+      max-width: 32.6875em;
+      .v-slide-group__content {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1em;
+        .v-tab {
+          color: #FFFFFF;
+          padding: .2em;
+          border-radius: .4vmax;
+          overflow: hidden;
+          h6 {color: #FFFFFF; text-transform: none}
+          &--active h6 {color: $clr-btn-pressed}
+        }
+      }
+    }
+    .tab-right {
+      .v-item-group {background-color: hsl(212 47% 12% / .5) !important;border-radius: .5vmax !important}
+      .v-slide-group__content {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 1em;
+        padding: 0 1em;
+        &::before {
+          content: "";
+          @include absoluteCenter;
+          width: 1px;
+          height: 15px;
+          background-color: #FFFFFF;
+        }
+      }
+      .v-tab {
+        max-width: 1.125em !important;
+        min-width: 1.125em !important;
+      }
+    }
+    .v-input {
+      .v-input__append-inner {border-left: 1px solid #FFFFFF}
+    }
+  }
+  .section-down {
+    background-color: hsl(212 47% 12% / .5);
+    padding: 2em;
+    #dataTableMarket {
+      background-color: $primary;
+      padding-block: 1em;
+      td,th {color: #FFFFFF}
+      tr:hover {background: none !important}
+      tbody {
+        tr {
+          position: relative;
+          &::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            margin-inline: auto;
+            width: calc(100% - 8em);
+            height: 1px;
+            background-color: rgba(#60D2CA, .5);
+          }
+          td:first-of-type {text-indent: 4em; border-bottom: none}
+        }
+      }
+    }
+  }
+}

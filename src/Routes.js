@@ -33,6 +33,16 @@ export default new Router({
           name: 'home',
           component: () => import('@/pages/home/Home'),
         },
+        {
+          path: '/snipe-tool',
+          name: 'snipeTool',
+          component: () => import('@/pages/snipeTool/SnipeTool'),
+        },
+        {
+          path: '/compare-projects',
+          name: 'compareProjects',
+          component: () => import('@/pages/compareProjects/CompareProjects'),
+        },
       ],
     },
     // path 3

@@ -1,7 +1,7 @@
 <template>
   <section id="header">
     <MenuHeader ref="menu"></MenuHeader>
-    <v-app-bar id="headerApp" color="transparent" height="100px" fixed>
+    <v-app-bar id="headerApp" height="100px" fixed>
       <aside class="left acenter">
         <!-- logo -->
         <router-link :to="('/')" class="eliminarmobile">
@@ -14,7 +14,7 @@
       </aside>
 
       <aside class="middle acenter gap2 eliminarmobile">
-        <a v-for="(item,i) in dataHeader" :key="i" :href="item.to" class="h11_em">
+        <a v-for="(item,i) in dataHeader" :key="i" @click="$router.push(item.to)" class="h11_em">
           {{item.name}}
         </a>
         <v-menu offset-y>
@@ -97,7 +97,7 @@
         <v-badge overlap :content="messages" :value="messages" class="openNotifications"
           style="--bg:var(--error);--c:#FFFFFF;--b:1.5px solid var(--success);--t:translate(-30%, 30%)">
           <v-btn icon>
-            <img src="@/assets/icons/bell.svg" alt="notifications" style="width:1.775em;height:1.971875em">
+            <img src="@/assets/icons/bell-outline.svg" alt="notifications" style="width:1.775em;height:1.971875em">
           </v-btn>
         </v-badge>
 
@@ -166,6 +166,22 @@ const config = {
   explorerUrl: "https://explorer.testnet.near.org",
 };
 
+let scrollValue =
+document.body.scrollTop || document.documentElement.scrollTop;
+// let ubicacionPrincipal = window.pageYOffset;
+let resizeTimeout;
+function resizeThrottler(actualResizeHandler) {
+  // ignore resize events as long as an actualResizeHandler execution is in the queue
+  if (!resizeTimeout) {
+    resizeTimeout = setTimeout(() => {
+      resizeTimeout = null;
+      actualResizeHandler();
+
+      // The actualResizeHandler will execute at a rate of 15fps
+    }, 80);
+  }
+}
+
 export default {
   name: "header",
   components: { MenuHeader },
@@ -187,10 +203,10 @@ export default {
       messages: 1,
       // themeButton: true,
       dataHeader: [
-        { key: "home", name: "Home", to: "" },
+        { key: "home", name: "Home", to: "/" },
         { key: "drops", name: "Drops", to: "" },
         { key: "nfts", name: "NFTS", to: "" },
-        { key: "snipe", name: "Snipe tool", to: "" },
+        { key: "snipe", name: "Snipe tool", to: "/snipe-tool" },
         { key: "contact", name: "Contact us", to: "" },
       ],
       dataMore: [
@@ -264,6 +280,8 @@ export default {
   mounted() {
     // this.responsive();
     // window.addEventListener('resize', this.responsive());
+    document.getElementById("headerApp").style.background = "transparent";
+    document.addEventListener('scroll', this.scrollListener);
     this.isSigned()
     this.getData()
     this.LogState();
@@ -296,6 +314,7 @@ export default {
     },
     SelectItem_More(item) {
       if (item.key=='register') {this.$refs.menu.modalRegister = true}
+      if (item.key=='compare-projects') {this.$router.push(item.key)}
     },
     SelectItem_AvatarMenu(item) {
       this.avatarMenu = false
@@ -353,7 +372,20 @@ export default {
       this.user = true
       this.$router.push({ path: '/' })
     },
+    OcultarNavbar() {
+      let Desplazamiento_Actual = window.pageYOffset;
+      //     // in top
+      if (Desplazamiento_Actual > scrollValue) {
+        document.getElementById("headerApp").style.background = "var(--clr-gradient)";
+      } else {
+        document.getElementById("headerApp").style.background = "transparent";
+      }
+    },
+    scrollListener() {resizeThrottler(this.OcultarNavbar)}
   },
+  beforeDestroy() {
+    document.removeEventListener('scroll', this.scrollListener);
+  }
 };
 </script>
 

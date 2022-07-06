@@ -25,11 +25,39 @@
       id="dataTable"
       class="card"
       :headers="headersTable"
-      :items="dataTables"
+      :items="dataTable"
       hide-default-footer
     >
+      <template v-slot:[`header.volume`]>
+        <button class="acenter align" style="cursor:default;gap:.2em">
+          <label for="volume" style="cursor:pointer">Volume</label>
+          <v-select
+            id="volume"
+            :items="sort.volume"
+            solo
+            hide-details
+            append-icon="mdi-chevron-down"
+            style="--w:min-content;--h:24px;--p:0 0 0 .5em;--bg:#0D2C3F;--bs: 3px 0 5px 1px rgb(0,0,0,.4);--c:#FFFFFF;--br:.4vmax"
+          ></v-select>
+        </button>
+      </template>
+
+      <template v-slot:[`header.price`]>
+        <button class="acenter align" style="cursor:default;gap:.2em">
+          <label for="price" style="cursor:pointer">Floor price</label>
+          <v-select
+            id="price"
+            :items="sort.price"
+            solo
+            hide-details
+            append-icon="mdi-chevron-down"
+            style="--w:min-content;--h:24px;--p:0 0 0 .5em;--bg:#0D2C3F;--bs: 3px 0 5px 1px rgb(0,0,0,.4);--c:#FFFFFF;--br:.4vmax"
+          ></v-select>
+        </button>
+      </template>
+
       <template v-slot:[`item.number`]="{ item }">
-        <span>{{dataTables.indexOf(item)+1}}</span>
+        <span>{{dataTable.indexOf(item)+1}}</span>
       </template>
 
       <template v-slot:[`item.nft`]="{ item }">
@@ -43,16 +71,16 @@
       </template>
 
       <template v-slot:[`item.volume`]="{ item }">
-        <span :style="item.state?'color:#22B573':'color:var(--error)'">{{item.volume}}</span>
+        <span :style="item.state_volume?'color:#22B573':'color:var(--error)'">{{item.volume}}</span>
       </template>
 
       <template v-slot:[`item.price`]="{ item }">
-        <span :style="item.state?'color:#22B573':'color:var(--error)'">{{item.price}}</span>
+        <span :style="item.state_price?'color:#22B573':'color:var(--error)'">{{item.price}}</span>
       </template>
 
       <template v-slot:[`item.change`]="{ item }">
-        <span :style="item.state?'color:#22B573':'color:var(--error)'">
-          {{item.state?'+':'-'}}{{item.change}}%
+        <span :style="item.state_change?'color:#22B573':'color:var(--error)'">
+          {{item.state_change?'+':'-'}}{{item.change}}%
         </span>
       </template>
 
@@ -82,7 +110,7 @@
 
 
 
-    <!-- tabla 2  -->
+    <!-- tabla 2
     <table class="dataTable card">
       <thead>
         <th v-for="(item,i) in dataTable.headers" :key="i">
@@ -105,9 +133,9 @@
       <tbody class="tcenter">
         <tr v-for="(item,i) in dataTable.items" :key="i">
           <td v-for="(item2,i2) in item.columns" :key="i2">
-            <!-- col 1 -->
+            col 1
             <span v-if="item2.key=='number'">{{i+1}}</span>
-            <!-- col 2 -->
+            col 2
             <div v-if="item2.key=='nft'" class="center gap1">
               <img class="aspect" :src="item2.img" alt="nft" style="--w:4.710625em">
               <div class="divcol">
@@ -115,19 +143,19 @@
                 <span>{{item2.desc}}</span>
               </div>
             </div>
-            <!-- col 3 -->
+            col 3
             <span>{{item2.supply}}</span>
-            <!-- col 4 -->
+            col 4
             <span :style="item2.state?'color:#22B573':'color:var(--error)'">{{item2.volume}}</span>
-            <!-- col 5 -->
+            col 5
             <span :style="item2.state?'color:#22B573':'color:var(--error)'">{{item2.price}}</span>
-            <!-- col 6 -->
+            col 6
             <span v-if="item2.key=='change'" :style="item2.state?'color:#22B573':'color:var(--error)'">
               {{item2.state?'+':'-'}}{{item2.change}}%
             </span>
-            <!-- col 7 -->
+            col 7
             <span>{{item2.date}}</span>
-            <!-- col 8 -->
+            col 8
             <div v-if="item2.key=='vote'" class="center" style="gap:.5em">
               <span>{{item2.vote}}</span>
               <div>
@@ -139,7 +167,7 @@
                 </v-btn>
               </div>
             </div>
-            <!-- col 9 -->
+            col 9
             <v-chip v-if="item2.key=='confidence'" style="border-radius: .3vmax"
               :color="item2.confidence=='high'?'#22B573':
               item2.confidence=='moderate'?'var(--warning)':
@@ -149,7 +177,7 @@
           </td>
         </tr>
       </tbody>
-    </table>
+    </table> -->
 
     <section class="divcol gap1" style="padding-block:6em 7em">
       <h2 class="h6_em tcenter">Want to get Your Project Listed?</h2>
@@ -174,7 +202,11 @@ export default {
         { name: "Floor Price", active: false },
         { name: "Volume", active: false },
       ],
-      //tabla 1
+      //table
+      sort: {
+        volume: ['24h', '7d', '30d', '90d', '1Y'],
+        price: ['24h', '7d', '30d', '90d', '1Y']
+      },
       headersTable: [
         { value: "number", text: "#", align: "center", sortable: false },
         { value: "nft", text: "NFT", align: "center", sortable: false },
@@ -186,7 +218,7 @@ export default {
         { value: "vote", text: "Vote", align: "center", sortable: false },
         { value: "confidence", text: "Confidence Level", align: "center", sortable: false },
       ],
-      dataTables: [
+      dataTable: [
         { 
           img: require('@/assets/nfts/nft1.png'),
           name: "Collection o Nft Name",
@@ -198,205 +230,78 @@ export default {
           date: "Nov / 23 / 2022",
           vote: "3456",
           confidence: "high",
-          state: false
+          state_volume: true,
+          state_price: true,
+          state_change: false,
+        },
+        { 
+          img: require('@/assets/nfts/nft1.png'),
+          name: "Collection o Nft Name",
+          desc: "Lorem ipsum dolor sit",
+          supply: "12,0001",
+          volume: "1,250.104,4  N",
+          price: "104.4 N",
+          change: "0.89",
+          date: "Nov / 23 / 2022",
+          vote: "3456",
+          confidence: "moderate",
+          state_volume: false,
+          state_price: false,
+          state_change: true,
         },
       ],
       //tabla 2
-      dataTable: {
-        headers: [
-          { key: "number", name: "#" },
-          { key: "nft", name: "NFT" },
-          { key: "supply", name: "Supply" },
-          { key: "volume", name: "Volume", select:['24h', '7d', '30d', '90d', '1Y'] },
-          { key: "price", name: "Floor price", select:['24h', '7d', '30d', '90d', '1Y'] },
-          { key: "change", name: "Change 24h" },
-          { key: "date", name: "Launch Date" },
-          { key: "vote", name: "Vote" },
-          { key: "confidence", name: "Confidence Level" },
-        ],
-        items: [
-          {
-            columns: [
-              { key: "number" },
-              { 
-                key: "nft",
-                img: require('@/assets/nfts/nft1.png'),
-                name: "Collection o Nft Name",
-                desc: "Lorem ipsum dolor sit"
-              },
-              { key: "supply", supply: "12,0001" },
-              { key: "volume", volume: "1,250.104,4  N", state: true },
-              { key: "price", price: "104.4 N", state: true },
-              { key: "change", change: "0.89", state: false },
-              { key: "date", date: "Nov / 23 / 2022" },
-              { key: "vote", vote: "3456" },
-              { key: "confidence", confidence: "high" },
-            ]
-          },
-          {
-            columns: [
-              { key: "number" },
-              { 
-                key: "nft",
-                img: require('@/assets/nfts/nft2.png'),
-                name: "Collection o Nft Name",
-                desc: "Lorem ipsum dolor sit"
-              },
-              { key: "supply", supply: "12,0001" },
-              { key: "volume", volume: "1,250.104,4  N", state: true },
-              { key: "price", price: "104.4 N", state: true },
-              { key: "change", change: "0.89", state: false },
-              { key: "date", date: "Nov / 23 / 2022" },
-              { key: "vote", vote: "3456" },
-              { key: "confidence", confidence: "moderate" },
-            ]
-          },
-          // {
-          //   columns: [
-          //     { key: "number" },
-          //     { 
-          //       key: "nft",
-          //       img: require('@/assets/nfts/nft3.png'),
-          //       name: "Collection o Nft Name",
-          //       desc: "Lorem ipsum dolor sit"
-          //     },
-          //     { key: "supply", supply: "12,0001" },
-          //     { key: "volume", volume: "1,250.104,4  N", state: true },
-          //     { key: "price", price: "104.4 N", state: true },
-          //     { key: "change", change: "0.89", state: false },
-          //     { key: "date", date: "Nov / 23 / 2022" },
-          //     { key: "vote", vote: "3456" },
-          //     { key: "confidence", confidence: "low" },
-          //   ]
-          // },
-          // {
-          //   columns: [
-          //     { key: "number" },
-          //     { 
-          //       key: "nft",
-          //       img: require('@/assets/nfts/nft4.png'),
-          //       name: "Collection o Nft Name",
-          //       desc: "Lorem ipsum dolor sit"
-          //     },
-          //     { key: "supply", supply: "12,0001" },
-          //     { key: "volume", volume: "1,250.104,4  N", state: true },
-          //     { key: "price", price: "104.4 N", state: true },
-          //     { key: "change", change: "0.89", state: false },
-          //     { key: "date", date: "Nov / 23 / 2022" },
-          //     { key: "vote", vote: "3456" },
-          //     { key: "confidence", confidence: "high" },
-          //   ]
-          // },
-          // {
-          //   columns: [
-          //     { key: "number" },
-          //     { 
-          //       key: "nft",
-          //       img: require('@/assets/nfts/nft5.png'),
-          //       name: "Collection o Nft Name",
-          //       desc: "Lorem ipsum dolor sit"
-          //     },
-          //     { key: "supply", supply: "12,0001" },
-          //     { key: "volume", volume: "1,250.104,4  N", state: true },
-          //     { key: "price", price: "104.4 N", state: true },
-          //     { key: "change", change: "0.89", state: false },
-          //     { key: "date", date: "Nov / 23 / 2022" },
-          //     { key: "vote", vote: "3456" },
-          //     { key: "confidence", confidence: "high" },
-          //   ]
-          // },
-          // {
-          //   columns: [
-          //     { key: "number" },
-          //     { 
-          //       key: "nft",
-          //       img: require('@/assets/nfts/nft6.png'),
-          //       name: "Collection o Nft Name",
-          //       desc: "Lorem ipsum dolor sit"
-          //     },
-          //     { key: "supply", supply: "12,0001" },
-          //     { key: "volume", volume: "1,250.104,4  N", state: true },
-          //     { key: "price", price: "104.4 N", state: true },
-          //     { key: "change", change: "0.89", state: false },
-          //     { key: "date", date: "Nov / 23 / 2022" },
-          //     { key: "vote", vote: "3456" },
-          //     { key: "confidence", confidence: "high" },
-          //   ]
-          // },
-          // {
-          //   columns: [
-          //     { key: "number" },
-          //     { 
-          //       key: "nft",
-          //       img: require('@/assets/nfts/nft1.png'),
-          //       name: "Collection o Nft Name",
-          //       desc: "Lorem ipsum dolor sit"
-          //     },
-          //     { key: "supply", supply: "12,0001" },
-          //     { key: "volume", volume: "1,250.104,4  N", state: true },
-          //     { key: "price", price: "104.4 N", state: true },
-          //     { key: "change", change: "0.89", state: false },
-          //     { key: "date", date: "Nov / 23 / 2022" },
-          //     { key: "vote", vote: "3456" },
-          //     { key: "confidence", confidence: "high" },
-          //   ]
-          // },
-          // {
-          //   columns: [
-          //     { key: "number" },
-          //     { 
-          //       key: "nft",
-          //       img: require('@/assets/nfts/nft1.png'),
-          //       name: "Collection o Nft Name",
-          //       desc: "Lorem ipsum dolor sit"
-          //     },
-          //     { key: "supply", supply: "12,0001" },
-          //     { key: "volume", volume: "1,250.104,4  N", state: true },
-          //     { key: "price", price: "104.4 N", state: true },
-          //     { key: "change", change: "0.89", state: false },
-          //     { key: "date", date: "Nov / 23 / 2022" },
-          //     { key: "vote", vote: "3456" },
-          //     { key: "confidence", confidence: "high" },
-          //   ]
-          // },
-          // {
-          //   columns: [
-          //     { key: "number" },
-          //     { 
-          //       key: "nft",
-          //       img: require('@/assets/nfts/nft1.png'),
-          //       name: "Collection o Nft Name",
-          //       desc: "Lorem ipsum dolor sit"
-          //     },
-          //     { key: "supply", supply: "12,0001" },
-          //     { key: "volume", volume: "1,250.104,4  N", state: true },
-          //     { key: "price", price: "104.4 N", state: true },
-          //     { key: "change", change: "0.89", state: false },
-          //     { key: "date", date: "Nov / 23 / 2022" },
-          //     { key: "vote", vote: "3456" },
-          //     { key: "confidence", confidence: "high" },
-          //   ]
-          // },
-          // {
-          //   columns: [
-          //     { key: "number" },
-          //     { 
-          //       key: "nft",
-          //       img: require('@/assets/nfts/nft1.png'),
-          //       name: "Collection o Nft Name",
-          //       desc: "Lorem ipsum dolor sit"
-          //     },
-          //     { key: "supply", supply: "12,0001" },
-          //     { key: "volume", volume: "1,250.104,4  N", state: true },
-          //     { key: "price", price: "104.4 N", state: true },
-          //     { key: "change", change: "0.89", state: false },
-          //     { key: "date", date: "Nov / 23 / 2022" },
-          //     { key: "vote", vote: "3456" },
-          //     { key: "confidence", confidence: "high" },
-          //   ]
-          // },
-        ]
-      }
+      // dataTable: {
+      //   headers: [
+      //     { key: "number", name: "#" },
+      //     { key: "nft", name: "NFT" },
+      //     { key: "supply", name: "Supply" },
+      //     { key: "volume", name: "Volume", select:['24h', '7d', '30d', '90d', '1Y'] },
+      //     { key: "price", name: "Floor price", select:['24h', '7d', '30d', '90d', '1Y'] },
+      //     { key: "change", name: "Change 24h" },
+      //     { key: "date", name: "Launch Date" },
+      //     { key: "vote", name: "Vote" },
+      //     { key: "confidence", name: "Confidence Level" },
+      //   ],
+      //   items: [
+      //     {
+      //       columns: [
+      //         { key: "number" },
+      //         { 
+      //           key: "nft",
+      //           img: require('@/assets/nfts/nft1.png'),
+      //           name: "Collection o Nft Name",
+      //           desc: "Lorem ipsum dolor sit"
+      //         },
+      //         { key: "supply", supply: "12,0001" },
+      //         { key: "volume", volume: "1,250.104,4  N", state: true },
+      //         { key: "price", price: "104.4 N", state: true },
+      //         { key: "change", change: "0.89", state: false },
+      //         { key: "date", date: "Nov / 23 / 2022" },
+      //         { key: "vote", vote: "3456" },
+      //         { key: "confidence", confidence: "high" },
+      //       ]
+      //     },
+      //     {
+      //       columns: [
+      //         { key: "number" },
+      //         { 
+      //           key: "nft",
+      //           img: require('@/assets/nfts/nft2.png'),
+      //           name: "Collection o Nft Name",
+      //           desc: "Lorem ipsum dolor sit"
+      //         },
+      //         { key: "supply", supply: "12,0001" },
+      //         { key: "volume", volume: "1,250.104,4  N", state: true },
+      //         { key: "price", price: "104.4 N", state: true },
+      //         { key: "change", change: "0.89", state: false },
+      //         { key: "date", date: "Nov / 23 / 2022" },
+      //         { key: "vote", vote: "3456" },
+      //         { key: "confidence", confidence: "moderate" },
+      //       ]
+      //     },
+      //   ]
+      // }
     }
   },
   methods: {
