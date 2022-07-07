@@ -34,6 +34,11 @@ export default new Router({
           component: () => import('@/pages/home/Home'),
         },
         {
+          path: '/portafolio',
+          name: 'portafolio',
+          component: () => import('@/pages/portafolio/Portafolio'),
+        },
+        {
           path: '/snipe-tool',
           name: 'snipeTool',
           component: () => import('@/pages/snipeTool/SnipeTool'),
@@ -42,6 +47,11 @@ export default new Router({
           path: '/compare-projects',
           name: 'compareProjects',
           component: () => import('@/pages/compareProjects/CompareProjects'),
+        },
+        {
+          path: '/upcoming-nft-drops',
+          name: 'upcomingNftDrops',
+          component: () => import('@/pages/upcomingNftDrops/UpcomingNftDrops'),
         },
       ],
     },

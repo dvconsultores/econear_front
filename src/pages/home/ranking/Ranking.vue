@@ -16,8 +16,7 @@
         label="Search for NFT's and collections"
         append-icon="mdi-magnify"
         style="max-width:30.061875em;--bg:hsl(210, 48%, 13%, .46);--c:#FFFFFF;--p:0 1.5em"
-      >
-      </v-text-field>
+      ></v-text-field>
     </aside>
 
     <!-- tabla 1  -->

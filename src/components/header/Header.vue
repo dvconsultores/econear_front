@@ -204,7 +204,7 @@ export default {
       // themeButton: true,
       dataHeader: [
         { key: "home", name: "Home", to: "/" },
-        { key: "drops", name: "Drops", to: "" },
+        { key: "drops", name: "Drops", to: "/upcoming-nft-drops" },
         { key: "nfts", name: "NFTS", to: "" },
         { key: "snipe", name: "Snipe tool", to: "/snipe-tool" },
         { key: "contact", name: "Contact us", to: "" },
@@ -321,6 +321,7 @@ export default {
       if (item.key=='logout') {this.signOut()}
       if (item.key=='switch') {this.$refs.menu.modalSwitchAccount = true}
       if (item.key=='settings') {this.$refs.menu.modalSettings = true}
+      if (item.key=='portafolio') {this.$router.push('/portafolio')}
     },
     async getData () {
       this.account = {}

@@ -4,9 +4,16 @@
 /* // // snipeTool // // */ 
 // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // /
 #snipeTool {
-  margin-top: 140px;
   padding-top: 1em;
   padding-inline: var(--margin-global);
+  position: relative;
+  &::before {
+    content: "";
+    @include absolute(0,-40px,0);
+    width: 80%;
+    height: 1px;
+    background-color: rgba($success, .5);
+  }
   .container-controls {
     .tracking-pause {
       &::after {
@@ -27,7 +34,7 @@
     .v-item-group {
       background-color: var(--primary);
       border: .8px solid rgba(#707070, .1);
-      border-radius: .3vmax;
+      border-radius: .4vmax;
       max-width: 32.6875em;
       .v-slide-group__content {
         display: flex;
@@ -41,11 +48,6 @@
           h6 {color: #FFFFFF; text-transform: none}
           &--active h6 {color: $clr-btn-pressed}
         }
-      }
-    }
-    .v-input {
-      .v-input__append-inner {
-        border-left: 1px solid #FFFFFF;
       }
     }
   }

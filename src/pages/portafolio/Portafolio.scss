@@ -1,0 +1,99 @@
+@use "@/styles/app" as *;
+
+// // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // /
+/* // // portafolio // // */ 
+// // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // /
+#portafolio {
+  padding-top: 1em;
+  padding-inline: var(--margin-global);
+  position: relative;
+  &::before {
+    content: "";
+    @include absolute(0,-40px,0);
+    width: 80%;
+    height: 1px;
+    background-color: rgba($success, .5);
+  }
+  .search {
+    .v-input__append-inner {
+      // border-left: 1px solid #FFFFFF;
+      position: relative;
+      &::before {
+        content: "";
+        @include absolute(0);
+        width: 1px;
+        height: 100%;
+        background-color: #FFFFFF;
+      }
+    }
+  }
+  .container-profit {
+    .v-card {
+      .v-sheet {
+        & > aside:first-child {
+          position: relative;
+          padding-bottom: 1em;
+          margin-bottom: 1em;
+          &::before {
+            content: "";
+            @include absolute(0,auto,0,0);
+            width: 100%;
+            height: 1px;
+            background-color: rgba($success, .5);
+          }
+        }
+      }
+    }
+  }
+  .container-controls {
+    .v-tabs {max-width: max-content}
+    .v-item-group {
+      background-color: var(--primary);
+      border: .8px solid rgba(#707070, .1);
+      border-radius: .4vmax;
+      max-width: max-content;
+      .v-slide-group__content {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1em;
+        gap: 1em;
+        .v-tab {
+          padding: .2em;
+          border-radius: .4vmax;
+          overflow: hidden;
+          h6 {color: #FFFFFF; text-transform: none}
+          &--active h6 {color: $clr-btn-pressed}
+          i {color: #FFFFFF !important;margin-right:.2em}
+          &--active i {color: $clr-btn-pressed !important}
+        }
+      }
+    }
+  }
+  .tab-right {
+    max-width: max-content;
+    .v-item-group {background-color: hsl(212 47% 12% / .5) !important;border-radius: .5vmax !important}
+    .v-slide-group__content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1em;
+      padding: 0 1em;
+      &::before {
+        content: "";
+        @include absoluteCenter;
+        width: 1px;
+        height: 15px;
+        background-color: #FFFFFF;
+      }
+    }
+    .v-tab {
+      padding: .2em;
+      border-radius: .4vmax;
+      overflow: hidden;
+      max-width: 1.125em !important;
+      min-width: 1.125em !important;
+    }
+  }
+  .container-charts {}
+}

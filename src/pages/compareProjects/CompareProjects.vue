@@ -1,8 +1,8 @@
 <template>
   <section id="compareProjects" class="divcol gap2">
-    <aside class="divcol center gap1">
+    <aside class="divcol center gap1 tcenter">
       <h2 class="h5_em p">Compare Projects</h2>
-      <p class="h10_em tcenter" style="max-width:60ch">
+      <p class="h10_em" style="max-width:60ch">
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut facilisis accumsan nisl, et blandit orci pellentesque
       </p>
     </aside>
@@ -222,7 +222,7 @@
               <template v-if="item.key=='verification'">
                 <td class="tcenter">
                   <v-chip class="btn" :style="`--bs:none;--bg:transparent;
-                    --b:1px solid ${item.project1?'var(--success)':'var(--error)'};--p:.5em .7em`" disabled>
+                    --b:1px solid ${item.project1?'var(--success)':'var(--error)'};--p:.5em .7em`">
                     <v-icon :style="`color:${item.project1?'var(--success)':'var(--error)'} !important;margin-right:.2em`">
                       mdi-{{item.project1?'check':'close'}}
                     </v-icon>
@@ -231,7 +231,7 @@
                 </td>
                 <td class="tcenter">
                   <v-chip class="btn" :style="`--bs:none;--bg:transparent;
-                    --b:1px solid ${item.project2?'var(--success)':'var(--error)'};--p: .5em.7em`" disabled>
+                    --b:1px solid ${item.project2?'var(--success)':'var(--error)'};--p: .5em.7em`">
                     <v-icon :style="`color:${item.project2?'var(--success)':'var(--error)'} !important;margin-right:.2em`">
                       mdi-{{item.project2?'check':'close'}}
                     </v-icon>

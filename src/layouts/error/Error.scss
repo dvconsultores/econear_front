@@ -4,7 +4,7 @@
 // // // error // // // 
 // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // /
 #error {
-  background: center no-repeat fixed url(../../assets/images/bg.png) var(--bg-ap);
+  background: center no-repeat fixed url(../../assets/images/bg.png), var(--bg-ap);
   background-size: cover;
   .error-page {
     height: 100%;

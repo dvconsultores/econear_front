@@ -1,8 +1,8 @@
 <template>
   <section id="snipeTool" class="divcol gap2">
-    <aside class="divcol center gap1">
+    <aside class="divcol center gap1 tcenter">
       <h2 class="h5_em p">Snipe Tool</h2>
-      <p class="h10_em tcenter" style="max-width:60ch">
+      <p class="h10_em" style="max-width:60ch">
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut facilisis accumsan nisl, et blandit orci pellentesque
       </p>
     </aside>
