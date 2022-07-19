@@ -1,7 +1,7 @@
 <template>
-  <section id="upcomingNftDrops" class="divcol gap2">
+  <section id="newProjects" class="divcol gap2">
     <aside class="divcol center gap1 tcenter">
-      <h2 class="h5_em p bold">Upcoming NFT Drops</h2>
+      <h2 class="h5_em p bold">New Projects</h2>
       <p class="h10_em" style="max-width:60ch">
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut facilisis accumsan nisl, et blandit orci pellentesque
       </p>
@@ -14,7 +14,7 @@
         </v-tab>
       </v-tabs>
     </aside>
-    
+
     <section class="section-down grid" style="--gtc:repeat(auto-fit,minmax(min(100%,20em),1fr));gap:2em">
       <v-card v-for="(item,i) in dataNftDrops" :key="i" class="card divcol"
         style="--p:2em;gap:.5em">
@@ -48,17 +48,6 @@
           </div>
         </div>
 
-        <aside class="cronometer center">
-          <div class="grid" style="--gtc:repeat(4,1fr);gap:.5em;place-items:center">
-            <span v-for="(item2,i2) in item.cronometer" :key="i2" style="color:var(--success)">
-              {{item2.time}}
-            </span>
-            <span v-for="n in 4" :key="n" class="h11_em">
-              {{n==1?'Days':n==2?'Hrs':n==3?'Min':n==4?'Sec':null}}
-            </span>
-          </div>
-        </aside>
-
         <aside class="space gap1 wrap_inv">
           <div class="acenter alignmobile">
             <v-btn v-for="(item2,i) in item.redes" :key="i" icon :href="item2.url"
@@ -75,7 +64,7 @@
             </v-btn>
             <v-btn class="btn" style="--p:.45em 1.5em;min-width:max-content;height:max-content;
               --c:#000000;--bs:0 2px 3px 1px hsl(171, 100%, 72%, .4)">
-              Mint
+              Lorem
             </v-btn>
           </div>
         </aside>
@@ -86,7 +75,7 @@
 
 <script>
 export default {
-  name: "upcomingNftDrops",
+  name: "newProjects",
   i18n: require("./i18n"),
   data() {
     return {
@@ -233,4 +222,4 @@ export default {
 };
 </script>
 
-<style src="./UpcomingNftDrops.scss" lang="scss" />
+<style src="./NewProjects.scss" lang="scss" />

@@ -148,7 +148,8 @@ img {
   --fs: 1em;
   --t: ;
   --f: ;
-  --m: ;
+  --ml: ;
+  --mr: ;
   color: var(--c);
   transform: var(--t);
   filter: var(--f);
@@ -159,7 +160,10 @@ img {
     font-size: var(--fs);
   }
   .v-btn__content {
-    & :is(img, i) {margin-left: var(--m)}
+    & :is(img, i) {
+      margin-left: var(--ml);
+      margin-right: var(--mr)
+    }
   }
 }
 //- default input slot -//
