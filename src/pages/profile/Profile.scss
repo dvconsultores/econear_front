@@ -22,19 +22,22 @@
     align-items: flex-end;
   }
   .container-profile {
+    pointer-events: none;
+    * {pointer-events: all}
     transform: translateY(-110px);
     p {
       font-size: 1.8em;
       line-height: 1;
     }
-    // line
-    & > :last-child {
-      --margin: 2em;
-      margin-top: var(--margin);
+    & > center {
+      width: 100%;
+      --margin: 3em;
+      margin-bottom: var(--margin);
       position: relative;
-      &:before {
+      // line
+      &::after {
         content: "";
-        @include absolute(0,calc(var(--margin) * -1 / 2),0);
+        @include absolute(0,0,0,calc(var(--margin) * -2.5));
         width: 100%;
         height: 1px;
         background-color: rgba($success, .5);
@@ -52,6 +55,7 @@
     thead {
       tr {
         th {
+          color: #FFFFFF;
           font-size: 1em;
           &:first-of-type {i{display: none !important}}
         }
@@ -62,8 +66,99 @@
         td {
           font-size: .9em;
         }
-        &:hover {background-color: transparent}
+        &:hover:not(.add) {background-color: transparent}
+        &:hover.add {
+          cursor: pointer;
+          background-color: #21786D;
+          transition: .2s $ease-return;
+        }
       }
+      .v-input {
+        input::placeholder {
+          color: #b9b9b9 !important;
+        }
+      }
+    }
+    &.wallets {
+      .v-input {
+        max-width: 18.125em;
+        &__slot {
+          i {color: $success !important}
+          .v-select__selection {color: #FFFFFF !important}
+        }
+      }
+    }
+  }
+  .container-wallets {
+    display: grid;
+    gap: 3em;
+    @include media(min, small) {grid-template-columns: 1fr max-content}
+    .notes {
+      --p: 1.5em;
+      --bg: hsl(210, 48%, 13%, .4);
+      max-width: 17.185em;
+      max-height: 29.19875em;
+      h4 {
+        font-size: 1.1875em;
+        position: relative;
+        padding-bottom: .5em;
+        margin-bottom: 1em;
+        // line
+        &::before {
+          content: "";
+          @include absolute(0,auto,0,0);
+          width: 100%;
+          height: 1px;
+          background-color: rgba($success, .5);
+        }
+      }
+      p {
+        font-size: 1.125em;
+        line-height: 1;
+      }
+    }
+  }
+}
+
+.modalEdit {
+  --margin: 2em;
+  h3 {font-size: 4.5em}
+  section.up {
+    height: 170px;
+    background-color: #58C6BA;
+    padding-inline: var(--margin);
+    padding-block: 1em;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-end;
+    position: relative;
+    .v-avatar {
+      @include absolute(0,auto,0,-50px);
+    }
+  }
+  section.down {
+    // --gtc: repeat(auto-fit, minmax(min(100%, 22.76125em), 1fr));
+    gap: 0 clamp(1em, 2vw, 2em);
+    padding: var(--margin);
+    label {font-size: 1.2em;color: #041C4C;margin-bottom:1em}
+    .bio {
+      --fb: 1 1 100%;
+      .v-input__slot {
+        height: 8.41125em;
+        overscroll-behavior: contain;
+        #bio {
+          height: 8.41125em;
+          padding: 1em;
+          padding-top: .5em;
+        }
+      }
+    }
+    &>*:last-child {--fb: 1 1 100%}
+    .v-btn {
+      span {font-size: 1.25em}
+    }
+    .v-input {
+      --bs: 0 2px 4px 1px var(--success);
     }
   }
 }

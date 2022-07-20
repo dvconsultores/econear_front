@@ -260,6 +260,7 @@ img {
 
 //- dialog -//
 .v-dialog {
+  overscroll-behavior: contain;
   label:not(.labels) {font-weight: 700}
 }
 .v-dialog--scrollable {
