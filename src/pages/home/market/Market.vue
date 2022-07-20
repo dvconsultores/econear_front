@@ -61,7 +61,7 @@
         <img src="@/assets/images/anuncio.png" alt="Announcement Image" style="--w:min(100%,40em)">
 
         <div class="container-info space gap2">
-          <h3 class="h7_em p">Our Collection MonkeONear</h3>
+          <h3 class="h7_em p bold">Our Collection MonkeONear</h3>
           <p class="p h11_em">
             The first ever community voting tool and wallet management tool that comes with 
             built-in data analysis system to find the best project on NEAR PROTOCOLV

@@ -41,7 +41,7 @@
       max-height: min-content !important;
       background-color: #122432;
       border: .8px solid rgba(#707070, .1);
-      box-shadow: 0 0 1.5px 1.2px $clr-btn !important;
+      box-shadow: 0 0 1.5px 1.5px $clr-btn !important;
       .container-info {
         padding-inline: clamp(1em, 2vw, 2em);
         @include media(max,1268px) {padding-block: clamp(1em, 2vw, 2em)};

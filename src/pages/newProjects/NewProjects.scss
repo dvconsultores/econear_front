@@ -1,9 +1,9 @@
 @use "@/styles/app" as *;
 
 // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // /
-/* // // upcomingNftDrops // // */ 
+/* // // newProjects // // */ 
 // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // /
-#upcomingNftDrops {
+#newProjects {
   padding-top: 1em;
   padding-inline: var(--margin-global);
   position: relative;
@@ -43,42 +43,21 @@
     .v-card {
       width: 24.6875em;
       @include media(max,897px) {width: 100%}
-      .cronometer {
-        margin-bottom: 1em;
-        .grid {
-          position: relative;
-          &::after {
-            content: "";
-            position: absolute;
-            bottom: calc(-1em + 5px);
-            margin-inline: auto;
-            width: 15.9375em;
-            @include media(max,450px) {width: 90%}
-            height: 1px;
-            background-color: rgba($success, .7);
-          }
-          &::before {
-            content: "";
-            --size: 1em;
-            @include absolute(0,-4px,0);
-            transform: translateX(calc((var(--size) * -1 / 2) - 3px));
-            width: calc(100% + var(--size));
-            height: 30px;
-            border-radius: .2vmax;
-            outline: 1px solid var(--success);
-          }
-          span {
-            @include child(1, 4) {
-              &::after {
-                content: ":";
-                position: relative;
-                font-weight: bold;
-                right: -5px;
-                // transform: translateX(10px);
-              }
-            }
-            &:nth-child(4)::after {visibility: hidden}
-          }
+      aside {
+        position: relative;
+        margin-top: 3em;
+        // line
+        &::after {
+          content: "";
+          position: absolute;
+          top: calc(-1em + 5px);
+          left: 0;
+          right: 0;
+          margin-inline: auto;
+          width: 15.9375em;
+          @include media(max,450px) {width: 90%}
+          height: 1px;
+          background-color: rgba($success, .7);
         }
       }
     }

@@ -9,7 +9,7 @@
 
     <aside class="container-controls divcol gap1">
       <v-card class="tracking-pause card acenter" style="max-width:max-content;--bg:hsl(212 47% 12% / .5);gap:1em">
-        <v-btn v-for="(item,i) in dataControls.up" :key="i" text style="--m:.5em" :class="{active: item.active}"
+        <v-btn v-for="(item,i) in dataControls.up" :key="i" text style="--ml:.5em" :class="{active: item.active}"
             @click="dataControls.up.forEach(e=>{e.active=false});item.active=true">
           <span>{{item.name}}</span><img :src="require(`@/assets/icons/${item.name}.svg`)"
           :style="item.name=='tracking'?'--w:1em':'--w:.7em'">

@@ -313,15 +313,20 @@ export default {
       }
     },
     SelectItem_More(item) {
+      // account
+      if (item.key=='login') {this.$refs.menu.modalLogin = true}
       if (item.key=='register') {this.$refs.menu.modalRegister = true}
+      // nft
       if (item.key=='compare-projects') {this.$router.push(item.key)}
+      if (item.key=='new-projects') {this.$router.push(item.key)}
     },
     SelectItem_AvatarMenu(item) {
       this.avatarMenu = false
       if (item.key=='logout') {this.signOut()}
       if (item.key=='switch') {this.$refs.menu.modalSwitchAccount = true}
-      if (item.key=='settings') {this.$refs.menu.modalSettings = true}
+      if (item.key=='profile') {this.$router.push('/profile')}
       if (item.key=='portafolio') {this.$router.push('/portafolio')}
+      if (item.key=='settings') {this.$refs.menu.modalSettings = true}
     },
     async getData () {
       this.account = {}

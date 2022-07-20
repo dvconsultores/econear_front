@@ -53,6 +53,7 @@
       </v-expansion-panels>
     </v-navigation-drawer>
 
+    <!-- menu notifications -->
     <v-menu offset-y :close-on-content-click="false" activator=".openNotifications">
       <v-card class="menu_list notifications divcol">
         <h3 class="h9_em light">Notifications</h3>
@@ -69,6 +70,29 @@
       </v-card>
     </v-menu>
 
+    <!-- modal login -->
+    <v-dialog
+      v-model="modalLogin"
+      max-width="82.358125em"
+    >
+      <v-card color="var(--primary)" class="overflowx" style="padding-block:6em">
+        <v-btn icon class="close" @click="modalLogin = false">
+          <img src="@/assets/icons/close.svg" alt="close" style="--w:0.921875em">
+        </v-btn>
+
+        <v-sheet color="transparent" class="divcol center" style="gap:4em">
+          <img src="@/assets/logos/logo-copy.svg" alt="econear logo" style="--w:min(90%,28.875em)">
+
+          <v-btn class="btn" style="--mr:1em;--bs:0 3px 4px 1px hsl(176, 60%, 40%, .7);width:min(80%,32.3125em)">
+            <img src="@/assets/icons/discord.svg" alt="discord icon" style="--w:2.674375em">
+            <span class="h10_em">Login with Discord</span>
+          </v-btn>
+        </v-sheet>
+      </v-card>
+    </v-dialog>
+
+
+    <!-- modal register -->
     <v-dialog
       v-model="modalRegister"
       max-width="82.358125em"
@@ -110,6 +134,8 @@
       </v-card>
     </v-dialog>
 
+
+    <!-- modal switch account -->
     <v-dialog
       v-model="modalSwitchAccount"
       max-width="62.358125em"
@@ -148,7 +174,8 @@
       </v-card>
     </v-dialog>
 
-    
+
+    <!-- modal settings -->
     <v-dialog
       v-model="modalSettings"
       max-width="62.358125em"
@@ -217,6 +244,7 @@ export default {
     return {
       messages: 1,
       drawer: false,
+      modalLogin: false,
       modalRegister: false,
       modalSwitchAccount: false,
       modalSettings: false,
