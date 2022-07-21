@@ -24,8 +24,8 @@
           {{switchInfo?'Wallets':'Main info'}}
         </v-btn>
       </center>
-      <p v-if="switchInfo==true" class="p" style="max-width:60ch">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut facilisis accumsan nisl, et blandit orci pellentesque
+      <p v-if="switchInfo==true" class="p" style="max-width:65ch">
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc volutpat ligula orci, ac imperdiet tortor cursus vitae. Nunc fringilla lacus vel tempus ultrices. Nulla facilisi.
       </p>
     </aside>
 

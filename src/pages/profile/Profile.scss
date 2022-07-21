@@ -13,8 +13,8 @@
   .container-header {
     background-color: #58C6BA;
     width: 100vw;
-    margin-left: calc(var(--margin-global) * -1);
-    height: 250px;
+    margin-inline: calc(-50vw + 50%);
+    height: 300px;
     padding-left: var(--margin-global);
     padding-bottom: 1em;
     display: flex;

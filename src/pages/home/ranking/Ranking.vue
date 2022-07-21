@@ -60,7 +60,7 @@
       </template>
 
       <template v-slot:[`item.nft`]="{ item }">
-        <div class="center gap1">
+        <div class="nftDetail center gap1" @click="$router.push('/project-details')">
           <img class="aspect" :src="item.img" alt="nft" style="--w:4.710625em">
           <div class="divcol tstart">
             <span>{{item.name}}</span>

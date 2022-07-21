@@ -42,6 +42,11 @@
           height: 1px;
           background-color: #60D2CA;
         }
+        .nftDetail {
+          cursor: pointer;
+          transition: .2s $ease-return;
+          &:hover {background-color: #21786D;box-shadow: $sombra-card}
+        }
       }
     }
     tr:hover {background:none}

@@ -1,7 +1,7 @@
 <template>
   <v-app id="layout" class="relative">
     <Header ref="header" />
-    <v-main :class="wrapperSpace?'with':'without'">
+    <v-main :class="wrapperSpace?'with':'without'" class="parent">
       <router-view></router-view>
     </v-main>
     <Footer ref="footer" />

@@ -5,12 +5,12 @@
 /* // // limit size // // */ 
 // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // /
 .parent {
-  max-width: 1600px;
+  max-width: var(--parent);
   width: 100%;
   margin-inline: auto;
 }
 .subparent {
-  max-width: 1900px;
+  max-width: var(--subparent);
   width: 100%;
   margin-inline: auto;
 }
@@ -322,7 +322,7 @@ img {
 @mixin card() {
   --w: ;
   --h: ;
-  --bg: #122432;
+  --bg: var(--clr-card);
   --c: #FFFFFF;
   --b: .8px solid hsl(0, 0%, 44%, .1);
   --p: 1em;

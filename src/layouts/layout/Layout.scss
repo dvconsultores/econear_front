@@ -6,6 +6,7 @@
 #layout {
   background: top no-repeat url(../../assets/images/bg.png);
   background-size: cover;
+  overflow: hidden;
   & .with {
     padding-block: 140px 35em !important;
     @include media(max, small) {padding-bottom: 40em !important}

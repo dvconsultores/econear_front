@@ -10,11 +10,15 @@
   --success: #6FFFE9;
   --clr-gradient: linear-gradient(to right top,#356D74,#2A505C,#21394A,#1A293D,#172035,#161D33,#161E34,#192539,#1E3143,#244251,#2D5862,#387378,#449492,#53B9B1,#63E2D2);
   --c: var(--clr);
+  --clr-card: hsl(210, 48%, 13%, .45);
+  --clr-line: hsl(171, 100%, 72%, .5);;
   --stroke: none;
   /* // // fonts // // */
   --font1: 'Nunito Sans', sans-serif;
   /* // // sizes // // */
   --margin-global: clamp(2em, 9vw, 9em);
+  --parent: 2000px;
+  --subparent: 1900px;
   /* // // rem // // */
   --step--7: clamp(0.31rem, calc(0.39rem + -0.10vw), 0.37rem);
   --step--6: clamp(0.39rem, calc(0.46rem + -0.09vw), 0.44rem);
@@ -75,6 +79,8 @@ $clr-btn-pressed:   #6AE8DF;
 $clr-btn-inactive:  #6A8582;
 $clr-text-btn:      #FFFFFF;
 $clr-gradient:      linear-gradient(to right top,#356D74,#2A505C,#21394A,#1A293D,#172035,#161D33,#161E34,#192539,#1E3143,#244251,#2D5862,#387378,#449492,#53B9B1,#63E2D2);
+$clr-card:          hsl(210, 48%, 13%, .45);
+$clr-line:          hsl(171, 100%, 72%, .5);
 $clr-hover:         hsl(288 90% 10%);
 
 $card-title-color:  $text-color;
