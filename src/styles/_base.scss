@@ -18,7 +18,7 @@
       color: $title-grey!important;
     }
     .card-light-grey {
-      color: $text-color!important;
+      color: $label!important;
     }
   }
 
@@ -95,7 +95,7 @@
     }
 
     .action {
-      color: $text-color;
+      color: $label;
     }
   }
 }
