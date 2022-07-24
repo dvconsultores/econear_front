@@ -14,11 +14,11 @@
   width: 100%;
   margin-inline: auto;
 }
-.section {
-  padding-inline: clamp(0em, 15vw, 15em);
+.margin_global {
+  padding-inline: var(--margin-global);
   @include media(max, small) {padding-inline: clamp(1em, 5vw, 4em) !important}
 }
-.sectionmobile {
+.margin_globalmobile {
   @include media(max, small) {padding-inline: clamp(1em, 5vw, 4em) !important}
 }
 
@@ -44,10 +44,8 @@
 // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // /
 /* // // defautl color // // */ 
 // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // /
-:is(span, p, a, h1, h2, h3, h4, h5, h6, .v-list-item__title, button, label, ul, img, button i, div i,.v-input input):not(.not_clr, .not) {
+:is(span, p, a, h1, h2, h3, h4, h5, h6, .v-list-item__title, button, label, ul, img, button i, div i,.v-input input,div,th,td):not(.not_clr, .not) {
   color: var(--c);
-}
-:is(span, p, a, h1, h2, h3, h4, h5, h6, .v-list-item__title, button, label, ul, img):not(.not_clr, .not) {
   -webkit-text-stroke: var(--stroke) var(--c);
   -moz-text-stroke: var(--stroke) var(--c);
   -ms-text-stroke: var(--stroke) var(--c);
@@ -83,9 +81,10 @@
 // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // /
 /* // // typography // // */ 
 // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // /
-input {font-family: var(--font1) !important}
+img:not(.not_typography, .not) {font-family: var(--font2)}
 a:not(.not_typography, .not) {text-decoration: none}
 button:not(.not_typography, .not) {&::first-letter, & ::first-letter {text-transform: uppercase}}
+:is(p, a, span, h1, h2, h3, h4, h5, h6):not(.not_typography, .not) {line-height: 1}
 h1:not(.not_typography, .not) {
   font-weight: 400;
   font-size: clamp(6em, 9vw, 9em);
@@ -106,10 +105,14 @@ h3:not(.not_typography, .not) {
 // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // /
 /* // // html (tags) // // */ 
 // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // /
-img {
+img:not(.not_html, .not) {
   --w: auto;
+  --max-w: none;
+  --min-w: none;
   --h: auto;
-  --a: ;
+  --max-h: none;
+  --min-h: none;
+  --ar: ;
   --p: ;
   --b: ;
   --br: ;
@@ -117,8 +120,12 @@ img {
   --f: ;
   --t: ;
   width: var(--w);
+  max-width: var(--max-w);
+  min-width: var(--min-w);
   height: var(--h);
-  aspect-ratio: var(--a);
+  max-height: var(--max-h);
+  min-height: var(--min-h);
+  aspect-ratio: var(--ar);
   padding: var(--p);
   border: var(--b);
   border-radius: var(--br);
@@ -130,10 +137,23 @@ img {
 // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // /
 /* // //  vuetify classes (components) // // */ 
 // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // /
-//- defaut v-btn -//
 
+//- defaut slider -//
+.v-input {
+  --br: none;
+  --c-label: ;
+  --h: 2px;
+  .v-slider__track {
+    &-container {border-radius: var(--br);height: var(--h); overflow: hidden}
+  }
+  .v-slider__thumb-label-container {
+    * {color: var(--c-label)}
+  }
+}
+
+//- defaut v-btn -//
 // icon class
-.v-btn--icon {
+.v-btn--icon:not(.not_vuetify, .not) {
   --bg: ;
   --p: ;
   --br: 50%;
@@ -146,6 +166,9 @@ img {
 .v-btn {
   --c: var(--clr);
   --fs: 1em;
+  --lh: 1;
+  --ls: normal;
+  --tt: none;
   --t: ;
   --f: ;
   --ml: ;
@@ -154,18 +177,17 @@ img {
   transform: var(--t);
   filter: var(--f);
   & :is(span, img, i) {
-    text-transform: none;
-    letter-spacing: normal;
+    text-transform: var(--tt);
+    letter-spacing: var(--ls);
+    line-height: var(--lh);
     color: var(--c);
     font-size: var(--fs);
   }
   .v-btn__content {
-    & :is(img, i) {
-      margin-left: var(--ml);
-      margin-right: var(--mr)
-    }
+    & :is(img, i) {margin-left: var(--ml);margin-right: var(--mr)}
   }
 }
+
 //- default input slot -//
 .v-text-field--solo {
   --bg: #FFFFFF;
@@ -218,14 +240,15 @@ img {
     -o-text-stroke: var(--stroke) var(--c);
   }
 }
+
 //- defaut badge -//
-.v-badge {
+.v-badge:not(.not_vuetify, .not) {
   --bg: var(--clr-badge);
   --c: var(--clr-inv);
   --b: ;
   --fs: 0.75em;
   --fw: 400;
-  --size: max-content;
+  --size: 20px;
   --t: ;
   .v-badge__badge {
     display: grid;
@@ -283,22 +306,34 @@ img {
   --c: #FFFFFF;
   --b: ;
   --p: 1.5em 1.7em;
-  --w: max-content;
-  --h: max-content;
+  --w: auto;
+  --max-w: none;
+  --min-w: none;
+  --h: auto;
+  --max-h: none;
+  --min-h: none;
+  --ml: ;
+  --mr: ;
   --br: .4vmax;
   --bs: 0px 3px 6px 1px #6FFFE9;
   --fw: 400;
-  --f: ;
+  --t: none;
+  --ls: -0.005em;
+  --lh: 1;
+  --f: none;
   --t: ;
-  background: var(--bg) !important;
-  color: var(--c) !important;
-  box-shadow: var(--bs) !important;
-  border-radius: var(--br) !important;
-  padding: var(--p) !important;
-  min-width: var(--w);
-  min-height: var(--h);
-  border: var(--b) !important;
-  font-weight: var(--fw) !important;
+  background: var(--bg);
+  color: var(--c);
+  box-shadow: var(--bs);
+  border-radius: var(--br);
+  padding: var(--p);
+  width: var(--w);
+  max-width: var(--max-w);
+  min-width: var(--min-w);
+  height: var(--h);
+  max-height: var(--max-h);
+  min-height: var(--min-h);
+  border: var(--b);
   transform: var(--t);
   filter: var(--f);
 }
@@ -306,22 +341,34 @@ img {
   --fs: 1em;
   @include btn;
   font-size: var(--fs);
+  font-weight: var(--fw);
+  text-transform: var(--tt);
+  letter-spacing: var(--ls);
+  line-height: var(--lh);
 }
 .btn {
   --fs: 1em;
   @include btn;
   & :is(span, img, i) {
-    color: var(--c) !important;
+    color: var(--c);
     font-size: var(--fs);
+    font-weight: var(--fw);
+    text-transform: var(--tt);
+    letter-spacing: var(--ls);
+    line-height: var(--lh);
   }
-  & :is(img, i) {margin-left: .2em}
-  & :is(img, i):only-child {margin-left: 0 !important}
+  // margin
+  & :is(img, i) {margin-left: var(--ml);margin-right: var(--mr)}
 }
 
 //- cards -//
 @mixin card() {
-  --w: ;
-  --h: ;
+  --w: auto;
+  --max-w: none;
+  --min-w: none;
+  --h: auto;
+  --max-h: none;
+  --min-h: none;
   --bg: var(--clr-card);
   --c: #FFFFFF;
   --b: .8px solid hsl(0, 0%, 44%, .1);
@@ -332,14 +379,17 @@ img {
   --f: ;
   --t: ;
   width: var(--w);
+  max-width: var(--max-w);
+  min-width: var(--min-w);
   height: var(--h);
-  background: var(--bg) !important;
-  color: var(--c) !important;
-  box-shadow: var(--bs) !important;
-  border-radius: var(--br) !important;
-  padding: var(--p) !important;
-  border: var(--b) !important;
-  font-weight: var(--fw) !important;
+  max-height: var(--max-h);
+  min-height: var(--min-h);
+  background: var(--bg);
+  color: var(--c);
+  box-shadow: var(--bs);
+  border-radius: var(--br);
+  padding: var(--p);
+  border: var(--b);
   transform: var(--t);
   filter: var(--f);
 }
