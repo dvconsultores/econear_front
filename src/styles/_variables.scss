@@ -8,11 +8,10 @@
   --error: #EF3340;
   --warning: #F7931E;
   --success: #6FFFE9;
-  --clr-gradient: linear-gradient(to right top,#356D74,#2A505C,#21394A,#1A293D,#172035,#161D33,#161E34,#192539,#1E3143,#244251,#2D5862,#387378,#449492,#53B9B1,#63E2D2);
   --c: var(--clr);
-  --clr-card: hsl(210, 48%, 13%, .45);
-  --clr-line: hsl(171, 100%, 72%, .5);;
-  --stroke: none;
+  --stroke: var(--stroke-size) var(--stroke-color);
+  --stroke-size: none;
+  --stroke-color: none;
   /* // // fonts // // */
   --font1: 'Nunito Sans', sans-serif;
   /* // // sizes // // */
@@ -71,7 +70,7 @@ $error:             #EF3340;
 $warning:           #F7931E;
 $success:           #6FFFE9;
 $info:              #9013FE;
-$text-color:        #6e6e6e;
+$label:             #6e6e6e;
 $text-grey:         #b9b9b9;
 $title-grey:        #4a4a4a;
 $clr-btn:           #60D2CA;
@@ -83,7 +82,7 @@ $clr-card:          hsl(210, 48%, 13%, .45);
 $clr-line:          hsl(171, 100%, 72%, .5);
 $clr-hover:         hsl(288 90% 10%);
 
-$card-title-color:  $text-color;
+$card-title-color:  $label;
 
 // Typography //
 $h1-font-size:                3rem !default;      // 28px

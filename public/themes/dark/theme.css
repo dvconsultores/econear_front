@@ -8,7 +8,7 @@
   --clr-scroll: #60D2CA;
   --clr-bg-scroll: #B7B89F;
   /* cards */
-  --clr-card: #191919;
+  --clr-card: hsl(210, 48%, 13%, .45);
   --clr-card-inv: #FFFFFF;
   /* buttons */
   --clr-btn: #60D2CA;
@@ -16,8 +16,12 @@
   --clr-btn-inactive: #6A8582;
   --clr-text-btn: #FFFFFF;
   /* badge */
-  --clr-badge: #FFFFFF;
-  --clr-text-badge: #AD0FD5;
+  --clr-badge: #60D2CA;
+  --clr-text-badge: #FFFFFF;
+  /* line */
+  --clr-line: hsl(171, 100%, 72%, .5);
+  /* gradient */
+  --clr-gradient: linear-gradient(to right top,#356D74,#2A505C,#21394A,#1A293D,#172035,#161D33,#161E34,#192539,#1E3143,#244251,#2D5862,#387378,#449492,#53B9B1,#63E2D2);
 }
 
 /*-- personal clases --*/
@@ -33,4 +37,5 @@
 .clr_svg_inv {fill: var(--clr-inv) !important}
 .flr {filter: invert(100%) !important}
 .flr_inv {filter: invert(0%) !important}
+.clr-gradient {background: var(--clr-gradient) !important}
 
