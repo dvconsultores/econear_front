@@ -16,6 +16,7 @@
   --font1: 'Nunito Sans', sans-serif;
   /* // // sizes // // */
   --margin-global: clamp(2em, 9vw, 9em);
+  @include media(max, small) {--margin-global: clamp(1em, 5vw, 4em)}
   --parent: 2000px;
   --subparent: 1900px;
   /* // // rem // // */

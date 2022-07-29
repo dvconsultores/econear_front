@@ -16,10 +16,9 @@
 }
 .margin_global {
   padding-inline: var(--margin-global);
-  @include media(max, small) {padding-inline: clamp(1em, 5vw, 4em) !important}
 }
 .margin_globalmobile {
-  @include media(max, small) {padding-inline: clamp(1em, 5vw, 4em) !important}
+  @include media(max, small) {padding-inline: var(--margin-global) !important}
 }
 
 
