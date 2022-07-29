@@ -193,13 +193,22 @@
       &.widthLimiter {max-width: 21.2225em}
       h6 {
         font-size: 1.25em;
+        text-align: center;
+        padding-bottom: 5px;
+        position: relative;
         &::before {
           content: "";
+          @include absolute(0,auto,0,0);
+          width: 100%;
+          height: 1px;
+          background-color: var(--clr-line);
         }
       }
       span:not(span[class*="v-chip"]) {font-size: 1.095625em}
       #rank .v-chip__content {font-size: 0.75em}
       #rarity .v-chip__content {font-size: 0.9375em}
     }
+  }
+  .container-leaderboard {
   }
 }

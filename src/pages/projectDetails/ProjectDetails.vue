@@ -468,6 +468,13 @@
         </div>
       </section>
     </template>
+
+
+    <!-- leaderboard section -->
+    <template v-if="dataControls[dataControls.findIndex(e=>e.key=='leaderboard')].active">
+      <section class="container-leaderboard">
+      </section>
+    </template>
   </section>
 </template>
 
