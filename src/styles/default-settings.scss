@@ -83,7 +83,6 @@
 img:not(.not_typography, .not) {font-family: var(--font2)}
 a:not(.not_typography, .not) {text-decoration: none}
 button:not(.not_typography, .not) {&::first-letter, & ::first-letter {text-transform: uppercase}}
-:is(p, a, span, h1, h2, h3, h4, h5, h6):not(.not_typography, .not) {line-height: 1}
 h1:not(.not_typography, .not) {
   font-weight: 400;
   font-size: clamp(6em, 9vw, 9em);
@@ -269,6 +268,8 @@ img:not(.not_html, .not) {
 }
 
 //- menu select (desplegable menu) -//
+.v-menu__content {overscroll-behavior: contain}
+
 .v-select-list {
   font-family: var(--font1) !important;background: #0D2C3F !important;
   border-radius: $border-btn !important;overflow: hidden;

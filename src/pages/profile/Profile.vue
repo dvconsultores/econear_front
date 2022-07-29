@@ -10,7 +10,7 @@
 
     <aside class="container-profile divcol center gap1 tcenter">
       <v-avatar width="12.48875em" height="12.48875em">
-        <img src="@/assets/logos/user.png" alt="avatar" style="--b:3px solid var(--success)">
+        <img src="@/assets/logos/user.png" alt="avatar" style="--b:3px solid var(--success);--br:50%;--w:100%">
       </v-avatar>
       <h2 class="p bold">pedro NFT Gperez</h2>
       <div class="acenter spacea gap1">
@@ -214,6 +214,7 @@
                     append-icon="mdi-chevron-down"
                     style="--bg:#21786D"
                     class="align"
+                    :menu-props="{ contentClass: 'menuWallets'}"
                   ></v-select>
                 </td>
               </tr>

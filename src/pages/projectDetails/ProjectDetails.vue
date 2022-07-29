@@ -11,7 +11,7 @@
       </div>
 
       <v-avatar width="12.48875em" height="12.48875em">
-        <img src="@/assets/images/muestra.jpg" alt="avatar" style="--b:3px solid var(--success)">
+        <img src="@/assets/images/muestra.jpg" alt="avatar" style="--b:3px solid var(--success);--w:100%">
       </v-avatar>
       <v-chip class="center" style="border-radius: .3vmax;min-width:6.174375em" color="#6A25D2">
         <span class="tfirst">Utility</span>
@@ -41,9 +41,10 @@
 
       <div class="divcol">
         <label>Total Volume</label>
-        <span class="acenter" style="gap:.4em">{{dataInfo.total_volume}}
-          <img src="@/assets/logos/near.svg" alt="near" style="--w:.8em">
-        </span>
+        <div class="acenter" style="gap:.4em">
+          <span>{{dataInfo.total_volume}}</span>
+          <img src="@/assets/logos/near.svg" alt="near" style="--w:1.3em">
+        </div>
       </div>
     </v-card>
 
@@ -51,10 +52,10 @@
       <v-card v-for="(item,i) in dataInfo.down" :key="i" class="card align">
         <v-sheet color="var(--clr-card)" class="jspace">
           <div class="divcol">
-            <span class="infotext bold acenter" style="gap:.7em">
-              {{item.key=='market'?'Market Cap':item.key=='holders'?'Holders':item.key=='volume'?'Volume (24H)':item.key=='floor'?'Floor price':null}}
-              <img src="@/assets/icons/info.svg" alt="info" style="--w:1.1875em">
-            </span>
+            <div class="infotext bold acenter" style="gap:.7em">
+              <span>{{item.key=='market'?'Market Cap':item.key=='holders'?'Holders':item.key=='volume'?'Volume (24H)':item.key=='floor'?'Floor price':null}}</span>
+              <img src="@/assets/icons/info.svg" alt="info" style="--w:.9em">
+            </div>
             <span class="number bold acenter" style="gap:.7em">
               <img v-if="item.key=='volume'||item.key=='floor'" src="@/assets/logos/near.svg" alt="near" style="--w:.8em">
               {{item.price}}
@@ -95,20 +96,20 @@
       <div class="fwrap gap2" style="--fb: 1 1 20em">
         <v-card v-for="(item,i) in dataPotential" :key="i" color="var(--clr-card)" class="jspace align">
           <div class="divcol">
-            <span class="infotext bold acenter" style="gap:.7em">
-              {{item.key=='holders'?'Blue Chip Holders':item.key=='whales'?'Whales':null}}
-              <img src="@/assets/icons/info.svg" alt="info" style="--w:1.1875em">
-            </span>
+            <div class="infotext bold acenter" style="gap:.7em">
+              <span>{{item.key=='holders'?'Blue Chip Holders':item.key=='whales'?'Whales':null}}</span>
+              <img src="@/assets/icons/info.svg" alt="info" style="--w:1em">
+            </div>
             <div class="astart gap1">
               <span class="number bold acenter" style="gap:.7em">{{item.price}}</span>
               <span class="percent" :style="`color:${item.percent.includes('+')?'var(--success)':'var(--error)'}`">
                 {{item.percent}}%
               </span>
             </div>
-            <span class="holding acenter" style="gap:.7em">
-              Holding {{}} NFTs
-              <img src="@/assets/icons/info-gray.svg" alt="info" style="--w:1.1875em">
-            </span>
+            <div class="holding acenter" style="gap:.7em">
+              <span>Holding {{}} NFTs</span>
+              <img src="@/assets/icons/info-gray.svg" alt="info" style="--w:1em">
+            </div>
           </div>
 
           <v-chip class="btn center" 

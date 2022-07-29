@@ -107,7 +107,7 @@
           <v-avatar style="box-shadow:0px 0px 8px 3px #6FFFE9" width="4.6em" height="4.6em">
             <img src="@/assets/logos/user.png" alt="Avatar">
           </v-avatar>
-          <div class="divcol">
+          <div class="divcol" style="gap:.2em">
             <span class="h11_em">Disconnect Wallet</span>
             <span class="h12_em">pedrogperez23.near</span>
           </div>

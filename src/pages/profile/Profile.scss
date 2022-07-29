@@ -163,3 +163,20 @@
     }
   }
 }
+
+.menuWallets {
+  .v-list {
+    background-color: #21786D !important;
+    display: flex;
+    flex-direction: column;
+    &::before {
+      content: "My Projects";
+      text-align: center;
+      font-size: 1.1em;
+      color: #60D2CA;
+      border-bottom: 1px solid var(--clr-line);
+      margin-block: .5em;
+      margin-inline: 1em;
+    }
+  }
+}

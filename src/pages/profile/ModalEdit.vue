@@ -15,7 +15,7 @@
             <span style="font-size: 1.25em">Upload</span>
           </v-btn>
           <v-avatar width="8.130625em" height="8.130625em">
-            <img src="@/assets/logos/user.png" alt="avatar" style="--b:3px solid var(--success)">
+            <img src="@/assets/logos/user.png" alt="avatar" style="--b:3px solid var(--success);--br:50%;--w:100%">
           </v-avatar>
         </section>
 

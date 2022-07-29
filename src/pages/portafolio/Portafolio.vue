@@ -20,7 +20,7 @@
           <aside class="divcol" style="gap:.5em">
             <div class="space gap2">
               <div class="acenter" style="gap:.5em">
-                <img :src="require(`@/assets/logos/${item.token}.svg`)" alt="near" style="--w:2.25em">
+                <img :src="require(`@/assets/logos/${item.token}.svg`)" alt="near" style="--w:2.2em">
                 <h3 class="h7_em p bold">{{item.crypto}}</h3>
               </div>
 
@@ -32,7 +32,7 @@
             <span class="h11_em">$ <span class="light">{{item.dollar}}</span></span>
           </aside>
 
-          <aside class="divcol">
+          <aside class="divcol" style="gap:.2em">
             <span>
               24h change
               <span class="margin2left" :style="item.state_change?'color:var(--success)':'color:var(--error)'">
