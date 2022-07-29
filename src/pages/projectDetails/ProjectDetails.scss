@@ -6,8 +6,15 @@
 #projectDetails {
   padding-top: 1em;
   padding-inline: var(--margin-global);
-  & > :first-child + * + * ~ * {
-    margin-top: clamp(1em, 2vw, 2em);
+  & > :first-child + * + * ~ * {margin-top: clamp(1em, 2vw, 2em)}
+  .infotext {color: #B3B3B3}
+  .v-item-group {
+    background-color: $primary !important;
+    padding: .2em;
+    .v-btn {border: none !important}
+    .v-item--active {
+      i {color: #FFFFFF !important}
+    }
   }
   h2 {font-size: 2.8125em}
   .container-header {
@@ -179,6 +186,20 @@
           .v-select__selection {color: #FFFFFF !important}
         }
       }
+    }
+  }
+  .container-nfts {
+    .v-card {
+      &.widthLimiter {max-width: 21.2225em}
+      h6 {
+        font-size: 1.25em;
+        &::before {
+          content: "";
+        }
+      }
+      span:not(span[class*="v-chip"]) {font-size: 1.095625em}
+      #rank .v-chip__content {font-size: 0.75em}
+      #rarity .v-chip__content {font-size: 0.9375em}
     }
   }
 }

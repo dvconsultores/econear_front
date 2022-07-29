@@ -319,6 +319,8 @@ export default {
       // nft
       if (item.key=='compare-projects') {this.$router.push(item.key)}
       if (item.key=='new-projects') {this.$router.push(item.key)}
+      // other
+      if (item.key=='alert') {this.$refs.menu.modalAlert = true}
     },
     SelectItem_AvatarMenu(item) {
       this.avatarMenu = false

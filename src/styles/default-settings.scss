@@ -95,6 +95,10 @@ h3:not(.not_typography, .not) {
   font-weight: 400;
   font-size: clamp(4em, 5vw, 6em);
 }
+h4:not(.not_typography, .not) {
+  font-weight: 400;
+  font-size: clamp(4.5em, 5vw, 5em);
+}
 
 
 

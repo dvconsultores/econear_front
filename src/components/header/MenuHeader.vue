@@ -228,6 +228,60 @@
         </v-sheet>
       </v-card>
     </v-dialog>
+
+
+    <!-- modal alert -->
+    <v-dialog
+      v-model="modalAlert"
+      max-width="62.358125em"
+    >
+      <v-card color="var(--primary)" style="padding:6em" class="modalAlert">
+        <v-btn icon class="close" @click="modalAlert = false">
+          <img src="@/assets/icons/close.svg" alt="close" style="--w:0.921875em">
+        </v-btn>
+        <h3 class="h7_em tcenter p">Alert</h3>
+        <h3 class="h8_em tcenter" style="color:var(--success)">MonkeONear Gen 0</h3>
+
+        <v-sheet class="divcol" style="padding:2em 3em">
+          <div class="divcol">
+            <label for="type">Alert Type</label>
+            <v-select
+              id="type"
+              v-model="dataAlert.type.value"
+              :items="dataAlert.type.items"
+              solo
+              :menu-props="{contentClass: 'menuAlert'}"
+            ></v-select>
+          </div>
+          
+          <div class="divcol">
+            <label for="value">Value</label>
+            <v-text-field
+              id="value"
+              v-model="dataAlert.value"
+              label="234.56 N"
+              type="number"
+              solo
+            ></v-text-field>
+          </div>
+          
+          <div class="divcol">
+            <label for="frecuency">Frecuency</label>
+            <v-select
+              id="frecuency"
+              v-model="dataAlert.frecuency.value"
+              :items="dataAlert.frecuency.items"
+              solo
+              :menu-props="{contentClass: 'menuFrecuency'}"
+            ></v-select>
+          </div>
+
+          <v-btn class="btn h10_em" style="--bs:none;width:100%">
+            Create Alert
+          </v-btn>
+        </v-sheet>
+      </v-card>
+    </v-dialog>
   </section>
 </template>
 
@@ -248,6 +302,7 @@ export default {
       modalRegister: false,
       modalSwitchAccount: false,
       modalSettings: false,
+      modalAlert: false,
       settings: { nftdrops: false, transactionNotification: true },
       dataDrawer: {
         list: [
@@ -293,6 +348,17 @@ export default {
           select: false,
         },
       ],
+      dataAlert: {
+        type: {
+          value: "Price rises above",
+          items: [ "Price rises above", "Price drops to", "Change is osver", "Change is under", "Volume is over", "Volume is down" ]
+        },
+        value: 0,
+        frecuency: {
+          value: "Only Once",
+          items: [ "Only Once", "Once a day", "Always" ]
+        }
+      },
     };
   },
   methods: {

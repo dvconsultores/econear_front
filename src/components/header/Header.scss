@@ -136,7 +136,48 @@
   .v-sheet {
     section {
     & > *:not(:first-child) {margin-bottom: 14px}
+    }
+  }
+  label, span {color: var(--clr-inv) !important; font-weight: 700}
+}
+
+.modalAlert {
+  .v-sheet {
+    section {
+    & > *:not(:first-child) {margin-bottom: 14px}
+    }
+  }
+  label, span {color: var(--clr-inv) !important; font-weight: 700}
+  .v-input {--bs: 0 2px 4px 1px var(--success)}
+  .v-label {color: #B3B3B3 !important}
+}
+.menuAlert {
+  .v-list {
+    display: flex;
+    flex-direction: column;
+    &::before {
+      content: "Alert Type";
+      text-align: center;
+      font-size: 1.1em;
+      color: #60D2CA;
+      border-bottom: 1px solid var(--clr-line);
+      margin-block: .5em;
+      margin-inline: 1em;
+    }
   }
 }
-  label, span {color: var(--clr-inv) !important; font-weight: 700}
+.menuFrecuency {
+  .v-list {
+    display: flex;
+    flex-direction: column;
+    &::before {
+      content: "Frecuency";
+      text-align: center;
+      font-size: 1.1em;
+      color: #60D2CA;
+      border-bottom: 1px solid var(--clr-line);
+      margin-block: .5em;
+      margin-inline: 1em;
+    }
+  }
 }
