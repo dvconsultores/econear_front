@@ -53,11 +53,11 @@
         <v-sheet color="var(--clr-card)" class="jspace">
           <div class="divcol">
             <div class="infotext bold acenter" style="gap:.7em">
-              <span>{{item.key=='market'?'Market Cap':item.key=='holders'?'Holders':item.key=='volume'?'Volume (24H)':item.key=='floor'?'Floor price':null}}</span>
+              <span>{{item.key=='market'?'Market Cap':item.key=='holders'?'Holders':item.key=='volume'?'Volume (24H)':item.key=='price'?'Floor price':null}}</span>
               <img src="@/assets/icons/info.svg" alt="info" style="--w:.9em">
             </div>
             <span class="number bold acenter" style="gap:.7em">
-              <img v-if="item.key=='volume'||item.key=='floor'" src="@/assets/logos/near.svg" alt="near" style="--w:.8em">
+              <img v-if="item.key=='volume'||item.key=='price'" src="@/assets/logos/near.svg" alt="near" style="--w:.8em">
               {{item.price}}
             </span>
             <span class="percent" :style="`color:${item.percent.includes('+')?'var(--success)':'var(--error)'}`">
@@ -279,8 +279,10 @@
         </aside>
       </section>
 
+
+        <!-- top sales  -->
       <section class="card" style="--p:2em">
-        <div class="space wrap">
+        <div class="space wrap margin2bottom">
           <h3 class="h9_em">Top sales</h3>
 
           <v-btn-toggle
@@ -293,13 +295,12 @@
           </v-btn-toggle>
         </div>
 
-        <!-- tabla top sales  -->
         <v-data-table
           class="dataTable card"
-          :headers="headersTableTop"
-          :items="dataTableTop"
+          :headers="headersTableTopSales"
+          :items="dataTableTopSales"
           hide-default-footer
-          style="--p:2em"
+          style="--bg:transparent;--b:none;--p:0em"
         >
           <template v-slot:[`header.number`]>
             <span>#</span>
@@ -307,7 +308,7 @@
           </template>
 
           <template v-slot:[`item.number`]="{ item }">
-            {{dataTableTop.indexOf(item) + 1}}
+            {{dataTableTopSales.indexOf(item) + 1}}
           </template>
 
           <template v-slot:[`item.name`]="{ item }">
@@ -448,7 +449,7 @@
                 <div class="space">
                   <span>Rarity rank:</span>
                   <v-chip class="btn center" id="rank"
-                    style="--bg:var(--primary);--c:var(--secondary);--bs:none;font-size:1.25em;--p:0;--w:min(199%, 2.75875em);--h:1.868125em">
+                    style="--bg:#0D1A26;--c:var(--secondary);--bs:none;font-size:1.25em;--p:0;--w:min(199%, 2.75875em);--h:1.868125em">
                     #{{item.rank}}
                   </v-chip>
                 </div>
@@ -472,7 +473,348 @@
 
     <!-- leaderboard section -->
     <template v-if="dataControls[dataControls.findIndex(e=>e.key=='leaderboard')].active">
-      <section class="container-leaderboard">
+      <section class="card" style="--p:2em">
+        <div class="acenter margin2bottom">
+          <h3 class="h9_em p">Top Holders</h3>
+          <img src="@/assets/icons/sort.svg" alt="sortable icon" style="--w: 0.810625em;margin-left:.3em">
+        </div>
+
+        <!-- table top holders -->
+        <v-data-table
+          class="dataTable card"
+          :headers="headersTableTopHolders"
+          :items="dataTableTopHolders"
+          hide-default-footer
+          style="--p:2em;--bg:transparent;--b:none;--p:0"
+        >
+          <template v-slot:[`header.number`]>
+            <span>#</span>
+            <img src="@/assets/icons/sort.svg" alt="sortable icon" style="--w: 0.5em;margin-left:.3em">
+          </template>
+          
+          <template v-slot:[`header.nft`]>
+            <span>NFT</span>
+            <img src="@/assets/icons/sort.svg" alt="sortable icon" style="--w: 0.5em;margin-left:.3em">
+          </template>
+          
+          <template v-slot:[`header.near`]>
+            <span>Holding value (N)</span>
+            <img src="@/assets/icons/sort.svg" alt="sortable icon" style="--w: 0.5em;margin-left:.3em">
+          </template>
+          
+          <template v-slot:[`header.dollar`]>
+            <span>Holding value ($)</span>
+            <img src="@/assets/icons/sort.svg" alt="sortable icon" style="--w: 0.5em;margin-left:.3em">
+          </template>
+          
+          <template v-slot:[`header.buy`]>
+            <span>Buy volume (N)</span>
+            <img src="@/assets/icons/sort.svg" alt="sortable icon" style="--w: 0.5em;margin-left:.3em">
+          </template>
+          
+          <template v-slot:[`header.sell`]>
+            <span>Sell volume (N)</span>
+            <img src="@/assets/icons/sort.svg" alt="sortable icon" style="--w: 0.5em;margin-left:.3em">
+          </template>
+          
+          <template v-slot:[`item.number`]="{ item }">
+            {{dataTableTopHolders.indexOf(item) + 1}}
+          </template>
+          
+          <template v-slot:[`item.nft`]="{ item }">
+            <div class="divcol">
+              <span>{{item.nft}}</span>
+              <span style="--c:hsl(0, 0%, 100%, .35)">{{item.nft_percent}}%</span>
+            </div>
+          </template>
+          
+          <template v-slot:[`item.near`]="{ item }">
+            {{item.near}} N
+          </template>
+          
+          <template v-slot:[`item.dollar`]="{ item }">
+            {{item.dollar}} $
+          </template>
+          
+          <template v-slot:[`item.buy`]="{ item }">
+            {{item.buy}} N
+          </template>
+          
+          <template v-slot:[`item.sell`]="{ item }">
+            {{item.sell}} N
+          </template>
+          
+          <template v-slot:[`item.recent`]="{ item }">
+            {{item.recent}} ago
+          </template>
+          
+          <template v-slot:footer>
+            <div class="fill_w center">
+              <v-btn-toggle mandatory color="#60D2CA">
+                <v-btn color="transparent">
+                  <v-icon color="#707070">mdi-chevron-left</v-icon>
+                </v-btn>
+                <v-btn v-for="n in 5" :key="n" color="transparent">
+                  <span>{{n}}</span>
+                </v-btn>
+                <v-btn color="transparent">
+                  <v-icon color="#707070">mdi-chevron-right</v-icon>
+                </v-btn>
+              </v-btn-toggle>
+            </div>
+          </template>
+        </v-data-table>
+      </section>
+
+
+      <section class="fwrap" style="gap: 2em 1em">
+        <section class="card" style="--p:2em">
+          <h3 class="h9_em">Top Buyers (24H)</h3>
+
+          <!-- table top buyers -->
+          <v-data-table
+            class="dataTable card"
+            :headers="headersTableTopBuyers"
+            :items="dataTableTopBuyers"
+            hide-default-footer
+            style="--p:2em;--bg:transparent;--b:none;--p:0"
+          >
+            <template v-slot:[`header.number`]>
+              <span>#</span>
+              <img src="@/assets/icons/sort.svg" alt="sortable icon" style="--w: 0.5em;margin-left:.3em">
+            </template>
+            
+            <template v-slot:[`header.bought`]>
+              <span>Bought</span>
+              <img src="@/assets/icons/sort.svg" alt="sortable icon" style="--w: 0.5em;margin-left:.3em">
+            </template>
+            
+            <template v-slot:[`header.near`]>
+              <span>Buy volume (N)</span>
+              <img src="@/assets/icons/sort.svg" alt="sortable icon" style="--w: 0.5em;margin-left:.3em">
+            </template>
+            
+            <template v-slot:[`item.number`]="{ item }">
+              {{dataTableTopBuyers.indexOf(item) + 1}}
+            </template>
+            
+            <template v-slot:[`item.near`]="{ item }">
+              {{item.near}} N
+            </template>
+            
+            <template v-slot:footer>
+              <div class="fill_w center">
+                <v-btn-toggle mandatory color="#60D2CA">
+                  <v-btn color="transparent">
+                    <v-icon color="#707070">mdi-chevron-left</v-icon>
+                  </v-btn>
+                  <v-btn v-for="n in 5" :key="n" color="transparent">
+                    <span>{{n}}</span>
+                  </v-btn>
+                  <v-btn color="transparent">
+                    <v-icon color="#707070">mdi-chevron-right</v-icon>
+                  </v-btn>
+                </v-btn-toggle>
+              </div>
+            </template>
+          </v-data-table>
+        </section>
+
+
+        <section class="card" style="--p:2em">
+          <h3 class="h9_em">Top Sellers (24H)</h3>
+
+          <!-- table top sellers -->
+          <v-data-table
+            class="dataTable card"
+            :headers="headersTableTopSellers"
+            :items="dataTableTopSellers"
+            hide-default-footer
+            style="--p:2em;--bg:transparent;--b:none;--p:0"
+          >
+            <template v-slot:[`header.number`]>
+              <span>#</span>
+              <img src="@/assets/icons/sort.svg" alt="sortable icon" style="--w: 0.5em;margin-left:.3em">
+            </template>
+            
+            <template v-slot:[`header.sold`]>
+              <span>Sold</span>
+              <img src="@/assets/icons/sort.svg" alt="sortable icon" style="--w: 0.5em;margin-left:.3em">
+            </template>
+            
+            <template v-slot:[`header.near`]>
+              <span>Buy volume (N)</span>
+              <img src="@/assets/icons/sort.svg" alt="sortable icon" style="--w: 0.5em;margin-left:.3em">
+            </template>
+            
+            <template v-slot:[`item.number`]="{ item }">
+              {{dataTableTopSellers.indexOf(item) + 1}}
+            </template>
+            
+            <template v-slot:[`item.near`]="{ item }">
+              {{item.near}} N
+            </template>
+            
+            <template v-slot:footer>
+              <div class="fill_w center">
+                <v-btn-toggle mandatory color="#60D2CA">
+                  <v-btn color="transparent">
+                    <v-icon color="#707070">mdi-chevron-left</v-icon>
+                  </v-btn>
+                  <v-btn v-for="n in 5" :key="n" color="transparent">
+                    <span>{{n}}</span>
+                  </v-btn>
+                  <v-btn color="transparent">
+                    <v-icon color="#707070">mdi-chevron-right</v-icon>
+                  </v-btn>
+                </v-btn-toggle>
+              </div>
+            </template>
+          </v-data-table>
+        </section>
+      </section>
+
+
+      <section class="card" style="--p:2em">
+        <h3 class="h9_em">Top Traders (24H)</h3>
+
+        <!-- table top traders -->
+        <v-data-table
+          class="dataTable card"
+          :headers="headersTableTopTraders"
+          :items="dataTableTopTraders"
+          hide-default-footer
+          style="--p:2em;--bg:transparent;--b:none;--p:0"
+        >
+          <template v-slot:[`header.number`]>
+            <span>#</span>
+            <img src="@/assets/icons/sort.svg" alt="sortable icon" style="--w: 0.5em;margin-left:.3em">
+          </template>
+          
+          <template v-slot:[`header.near`]>
+            <span>Holding value (N)</span>
+            <img src="@/assets/icons/sort.svg" alt="sortable icon" style="--w: 0.5em;margin-left:.3em">
+          </template>
+          
+          <template v-slot:[`header.dollar`]>
+            <span>Holding value ($)</span>
+            <img src="@/assets/icons/sort.svg" alt="sortable icon" style="--w: 0.5em;margin-left:.3em">
+          </template>
+          
+          <template v-slot:[`header.buy`]>
+            <span>Buy volume (N)</span>
+            <img src="@/assets/icons/sort.svg" alt="sortable icon" style="--w: 0.5em;margin-left:.3em">
+          </template>
+          
+          <template v-slot:[`header.sell`]>
+            <span>Sell volume (N)</span>
+            <img src="@/assets/icons/sort.svg" alt="sortable icon" style="--w: 0.5em;margin-left:.3em">
+          </template>
+          
+          <template v-slot:[`item.number`]="{ item }">
+            {{dataTableTopTraders.indexOf(item) + 1}}
+          </template>
+          
+          <template v-slot:[`item.near`]="{ item }">
+            {{item.near}} N
+          </template>
+          
+          <template v-slot:[`item.dollar`]="{ item }">
+            {{item.dollar}} $
+          </template>
+          
+          <template v-slot:[`item.buy`]="{ item }">
+            {{item.buy}} N
+          </template>
+          
+          <template v-slot:[`item.sell`]="{ item }">
+            {{item.sell}} N
+          </template>
+          
+          <template v-slot:[`item.recent`]="{ item }">
+            {{item.recent}} ago
+          </template>
+          
+          <template v-slot:footer>
+            <div class="fill_w center">
+              <v-btn-toggle mandatory color="#60D2CA">
+                <v-btn color="transparent">
+                  <v-icon color="#707070">mdi-chevron-left</v-icon>
+                </v-btn>
+                <v-btn v-for="n in 5" :key="n" color="transparent">
+                  <span>{{n}}</span>
+                </v-btn>
+                <v-btn color="transparent">
+                  <v-icon color="#707070">mdi-chevron-right</v-icon>
+                </v-btn>
+              </v-btn-toggle>
+            </div>
+          </template>
+        </v-data-table>
+      </section>
+    </template>
+
+
+    <!-- activity section -->
+    <template v-if="dataControls[dataControls.findIndex(e=>e.key=='activity')].active">
+      <section class="card" style="--p:2em">
+        <div class="space wrap margin2bottom">
+          <h3 class="h9_em p">Activity</h3>
+
+          <v-btn-toggle mandatory color="#60D2CA">
+            <v-btn v-for="n in 1" :key="n" color="transparent">
+              <span>{{n==1?'ALL':null}}</span>
+            </v-btn>
+          </v-btn-toggle>
+        </div>
+
+        <!-- table activity -->
+        <v-data-table
+          class="dataTable card"
+          :headers="headersTableActivity"
+          :items="dataTableActivity"
+          hide-default-footer
+          style="--p:2em;--bg:transparent;--b:none;--p:0"
+        >
+          <template v-slot:[`item.name`]="{ item }">
+            <div class="acenter gap1 tstart">
+              <img :src="item.img" alt="nft image" style="--w:4.710625em">
+              <span style="max-width:18ch" class="bold">{{item.name}}</span>
+              <span class="bold">#{{item.number}}</span>
+            </div>
+          </template>
+          
+          <template v-slot:[`item.action`]="{ item }">
+            <span :style="`color: ${item.action=='sale'?'var(--success)':null}`" class="tfirst">{{item.action}}</span>
+          </template>
+          
+          <template v-slot:[`item.price`]="{ item }">
+            <div class="divcol">
+              <span>{{item.price}}{{item.price?' N':'---'}}</span>
+              <span style="--c:hsl(0, 0%, 100%, .35)">{{item.price_dollar?'$ ':'---'}}{{item.price_dollar}}</span>
+            </div>
+          </template>
+          
+          <template v-slot:[`item.time`]="{ item }">
+            {{item.time}} ago
+          </template>
+          
+          <template v-slot:footer>
+            <div class="fill_w center">
+              <v-btn-toggle mandatory color="#60D2CA">
+                <v-btn color="transparent">
+                  <v-icon color="#707070">mdi-chevron-left</v-icon>
+                </v-btn>
+                <v-btn v-for="n in 5" :key="n" color="transparent">
+                  <span>{{n}}</span>
+                </v-btn>
+                <v-btn color="transparent">
+                  <v-icon color="#707070">mdi-chevron-right</v-icon>
+                </v-btn>
+              </v-btn-toggle>
+            </div>
+          </template>
+        </v-data-table>
       </section>
     </template>
   </section>
@@ -512,7 +854,7 @@ export default {
           { key: "market", price: "71,629", percent: "-0.12", number: 3 },
           { key: "holders", price: "361", percent: "+12.78", number: 23 },
           { key: "volume", price: "318", percent: "+73.26", number: 2 },
-          { key: "floor", price: "175", percent: "-1.78", number: 3970 },
+          { key: "price", price: "175", percent: "-1.78", number: 3970 },
         ]
       },
       dataBuy: [
@@ -536,8 +878,8 @@ export default {
         { key: "holders", price: "71,629", percent: "-0.12", number: 3, holding: "231 (52.02%)" },
         { key: "whales", price: "361", percent: "+12.78", number: 23, holding: "127 (28.6%)" },
       ],
-      headersTableTop: [
-        { value:"number", text:"#", align:"center" },
+      headersTableTopSales: [
+        { value:"number", text:"#", align:"center", sortable: false },
         { value:"name", text:"NFT", align:"center" },
         { value:"buyer", text:"Buyer", align:"center" },
         { value:"seller", text:"Seller", align:"center" },
@@ -545,7 +887,7 @@ export default {
         { value:"time", text:"Time", align:"center" },
         { value:"history", text:"History", align:"center" },
       ],
-      dataTableTop: [
+      dataTableTopSales: [
         {
           img: require("@/assets/nfts/nft1.png"),
           name: "MonkeONear #232 Lorem ipsum dolor sit",
@@ -582,6 +924,135 @@ export default {
         },
       ],
       widthLimiter: false,
+      headersTableTopHolders: [
+        { value:"number", text:"#", align:"center", sortable: false },
+        { value:"address", text:"Address", align:"center", sortable: false },
+        { value:"nft", text:"NFT", align:"center", sortable: false },
+        { value:"near", text:"Holding value (N)", align:"center", sortable: false },
+        { value:"dollar", text:"Holding value ($)", align:"center", sortable: false },
+        { value:"buy", text:"Buy volume (N)", align:"center", sortable: false },
+        { value:"sell", text:"Sell volume (N)", align:"center", sortable: false },
+        { value:"recent", text:"Recent deal", align:"center", sortable: false },
+      ],
+      dataTableTopHolders: [
+        {
+          address: "thethirdeye.near",
+          nft: 37,
+          nft_percent: 8.33,
+          near: 6475,
+          dollar: 38850,
+          buy: 13632,
+          sell: 0.78,
+          recent: "6 hours"
+        },
+        {
+          address: "thethirdeye.near",
+          nft: 37,
+          nft_percent: 8.33,
+          near: 6475,
+          dollar: 38850,
+          buy: 13632,
+          sell: 0.78,
+          recent: "6 hours"
+        },
+        {
+          address: "thethirdeye.near",
+          nft: 37,
+          nft_percent: 8.33,
+          near: 6475,
+          dollar: 38850,
+          buy: 13632,
+          sell: 0.78,
+          recent: "6 hours"
+        },
+      ],
+      headersTableTopBuyers: [
+        { value:"number", text:"#", align:"center", sortable: false },
+        { value:"address", text:"Address", align:"center", sortable: false },
+        { value:"bought", text:"Bought", align:"center", sortable: false },
+        { value:"buy", text:"Buy volume (N)", align:"center", sortable: false },
+      ],
+      dataTableTopBuyers: [
+        {
+          address: "thethirdeye.near",
+          bought: 37,
+          buy: 6475,
+        },
+        {
+          address: "thethirdeye.near",
+          bought: 37,
+          buy: 6475,
+        },
+      ],
+      headersTableTopSellers: [
+        { value:"number", text:"#", align:"center", sortable: false },
+        { value:"address", text:"Address", align:"center", sortable: false },
+        { value:"sold", text:"Sold", align:"center", sortable: false },
+        { value:"sell", text:"Sell volume (N)", align:"center", sortable: false },
+      ],
+      dataTableTopSellers: [
+        {
+          address: "thethirdeye.near",
+          sold: 37,
+          sell: 6475,
+        },
+        {
+          address: "thethirdeye.near",
+          sold: 37,
+          sell: 6475,
+        },
+      ],
+      headersTableTopTraders: [
+        { value:"number", text:"#", align:"center", sortable: false },
+        { value:"address", text:"Address", align:"center", sortable: false },
+        { value:"trade", text:"Trade", align:"center", sortable: false },
+        { value:"near", text:"Trading volume (N)", align:"center", sortable: false },
+        { value:"dollar", text:"Trading volume ($)", align:"center", sortable: false },
+        { value:"buy", text:"Buy volume (N)", align:"center", sortable: false },
+        { value:"sell", text:"Sell volume (N)", align:"center", sortable: false },
+        { value:"recent", text:"Recent deal", align:"center", sortable: false },
+      ],
+      dataTableTopTraders: [
+        {
+          address: "thethirdeye.near",
+          trade: 37,
+          near: 13632,
+          dollar: 38586,
+          buy: 13632,
+          sell: 0.78,
+          recent: "6 hours"
+        },
+      ],
+      headersTableActivity: [
+        { value:"name", text:"NFT", align:"center" },
+        { value:"action", text:"Action", align:"center" },
+        { value:"price", text:"Price", align:"center" },
+        { value:"from", text:"From", align:"center" },
+        { value:"to", text:"To", align:"center" },
+        { value:"time", text:"Time", align:"center" },
+      ],
+      dataTableActivity: [
+        {
+          img: require("@/assets/nfts/nft1.png"),
+          name: "MonkeONear Gen 0",
+          number: 421,
+          action: "sale",
+          price: 174,
+          price_dollar: 1083,
+          from: "tonystark.near",
+          to: "justinsonbib.near",
+          time: "3 hours"
+        },
+        {
+          img: require("@/assets/nfts/nft2.png"),
+          name: "MonkeONear Gen 0",
+          number: 421,
+          action: "Transfer",
+          from: "tonystark.near",
+          to: "justinsonbib.near",
+          time: "5 hours"
+        },
+      ],
     }
   },
   mounted() {

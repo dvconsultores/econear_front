@@ -164,6 +164,7 @@
       tr {
         td {
           font-size: .9em;
+          border-bottom-color: var(--clr-line);
         }
         &:hover:not(.add) {background-color: transparent}
         &:hover.add {
@@ -208,7 +209,5 @@
       #rank .v-chip__content {font-size: 0.75em}
       #rarity .v-chip__content {font-size: 0.9375em}
     }
-  }
-  .container-leaderboard {
   }
 }

@@ -64,9 +64,14 @@ export default new Router({
           component: () => import('@/pages/newProjects/NewProjects'),
         },
         {
-          path: '/project-details',
+          path: '/project-details:id?',
           name: 'projectDetails',
           component: () => import('@/pages/projectDetails/ProjectDetails'),
+        },
+        {
+          path: '/marketplace-stats',
+          name: 'marketplaceStats',
+          component: () => import('@/pages/marketplaceStats/MarketplaceStats'),
         },
       ],
     },
