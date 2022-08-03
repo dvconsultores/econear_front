@@ -3,8 +3,8 @@
 
 <script>
 export default {
-  name: "chartMarket",
-  i18n: require("./i18n"),
+  name: "chartTwitter",
+  i18n: require("../i18n"),
   data() {
     return {
     }
@@ -14,4 +14,4 @@ export default {
 };
 </script>
 
-<style src="./ProjectDetails.scss" lang="scss" />
+<style src="../ProjectDetails.scss" lang="scss" />

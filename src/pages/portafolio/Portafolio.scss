@@ -29,6 +29,7 @@
   }
   .container-profit {
     .v-card {
+      @include media(min,small) {max-width: 35.75em}
       .v-sheet {
         & > aside:first-child {
           position: relative;
@@ -105,7 +106,7 @@
       td {font-size: var(--step-em--2)}
       tr {
         position: relative;
-        &::before {
+        &::after {
           content: "";
           @include absolute(auto,auto,0,0);
           width: calc(100% - (4.710625em + 1em));

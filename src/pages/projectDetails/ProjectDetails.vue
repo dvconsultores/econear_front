@@ -49,7 +49,7 @@
     </v-card>
 
     <section class="infodown fwrap">
-      <v-card v-for="(item,i) in dataInfo.down" :key="i" class="card align">
+      <v-card v-for="(item,i) in dataInfo.down" :key="i" class="card align center">
         <v-sheet color="var(--clr-card)" class="jspace" max-height="150px">
           <div class="divcol">
             <div class="infotext bold acenter" style="gap:.7em">
@@ -821,14 +821,14 @@
 </template>
 
 <script>
-import ChartMarket from './ChartMarket.vue'
-import ChartPrice from './ChartPrice.vue'
-import ChartSales from './ChartSales.vue'
-import ChartBuyers from './ChartBuyers.vue'
-import ChartDiscord from './ChartDiscord.vue'
-import ChartTwitter from './ChartTwitter.vue'
-import ChartRarityDistribution from './ChartRarityDistribution.vue'
-import ChartRarityPrice from './ChartRarityPrice.vue'
+import ChartMarket from './chart/ChartMarket.vue'
+import ChartPrice from './chart/ChartPrice.vue'
+import ChartSales from './chart/ChartSales.vue'
+import ChartBuyers from './chart/ChartBuyers.vue'
+import ChartDiscord from './chart/ChartDiscord.vue'
+import ChartTwitter from './chart/ChartTwitter.vue'
+import ChartRarityDistribution from './chart/ChartRarityDistribution.vue'
+import ChartRarityPrice from './chart/ChartRarityPrice.vue'
 export default {
   name: "details",
   i18n: require("./i18n"),

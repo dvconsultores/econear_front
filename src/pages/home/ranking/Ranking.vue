@@ -32,7 +32,8 @@
           <label for="volume" style="cursor:pointer">Volume</label>
           <v-select
             id="volume"
-            :items="sort.volume"
+            v-model="sort.volume.value"
+            :items="sort.volume.items"
             solo
             hide-details
             append-icon="mdi-chevron-down"
@@ -46,7 +47,8 @@
           <label for="price" style="cursor:pointer">Floor price</label>
           <v-select
             id="price"
-            :items="sort.price"
+            v-model="sort.price.value"
+            :items="sort.price.items"
             solo
             hide-details
             append-icon="mdi-chevron-down"
@@ -203,8 +205,14 @@ export default {
       ],
       //table
       sort: {
-        volume: ['24h', '7d', '30d', '90d', '1Y'],
-        price: ['24h', '7d', '30d', '90d', '1Y']
+        volume: {
+          value: "24h",
+          items: ['24h', '7d', '30d', '90d', '1Y']
+        },
+        price: {
+          value: "24h",
+          items: ['24h', '7d', '30d', '90d', '1Y']
+        }
       },
       headersTable: [
         { value: "number", text: "#", align: "center", sortable: false },

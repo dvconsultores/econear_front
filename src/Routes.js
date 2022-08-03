@@ -78,6 +78,16 @@ export default new Router({
           name: 'bulkNftManagement',
           component: () => import('@/pages/bulkNftManagement/BulkNftManagement'),
         },
+        {
+          path: '/active-wallets-stats',
+          name: 'activeWalletsStats',
+          component: () => import('@/pages/activeWalletsStats/ActiveWalletsStats'),
+        },
+        {
+          path: '/wallet-details',
+          name: 'walletDetails',
+          component: () => import('@/pages/walletDetails/WalletDetails'),
+        },
       ],
     },
     // path 3

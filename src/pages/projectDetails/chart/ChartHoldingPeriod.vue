@@ -3,8 +3,8 @@
 
 <script>
 export default {
-  name: "chartHolders",
-  i18n: require("./i18n"),
+  name: "chartHoldingPeriod",
+  i18n: require("../i18n"),
   data() {
     return {
     }
@@ -14,4 +14,4 @@ export default {
 };
 </script>
 
-<style src="./ProjectDetails.scss" lang="scss" />
+<style src="../ProjectDetails.scss" lang="scss" />

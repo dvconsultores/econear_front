@@ -13,10 +13,10 @@
       ></v-text-field>
     </aside>
 
-    <section class="container-profit fwrap gap2">
+    <section class="container-profit fwrap spacee acenter gap2">
       <v-card v-for="(item,i) in dataProfit" :key="i"
         class="card" style="--bg:hsl(212 47% 12% / .5);--p:2em;--b:none">
-        <v-sheet class="card" style="--bg:hsl(210, 48%, 13%)">
+        <v-sheet class="card" style="--bg:hsl(210, 48%, 13%)" max-height="186px">
           <aside class="divcol" style="gap:.5em">
             <div class="space gap2">
               <div class="acenter" style="gap:.5em">

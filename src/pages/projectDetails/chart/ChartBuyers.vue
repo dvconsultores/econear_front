@@ -4,7 +4,7 @@
 <script>
 export default {
   name: "chartBuyers",
-  i18n: require("./i18n"),
+  i18n: require("../i18n"),
   data() {
     return {
     }
@@ -14,4 +14,4 @@ export default {
 };
 </script>
 
-<style src="./ProjectDetails.scss" lang="scss" />
+<style src="../ProjectDetails.scss" lang="scss" />

@@ -323,6 +323,7 @@ export default {
       if (item.key=='marketplace-stats') {this.$router.push(item.key)}
       if (item.key=='alert') {this.$refs.menu.modalAlert = true}
       if (item.key=='bulk-nft-management') {this.$router.push(item.key)}
+      if (item.key=='active-wallets-stats') {this.$router.push(item.key)}
     },
     SelectItem_AvatarMenu(item) {
       this.avatarMenu = false

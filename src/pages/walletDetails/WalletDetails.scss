@@ -1,0 +1,186 @@
+@use "@/styles/app" as *;
+
+// // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // /
+/* // // walletDetails // // */ 
+// // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // /
+#walletDetails {
+  padding-top: 1em;
+  padding-inline: var(--margin-global);
+  position: relative;
+  &::before {
+    content: "";
+    @include absolute(0,-40px,0);
+    width: 80%;
+    height: 1px;
+    background-color: rgba($success, .5);
+  }
+  // btn toggle
+  .v-item-group.v-btn-toggle {
+    background-color: hsl(210, 48%, 13%, .46);
+    border-radius: .5vmax;
+    max-width: max-content;
+    padding: .2em;
+    * {border: none !important}
+    .v-btn {border-radius: .5vmax}
+  }
+  .container-controls {
+    .v-tabs {max-width: max-content}
+    .v-item-group {
+      background-color: var(--primary);
+      border: .8px solid rgba(#707070, .1);
+      border-radius: .4vmax;
+      max-width: max-content;
+      .v-slide-group__content {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1em;
+        gap: 1em;
+        .v-tab {
+          padding: .2em;
+          border-radius: .4vmax;
+          overflow: hidden;
+          h6 {color: #FFFFFF; text-transform: none}
+          &--active h6 {color: $clr-btn-pressed}
+          i {color: #FFFFFF !important;margin-right:.2em}
+          &--active i {color: $clr-btn-pressed !important}
+        }
+      }
+    }
+  }
+  .tab-right {
+    max-width: max-content;
+    .v-item-group {background-color: hsl(212 47% 12% / .5) !important;border-radius: .5vmax !important}
+    .v-slide-group__content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1em;
+      padding: 0 1em;
+      &::before {
+        content: "";
+        @include absoluteCenter;
+        width: 1px;
+        height: 15px;
+        background-color: #FFFFFF;
+      }
+      i {color: #FFFFFF !important}
+      &--active i {color: $clr-btn-pressed !important}
+    }
+    .v-tab {
+      padding: .2em;
+      border-radius: .4vmax;
+      overflow: hidden;
+      max-width: 1.125em !important;
+      min-width: 1.125em !important;
+    }
+  }
+  #dataTable {
+    table {border-spacing: 0 1em}
+    td {color: #FFFFFF}
+    thead {
+      tr {
+        th {border-bottom: none}
+      }
+    }
+    tbody {
+      td {font-size: var(--step-em--2)}
+      tr {
+        position: relative;
+        &::after {
+          content: "";
+          @include absolute(auto,auto,0,0);
+          width: calc(100% - (4.710625em + 1em));
+          height: 1px;
+          background-color: #60D2CA;
+        }
+      }
+    }
+    tr:hover {background:none}
+  }
+  // .dataTable {
+  //   table {border-spacing: 0 1em}
+  //   thead {
+  //     tr {
+  //       th {
+  //         color: #FFFFFF;
+  //         font-size: 1em;
+  //         &:first-of-type {i{display: none !important}}
+  //       }
+  //     }
+  //   }
+  //   tbody {
+  //     tr {
+  //       td {
+  //         font-size: .9em;
+  //         padding-bottom: .5em;
+  //         border-bottom-color: var(--clr-line);
+  //       }
+  //       &:hover:not(.add) {background-color: transparent}
+  //       &:hover.add {
+  //         cursor: pointer;
+  //         background-color: #21786D;
+  //         transition: .2s $ease-return;
+  //       }
+  //       .walletDetails {
+  //         cursor: pointer;
+  //         transition: .2s $ease-return;
+  //         &:hover {background-color: #21786D;box-shadow: $sombra-card}
+  //       }
+  //     }
+  //     .v-input {
+  //       input::placeholder {
+  //         color: #b9b9b9 !important;
+  //       }
+  //     }
+  //   }
+  // }
+  .container-profit {
+    .v-card {
+      @include media(min,small) {max-width: 35.75em}
+      .v-sheet {
+        & > aside:first-child {
+          position: relative;
+          padding-bottom: 1em;
+          margin-bottom: 1em;
+          &::before {
+            content: "";
+            @include absolute(0,auto,0,0);
+            width: 100%;
+            height: 1px;
+            background-color: rgba($success, .5);
+          }
+        }
+      }
+    }
+  }
+  .section-down {
+    background-color: hsl(212 47% 12% / .5);
+    padding: 2em;
+    .dataTableMarket {
+      background-color: $primary;
+      padding-block: 1em;
+      td,th {color: #FFFFFF}
+      tr:hover {background: none !important}
+      tbody {
+        tr {
+          position: relative;
+          &::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            margin-inline: auto;
+            width: calc(100% - 8em);
+            height: 1px;
+            background-color: rgba(#60D2CA, .5);
+          }
+          td:first-of-type {text-indent: 4em; border-bottom: none}
+        }
+        .confidence {padding-block: 1em}
+      }
+    }
+  }
+  // asd
+}
