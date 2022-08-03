@@ -109,7 +109,7 @@
           </v-avatar>
           <div class="divcol" style="gap:.2em">
             <span class="h11_em">Disconnect Wallet</span>
-            <span class="h12_em">pedrogperez23.near</span>
+            <span class="h12_em">{{ accountId }}</span>
           </div>
           <v-icon color="#6FFFE9">mdi-menu-down</v-icon>
         </v-btn>
@@ -118,7 +118,7 @@
           <v-card class="menu_list morelist">
             <v-list color="transparent" class="cabecera">
               <v-list-item>
-                <v-list-item-title class="h10_em">pedrogperez23.near</v-list-item-title>
+                <v-list-item-title class="h10_em">{{ accountId }}</v-list-item-title>
               </v-list-item>
             </v-list>
 
@@ -263,8 +263,8 @@ export default {
       dataLogout: [
         {
           list: [
-            { key: "profile", name: "My Pofile" },
-            { key: "portafolio", name: "My Portafolio" },
+            { key: "profile", name: "My Profile" },
+            { key: "portafolio", name: "My Portfolio" },
             { key: "settings", name: "Settings" },
           ]
         },
@@ -341,19 +341,19 @@ export default {
       const wallet = new WalletConnection(near)
       this.accountId= wallet.getAccountId()
 
-      if (wallet.isSignedIn()) {
-        const url = "api/v1/profile/?wallet=" + this.accountId
-        this.axios.defaults.headers.common.Authorization='token'
-        this.axios.get(url)
-          .then((response) => {
-            if (response.data[0]){
-              this.avatar = response.data[0].avatar
-              this.$store.commit("Avatar", this.avatar)
-            }
-        }).catch((error) => {
-          console.log(error)
-        })
-      }
+      // if (wallet.isSignedIn()) {
+      //   const url = "api/v1/profile/?wallet=" + this.accountId
+      //   this.axios.defaults.headers.common.Authorization='token'
+      //   this.axios.get(url)
+      //     .then((response) => {
+      //       if (response.data[0]){
+      //         this.avatar = response.data[0].avatar
+      //         this.$store.commit("Avatar", this.avatar)
+      //       }
+      //   }).catch((error) => {
+      //     console.log(error)
+      //   })
+      // }
     },
     // use for update account log states
     LogState() {
