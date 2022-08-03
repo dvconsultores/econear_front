@@ -1,7 +1,10 @@
 <template>
   <section id="hero" class="divcol acenter gap2">
-    <h1 class="h4_em h5_emmobile tcenter">
+    <!-- <h1 class="h4_em h5_emmobile tcenter">
       The whole <br class="vermobile"><span class="mask" :style="`--mask:'NEAR ecosystem'`">NEAR ecosystem</span><br>at one place.
+    </h1> -->
+    <h1 class="h4_em h5_emmobile tcenter">
+      The whole <br class="vermobile"><span class="mask">NEAR ecosystem</span><br>at one place.
     </h1>
 
     <v-btn class="btn h10_em center" @click="modalProject=true"

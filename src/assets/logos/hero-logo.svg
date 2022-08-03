@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="682.585" height="116" viewBox="0 0 682.585 116">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="689" height="119" viewBox="0 0 689 119">
   <defs>
     <linearGradient id="linear-gradient" x1="4.504" y1="-2.194" x2="8.268" y2="3.308" gradientUnits="objectBoundingBox">
       <stop offset="0" stop-color="#6fffe9"/>
@@ -37,9 +37,9 @@
     <linearGradient id="linear-gradient-25" x1="-8.233" y1="-3.44" x2="-3.321" y2="4.181" xlink:href="#linear-gradient-14"/>
     <linearGradient id="linear-gradient-26" x1="-5.781" y1="-3.495" x2="-2.778" y2="4.248" xlink:href="#linear-gradient-14"/>
   </defs>
-  <g id="Grupo_6581" data-name="Grupo 6581" transform="translate(-837.693 -234.809)">
+  <g id="Grupo_4584" data-name="Grupo 4584" transform="translate(-837.693 -240.809)">
     <g id="Grupo_4581" data-name="Grupo 4581" transform="translate(0 -7)">
-      <text id="NEAR_ecosystem" data-name="NEAR ecosystem" transform="translate(837.693 335.809)" fill="#60d2ca" font-size="87.355" font-family="SegoeUI, Segoe UI"><tspan x="0" y="0">NEAR ecosystem</tspan></text>
+      <text id="NEAR_ecosystem" data-name="NEAR ecosystem" transform="translate(837.693 335.809)" fill="#60d2ca" font-size="87.355" font-family="NunitoSans-Bold, Nunito Sans" font-weight="700"><tspan x="0" y="0">NEAR ecosystem</tspan></text>
       <g id="Grupo_123" data-name="Grupo 123" transform="translate(-0.057 -19)">
         <path id="Trazado_12" data-name="Trazado 12" d="M885.795,293.223h10.57v61.586h-8.474L854.872,311.83v42.979H844.389V293.223h8.386l33.02,42.892Z" fill="url(#linear-gradient)"/>
         <path id="Trazado_13" data-name="Trazado 13" d="M909.642,354.809V293.223h41.232v8.91H920.649v16.948h28.478V327.9H920.649V345.9h30.225v8.911Z" fill="url(#linear-gradient-2)"/>

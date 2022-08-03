@@ -75,7 +75,7 @@
       v-model="modalLogin"
       max-width="82.358125em"
     >
-      <v-card color="var(--primary)" class="overflowx" style="padding-block:6em">
+      <v-card class="overflowx" style="padding-block:6em;background:linear-gradient(to right top,#172035 20%,#161D33,#161E34,#192539,#1E3143,#244251,#2D5862,#387378,#449492,#53B9B1,#63E2D2)">
         <v-btn icon class="close" @click="modalLogin = false">
           <img src="@/assets/icons/close.svg" alt="close" style="--w:0.921875em">
         </v-btn>

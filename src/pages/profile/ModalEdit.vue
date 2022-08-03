@@ -7,7 +7,7 @@
       <v-btn icon class="close" @click="modalEdit = false">
         <img src="@/assets/icons/close.svg" alt="close" style="--w:0.921875em">
       </v-btn>
-      <h3 class="tcenter">Edit Profile</h3>
+      <h4 class="tcenter">Edit Profile</h4>
 
       <v-sheet style="isolation:isolate">
         <section class="up" style="z-index:-1">

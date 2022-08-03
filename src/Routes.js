@@ -73,6 +73,11 @@ export default new Router({
           name: 'marketplaceStats',
           component: () => import('@/pages/marketplaceStats/MarketplaceStats'),
         },
+        {
+          path: '/bulk-nft-management',
+          name: 'bulkNftManagement',
+          component: () => import('@/pages/bulkNftManagement/BulkNftManagement'),
+        },
       ],
     },
     // path 3

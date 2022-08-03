@@ -6,7 +6,9 @@
 #projectDetails {
   padding-top: 1em;
   padding-inline: var(--margin-global);
-  & > :first-child + * + * ~ * {margin-top: clamp(1em, 2vw, 2em)}
+  // & > :first-child + * + * ~ * {margin-top: clamp(1em, 2vw, 2em)}
+  & > :first-child {margin-top:7em}
+  & > :first-child + * ~ * {margin-top: clamp(1em, 2vw, 2em)}
   .infotext {color: #B3B3B3}
   .v-item-group {
     background-color: $primary !important;
@@ -122,7 +124,7 @@
   }
   .container-potential {
     .v-card {
-      max-width: 46.06375em;
+      @include media(min,small) {max-width: 31.25em}
       padding: 1em;
       position: relative;
       &::after {

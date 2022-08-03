@@ -12,13 +12,6 @@
       background: center no-repeat url(../../../assets/logos/hero-logo.svg);
       background-size: contain;
       isolation: isolate;
-      &::before {
-        content: var(--mask);
-        @include absoluteCenter;
-        transform: translate(-10px, 15px);
-        color: #FFFFFF;
-        z-index: -1;
-      }
     }
   }
   blockquote {

@@ -1,7 +1,7 @@
 <template>
   <section id="projectDetails" class="divcol">
-    <aside class="container-header">
-    </aside>
+    <!-- <aside class="container-header">
+    </aside> -->
 
     <aside class="container-profile divcol center gap1 tcenter">
       <div class="contactions acenter spacea gap1">
@@ -50,7 +50,7 @@
 
     <section class="infodown fwrap">
       <v-card v-for="(item,i) in dataInfo.down" :key="i" class="card align">
-        <v-sheet color="var(--clr-card)" class="jspace">
+        <v-sheet color="var(--clr-card)" class="jspace" max-height="150px">
           <div class="divcol">
             <div class="infotext bold acenter" style="gap:.7em">
               <span>{{item.key=='market'?'Market Cap':item.key=='holders'?'Holders':item.key=='volume'?'Volume (24H)':item.key=='price'?'Floor price':null}}</span>
@@ -95,8 +95,8 @@
       <section class="container-potential card" style="--p:2em">
         <h3 class="h9_em">BlueChip Potential</h3>
 
-        <div class="fwrap gap2" style="--fb: 1 1 20em">
-          <v-card v-for="(item,i) in dataPotential" :key="i" color="var(--clr-card)" class="jspace align">
+        <div class="fwrap gap2 space" style="--fb: 1 1 20em">
+          <v-card v-for="(item,i) in dataPotential" :key="i" color="var(--clr-card)" class="jspace">
             <div class="divcol">
               <div class="infotext bold acenter" style="gap:.7em">
                 <span>{{item.key=='holders'?'Blue Chip Holders':item.key=='whales'?'Whales':null}}</span>
@@ -435,7 +435,7 @@
           ></v-text-field>
         </div>
 
-        <div class="container-nfts grid" style="--gtc: repeat(auto-fit,minmax(min(100%,21.2225em),1fr));gap:3em 1em">
+        <div class="container-nfts grid" style="--gtc: repeat(auto-fit,minmax(min(100%,21.2225em),1fr));gap:3.5em">
           <v-card v-for="(item,i) in dataNfts" :key="i" color="transparent" class="divcol" :class="{widthLimiter: widthLimiter}">
             <img :src="item.img" alt="nft images" style="--w:100%;">
 
