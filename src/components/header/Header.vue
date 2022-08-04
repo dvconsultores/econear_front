@@ -319,6 +319,8 @@ export default {
       // nft
       if (item.key=='compare-projects') {this.$router.push(item.key)}
       if (item.key=='new-projects') {this.$router.push(item.key)}
+      // econear
+      if (item.key=='vote') {this.$router.push(item.key)}
       // other
       if (item.key=='marketplace-stats') {this.$router.push(item.key)}
       if (item.key=='alert') {this.$refs.menu.modalAlert = true}

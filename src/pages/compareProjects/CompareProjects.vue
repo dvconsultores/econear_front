@@ -1,7 +1,7 @@
 <template>
   <section id="compareProjects" class="divcol gap2">
     <aside class="divcol center gap1 tcenter">
-      <h2 class="h5_em p">Compare Projects</h2>
+      <h2 class="h5_em p bold">Compare Projects</h2>
       <p class="h10_em" style="max-width:60ch">
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut facilisis accumsan nisl, et blandit orci pellentesque
       </p>

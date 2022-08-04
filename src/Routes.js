@@ -84,9 +84,14 @@ export default new Router({
           component: () => import('@/pages/activeWalletsStats/ActiveWalletsStats'),
         },
         {
-          path: '/wallet-details',
+          path: '/wallet-details:id?',
           name: 'walletDetails',
           component: () => import('@/pages/walletDetails/WalletDetails'),
+        },
+        {
+          path: '/vote',
+          name: 'vote',
+          component: () => import('@/pages/vote/Vote'),
         },
       ],
     },
