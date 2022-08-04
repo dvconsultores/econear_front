@@ -128,7 +128,7 @@
     </v-data-table>
 
     <!-- mosaico -->
-    <section v-if="!organizationStyle" class="card grid"
+    <section v-if="!organizationStyle" class="mosaico card grid"
       style="--gtc: repeat(auto-fit, minmax(min(100%,var(--size)),1fr)); gap:1.5em;--p:2em;--size:16.2225em">
       <v-card v-for="(item,i) in dataTable" :key="i" class="divcol alignmobile" color="#112131" width="var(--size)" style="border-radius: .4vmax">
         <img class="h11_em" :src="item.img" alt="nft" style="--w:100%">
