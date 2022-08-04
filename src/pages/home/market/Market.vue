@@ -82,6 +82,7 @@ export default {
   data() {
     return {
       nearPrice: null,
+      parasPrice: null,
       dataMarket: [
         {
           name: "EST.MCAP",
@@ -92,16 +93,16 @@ export default {
         },
         {
           name: "USD/NEAR",
-          price: "$5.14",
-          value: "$0.07",
-          percent: "1.34",
+          price: null,
+          value: null,
+          percent: null,
           state: false
         },
         {
           name: "USD/$PARAS",
-          price: "$0.06",
-          value: "$0",
-          percent: "0.36",
+          price: null,
+          value: null,
+          percent: null,
           state: false
         },
         {
@@ -208,7 +209,8 @@ export default {
     }
   },
   async mounted() {
-    await this.priceNEAR()
+    this.priceNEAR()
+    this.pricePARAS()
   },
   methods: {
     async priceNEAR(){
@@ -222,6 +224,24 @@ export default {
             this.dataMarket[1].state = true
           } else {
             this.dataMarket[1].state = false
+          }
+        })
+        .catch((e) => {
+          console.log(e)
+        })
+    },
+    async pricePARAS(){
+      axios.get("https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=paras&order=market_cap_desc&per_page=100&page=1&sparkline=false")
+        .then((response) => {
+          console.log("repsonse", response)
+          this.parasPrice = response.data[0]
+          this.dataMarket[2].price = "$"+this.parasPrice.current_price.toFixed(2)
+          this.dataMarket[2].value = "$"+ this.parasPrice.price_change_24h.toFixed(2)
+          this.dataMarket[2].percent = this.parasPrice.price_change_percentage_24h
+          if (this.parasPrice.price_change_percentage_24h > 0) {
+            this.dataMarket[2].state = true
+          } else {
+            this.dataMarket[2].state = false
           }
         })
         .catch((e) => {
