@@ -210,16 +210,26 @@ export default {
   },
   async mounted() {
     this.priceNEAR()
+    this.interval = setInterval(function () {
+        this.priceNEAR()
+    }.bind(this), 60000);
+
     this.pricePARAS()
+    this.interval = setInterval(function () {
+        this.pricePARAS()
+    }.bind(this), 60000);
   },
   methods: {
     async priceNEAR(){
+      this.dataMarket[1].price = null
+      this.dataMarket[1].value = null
+      this.dataMarket[1].percent = null
       axios.get("https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=near&order=market_cap_desc&per_page=100&page=1&sparkline=false")
         .then((response) => {
           this.nearPrice = response.data[0]
           this.dataMarket[1].price = "$"+this.nearPrice.current_price.toFixed(2)
           this.dataMarket[1].value = "$"+ this.nearPrice.price_change_24h.toFixed(2)
-          this.dataMarket[1].percent = this.nearPrice.price_change_percentage_24h
+          this.dataMarket[1].percent = this.nearPrice.price_change_percentage_24h.toFixed(2)
           if (this.nearPrice.price_change_percentage_24h > 0) {
             this.dataMarket[1].state = true
           } else {
@@ -231,13 +241,15 @@ export default {
         })
     },
     async pricePARAS(){
+      this.dataMarket[2].price = null
+      this.dataMarket[2].value = null
+      this.dataMarket[2].percent = null
       axios.get("https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=paras&order=market_cap_desc&per_page=100&page=1&sparkline=false")
         .then((response) => {
-          console.log("repsonse", response)
           this.parasPrice = response.data[0]
           this.dataMarket[2].price = "$"+this.parasPrice.current_price.toFixed(2)
           this.dataMarket[2].value = "$"+ this.parasPrice.price_change_24h.toFixed(2)
-          this.dataMarket[2].percent = this.parasPrice.price_change_percentage_24h
+          this.dataMarket[2].percent = this.parasPrice.price_change_percentage_24h.toFixed(2)
           if (this.parasPrice.price_change_percentage_24h > 0) {
             this.dataMarket[2].state = true
           } else {
