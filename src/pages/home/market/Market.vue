@@ -10,10 +10,10 @@
           </div>
           <div class="space semibold h12_em gap1">
             <span class="acenter">
-              {{item.state?'+':'-'}}{{item.value}}
+              {{item.state?'+':''}}{{item.value}}
               <img class="margin1left" :src="item.state?require('@/assets/icons/increase.svg'):require('@/assets/icons/decrease.svg')">
             </span>
-            <span>{{item.state?'+':'-'}}{{item.percent}}%</span>
+            <span>{{item.state?'+':''}}{{item.percent}}%</span>
           </div>
         </v-card>
       </aside>
@@ -75,11 +75,14 @@
 </template>
 
 <script>
+import axios from 'axios'
 export default {
   name: "market",
   i18n: require("./i18n"),
   data() {
     return {
+      nearPrice: null,
+      parasPrice: null,
       dataMarket: [
         {
           name: "EST.MCAP",
@@ -90,16 +93,16 @@ export default {
         },
         {
           name: "USD/NEAR",
-          price: "$5.14",
-          value: "$0.07",
-          percent: "1.34",
+          price: null,
+          value: null,
+          percent: null,
           state: false
         },
         {
           name: "USD/$PARAS",
-          price: "$0.06",
-          value: "$0",
-          percent: "0.36",
+          price: null,
+          value: null,
+          percent: null,
           state: false
         },
         {
@@ -205,7 +208,58 @@ export default {
       ],
     }
   },
+  async mounted() {
+    this.priceNEAR()
+    this.interval = setInterval(function () {
+        this.priceNEAR()
+    }.bind(this), 60000);
+
+    this.pricePARAS()
+    this.interval = setInterval(function () {
+        this.pricePARAS()
+    }.bind(this), 60000);
+  },
   methods: {
+    async priceNEAR(){
+      this.dataMarket[1].price = null
+      this.dataMarket[1].value = null
+      this.dataMarket[1].percent = null
+      axios.get("https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=near&order=market_cap_desc&per_page=100&page=1&sparkline=false")
+        .then((response) => {
+          this.nearPrice = response.data[0]
+          this.dataMarket[1].price = "$"+this.nearPrice.current_price.toFixed(2)
+          this.dataMarket[1].value = "$"+ this.nearPrice.price_change_24h.toFixed(2)
+          this.dataMarket[1].percent = this.nearPrice.price_change_percentage_24h.toFixed(2)
+          if (this.nearPrice.price_change_percentage_24h > 0) {
+            this.dataMarket[1].state = true
+          } else {
+            this.dataMarket[1].state = false
+          }
+        })
+        .catch((e) => {
+          console.log(e)
+        })
+    },
+    async pricePARAS(){
+      this.dataMarket[2].price = null
+      this.dataMarket[2].value = null
+      this.dataMarket[2].percent = null
+      axios.get("https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=paras&order=market_cap_desc&per_page=100&page=1&sparkline=false")
+        .then((response) => {
+          this.parasPrice = response.data[0]
+          this.dataMarket[2].price = "$"+this.parasPrice.current_price.toFixed(2)
+          this.dataMarket[2].value = "$"+ this.parasPrice.price_change_24h.toFixed(2)
+          this.dataMarket[2].percent = this.parasPrice.price_change_percentage_24h.toFixed(2)
+          if (this.parasPrice.price_change_percentage_24h > 0) {
+            this.dataMarket[2].state = true
+          } else {
+            this.dataMarket[2].state = false
+          }
+        })
+        .catch((e) => {
+          console.log(e)
+        })
+    },
   }
 };
 </script>
