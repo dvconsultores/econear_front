@@ -10,10 +10,10 @@
           </div>
           <div class="space semibold h12_em gap1">
             <span class="acenter">
-              {{item.state?'+':'-'}}{{item.value}}
+              {{item.state?'+':''}}{{item.value}}
               <img class="margin1left" :src="item.state?require('@/assets/icons/increase.svg'):require('@/assets/icons/decrease.svg')">
             </span>
-            <span>{{item.state?'+':'-'}}{{item.percent}}%</span>
+            <span>{{item.state?'+':''}}{{item.percent}}%</span>
           </div>
         </v-card>
       </aside>
@@ -75,11 +75,13 @@
 </template>
 
 <script>
+import axios from 'axios'
 export default {
   name: "market",
   i18n: require("./i18n"),
   data() {
     return {
+      nearPrice: null,
       dataMarket: [
         {
           name: "EST.MCAP",
@@ -205,7 +207,27 @@ export default {
       ],
     }
   },
+  async mounted() {
+    await this.priceNEAR()
+  },
   methods: {
+    async priceNEAR(){
+      await axios.get("https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=near&order=market_cap_desc&per_page=100&page=1&sparkline=false")
+        .then((response) => {
+          this.nearPrice = response.data[0]
+          this.dataMarket[1].price = "$"+this.nearPrice.current_price.toFixed(2)
+          this.dataMarket[1].value = "$"+ this.nearPrice.price_change_24h.toFixed(2)
+          this.dataMarket[1].percent = this.nearPrice.price_change_percentage_24h
+          if (this.nearPrice.price_change_percentage_24h > 0) {
+            this.dataMarket[1].state = true
+          } else {
+            this.dataMarket[1].state = false
+          }
+        })
+        .catch((e) => {
+          console.log(e)
+        })
+    },
   }
 };
 </script>
