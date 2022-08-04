@@ -212,7 +212,7 @@ export default {
   },
   methods: {
     async priceNEAR(){
-      await axios.get("https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=near&order=market_cap_desc&per_page=100&page=1&sparkline=false")
+      axios.get("https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=near&order=market_cap_desc&per_page=100&page=1&sparkline=false")
         .then((response) => {
           this.nearPrice = response.data[0]
           this.dataMarket[1].price = "$"+this.nearPrice.current_price.toFixed(2)
