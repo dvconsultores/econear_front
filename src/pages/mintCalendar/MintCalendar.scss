@@ -1,0 +1,172 @@
+@use "@/styles/app" as *;
+
+// // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // /
+/* // // mintCalendar // // */ 
+// // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // /
+#mintCalendar {
+  padding-top: 1em;
+  padding-inline: var(--margin-global);
+  position: relative;
+  &::before {
+    content: "";
+    @include absolute(0,-40px,0);
+    width: 80%;
+    height: 1px;
+    background-color: rgba($success, .5);
+  }
+  .section-down {
+    background-color: hsl(212 47% 12% / .5);
+    padding: 3em;
+    .v-card {
+      width: 24.6875em;
+      @include media(max,897px) {width: 100%}
+      h6 {font-size: 1.25em}
+      span:not([class*="v-btn"]) {font-size: 1.095625em}
+      #type {font-size: 0.97375em;color:var(--success)}
+      #desc {font-size: 0.9375em}
+    }
+    .cronometer {
+      margin-bottom: .5em;
+      padding-bottom: .8em;
+      .grid {
+        position: relative;
+        &::after {
+          content: "";
+          position: absolute;
+          bottom: calc(-1em + 5px);
+          margin-inline: auto;
+          width: 15.9375em;
+          @include media(max,450px) {width: 90%}
+          height: 1px;
+          background-color: rgba($success, .7);
+        }
+        &::before {
+          content: "";
+          --size: 1em;
+          @include absolute(0,-4px,0);
+          transform: translateX(calc((var(--size) * -1 / 2) - 3px));
+          width: calc(100% + var(--size));
+          height: 30px;
+          border-radius: .2vmax;
+          outline: 1px solid var(--success);
+        }
+        span {
+          @include child(1, 4) {
+            &::after {
+              content: ":";
+              position: relative;
+              font-weight: bold;
+              right: -5px;
+              // transform: translateX(10px);
+            }
+          }
+          &:nth-child(4)::after {visibility: hidden}
+        }
+      }
+    }
+  }
+  .v-item-group.v-btn-toggle {
+    background-color: var(--primary);
+    border-radius: .5vmax;
+    max-width: max-content;
+    .v-btn {border-radius: .5vmax}
+  }
+}
+
+// calendar
+#calendar {
+  position: relative;
+  // padding-inline: 5% !important;
+  // margin-bottom: 5em !important;
+  .controls {
+    margin-bottom: .5em;
+    position: relative;
+    span:not([class*="v-"]) {
+      font-weight: bold;
+      font-size: 1.5em;
+      margin-inline: .5em;
+    }
+    #today {
+      @include absolute(0,0);
+      border-radius: .2vmax;
+      span {color: var(--clr-inv);font-size: 1.25em;font-weight: bold;}
+    }
+  }
+  //
+  .v-calendar {
+    background-color: transparent;
+    .primary {background-color: $clr-btn !important;
+      span {color: $primary !important;font-weight: bold}
+    }
+    &-weekly__head-weekday {
+      color: var(--clr);
+      font-size: 1em;
+      border-bottom: 1px solid #FFFFFF;
+      &:not(:last-of-type) {border-right: none !important}
+    }
+    .v-outside {background-color: var(--primary)}
+  }
+  //
+  #container-legend {
+    .marker {
+      background-color: var(--color);
+      width: 1.70875em;
+      aspect-ratio:  1 / 1;
+      margin-right: .2em;
+    }
+    span {font-size: 1.0625em}
+  }
+}
+
+#modalCalendar {
+  background-color: hsl(0, 0%, 70%, .3) !important;
+  backdrop-filter: blur(10px);
+  padding: 3em;
+  .v-card {
+    max-width: 24.6875em;
+    @include media(max,897px) {width: 100%}
+    h6 {font-size: 1.25em}
+    span:not([class*="v-btn"]) {font-size: 1.095625em}
+    #type {font-size: 0.97375em;color:var(--success)}
+    #desc {font-size: 0.9375em}
+  }
+  .cronometer {
+    margin-bottom: .5em;
+    padding-bottom: .8em;
+    .grid {
+      position: relative;
+      &::after {
+        content: "";
+        position: absolute;
+        bottom: calc(-1em + 5px);
+        margin-inline: auto;
+        width: 15.9375em;
+        @include media(max,450px) {width: 90%}
+        height: 1px;
+        background-color: rgba($success, .7);
+      }
+      &::before {
+        content: "";
+        --size: 1em;
+        @include absolute(0,-4px,0);
+        transform: translateX(calc((var(--size) * -1 / 2) - 3px));
+        width: calc(100% + var(--size));
+        height: 30px;
+        border-radius: .2vmax;
+        outline: 1px solid var(--success);
+      }
+      span {
+        @include child(1, 4) {
+          &::after {
+            content: ":";
+            position: relative;
+            font-weight: bold;
+            right: -5px;
+            // transform: translateX(10px);
+          }
+        }
+        &:nth-child(4)::after {visibility: hidden}
+      }
+    }
+  }
+}

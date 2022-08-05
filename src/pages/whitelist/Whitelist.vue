@@ -27,7 +27,7 @@
               <h6 class="bold p">{{item.name}}</h6>
               <span id="type" class="h11_em">{{item.type}}</span>
             </div>
-            <p id="desc" class="p light tcenter">{{item.desc}}</p>
+            <p id="desc" class="p light tspace">{{item.desc}}</p>
             <div class="divcol light" style="gap:.2em">
               <div class="space h11_em">
                 <span class="bold">Whitelist</span>

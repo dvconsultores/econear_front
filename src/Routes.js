@@ -103,6 +103,11 @@ export default new Router({
           name: 'whitelistDetails',
           component: () => import('@/pages/whitelistDetails/WhitelistDetails'),
         },
+        {
+          path: '/mint-calendar',
+          name: 'mintCalendar',
+          component: () => import('@/pages/mintCalendar/MintCalendar'),
+        },
       ],
     },
     // path 3
