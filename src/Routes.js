@@ -93,6 +93,16 @@ export default new Router({
           name: 'vote',
           component: () => import('@/pages/vote/Vote'),
         },
+        {
+          path: '/whitelist',
+          name: 'whitelist',
+          component: () => import('@/pages/whitelist/Whitelist'),
+        },
+        {
+          path: '/whitelist-details:id?',
+          name: 'whitelistDetails',
+          component: () => import('@/pages/whitelistDetails/WhitelistDetails'),
+        },
       ],
     },
     // path 3

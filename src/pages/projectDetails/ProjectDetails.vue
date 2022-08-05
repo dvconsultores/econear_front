@@ -11,7 +11,7 @@
       </div>
 
       <v-avatar width="12.48875em" height="12.48875em">
-        <img src="@/assets/images/muestra.jpg" alt="avatar" style="--b:3px solid var(--success);--w:100%">
+        <img src="@/assets/images/muestra.jpg" alt="avatar" style="--b:3px solid var(--success);--w:100%;--h:100%;--br:50%">
       </v-avatar>
       <v-chip class="center" style="border-radius: .3vmax;min-width:6.174375em" color="#6A25D2">
         <span class="tfirst">Utility</span>

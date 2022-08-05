@@ -1,0 +1,111 @@
+@use "@/styles/app" as *;
+
+// // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // /
+/* // // whitelistDetails // // */ 
+// // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // /
+#whitelistDetails {
+  padding-top: 1em;
+  padding-inline: var(--margin-global);
+  // & > :first-child + * + * ~ * {margin-top: clamp(1em, 2vw, 2em)}
+  & > :first-child {margin-top:7em}
+  & > :first-child + * ~ * {margin-top: clamp(1em, 2vw, 2em)}
+  .infotext {color: #B3B3B3}
+  .v-item-group {
+    background-color: $primary !important;
+    padding: .2em;
+    .v-btn {border: none !important}
+    .v-item--active {
+      i {color: #FFFFFF !important}
+    }
+  }
+  h2 {font-size: 2.8125em}
+  .container-header {
+    width: 100vw;
+    margin-inline: calc(-50vw + 50%);
+    height: 400px;
+    padding-left: var(--margin-global);
+    padding-bottom: 1em;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-end;
+    position: relative;
+    overflow: hidden;
+    &::before {
+      content: "";
+      @include absoluteCenter;
+      background: center no-repeat url(../../assets/images/whitelist-image.jpg);
+      background-size: fill;
+      height: var(--parent);
+    }
+  }
+  .container-profile {
+    pointer-events: none;
+    * {pointer-events: all}
+    position: relative;
+    transform: translateY(-110px);
+    .contactions {
+      @include absolute(auto,115px,0);
+    }
+    // line
+    &::after {
+      content: "";
+      @include absolute(0,auto,0,-40px);
+      width: 100%;
+      height: 1px;
+      background-color: var(--clr-line);
+    }
+  }
+  .description {
+    text-align: center;
+    font-size: 1.8em;
+    line-height: 1;
+  }
+  #container-whitelist {
+    .v-card {
+      .v-sheet {
+        &::-webkit-scrollbar {display: none}
+        h6 {font-size: 1.125em}
+        p {font-size: 1.095625em}
+        // line
+        & > div {
+          position: relative;
+          margin-bottom: .5em;
+          padding-bottom: .5em;
+          &::after {
+            content: "";
+            @include absolute(0,auto,0,0);
+            width: 100%;
+            height: 1px;
+            background-color: var(--clr-line);
+          }
+        }
+      }
+    }
+  }
+}
+
+#modalVerify {
+  background-color: hsl(0, 0%, 70%, .3) !important;
+  backdrop-filter: blur(10px);
+  padding: 6em;
+  isolation: isolate;
+  .v-sheet {
+    padding: 2em;
+    position: relative;
+    border-radius: .3vmax;
+    &::after {
+      --size: 3em;
+      content: "";
+      @include absoluteCenter;
+      transform: translateX(calc((var(--size) * -1) / 2));
+      width: calc(100% + var(--size));
+      height: calc(100% + var(--size));
+      z-index: -1;
+      border-radius: .3vmax;
+      background: linear-gradient(90deg,#161D33,#171F35 50%,#1A283B,#203647,#284B58,#32656D,#3F8687);
+      filter: blur(1px);
+      // background: linear-gradient(30deg,#161D33,#171F35);
+    }
+  }
+  h4 {font-size: 2.6875em;--c:var(--clr-inv)}
+}

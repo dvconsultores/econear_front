@@ -214,7 +214,7 @@ export default {
           list: [
             { title: "Account" },
             { key: "login", name: "Login" },
-            { key: "watchlist", name: "Watchlist" },
+            { key: "whitelist", name: "Whitelist" },
             { key: "register", name: "Register" },
           ]
         },
@@ -315,6 +315,7 @@ export default {
     SelectItem_More(item) {
       // account
       if (item.key=='login') {this.$refs.menu.modalLogin = true}
+      if (item.key=='whitelist') {this.$router.push(item.key)}
       if (item.key=='register') {this.$refs.menu.modalRegister = true}
       // nft
       if (item.key=='compare-projects') {this.$router.push(item.key)}
