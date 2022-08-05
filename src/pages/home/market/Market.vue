@@ -221,9 +221,9 @@ export default {
   },
   methods: {
     async priceNEAR(){
-      this.dataMarket[1].price = null
-      this.dataMarket[1].value = null
-      this.dataMarket[1].percent = null
+      // this.dataMarket[1].price = null
+      // this.dataMarket[1].value = null
+      // this.dataMarket[1].percent = null
       axios.get("https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=near&order=market_cap_desc&per_page=100&page=1&sparkline=false")
         .then((response) => {
           this.nearPrice = response.data[0]
@@ -241,9 +241,9 @@ export default {
         })
     },
     async pricePARAS(){
-      this.dataMarket[2].price = null
-      this.dataMarket[2].value = null
-      this.dataMarket[2].percent = null
+      // this.dataMarket[2].price = null
+      // this.dataMarket[2].value = null
+      // this.dataMarket[2].percent = null
       axios.get("https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=paras&order=market_cap_desc&per_page=100&page=1&sparkline=false")
         .then((response) => {
           this.parasPrice = response.data[0]
