@@ -105,7 +105,7 @@
           style="--p: clamp(1em, 1.5vw, 1.5em) .2em clamp(1em, 1.5vw, 1.5em) 0;--br:.2vmax;
           --bs: 0 2px 8px 3px #6FFFE9;">
           <v-avatar style="box-shadow:0px 0px 8px 3px #6FFFE9" width="4.6em" height="4.6em">
-            <img src="@/assets/logos/user.png" alt="Avatar">
+            <img src="@/assets/logos/user-empty.png" alt="Avatar" style="--w:100%">
           </v-avatar>
           <div class="divcol" style="gap:.2em">
             <span class="h11_em">Disconnect Wallet</span>
