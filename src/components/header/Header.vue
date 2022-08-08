@@ -256,7 +256,7 @@ export default {
       ],
       languageText: "EN",
       dataLanguage: [
-        {key: "EN", name: "English", active: false},
+        {key: "EN", name: "English", active: true},
         {key: "ES", name: "Spanish", active: false},
         {key: "PR", name: "Portuguese", active: false},
       ],

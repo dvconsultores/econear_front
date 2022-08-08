@@ -293,7 +293,7 @@ export default {
         },
       ],
       dataControlsCharts: [
-        { key: "line", icon: "chart-line", name: "Line Chart", active: false },
+        { key: "line", icon: "chart-line", name: "Line Chart", active: true },
         { key: "pie", icon: "chart-pie", name: "Pie Chart", active: false },
         { key: "statistics", icon: "chart-line-variant", name: "Statistics", active: false },
       ],

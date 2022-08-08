@@ -18,6 +18,7 @@
       justify-content: space-between;
       align-items: center;
       padding-inline: var(--margin-global);
+      overflow: hidden;
       .avatarBtn {
         .v-avatar {
           transform: translateX(-.6em);
