@@ -5,7 +5,7 @@
 
 <script>
 export default {
-  name: "chart",
+  name: "pieChart",
   i18n: require("../i18n"),
   data() {
     return {

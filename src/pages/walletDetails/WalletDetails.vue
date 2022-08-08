@@ -43,31 +43,29 @@
       </v-card>
     </section>
 
-    <aside class="container-controls divcol gap1">
-      <div class="space gap2">
-        <v-tabs>
-          <v-tab v-for="(item,i) in dataControls" :key="i" @click="dataControls.forEach(e=>{e.active=false});item.active=true">
-          <v-icon>mdi-{{item.icon}}</v-icon>
-          <h6 class="h11_em p">{{item.name}}</h6>
-          </v-tab>
-        </v-tabs>
+    <aside class="container-controls space gap2">
+      <v-tabs>
+        <v-tab v-for="(item,i) in dataControlsCharts" :key="i" @click="dataControlsCharts.forEach(e=>{e.active=false});item.active=true">
+        <v-icon>mdi-{{item.icon}}</v-icon>
+        <h6 class="h11_em p">{{item.name}}</h6>
+        </v-tab>
+      </v-tabs>
 
-        <v-tabs class="tab-right">
-          <v-tab>
-            <img class="flr" src="@/assets/logos/near.png" alt="near" style="--w:19.2px">
-          </v-tab>
-          <v-tab style="color:#FFFFFF">
-            $
-          </v-tab>
-        </v-tabs>
-      </div>
+      <v-tabs class="tab-right">
+        <v-tab>
+          <img class="flr" src="@/assets/logos/near.png" alt="near" style="--w:19.2px">
+        </v-tab>
+        <v-tab style="color:#FFFFFF">
+          $
+        </v-tab>
+      </v-tabs>
     </aside>
 
-    <section class="section-down divcol" style="gap:2em">
-      <LineChart ref="linechart" v-show="dataControls[dataControls.findIndex(e=>e.key=='line')].active"></LineChart>
-      <PieChart ref="piechart" v-show="dataControls[dataControls.findIndex(e=>e.key=='pie')].active"></PieChart>
+    <section class="container-charts divcol" style="gap:2em">
+      <LineChart ref="linechart" v-show="dataControlsCharts[dataControlsCharts.findIndex(e=>e.key=='line')].active"></LineChart>
+      <PieChart ref="piechart" v-show="dataControlsCharts[dataControlsCharts.findIndex(e=>e.key=='pie')].active"></PieChart>
 
-      <section v-show="dataControls[dataControls.findIndex(e=>e.key=='statistics')].active" class="container-profit divcol gap2">
+      <section v-show="dataControlsCharts[dataControlsCharts.findIndex(e=>e.key=='statistics')].active" class="container-profit divcol gap2">
         <!-- profit -->
         <v-card class="card profit" style="--bg:hsl(212 47% 12% / .5);--p:2em;--b:none">
           <v-sheet class="card" style="--bg:hsl(210, 48%, 13%)" max-height="186px">
@@ -282,7 +280,7 @@ export default {
           profit: "+28,747",
         },
       ],
-      dataControls: [
+      dataControlsCharts: [
         { key: "line", icon: "chart-line", name: "Line Chart", active: false },
         { key: "pie", icon: "chart-pie", name: "Pie Chart", active: false },
         { key: "statistics", icon: "chart-line-variant", name: "Statistics", active: false },

@@ -175,32 +175,32 @@
       width: 100%;
     }
   }
-  .section-down {
+  .container-charts {
     background-color: hsl(212 47% 12% / .5);
     padding: 2em;
-    .dataTableMarket {
-      background-color: $primary;
-      padding-block: 1em;
-      td,th {color: #FFFFFF}
-      tr:hover {background: none !important}
-      tbody {
-        tr {
-          position: relative;
-          &::after {
-            content: "";
-            position: absolute;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            margin-inline: auto;
-            width: calc(100% - 8em);
-            height: 1px;
-            background-color: rgba(#60D2CA, .5);
-          }
-          td:first-of-type {text-indent: 4em; border-bottom: none}
-        }
-        .confidence {padding-block: 1em}
-      }
-    }
+    // .dataTableMarket {
+    //   background-color: $primary;
+    //   padding-block: 1em;
+    //   td,th {color: #FFFFFF}
+    //   tr:hover {background: none !important}
+    //   tbody {
+    //     tr {
+    //       position: relative;
+    //       &::after {
+    //         content: "";
+    //         position: absolute;
+    //         left: 0;
+    //         right: 0;
+    //         bottom: 0;
+    //         margin-inline: auto;
+    //         width: calc(100% - 8em);
+    //         height: 1px;
+    //         background-color: rgba(#60D2CA, .5);
+    //       }
+    //       td:first-of-type {text-indent: 4em; border-bottom: none}
+    //     }
+    //     .confidence {padding-block: 1em}
+    //   }
+    // }
   }
 }

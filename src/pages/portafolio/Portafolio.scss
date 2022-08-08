@@ -98,7 +98,57 @@
       min-width: 1.125em !important;
     }
   }
-  .container-charts {}
+  .container-profit {
+    .v-card {
+      @include media(min,small) {max-width: 35.75em}
+      .v-sheet {
+        & > aside:first-child {
+          position: relative;
+          padding-bottom: 1em;
+          margin-bottom: 1em;
+          &::before {
+            content: "";
+            @include absolute(0,auto,0,0);
+            width: 100%;
+            height: 1px;
+            background-color: rgba($success, .5);
+          }
+        }
+      }
+    }
+    .profit {
+      margin-inline: auto;
+      width: 100%;
+    }
+  }
+  .container-charts {
+    background-color: hsl(212 47% 12% / .5);
+    padding: 2em;
+    // .dataTableMarket {
+    //   background-color: $primary;
+    //   padding-block: 1em;
+    //   td,th {color: #FFFFFF}
+    //   tr:hover {background: none !important}
+    //   tbody {
+    //     tr {
+    //       position: relative;
+    //       &::after {
+    //         content: "";
+    //         position: absolute;
+    //         left: 0;
+    //         right: 0;
+    //         bottom: 0;
+    //         margin-inline: auto;
+    //         width: calc(100% - 8em);
+    //         height: 1px;
+    //         background-color: rgba(#60D2CA, .5);
+    //       }
+    //       td:first-of-type {text-indent: 4em; border-bottom: none}
+    //     }
+    //     .confidence {padding-block: 1em}
+    //   }
+    // }
+  }
   #dataTable {
     table {border-spacing: 0 1em}
     td {color: #FFFFFF}
