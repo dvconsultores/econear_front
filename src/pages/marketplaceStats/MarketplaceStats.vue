@@ -144,52 +144,13 @@
       <!-- overview section -->
       <template v-if="dataControlStats[dataControlStats.findIndex(e=>e.key=='overview')].active">
         <!-- chart marketCap -->
-        <section class="container-chart card" style="--p:2em">
-          <div class="space wrap">
-            <h3 class="h9_em">MarketCap</h3>
-
-            <v-btn-toggle mandatory color="#60D2CA">
-              <v-btn v-for="n in 3" :key="n" color="transparent">
-                <span>{{n==1?'24h':n==2?'7d':n==3?'30d':null}}</span>
-              </v-btn>
-            </v-btn-toggle>
-          </div>
-
-          <ChartMarketCap ref="chartmarketcap"></ChartMarketCap>
-        </section>
-
+        <ChartMarketCap ref="chartmarketcap"></ChartMarketCap>
 
         <!-- chart volume -->
-        <section class="container-chart card" style="--p:2em">
-          <div class="space wrap">
-            <h3 class="h9_em">Volume</h3>
-
-            <v-btn-toggle mandatory color="#60D2CA">
-              <v-btn v-for="n in 3" :key="n" color="transparent">
-                <span>{{n==1?'24h':n==2?'7d':n==3?'30d':null}}</span>
-              </v-btn>
-            </v-btn-toggle>
-          </div>
-
-          <ChartVolume ref="chartvolume"></ChartVolume>
-        </section>
-
+        <ChartVolume ref="chartvolume"></ChartVolume>
 
         <!-- chart user visits -->
-        <section class="container-chart card" style="--p:2em">
-          <div class="space wrap">
-            <h3 class="h9_em">User Visits</h3>
-
-            <v-btn-toggle mandatory color="#60D2CA">
-              <v-btn v-for="n in 3" :key="n" color="transparent">
-                <span>{{n==1?'24h':n==2?'7d':n==3?'30d':null}}</span>
-              </v-btn>
-            </v-btn-toggle>
-          </div>
-
-          <ChartUserVisits ref="chartuservisits"></ChartUserVisits>
-        </section>
-
+        <ChartUserVisits ref="chartuservisits"></ChartUserVisits>
 
         <section class="fwrap" style="--fb:1 1 45em; gap:1em">
           <!-- chart sales -->
@@ -255,19 +216,7 @@
 
 
           <!-- chart total sale -->
-          <aside class="container-chart card" style="--p:2em">
-            <div class="space wrap">
-              <h3 class="h9_em">Total Sale</h3>
-
-              <v-btn-toggle mandatory color="#60D2CA">
-                <v-btn v-for="n in 3" :key="n" color="transparent">
-                  <span>{{n==1?'24h':n==2?'7d':n==3?'30d':null}}</span>
-                </v-btn>
-              </v-btn-toggle>
-            </div>
-
-            <ChartTotalSale ref="charttotalsale"></ChartTotalSale>
-          </aside>
+          <ChartTotalSale ref="charttotalsale"></ChartTotalSale>
         </section>
       </template>
 
@@ -275,40 +224,10 @@
       <!-- social section -->
       <template v-if="dataControlStats[dataControlStats.findIndex(e=>e.key=='social')].active">
         <!-- chart discord -->
-        <section class="container-chart card" style="--p:2em">
-          <div class="space wrap">
-            <h3 class="h9_em">Discord</h3>
-
-            <v-btn-toggle mandatory color="#60D2CA">
-              <v-btn v-for="n in 6" :key="n" color="transparent">
-                <span>{{n==1?'24h':n==2?'7d':n==3?'30d':n==4?'90d':n==5?'1Y':n==6?'ALL':null}}</span>
-              </v-btn>
-              <v-btn color="transparent">
-                <v-icon color="#FFFFFF">mdi-calendar</v-icon>
-              </v-btn>
-            </v-btn-toggle>
-          </div>
-
-          <ChartDiscord ref="chartdiscord"></ChartDiscord>
-        </section>
+        <ChartDiscord ref="chartdiscord"></ChartDiscord>
 
         <!-- chart twitter -->
-        <section class="container-chart card" style="--p:2em">
-          <div class="space wrap">
-            <h3 class="h9_em">Twitter</h3>
-
-            <v-btn-toggle mandatory color="#60D2CA">
-              <v-btn v-for="n in 6" :key="n" color="transparent">
-                <span>{{n==1?'24h':n==2?'7d':n==3?'30d':n==4?'90d':n==5?'1Y':n==6?'ALL':null}}</span>
-              </v-btn>
-              <v-btn color="transparent">
-                <v-icon color="#FFFFFF">mdi-calendar</v-icon>
-              </v-btn>
-            </v-btn-toggle>
-          </div>
-
-          <ChartTwitter ref="charttwitter"></ChartTwitter>
-        </section>
+        <ChartTwitter ref="charttwitter"></ChartTwitter>
       </template>
     </section>
   </section>

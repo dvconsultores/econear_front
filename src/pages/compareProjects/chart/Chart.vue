@@ -42,7 +42,6 @@
 </template>
 
 <script>
-
 // autogenerate series functioin for style test
 function generateDayWiseTimeSeries(baseval, count, yrange) {
   var i = 0;
