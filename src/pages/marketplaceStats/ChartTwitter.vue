@@ -61,7 +61,7 @@ function generateDayWiseTimeSeries(baseval, count, yrange) {
 // autogenerate series functioin for style test
 
 export default {
-  name: "chartMarketCap",
+  name: "chartTwitter",
   i18n: require("./i18n"),
   data() {
     return {

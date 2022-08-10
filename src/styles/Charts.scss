@@ -7,6 +7,11 @@
 .charts {
   gap: clamp(3em, 4vw, 4em);
   // decoration tags
+  .tag_bottom {
+    --c: #B3B3B3;
+    font-size: 1.1em;
+    font-weight: bold;
+  }
   .tags {
     --width: 3em;
     width: calc(100% - var(--width)) !important;
@@ -22,6 +27,7 @@
       color: #B3B3B3;
       transform: rotate(-90deg);
     }
+    ///////////////////// temporal
     &#twitter::before {@include absolute(calc(var(--width) * -1.8),0,auto,0)}
     &#sales::before {@include absolute(calc(var(--width) * -.8),0,auto,0)}
   }
@@ -50,6 +56,14 @@
       color: #B3B3B3;
       transform: rotate(-90deg);
     }
+    //////////////////////// temporal
+    &#price::before {@include absolute(calc(var(--width) * -1.5),0,auto,0)}
+    &#sales::before {@include absolute(calc(var(--width) * -1),0,auto,0)}
+    &#sales::after {@include absolute(auto,0,calc(var(--width) * -1.25),0)}
+    &#holders::before {@include absolute(calc(var(--width) * -2.8),0,auto,0)}
+    &#holders::after {@include absolute(auto,0,calc(var(--width) * -1.25),0)}
+    &#buyers::before {@include absolute(calc(var(--width) * -1.15),0,auto,0)}
+    &#buyers::after {@include absolute(auto,0,calc(var(--width) * -1.25),0)}
   }
   // controls
   .toolbar {
@@ -58,8 +72,10 @@
     margin-bottom: 1em;
     width: calc(100% - var(--margin));
     display: flex;
-    justify-content: space-between;
-    align-items: center;
+    &:not(.divcol) {
+      justify-content: space-between;
+      align-items: center;
+    }
     &.not_margin {margin-left: 0 !important;width: 100% !important}
     h3 {margin-bottom: .2em !important}
     .legend {
@@ -135,18 +151,38 @@
         }
       }
     }
-    
-    // discord chart //
-    &.discord {
+
+    // doble stroke linecharts //
+    &.doble {
       .apexcharts-tooltip {
         &-series-group {
           &:first-of-type {
-            background-color: hsl(264, 70%, 48%, .46) !important;
-            span {color: #6A25D2 !important}
+            background-color: hsl(264, 70%, 48%, .6) !important;
+            span {color: #ffffff !important}
           }
           &:last-of-type {
-            background-color: hsl(32, 73%, 49%, .46) !important;
-            span {color: #D88321 !important}
+            background-color: hsl(32, 73%, 49%, .6) !important;
+            span {color: #ffffff !important}
+          }
+        }
+      }
+    }
+
+    // triple stroke linecharts //
+    &.triple {
+      .apexcharts-tooltip {
+        &-series-group {
+          &:first-of-type {
+            background-color: hsl(171, 100%, 72%, .46) !important;
+            span {color: #ffffff !important}
+            & + .apexcharts-tooltip-series-group {
+              background-color: hsl(264, 70%, 48%, .6) !important;
+              span {color: #FFFFFF !important}
+            }
+          }
+          &:last-of-type {
+            background-color: hsl(32, 73%, 49%, .6) !important;
+            span {color: #ffffff !important}
           }
         }
       }
@@ -156,6 +192,11 @@
   // piechart //
   &#piechart {
     path {stroke: transparent}
+    .apexcharts-legend-series {
+      &::after {
+        content: var(--percent);
+      }
+    }
   }
 
   // barchart //

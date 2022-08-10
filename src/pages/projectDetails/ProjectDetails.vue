@@ -123,160 +123,28 @@
       </section>
 
       <!-- chart market -->
-      <section class="container-chart card" style="--p:2em">
-        <div class="space wrap">
-          <h3 class="h9_em">MarketCap &amp; Volume</h3>
-
-          <v-btn-toggle
-            mandatory
-            color="#60D2CA"
-          >
-            <v-btn v-for="n in 6" :key="n" color="transparent">
-              <span>{{n==1?'24h':n==2?'7d':n==3?'30d':n==4?'90d':n==5?'1Y':n==6?'ALL':null}}</span>
-            </v-btn>
-            <v-btn color="transparent">
-              <v-icon color="#FFFFFF">mdi-calendar</v-icon>
-            </v-btn>
-          </v-btn-toggle>
-        </div>
-
-        <ChartMarket ref="chartmarket"></ChartMarket>
-      </section>
-
+      <ChartMarket ref="chartmarket"></ChartMarket>
 
       <!-- chart price -->
-      <section class="container-chart card" style="--p:2em">
-        <div class="space wrap">
-          <h3 class="h9_em">Price ($NEAR)</h3>
+      <ChartPrice ref="chartprice"></ChartPrice>
 
-          <v-btn-toggle
-            mandatory
-            color="#60D2CA"
-          >
-            <v-btn v-for="n in 6" :key="n" color="transparent">
-              <span>{{n==1?'24h':n==2?'7d':n==3?'30d':n==4?'90d':n==5?'1Y':n==6?'ALL':null}}</span>
-            </v-btn>
-            <v-btn color="transparent">
-              <v-icon color="#FFFFFF">mdi-calendar</v-icon>
-            </v-btn>
-          </v-btn-toggle>
-        </div>
-
-        <ChartPrice ref="chartprice"></ChartPrice>
-      </section>
-
-
-      <section class="fwrap" style="--fb:1 1 45em; gap:1em">
+      <section class="fwrap" style="gap:2em">
         <!-- chart sales -->
-        <aside class="container-chart card" style="--p:2em">
-          <div class="space wrap">
-            <h3 class="h9_em">Sales and liquidity</h3>
-
-            <v-btn-toggle
-              mandatory
-              color="#60D2CA"
-            >
-              <v-btn v-for="n in 6" :key="n" color="transparent">
-                <span>{{n==1?'24h':n==2?'7d':n==3?'30d':n==4?'90d':n==5?'1Y':n==6?'ALL':null}}</span>
-              </v-btn>
-              <v-btn color="transparent">
-                <v-icon color="#FFFFFF">mdi-calendar</v-icon>
-              </v-btn>
-            </v-btn-toggle>
-          </div>
-
-          <ChartSales ref="chartsales"></ChartSales>
-        </aside>
-
+        <ChartSales ref="chartsales"></ChartSales>
 
         <!-- chart buyers -->
-        <aside class="container-chart card" style="--p:2em">
-          <div class="space wrap">
-            <h3 class="h9_em">Buyers &amp; Traders</h3>
-
-            <v-btn-toggle
-              mandatory
-              color="#60D2CA"
-            >
-              <v-btn v-for="n in 6" :key="n" color="transparent">
-                <span>{{n==1?'24h':n==2?'7d':n==3?'30d':n==4?'90d':n==5?'1Y':n==6?'ALL':null}}</span>
-              </v-btn>
-              <v-btn color="transparent">
-                <v-icon color="#FFFFFF">mdi-calendar</v-icon>
-              </v-btn>
-            </v-btn-toggle>
-          </div>
-
-          <ChartBuyers ref="chartbuyers"></ChartBuyers>
-        </aside>
+        <ChartBuyers ref="chartbuyers"></ChartBuyers>
       </section>
-
 
       <!-- chart holders -->
-      <section class="container-chart card" style="--p:2em">
-        <div class="space wrap">
-          <h3 class="h9_em">Holders</h3>
+      <ChartHolders ref="chartholders"></ChartHolders>
 
-          <v-btn-toggle
-            mandatory
-            color="#60D2CA"
-          >
-            <v-btn v-for="n in 6" :key="n" color="transparent">
-              <span>{{n==1?'24h':n==2?'7d':n==3?'30d':n==4?'90d':n==5?'1Y':n==6?'ALL':null}}</span>
-            </v-btn>
-            <v-btn color="transparent">
-              <v-icon color="#FFFFFF">mdi-calendar</v-icon>
-            </v-btn>
-          </v-btn-toggle>
-        </div>
-
-        <ChartHolders ref="chartholders"></ChartHolders>
-      </section>
-
-
-      <section class="fwrap" style="--fb:1 1 45em; gap:1em">
+      <section class="fwrap" style="--fb:1 1 45em; gap:2em">
         <!-- chart holding amount -->
-        <aside class="container-chart card" style="--p:2em">
-          <div class="space wrap">
-            <h3 class="h9_em">Holding Amount Distribution</h3>
-
-            <v-btn-toggle
-              mandatory
-              color="#60D2CA"
-            >
-              <v-btn v-for="n in 6" :key="n" color="transparent">
-                <span>{{n==1?'24h':n==2?'7d':n==3?'30d':n==4?'90d':n==5?'1Y':n==6?'ALL':null}}</span>
-              </v-btn>
-              <v-btn color="transparent">
-                <v-icon color="#FFFFFF">mdi-calendar</v-icon>
-              </v-btn>
-            </v-btn-toggle>
-          </div>
-
-          <ChartHoldingAmount ref="chartholdingamount"></ChartHoldingAmount>
-        </aside>
-
+        <ChartHoldingAmount ref="chartholdingamount"></ChartHoldingAmount>
 
         <!-- chart holding period -->
-        <aside class="container-chart card" style="--p:2em">
-          <div class="space wrap">
-            <h3 class="h9_em">Holding Period Distribution</h3>
-
-            <v-btn-toggle
-              mandatory
-              color="#60D2CA"
-            >
-              <v-btn v-for="n in 6" :key="n" color="transparent">
-                <span>{{n==1?'24h':n==2?'7d':n==3?'30d':n==4?'90d':n==5?'1Y':n==6?'ALL':null}}</span>
-              </v-btn>
-              <v-btn color="transparent">
-                <v-icon color="#FFFFFF">mdi-calendar</v-icon>
-              </v-btn>
-            </v-btn-toggle>
-          </div>
-
-          <ChartHoldingPeriod ref="chartholdingperiod"></ChartHoldingPeriod>
-        </aside>
+        <ChartHoldingPeriod ref="chartholdingperiod"></ChartHoldingPeriod>
       </section>
 
 
@@ -356,62 +224,20 @@
     <!-- social section -->
     <template v-if="dataControls[dataControls.findIndex(e=>e.key=='social')].active">
       <!-- chart discord -->
-      <section class="container-chart card" style="--p:2em">
-        <div class="space wrap">
-          <h3 class="h9_em">Discord</h3>
-
-          <v-btn-toggle mandatory color="#60D2CA">
-            <v-btn v-for="n in 6" :key="n" color="transparent">
-              <span>{{n==1?'24h':n==2?'7d':n==3?'30d':n==4?'90d':n==5?'1Y':n==6?'ALL':null}}</span>
-            </v-btn>
-            <v-btn color="transparent">
-              <v-icon color="#FFFFFF">mdi-calendar</v-icon>
-            </v-btn>
-          </v-btn-toggle>
-        </div>
-
-        <ChartDiscord ref="chartdiscord"></ChartDiscord>
-      </section>
+      <ChartDiscord ref="chartdiscord"></ChartDiscord>
 
       <!-- chart twitter -->
-      <section class="container-chart card" style="--p:2em">
-        <div class="space wrap">
-          <h3 class="h9_em">Twitter</h3>
-
-          <v-btn-toggle mandatory color="#60D2CA">
-            <v-btn v-for="n in 6" :key="n" color="transparent">
-              <span>{{n==1?'24h':n==2?'7d':n==3?'30d':n==4?'90d':n==5?'1Y':n==6?'ALL':null}}</span>
-            </v-btn>
-            <v-btn color="transparent">
-              <v-icon color="#FFFFFF">mdi-calendar</v-icon>
-            </v-btn>
-          </v-btn-toggle>
-        </div>
-
-        <ChartTwitter ref="charttwitter"></ChartTwitter>
-      </section>
+      <ChartTwitter ref="charttwitter"></ChartTwitter>
     </template>
 
 
     <!-- nft section -->
     <template v-if="dataControls[dataControls.findIndex(e=>e.key=='nft')].active">
       <!-- chart rarity distribution -->
-      <section class="container-chart card" style="--p:2em">
-        <div class="space wrap">
-          <h3 class="h9_em">Rarity Distribution</h3>
-        </div>
-
-        <ChartRarityDistribution ref="chartraritydistribution"></ChartRarityDistribution>
-      </section>
+      <ChartRarityDistribution ref="chartraritydistribution"></ChartRarityDistribution>
 
       <!-- chart rarity and price -->
-      <section class="container-chart card" style="--p:2em">
-        <div class="space wrap">
-          <h3 class="h9_em">Rarity and price</h3>
-        </div>
-
-        <ChartRarityPrice ref="chartrarityprice"></ChartRarityPrice>
-      </section>
+      <ChartRarityPrice ref="chartrarityprice"></ChartRarityPrice>
 
       <!-- nfts -->
       <section class="container-chart card divcol gap2" style="--p:2em">
@@ -825,6 +651,9 @@ import ChartMarket from './chart/ChartMarket.vue'
 import ChartPrice from './chart/ChartPrice.vue'
 import ChartSales from './chart/ChartSales.vue'
 import ChartBuyers from './chart/ChartBuyers.vue'
+import ChartHolders from './chart/ChartHolders.vue'
+import ChartHoldingAmount from './chart/ChartHoldingAmount.vue'
+import ChartHoldingPeriod from './chart/ChartHoldingPeriod.vue'
 import ChartDiscord from './chart/ChartDiscord.vue'
 import ChartTwitter from './chart/ChartTwitter.vue'
 import ChartRarityDistribution from './chart/ChartRarityDistribution.vue'
@@ -832,7 +661,7 @@ import ChartRarityPrice from './chart/ChartRarityPrice.vue'
 export default {
   name: "details",
   i18n: require("./i18n"),
-  components: { ChartMarket, ChartPrice, ChartSales, ChartBuyers, ChartDiscord, ChartTwitter, ChartRarityDistribution, ChartRarityPrice },
+  components: { ChartMarket, ChartPrice, ChartSales, ChartBuyers, ChartHolders, ChartHoldingAmount, ChartHoldingPeriod, ChartDiscord, ChartTwitter, ChartRarityDistribution, ChartRarityPrice },
   data() {
     return {
       dataSocialRed: [

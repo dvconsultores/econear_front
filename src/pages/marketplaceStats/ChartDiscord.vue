@@ -1,5 +1,5 @@
 <template>
-  <section id="linechart" class="charts discord card" style="--p:2em">
+  <section id="linechart" class="charts doble card" style="--p:2em">
     <div class="toolbar wrap not_margin">
       <div class="divcol">
         <h3 class="h9_em">Discord</h3>
@@ -30,7 +30,9 @@
 
             <div class="values acenter gap1">
               <h6 class="p bold">{{dataDiscord.online.value}}</h6>
-              <span class="percent" :style="`--c:${dataDiscord.online.percent.includes('+')?'var(--success)':'var(--error)'}`">{{dataDiscord.online.percent}}%</span>
+              <span class="percent" :style="`--c:${dataDiscord.online.percent.includes('+')?'var(--success)':'var(--error)'}`">
+                {{dataDiscord.online.percent}}%
+              </span>
             </div>
           </aside>
         </div>
@@ -78,7 +80,7 @@ function generateDayWiseTimeSeries(baseval, count, yrange) {
 // autogenerate series functioin for style test
 
 export default {
-  name: "chartMarketCap",
+  name: "chartDiscord",
   i18n: require("./i18n"),
   data() {
     return {
