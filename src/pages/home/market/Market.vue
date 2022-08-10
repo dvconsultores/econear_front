@@ -30,7 +30,7 @@
               class="space gap1 tnowrap">
               <div class="acenter gap1">
                 <span>{{i2+1}}</span>
-                <img :src="item2.img || image" alt="Referencial Image" style="--w:clamp(4em,4.7vw,4.75em)">
+                <img :src="item2.img || image" alt="Referencial Image" style="--w:clamp(4em,2vw,4.75em)">
                 <div class="divcol">
                   <span class="h11_em">{{item2.name}}</span>
                   <span class="h12_em">{{item2.user}}</span>
@@ -295,10 +295,10 @@ export default {
           for (var i = 0; i < response.data.length; i++) {
             let collection = {
               img: response.data[i].icon,
-              name: response.data[i].name,
+              name: response.data[i].name + " #" + response.data[i].token_id,
               user: response.data[i].nft_contract_id,
-              near: parseFloat(response.data[i].max_price).toFixed(1) + " N",
-              dollar: "$"+(response.data[i].max_price * this.nearPrice.current_price).toFixed(2),
+              near: parseFloat(response.data[i].price).toFixed(1) + " N",
+              dollar: "$"+(response.data[i].price * this.nearPrice.current_price).toFixed(2),
               state: true,
             }
             this.dataBoard[1].list.push(collection)
