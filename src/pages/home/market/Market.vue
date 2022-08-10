@@ -225,6 +225,18 @@ export default {
         this.pricePARAS()
     }.bind(this), 60000);
 
+    this.interval3 = setInterval(function () {
+        this.highestVolGainers()
+    }.bind(this), 1800000);
+
+    this.interval4 = setInterval(function () {
+        this.salesOfTheDay()
+    }.bind(this), 1800000);
+
+    this.interval5 = setInterval(function () {
+        this.volumen24h()
+    }.bind(this), 1800000);
+
     // this.getVolume()
     // this.interval3 = setInterval(function () {
     //     this.getVolume()
