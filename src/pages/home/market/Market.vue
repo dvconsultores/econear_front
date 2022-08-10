@@ -11,9 +11,9 @@
           <div class="space semibold h12_em gap1">
             <span class="acenter">
               {{item.state?'+':''}}{{item.value}}
-              <img class="margin1left" :src="item.state?require('@/assets/icons/increase.svg'):require('@/assets/icons/decrease.svg')">
+              <img class="margin1left" :src="item.value?(item.state?require('@/assets/icons/increase.svg'):require('@/assets/icons/decrease.svg')):''">
             </span>
-            <span>{{item.state?'+':''}}{{item.percent}}%</span>
+            <span>{{item.state?'+':''}}{{item.percent?item.percent+"%":''}}</span>
           </div>
         </v-card>
       </aside>
@@ -30,7 +30,7 @@
               class="space gap1 tnowrap">
               <div class="acenter gap1">
                 <span>{{i2+1}}</span>
-                <img :src="item2.img" alt="Referencial Image" style="--w:clamp(4em,4.7vw,4.75em)">
+                <img :src="item2.img || image" alt="Referencial Image" style="--w:clamp(4em,4.7vw,4.75em)">
                 <div class="divcol">
                   <span class="h11_em">{{item2.name}}</span>
                   <span class="h12_em">{{item2.user}}</span>
@@ -83,6 +83,8 @@ export default {
     return {
       nearPrice: null,
       parasPrice: null,
+      volume24h: null,
+      image: require('@/assets/nfts/nft1.png'),
       dataMarket: [
         {
           name: "EST.MCAP",
@@ -107,10 +109,10 @@ export default {
         },
         {
           name: "VOL 24H",
-          price: "3,852 N",
-          value: "344.4 N",
-          percent: "9.82",
-          state: true
+          price: null,
+          value: null,
+          percent: null,
+          state: null,
         },
         {
           name: "VOL 7D",
@@ -126,23 +128,23 @@ export default {
           list: [
             {
               img: require('@/assets/nfts/nft1.png'),
-              name: "Collection o Nft Name",
-              user: "Nftloremipsum.near",
-              percent: "123,45",
+              name: null,
+              user: null,
+              percent: null,
               state: true,
             },
             {
               img: require('@/assets/nfts/nft1.png'),
-              name: "Collection o Nft Name",
-              user: "Nftloremipsum.near",
-              percent: "123,45",
+              name: null,
+              user: null,
+              percent: null,
               state: true,
             },
             {
               img: require('@/assets/nfts/nft1.png'),
-              name: "Collection o Nft Name",
-              user: "Nftloremipsum.near",
-              percent: "123,45",
+              name: null,
+              user: null,
+              percent: null,
               state: true,
             },
           ]
@@ -152,26 +154,26 @@ export default {
           list: [
             {
               img: require('@/assets/nfts/nft1.png'),
-              name: "Collection o Nft Name",
-              user: "Nftloremipsum.near",
-              near: "45 N",
-              dollar: "$ 231",
+              name: null,
+              user: null,
+              near: null,
+              dollar: null,
               state: true,
             },
             {
               img: require('@/assets/nfts/nft1.png'),
-              name: "Collection o Nft Name",
-              user: "Nftloremipsum.near",
-              near: "45 N",
-              dollar: "$ 231",
+              name: null,
+              user: null,
+              near: null,
+              dollar: null,
               state: true,
             },
             {
               img: require('@/assets/nfts/nft1.png'),
-              name: "Collection o Nft Name",
-              user: "Nftloremipsum.near",
-              near: "45 N",
-              dollar: "$ 231",
+              name: null,
+              user: null,
+              near: null,
+              dollar: null,
               state: true,
             },
           ]
@@ -209,15 +211,24 @@ export default {
     }
   },
   async mounted() {
-    this.priceNEAR()
+    await this.priceNEAR()
+    this.pricePARAS()
+    this.highestVolGainers()
+    this.salesOfTheDay()
+    this.volumen24h()
+    
     this.interval = setInterval(function () {
         this.priceNEAR()
     }.bind(this), 60000);
 
-    this.pricePARAS()
-    this.interval = setInterval(function () {
+    this.interval2 = setInterval(function () {
         this.pricePARAS()
     }.bind(this), 60000);
+
+    // this.getVolume()
+    // this.interval3 = setInterval(function () {
+    //     this.getVolume()
+    // }.bind(this), 60000);
   },
   methods: {
     async priceNEAR(){
@@ -258,6 +269,74 @@ export default {
         })
         .catch((e) => {
           console.log(e)
+        })
+    },
+    async salesOfTheDay(){
+      const url = "api/v1/salesoftheday"
+      let item = {
+        top: 3
+      }
+      this.axios.post(url, item)
+        .then((response) => {
+          console.log("sales", response.data)
+          this.dataBoard[1].list = []
+          for (var i = 0; i < response.data.length; i++) {
+            let collection = {
+              img: response.data[i].icon,
+              name: response.data[i].name,
+              user: response.data[i].nft_contract_id,
+              near: parseFloat(response.data[i].max_price).toFixed(1) + " N",
+              dollar: "$"+(response.data[i].max_price * this.nearPrice.current_price).toFixed(2),
+              state: true,
+            }
+            this.dataBoard[1].list.push(collection)
+          }
+        }).catch((error) => {
+          console.log(error)
+        })
+    },
+    async highestVolGainers(){
+      const url = "api/v1/highestvolgainers"
+      let item = {
+        top: 3
+      }
+      this.axios.post(url, item)
+        .then((response) => {
+          this.dataBoard[0].list = []
+          for (var i = 0; i < response.data.length; i++) {
+            let collection = {
+              img: response.data[i].icon,
+              name: response.data[i].name,
+              user: response.data[i].nft_contract_id,
+              percent: parseInt(response.data[i].porcentaje),
+              state: true,
+            }          
+            if (response.data[i].porcentaje < 0) {
+              collection.state = false
+            }  
+            this.dataBoard[0].list.push(collection)
+          }
+        }).catch((error) => {
+          console.log(error)
+        })
+    },
+    async volumen24h(){
+      const url = "api/v1/volumen24h"
+
+      this.axios.post(url)
+        .then((response) => {
+          this.volume24h = response.data[0]
+          console.log(this.volume24h)
+          this.dataMarket[3].price = parseFloat(this.volume24h.volumen24h).toFixed(2) + " N"
+          this.dataMarket[3].value = (this.volume24h.volumen24h - this.volume24h.volumen48h).toFixed(2) + " N"
+          this.dataMarket[3].percent = parseFloat(this.volume24h.porcentaje).toFixed(2)
+          if (this.volume24h.porcentaje > 0) {
+            this.dataMarket[3].state = true
+          } else {
+            this.dataMarket[3].state = false
+          }
+        }).catch((error) => {
+          console.log(error)
         })
     },
   }
