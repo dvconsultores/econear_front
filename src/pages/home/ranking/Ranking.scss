@@ -30,8 +30,18 @@
     }
   }
   #dataTable {
+    .v-data-table__wrapper {
+      &::-webkit-scrollbar {display: none}
+    }
     table {border-spacing: 0 1em}
     td {color: #FFFFFF}
+    thead {
+      th {
+        button {
+          min-width: max-content;
+        }
+      }
+    }
     tbody {
       tr {
         position: relative;
@@ -46,6 +56,9 @@
           cursor: pointer;
           transition: .2s $ease-return;
           &:hover {background-color: #21786D;box-shadow: $sombra-card}
+        }
+        td:nth-of-type(2) {
+          min-width: 200px;
         }
       }
     }
@@ -67,4 +80,11 @@
   //     }
   //   }
   // }
+  #container-footer {
+    @include media(max,500px) {
+      p {
+        span + span {margin-top: .5em}
+      }
+    }
+  }
 }

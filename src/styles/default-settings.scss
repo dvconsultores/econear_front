@@ -290,6 +290,7 @@ img:not(.not_html, .not) {
   overscroll-behavior: contain;
   label:not(.labels) {font-weight: 700}
   &::-webkit-scrollbar {display: none}
+  @include media(max, 500px) {margin-inline: 0}
 }
 .v-dialog--scrollable {
   @include media(max, small) {margin: 0 !important; min-height: 100% !important}

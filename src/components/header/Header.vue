@@ -5,22 +5,22 @@
       <aside class="left acenter">
         <!-- logo -->
         <router-link :to="('/')" class="eliminarmobile">
-          <img src="@/assets/logos/logo.svg" alt="Logo" style="--w: 17.3125em;--h:8.115em">
+          <img src="@/assets/logos/logo.svg" alt="Logo" style="--w: clamp(13em, 17vw, 17.3125em);--h:8.115em">
         </router-link>
-        <v-btn icon class="vermobile" @click.stop="$refs.menu.drawer=true" style="--p:2.2em;--br:3.5vmax/50%">
-          <img src="@/assets/icons/toggle.png" alt="toggle button"
-            style="--w:clamp(2.5em, 3vw, 3em); margin-left:0">
+        <v-btn icon class="vermobile" @click.stop="$refs.menu.drawer=true" style="--p:2em;--br:3.5vmax/50%">
+          <img src="@/assets/icons/toggle.svg" alt="toggle button"
+            style="--w:clamp(2em, 3vw, 3em); margin-left:0">
         </v-btn>
       </aside>
 
-      <aside class="middle acenter gap2 eliminarmobile">
-        <a v-for="(item,i) in dataHeader" :key="i" @click="$router.push(item.to)" class="h11_em">
+      <aside class="middle acenter">
+        <a v-for="(item,i) in dataHeader" :key="i" @click="$router.push(item.to)" class="h11_em eliminarmobile">
           {{item.name}}
         </a>
         <v-menu offset-y>
           <!-- slot -->
           <template v-slot:activator="{ on, attrs}">
-            <button class="h11_em" v-on="on" v-bind="attrs">
+            <button class="h11_em eliminarmobile" v-on="on" v-bind="attrs">
               More<v-icon medium color="var(--success)">mdi-chevron-down</v-icon>
             </button>
           </template>
@@ -58,7 +58,7 @@
         <v-menu offset-y>
           <!-- slot -->
           <template v-slot:activator="{ on, attrs}">
-            <button v-if="!user" class="h11_em eliminarmobile" v-on="on" v-bind="attrs">
+            <button v-show="!user" class="h11_em" v-on="on" v-bind="attrs">
               {{languageText}}<v-icon color="var(--success)">mdi-chevron-down</v-icon>
             </button>
           </template>
@@ -76,7 +76,7 @@
         <v-menu offset-y>
           <!-- slot -->
           <template v-slot:activator="{ on, attrs}">
-            <button v-if="user" class="h11_em eliminarmobile" v-on="on" v-bind="attrs">
+            <button v-show="user" class="h11_em" v-on="on" v-bind="attrs">
               {{languageText}}<v-icon color="var(--success)">mdi-chevron-down</v-icon>
             </button>
           </template>
@@ -94,20 +94,20 @@
           Connect Wallet
         </v-btn>
 
-        <v-badge overlap :content="messages" :value="messages" class="openNotifications"
+        <v-badge overlap :content="messages" :value="messages" class="openNotifications eliminarmobile"
           style="--bg:var(--error);--c:#FFFFFF;--b:1.5px solid var(--success);--t:translate(-30%, 30%)">
           <v-btn icon>
-            <img src="@/assets/icons/bell-outline.svg" alt="notifications" style="width:1.775em;height:1.971875em">
+            <img src="@/assets/icons/bell-outline.svg" alt="notifications" style="width:clamp(1.5em, 1.7vw, 1.775em)">
           </v-btn>
         </v-badge>
 
         <v-btn v-show="!user" class="btn avatarBtn"
           style="--p: clamp(1em, 1.5vw, 1.5em) .2em clamp(1em, 1.5vw, 1.5em) 0;--br:.2vmax;
           --bs: 0 2px 8px 3px #6FFFE9;">
-          <v-avatar style="box-shadow:0px 0px 8px 3px #6FFFE9" width="4.6em" height="4.6em">
+          <v-avatar style="box-shadow:0px 0px 8px 3px #6FFFE9" width="clamp(3.8em, 4.6vw, 4.6em)" height="clamp(3.8em, 4.6vw, 4.6em)">
             <img src="@/assets/logos/user-empty.png" alt="Avatar" style="--w:100%">
           </v-avatar>
-          <div class="divcol" style="gap:.2em">
+          <div id="container-account" class="divcol" style="gap:.2em">
             <span class="h11_em">Disconnect Wallet</span>
             <span class="h12_em">{{ accountId }}</span>
           </div>

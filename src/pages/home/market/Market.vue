@@ -34,7 +34,7 @@
               class="space gap1 tnowrap">
               <div class="acenter gap1">
                 <span>{{i2+1}}</span>
-                <img :src="item2.img || image" alt="Referencial Image" style="--w:clamp(4em,2vw,4.75em)">
+                <img :src="item2.img || image" alt="Referencial Image" style="--w:clamp(3.5em,2vw,4.75em)">
                 <div class="divcol">
                   <span class="h11_em">{{item2.name}}</span>
                   <span class="h12_em">{{item2.user}}</span>
@@ -61,7 +61,7 @@
     </section>
 
     <article>
-      <v-card class="fwrap center overflow" style="--fb: 1 1 495px">
+      <v-card class="fwrap center overflow">
         <img src="@/assets/images/anuncio.png" alt="Announcement Image" style="--w:min(100%,40em)">
 
         <div class="container-info space gap2">

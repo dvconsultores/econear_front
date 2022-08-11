@@ -8,7 +8,7 @@
   background-size: cover;
   overflow: hidden;
   & .with {
-    padding-block: 140px 35em !important;
+    padding-block: 140px clamp(30em, 35vw, 35em) !important;
     @include media(max, small) {padding-bottom: 40em !important}
   }
   & .without {padding-bottom: 0em !important}

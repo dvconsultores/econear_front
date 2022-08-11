@@ -6,7 +6,7 @@
 #market {
   .marketContainer {
     background-color: rgba(#112131, .46);
-    padding: 2em;
+    padding: clamp(.5em, 2vw, 2em);
     border-radius: $border-card;
     .v-card {
       background-color: #122432;
@@ -14,6 +14,8 @@
       padding: 1em;
     }
     .sectionDown {
+      @include media(max, 500px) {font-size: 12px}
+      @include media(max, 320px) {font-size: 10px}
       .v-card {
         aside {
           position: relative;
@@ -30,12 +32,13 @@
   }
   article {
     background-color: rgba(#112131, .46);
-    padding: 2em;
+    padding: clamp(.5em, 2vw, 2em);
     border-radius: $border-card;
     @include media(max,1650px) {font-size: 14px};
     @include media(max,1450px) {font-size: 12px};
     @include media(max,1268px) {font-size: 15px};
     .v-card {
+      --fb: 1 1 495px;
       height: min-content !important;
       min-height: min-content !important;
       max-height: min-content !important;
@@ -44,8 +47,29 @@
       box-shadow: 0 0 1.5px 1.5px $clr-btn !important;
       .container-info {
         padding-inline: clamp(1em, 2vw, 2em);
-        @include media(max,1268px) {padding-block: clamp(1em, 2vw, 2em)};
-        h2 {max-width: 11ch}
+        @include media(max,1268px) {
+          flex-direction: column;
+          padding-block: 2em;
+        };
+        h3 {
+          max-width: 11ch;
+          position: relative;
+          @include media(max,1268px) {
+            max-width: none;
+            padding-bottom: .5em;
+            text-align: center;
+            &::before {
+              --move: 1em;
+              content: "";
+              @include absolute(0,auto,0,0);
+              width: calc(100% + var(--move));
+              transform: translateX(calc(var(--move) * -.5));
+              height: 1px;
+              // border-bottom: 1px solid #FFFFFF;
+              background-color: #ffffff;
+            }
+          }
+        }
         p {
           @include media(min,1268px) {max-width: 25ch};
           max-height: 12em;
@@ -57,6 +81,7 @@
             transform: translateX(-1em);
             height: 50%;
             border-inline: 1px solid #FFFFFF;
+            @include media(max,1268px) {display: none !important}
           }
         }
       }
@@ -64,7 +89,10 @@
   }
 }
 
-.modalMarketMore {min-height: 700px !important}
+.modalMarketMore {
+  min-height: 700px !important;
+  @include media(max, 500px) {font-size: 12px}
+}
 #modalMarketMore {
   height: 700px;
   .v-card {

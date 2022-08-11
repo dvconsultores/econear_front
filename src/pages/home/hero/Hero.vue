@@ -10,7 +10,7 @@
     <v-btn class="btn h10_em center" @click="modalProject=true"
       style="--p:0 2em;--h:62px;--w:13.5em;--bs:0 3px 4px 1px hsl(176, 60%, 40%, .7)">Get Started</v-btn>
 
-    <blockquote class="fill_w">
+    <blockquote class="fill_w scrollxmobile">
       <aside v-for="(item,i) in dataCards" :key="i" class="wrapperCards"
         :style="`--top:${item.style.top};--left:${item.style.left};--right:${item.style.right}`">
         <v-card class="hero-cards divcol center tcenter gap1"
@@ -26,7 +26,7 @@
       v-model="modalProject"
       max-width="82.358125em"
     >
-      <v-card color="var(--primary)" style="padding:6em" class="modalProject">
+      <v-card color="var(--primary)" style="padding: 4em var(--margin-global)" class="modalProject">
         <v-btn icon class="close" @click="modalProject = false">
           <img src="@/assets/icons/close.svg" alt="close" style="--w:0.921875em">
         </v-btn>
@@ -68,10 +68,10 @@
           </section>
 
           <section class="fill_w">
-            <center>
+            <center style="font-size:clamp(14px, 1vw, 16px)">
               <label style="color:var(--clr-inv)">Have you already minted ?</label>
             </center>
-            <div class="space wrap">
+            <div class="container-checkbox space">
               <aside class="acenter">
                 <label class="labels" for="A" style="color:var(--clr-inv);--tag:'A'">No, the mint is upcoming!</label>
                 <v-checkbox
