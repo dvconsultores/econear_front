@@ -31,21 +31,29 @@
         <template v-if="dataDrawer.expansion">
           <v-expansion-panel v-for="(item,i) in dataDrawer.expansion" :key="i">
             <!-- title -->
-            <v-expansion-panel-header hide-actions class="h11_em">
+            <v-expansion-panel-header hide-actions class="h11_em" @click="item.active?item.active=!item.active:dataDrawer.expansion.forEach(e=>{e.active=false;item.active=true})">
               <v-col class="conttitle acenter gap2">
                 <span class="clr_text_btn normal" style="max-width: max-content">{{ item.name }}</span>
+                <v-icon :class="{active_rotate: item.active}">mdi-chevron-down</v-icon>
               </v-col>
             </v-expansion-panel-header>
 
             <v-expansion-panel-content>
               <v-list>
                 <!-- ciclo for items -->
-                <v-list-item v-for="(item2,i) in item.selection" :key="i"
-                  @click="CambiarLanguage(item2.key)">
-                  <v-list-item-title class="center h10_em">
-                    <span class="clr_text_btn normal">{{ item2.name}}</span>
-                  </v-list-item-title>
-                </v-list-item>
+                <template v-for="(item2,i) in item.selection">
+                  <v-list-item :key="i" v-show="item2.title" disabled>
+                    <v-list-item-title class="titles center h10_em">
+                      <span class="clr_text_btn normal" style="color:var(--success) !important">{{ item2.title}}</span>
+                    </v-list-item-title>
+                  </v-list-item>
+                  <v-list-item :key="i" v-show="item2.name"
+                    @click="CambiarLanguage(item2.key)">
+                    <v-list-item-title class="center h10_em">
+                      <span class="clr_text_btn normal">{{ item2.name}}</span>
+                    </v-list-item-title>
+                  </v-list-item>
+                </template>
               </v-list>
             </v-expansion-panel-content>
           </v-expansion-panel>
@@ -314,6 +322,36 @@ export default {
         ],
         expansion: [
           {
+            active: false,
+            name: "MORE",
+            selection: [
+              { title: "Account" },
+              { key: "login", name: "Login" },
+              { key: "whitelist", name: "Whitelist" },
+              { key: "register", name: "Register" },
+              { title: "NFTS" },
+              { key: "compare-projects", name: "Compare Projectss" },
+              { key: "upcoming-projects", name: "Upcoming Projects (Drops)" },
+              { key: "new-projects", name: "New Projects" },
+              { title: "ECONEAR" },
+              { key: "wallet-submission", name: "Wallet Submission" },
+              { key: "vote", name: "Vote" },
+              { key: "contact-us", name: "Contact Us" },
+              { title: "Others" },
+              { key: "marketplace-stats", name: "Marketplace Stats" },
+              { key: "alert", name: "Alert" },
+              { key: "bulk-nft-management", name: "Bulk NFT Management" },
+              { key: "active-wallets-stats", name: "Active Wallets Stats" },
+              { key: "mint-calendar", name: "Mint Calendar" },
+              { title: "Services" },
+              { key: "advertising", name: "Advertising" },
+              { key: "ama-hosting", name: "AMA Hosting" },
+              { key: "twitter-space", name: "Twitter Space" },
+              { key: "giveaways", name: "Giveaways" },
+            ],
+          },
+          {
+            active: false,
             name: "LANGUAGE",
             selection: [
               {name: "English", key: "EN"},
