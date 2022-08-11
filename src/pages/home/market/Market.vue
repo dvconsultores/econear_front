@@ -1,5 +1,6 @@
 <template>
   <section id="market" class="divcol gap2">
+    <ModalMarketMore ref="modal" :DataMore="dataMore"></ModalMarketMore>
     <section class="marketContainer divcol acenter gap2">
       <aside class="sectionTop fill_w fwrap gap1" style="--fb: 1 1">
         <v-card v-for="(item,i) in dataMarket" :key="i"
@@ -22,7 +23,10 @@
         <v-card v-for="(item,i) in dataBoard" :key="i" class="divcol">
           <div class="space">
             <h3 class="h9_em">{{item.title}}</h3>
-            <button class="h11_em">More<v-icon color="var(--success)">mdi-chevron-right</v-icon></button>
+            <button class="h11_em acenter" @click="$refs.modal.modalMarketMore=true;dataMore=item">
+              <span>More</span>
+              <v-icon color="var(--success)">mdi-chevron-right</v-icon>
+            </button>
           </div>
 
           <div class="divcol gap1">
@@ -76,11 +80,14 @@
 
 <script>
 import axios from 'axios'
+import ModalMarketMore from './ModalMarketMore.vue'
 export default {
   name: "market",
   i18n: require("./i18n"),
+  components: { ModalMarketMore },
   data() {
     return {
+      dataMore: [],
       nearPrice: null,
       parasPrice: null,
       volume24h: null,
