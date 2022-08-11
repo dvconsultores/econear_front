@@ -237,16 +237,9 @@ export default {
         this.volumen24h()
     }.bind(this), 1800000);
 
-    // this.getVolume()
-    // this.interval3 = setInterval(function () {
-    //     this.getVolume()
-    // }.bind(this), 60000);
   },
   methods: {
     async priceNEAR(){
-      // this.dataMarket[1].price = null
-      // this.dataMarket[1].value = null
-      // this.dataMarket[1].percent = null
       axios.get("https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=near&order=market_cap_desc&per_page=100&page=1&sparkline=false")
         .then((response) => {
           this.nearPrice = response.data[0]
