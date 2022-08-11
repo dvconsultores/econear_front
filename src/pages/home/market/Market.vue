@@ -286,7 +286,7 @@ export default {
     async salesOfTheDay(){
       const url = "api/v1/salesoftheday"
       let item = {
-        top: 3
+        top: 10
       }
       this.axios.post(url, item)
         .then((response) => {
@@ -310,7 +310,7 @@ export default {
     async highestVolGainers(){
       const url = "api/v1/highestvolgainers"
       let item = {
-        top: 3
+        top: 10
       }
       this.axios.post(url, item)
         .then((response) => {

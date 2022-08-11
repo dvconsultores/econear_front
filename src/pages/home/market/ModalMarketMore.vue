@@ -45,6 +45,7 @@ export default {
   data() {
     return {
       modalMarketMore: false,
+      image: require('@/assets/nfts/nft1.png'),
     }
   },
   methods: {
