@@ -15,6 +15,7 @@
     }
   }
   blockquote {
+    &::-webkit-scrollbar {display: none}
     @include media(max, 1400px) {font-size: 14px}
     @include media(max, 1200px) {font-size: 12px}
     @include media(max, 1050px) {font-size: 10px}
@@ -24,6 +25,11 @@
     align-items: flex-start;
     justify-items: center;
     position: relative;
+    @include media(max, small) {
+      place-items: center;
+      grid-auto-flow: column;
+      gap: 2em;
+    }
     &::before {
       content: "";
       @include absolute(0,auto,0,-3.5em);
@@ -32,10 +38,12 @@
       background-color: #1C2541;
     }
     .wrapperCards {
-      position: absolute;
-      top: var(--top);
-      left: var(--left);
-      right: var(--right);
+      @include media(min, small) {
+        position: absolute;
+        top: var(--top);
+        left: var(--left);
+        right: var(--right);
+      }
       .hero-cards {
         --border: .3vmax;
         background-color: rgba(#707070, .1);
@@ -45,6 +53,11 @@
         position: relative;
         border-radius: var(--border);
         clip-path: var(--clip);
+        @include media(max, small) {
+          max-width: none;
+          width: 20em;
+          aspect-ratio: 1 / 1.3;
+        }
         &::after {
           content: "";
           position: absolute;
@@ -63,6 +76,7 @@
           --bs: 0px 0px 2.5px 1px #6FFFE9;
           --p: 0 0.75em;
           min-width: min(90%,7.875em);
+          @include media(max, small) {margin-block: .5em !important}
           span {
             font-size: 0.8425em;
           }
@@ -73,6 +87,7 @@
 }
 
 .modalProject {
+  @include media(max, x-small) {font-size: 12px}
   .labels {
     &::before {
       content: var(--tag);
@@ -85,5 +100,18 @@
   }
   .v-input--checkbox {
     i {color: var(--clr-inv) !important}
+  }
+  .container-checkbox {
+    @include media(max, small) {
+      flex-direction: column;
+    }
+    aside {
+      @include media(max, small) {
+        max-width: 15.3125em;
+        width: 100%;
+        justify-content: space-between;
+      }
+      @include media(max, 500px) {max-width: none}
+    }
   }
 }

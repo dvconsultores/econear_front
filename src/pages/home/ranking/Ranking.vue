@@ -2,7 +2,7 @@
   <section id="ranking" class="divcol gap2">
     <h2 class="h7_em p">All Time Best</h2>
 
-    <aside class="container-controls space gap2 fwrap">
+    <aside class="container-controls space gap2 fwrap" style="--fb: 1 1 200px">
       <v-tabs>
         <v-tab v-for="(item,i) in dataControls" :key="i" class="options">
           <h6 class="h11_em p">{{item.name}}</h6>
@@ -26,6 +26,7 @@
       :headers="headersTable"
       :items="dataTable"
       hide-default-footer
+      mobile-breakpoint="-1"
     >
       <template v-slot:[`header.volume`]>
         <button class="acenter align" style="cursor:default;gap:.2em">
@@ -180,9 +181,9 @@
       </tbody>
     </table> -->
 
-    <section class="divcol gap1" style="padding-block:6em 7em">
+    <section id="container-footer" class="divcol gap1" style="padding-block:6em 7em">
       <h2 class="h6_em tcenter">Want to get Your Project Listed?</h2>
-      <p class="divcol center">
+      <p class="divcol center tcenter">
         <span>Can't find your project? List your favorite project now!</span>
         <span>Get your community to vote for your project and gain exposure.</span>
       </p>

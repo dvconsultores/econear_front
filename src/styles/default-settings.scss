@@ -108,19 +108,19 @@ h4:not(.not_typography, .not) {
 /* // // html (tags) // // */ 
 // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // /
 img:not(.not_html, .not) {
-  --w: auto;
+  --w: initial;
   --max-w: none;
   --min-w: none;
-  --h: auto;
+  --h: initial;
   --max-h: none;
   --min-h: none;
-  --ar: ;
-  --p: ;
-  --b: ;
-  --br: ;
-  --bs: ;
-  --f: ;
-  --t: ;
+  --ar: initial;
+  --p: none;
+  --b: none;
+  --br: initial;
+  --bs: initial;
+  --f: none;
+  --t: none;
   width: var(--w);
   max-width: var(--max-w);
   min-width: var(--min-w);
@@ -143,21 +143,21 @@ img:not(.not_html, .not) {
 //- defaut slider -//
 .v-input {
   --br: none;
-  --c-label: ;
+  --c-label: var(--clr-inv);
   --h: 2px;
   .v-slider__track {
     &-container {border-radius: var(--br);height: var(--h); overflow: hidden}
   }
   .v-slider__thumb-label-container {
-    * {color: var(--c-label)}
+    * {color: var(--c-label) !important}
   }
 }
 
 //- defaut v-btn -//
 // icon class
 .v-btn--icon:not(.not_vuetify, .not) {
-  --bg: ;
-  --p: ;
+  --bg: initial;
+  --p: initial;
   --br: 50%;
   background: var(--bg);
   padding: var(--p);
@@ -171,10 +171,10 @@ img:not(.not_html, .not) {
   --lh: 1;
   --ls: normal;
   --tt: none;
-  --t: ;
-  --f: ;
-  --ml: ;
-  --mr: ;
+  --t: none;
+  --f: none;
+  --ml: none;
+  --mr: none;
   color: var(--c);
   transform: var(--t);
   filter: var(--f);
@@ -195,16 +195,16 @@ img:not(.not_html, .not) {
   --bg: #FFFFFF;
   --c: #000000;
   --label: #A6ADB4;
-  --b: ;
+  --b: initial;
   --br: .4vmax;
   --p: 0 12px;
-  --w: ;
+  --w: initial;
   --h: 48px;
-  --bs: ;
+  --bs: initial;
   --fs: 1em;
   --fw: 400;
-  --f: ;
-  --t: ;
+  --f: none;
+  --t: none;
   width: var(--w);
   // under testing
   & .v-input__control {
@@ -247,11 +247,11 @@ img:not(.not_html, .not) {
 .v-badge:not(.not_vuetify, .not) {
   --bg: var(--clr-badge);
   --c: var(--clr-inv);
-  --b: ;
+  --b: initial;
   --fs: 0.75em;
   --fw: 400;
   --size: 20px;
-  --t: ;
+  --t: initial;
   .v-badge__badge {
     display: grid;
     place-content: center;
@@ -290,6 +290,7 @@ img:not(.not_html, .not) {
   overscroll-behavior: contain;
   label:not(.labels) {font-weight: 700}
   &::-webkit-scrollbar {display: none}
+  @include media(max, 500px) {margin-inline: 0}
 }
 .v-dialog--scrollable {
   @include media(max, small) {margin: 0 !important; min-height: 100% !important}
@@ -309,15 +310,15 @@ img:not(.not_html, .not) {
 @mixin btn() {
   --bg: #60D2CA;
   --c: #FFFFFF;
-  --b: ;
+  --b: initial;
   --p: 1.5em 1.7em;
   --w: max-content;
   --h: max-content;
   --br: .4vmax;
   --bs: 0px 3px 6px 1px #6FFFE9;
   --fw: 400;
-  --f: ;
-  --t: ;
+  --f: initial;
+  --t: initial;
   background: var(--bg) !important;
   color: var(--c) !important;
   box-shadow: var(--bs) !important;
@@ -348,17 +349,17 @@ img:not(.not_html, .not) {
 
 //- cards -//
 @mixin card() {
-  --w: ;
-  --h: ;
+  --w: initial;
+  --h: initial;
   --bg: var(--clr-card);
   --c: #FFFFFF;
   --b: .8px solid hsl(0, 0%, 44%, .1);
   --p: 1em;
   --br: .3vmax;
-  --bs: ;
+  --bs: initial;
   --fw: 400;
-  --f: ;
-  --t: ;
+  --f: initial;
+  --t: initial;
   width: var(--w);
   height: var(--h);
   background: var(--bg) !important;

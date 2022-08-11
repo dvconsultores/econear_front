@@ -11,7 +11,10 @@
       overlay-color="black"
       color="var(--primary)"
     >
-      <img src="@/assets/logos/logo.svg" alt="Logo" style="--w: 100%;--h:8.115em;">
+      <router-link :to="('/')">
+        <img src="@/assets/logos/logo.svg" alt="Logo" style="--w: 100%;--h:8.115em;">
+      </router-link>
+      
       <v-expansion-panels focusable accordion class="anim_moveleft">
         <template v-if="dataDrawer.list">
           <v-list class="fill_w">
@@ -31,21 +34,29 @@
         <template v-if="dataDrawer.expansion">
           <v-expansion-panel v-for="(item,i) in dataDrawer.expansion" :key="i">
             <!-- title -->
-            <v-expansion-panel-header hide-actions class="h11_em">
+            <v-expansion-panel-header hide-actions class="h11_em" @click="item.active?item.active=!item.active:dataDrawer.expansion.forEach(e=>{e.active=false;item.active=true})">
               <v-col class="conttitle acenter gap2">
                 <span class="clr_text_btn normal" style="max-width: max-content">{{ item.name }}</span>
+                <v-icon :class="{active_rotate: item.active}">mdi-chevron-down</v-icon>
               </v-col>
             </v-expansion-panel-header>
 
             <v-expansion-panel-content>
               <v-list>
                 <!-- ciclo for items -->
-                <v-list-item v-for="(item2,i) in item.selection" :key="i"
-                  @click="CambiarLanguage(item2.key)">
-                  <v-list-item-title class="center h10_em">
-                    <span class="clr_text_btn normal">{{ item2.name}}</span>
-                  </v-list-item-title>
-                </v-list-item>
+                <template v-for="(item2,i) in item.selection">
+                  <v-list-item :key="i" v-show="item2.title" disabled>
+                    <v-list-item-title class="titles center h10_em">
+                      <span class="clr_text_btn normal" style="color:var(--success) !important">{{ item2.title}}</span>
+                    </v-list-item-title>
+                  </v-list-item>
+                  <v-list-item :key="i" v-show="item2.name"
+                    @click="SelectDrawer(item.key, item2)">
+                    <v-list-item-title class="center h10_em">
+                      <span class="clr_text_btn normal">{{ item2.name}}</span>
+                    </v-list-item-title>
+                  </v-list-item>
+                </template>
               </v-list>
             </v-expansion-panel-content>
           </v-expansion-panel>
@@ -306,14 +317,46 @@ export default {
       settings: { nftdrops: false, transactionNotification: true },
       dataDrawer: {
         list: [
-          { key: "home", name: "Home", to: "" },
-          { key: "drops", name: "Drops", to: "" },
+          { key: "home", name: "Home", to: "/" },
+          { key: "drops", name: "Drops", to: "/upcoming-nft-drops" },
           { key: "nfts", name: "NFTS", to: "" },
-          { key: "snipe", name: "Snipe tool", to: "" },
+          { key: "snipe", name: "Snipe tool", to: "/snipe-tool" },
           { key: "contact", name: "Contact us", to: "" },
         ],
         expansion: [
           {
+            key: "more",
+            active: false,
+            name: "MORE",
+            selection: [
+              { title: "Account" },
+              { key: "login", name: "Login" },
+              { key: "whitelist", name: "Whitelist" },
+              { key: "register", name: "Register" },
+              { title: "NFTS" },
+              { key: "compare-projects", name: "Compare Projectss" },
+              { key: "upcoming-projects", name: "Upcoming Projects (Drops)" },
+              { key: "new-projects", name: "New Projects" },
+              { title: "ECONEAR" },
+              { key: "wallet-submission", name: "Wallet Submission" },
+              { key: "vote", name: "Vote" },
+              { key: "contact-us", name: "Contact Us" },
+              { title: "Others" },
+              { key: "marketplace-stats", name: "Marketplace Stats" },
+              { key: "alert", name: "Alert" },
+              { key: "bulk-nft-management", name: "Bulk NFT Management" },
+              { key: "active-wallets-stats", name: "Active Wallets Stats" },
+              { key: "mint-calendar", name: "Mint Calendar" },
+              { title: "Services" },
+              { key: "advertising", name: "Advertising" },
+              { key: "ama-hosting", name: "AMA Hosting" },
+              { key: "twitter-space", name: "Twitter Space" },
+              { key: "giveaways", name: "Giveaways" },
+            ],
+          },
+          {
+            key: "lang",
+            active: false,
             name: "LANGUAGE",
             selection: [
               {name: "English", key: "EN"},
@@ -362,6 +405,26 @@ export default {
     };
   },
   methods: {
+    SelectDrawer(key, item) {
+      if (key=="lang") {CambiarLanguage(item.key)}
+      if (key=="more") {
+        // account
+        if (item.key=='login') {this.$parent.$refs.menu.modalLogin = true}
+        if (item.key=='whitelist') {this.$router.push(item.key)}
+        if (item.key=='register') {this.$parent.$refs.menu.modalRegister = true}
+        // nft
+        if (item.key=='compare-projects') {this.$router.push(item.key)}
+        if (item.key=='new-projects') {this.$router.push(item.key)}
+        // econear
+        if (item.key=='vote') {this.$router.push(item.key)}
+        // other
+        if (item.key=='marketplace-stats') {this.$router.push(item.key)}
+        if (item.key=='alert') {this.$parent.$refs.menu.modalAlert = true}
+        if (item.key=='bulk-nft-management') {this.$router.push(item.key)}
+        if (item.key=='active-wallets-stats') {this.$router.push(item.key)}
+        if (item.key=='mint-calendar') {this.$router.push(item.key)}
+      }
+    },
     CambiarLanguage(lang) {
       if (lang === "ES") {
         localStorage.language = lang;

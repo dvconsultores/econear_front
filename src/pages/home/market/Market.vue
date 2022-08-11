@@ -1,5 +1,6 @@
 <template>
   <section id="market" class="divcol gap2">
+    <ModalMarketMore ref="modal" :DataMore="dataMore"></ModalMarketMore>
     <section class="marketContainer divcol acenter gap2">
       <aside class="sectionTop fill_w fwrap gap1" style="--fb: 1 1">
         <v-card v-for="(item,i) in dataMarket" :key="i"
@@ -22,7 +23,10 @@
         <v-card v-for="(item,i) in dataBoard" :key="i" class="divcol">
           <div class="space">
             <h3 class="h9_em">{{item.title}}</h3>
-            <button class="h11_em">More<v-icon color="var(--success)">mdi-chevron-right</v-icon></button>
+            <button class="h11_em acenter" @click="$refs.modal.modalMarketMore=true;dataMore=item">
+              <span>More</span>
+              <v-icon color="var(--success)">mdi-chevron-right</v-icon>
+            </button>
           </div>
 
           <div class="divcol gap1">
@@ -30,7 +34,7 @@
               class="space gap1 tnowrap">
               <div class="acenter gap1">
                 <span>{{i2+1}}</span>
-                <img :src="item2.img || image" alt="Referencial Image" style="--w:clamp(4em,2vw,4.75em)">
+                <img :src="item2.img || image" alt="Referencial Image" style="--w:clamp(3.5em,2vw,4.75em)">
                 <div class="divcol">
                   <span class="h11_em">{{item2.name}}</span>
                   <span class="h12_em">{{item2.user}}</span>
@@ -57,7 +61,7 @@
     </section>
 
     <article>
-      <v-card class="fwrap center overflow" style="--fb: 1 1 495px">
+      <v-card class="fwrap center overflow">
         <img src="@/assets/images/anuncio.png" alt="Announcement Image" style="--w:min(100%,40em)">
 
         <div class="container-info space gap2">
@@ -76,11 +80,14 @@
 
 <script>
 import axios from 'axios'
+import ModalMarketMore from './ModalMarketMore.vue'
 export default {
   name: "market",
   i18n: require("./i18n"),
+  components: { ModalMarketMore },
   data() {
     return {
+      dataMore: [],
       nearPrice: null,
       parasPrice: null,
       volume24h: null,

@@ -19,6 +19,12 @@ export default {
   data() {
     return { wrapperSpace: true }
   },
+  mounted() {
+    const el = document.querySelectorAll('[class*="scrollx"]');
+    el.forEach((el) => {el.addEventListener("wheel", (e) => {
+      e.preventDefault();el.scrollLeft += e.deltaY
+    })});
+  },
   methods: {
   }
 }
