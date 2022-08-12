@@ -142,7 +142,7 @@
             ></v-text-field>
           </section>
 
-          <v-btn class="btn h10_em" style="--bs:none;width:min(90%,517px);">
+          <v-btn class="btn h10_em" style="--bs:0 3px 4px 2px hsl(176, 60%, 70%, .4);width:min(90%,517px);--br:.8vmax">
             Register
           </v-btn>
         </v-sheet>
@@ -181,7 +181,7 @@
             </v-list>
           </section>
 
-          <v-btn class="btn h10_em" style="--bs:none;width:min(90%,417px);">
+          <v-btn class="btn h10_em" style="--bs:0 3px 4px 2px hsl(176, 60%, 70%, .4);width:min(90%,417px);--br:.8vmax">
             Add Account
           </v-btn>
         </v-sheet>
@@ -238,7 +238,7 @@
             </div>
           </section>
 
-          <v-btn class="btn h10_em" style="--bs:none;width:100%">
+          <v-btn class="btn h10_em" style="--bs:0 3px 4px 2px hsl(176, 60%, 70%, .4);width:100%;--br:.8vmax">
             Save
           </v-btn>
         </v-sheet>

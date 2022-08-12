@@ -30,9 +30,6 @@
     }
   }
   #dataTable {
-    .v-data-table__wrapper {
-      &::-webkit-scrollbar {display: none}
-    }
     table {border-spacing: 0 1em}
     td {color: #FFFFFF}
     thead {

@@ -15,7 +15,19 @@
     background-color: rgba($success, .5);
   }
   .container-controls {
+    #container-trackmobile {
+      max-width: 392px;
+      width: 100%;
+      justify-content: space-between;
+      @include media(max, x-small) {flex-direction: column;gap: 1em}
+    }
+    #container-switch {
+      --p: .5em 1em;
+      @include media(max,small) {--p:.5em;--br:1vmax}
+      .switch {width: clamp(3.3125em, 5vw, 5.3125em)}
+    }
     .tracking-pause {
+      @include media(max,small) {--bg: transparent !important;--b:none !important;--br:.8vmax;--p:0 !important}
       &::after {
         content: "";
         @include absoluteCenter;
@@ -25,9 +37,10 @@
         background-color: #60D2CA;
       }
       & .v-btn {
+        @include media(max,small) {padding-inline:.5em !important}
         border-radius: .5vmax;
         & span::first-letter {text-transform: uppercase !important}
-        &.active {background-color: #000000 !important}
+        &.active {background-color: $primary !important;border-radius: .5vmax}
       }
     }
     .v-tabs {max-width: max-content}
@@ -57,13 +70,14 @@
     tbody {
       tr {
         position: relative;
-        &::before {
+        &::after {
           content: "";
           @include absolute(auto,auto,0,0);
           width: calc(82%);
           height: 1px;
           background-color: #60D2CA;
         }
+        td:first-of-type {min-width: 200px}
       }
     }
     tr:hover {background:none}

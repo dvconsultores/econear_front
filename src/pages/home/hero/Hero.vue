@@ -94,7 +94,7 @@
             </div>
           </section>
 
-          <v-btn class="btn h10_em" style="--bs:none;width:min(90%,517px);">
+          <v-btn class="btn h10_em" style="--bs:0 3px 4px 2px hsl(176, 60%, 70%, .4);width:min(90%,517px);--br:.8vmax">
             Submint
           </v-btn>
         </v-sheet>
