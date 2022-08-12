@@ -30,7 +30,7 @@
           </div>
 
           <div class="divcol gap1">
-            <aside v-for="(item2,i2) in item.list" :key="i2"
+            <aside v-for="(item2,i2) in item.list.slice(0,3)" :key="i2"
               class="space gap1 tnowrap">
               <div class="acenter gap1">
                 <span>{{i2+1}}</span>
@@ -42,7 +42,7 @@
               </div>
 
               <div class="divcol jcenter aend tend">
-                <span v-if="item2.percent" :style="item2.state?'color:var(--success)':'color:var(--error)'"
+                <span v-if="item2.percent || item2.percent ==0" :style="item2.state?'color:var(--success)':'color:var(--error)'"
                   class="h11_em">
                   {{item2.state?'+':'-'}}{{item2.percent}}%
                 </span>
@@ -123,10 +123,10 @@ export default {
         },
         {
           name: "VOL 7D",
-          price: "30,516.38 N",
-          value: "1,122.95 N",
-          percent: "3.55",
-          state: false
+          price: null,
+          value: null,
+          percent: null,
+          state: null,
         },
       ],
       dataBoard: [
@@ -223,6 +223,7 @@ export default {
     this.highestVolGainers()
     this.salesOfTheDay()
     this.volumen24h()
+    this.volumen7d()
     
     this.interval = setInterval(function () {
         this.priceNEAR()
@@ -242,6 +243,10 @@ export default {
 
     this.interval5 = setInterval(function () {
         this.volumen24h()
+    }.bind(this), 1800000);
+
+    this.interval6 = setInterval(function () {
+        this.volumen7d()
     }.bind(this), 1800000);
 
   },
@@ -264,9 +269,6 @@ export default {
         })
     },
     async pricePARAS(){
-      // this.dataMarket[2].price = null
-      // this.dataMarket[2].value = null
-      // this.dataMarket[2].percent = null
       axios.get("https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=paras&order=market_cap_desc&per_page=100&page=1&sparkline=false")
         .then((response) => {
           this.parasPrice = response.data[0]
@@ -315,6 +317,7 @@ export default {
       this.axios.post(url, item)
         .then((response) => {
           this.dataBoard[0].list = []
+          console.log(response.data)
           for (var i = 0; i < response.data.length; i++) {
             let collection = {
               img: response.data[i].icon,
@@ -346,6 +349,25 @@ export default {
             this.dataMarket[3].state = true
           } else {
             this.dataMarket[3].state = false
+          }
+        }).catch((error) => {
+          console.log(error)
+        })
+    },
+    async volumen7d(){
+      const url = "api/v1/volumen7d"
+
+      this.axios.post(url)
+        .then((response) => {
+          this.volume7d = response.data[0]
+          console.log(this.volume24h)
+          this.dataMarket[4].price = parseFloat(this.volume7d.volumen7d).toFixed(2) + " N"
+          this.dataMarket[4].value = (this.volume7d.volumen7d - this.volume7d.volumen14d).toFixed(2) + " N"
+          this.dataMarket[4].percent = parseFloat(this.volume7d.porcentaje).toFixed(2)
+          if (this.volume7d.porcentaje > 0) {
+            this.dataMarket[4].state = true
+          } else {
+            this.dataMarket[4].state = false
           }
         }).catch((error) => {
           console.log(error)
