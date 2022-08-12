@@ -102,16 +102,22 @@
     i {color: var(--clr-inv) !important}
   }
   .container-checkbox {
-    @include media(max, small) {
-      flex-direction: column;
-    }
+    margin-block: 1em;
+    @include media(max, small) {flex-direction: column}
     aside {
       @include media(max, small) {
         max-width: 15.3125em;
         width: 100%;
         justify-content: space-between;
       }
-      @include media(max, 500px) {max-width: none}
+      @include media(max, small) {max-width: none}
+      box-shadow: 0 2px 4px 1px var(--success);
+      padding-inline: 1em;
+      border-radius: 1vmax;
+      margin-block: .5em;
     }
+  }
+  .v-input {
+    --bs: 0 2px 4px 1px var(--success);
   }
 }

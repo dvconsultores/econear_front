@@ -2,7 +2,7 @@
   <section id="ranking" class="divcol gap2">
     <h2 class="h7_em p">All Time Best</h2>
 
-    <aside class="container-controls space gap2 fwrap" style="--fb: 1 1 200px">
+    <aside class="container-controls space gap2 fwrap_inv" style="--fb: 1 1 200px">
       <v-tabs>
         <v-tab v-for="(item,i) in dataControls" :key="i" class="options">
           <h6 class="h11_em p">{{item.name}}</h6>

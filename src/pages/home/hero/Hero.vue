@@ -36,34 +36,40 @@
             <v-text-field
               label="Project Name"
               style="--c:#000000"
+              solo
             ></v-text-field>
 
             <v-text-field
               label="Email"
               placeholder="example@domain.com"
               style="--c:#000000"
+              solo
             ></v-text-field>
 
             <v-text-field
               label="Discord ID"
               placeholder="Username#321"
               style="--c:#000000"
+              solo
             ></v-text-field>
 
             <v-text-field
               label="Website"
               style="--c:#000000"
+              solo
             ></v-text-field>
 
             <v-text-field
               label="Twitter Account"
               style="--c:#000000"
+              solo
             ></v-text-field>
 
             <v-text-field
               label="Discord Server"
               placeholder="discord.gg/invitecode"
               style="--c:#000000"
+              solo
             ></v-text-field>
           </section>
 
@@ -105,6 +111,7 @@ export default {
   i18n: require("./i18n"),
   data() {
     return {
+      // responsive: false,
       modalProject: false,
       dataCards: [
         {
@@ -135,7 +142,18 @@ export default {
       ]
     }
   },
+  // mounted() {
+  //   this.Responsive();
+  //   window.onresize = () => this.Responsive();
+  // },
   methods: {
+    // Responsive() {
+    //   if (window.innerWidth <= 880) {
+    //     this.responsive = true
+    //   } else {
+    //     this.responsive = false
+    //   }
+    // },
   }
 };
 </script>
