@@ -94,7 +94,7 @@
   @include media(max, 500px) {font-size: 12px}
 }
 #modalMarketMore {
-  height: 700px;
+  height: 100%;
   .v-card {
     position: relative;
     &::after {
