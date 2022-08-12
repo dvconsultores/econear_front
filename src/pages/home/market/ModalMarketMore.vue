@@ -11,7 +11,7 @@
         <div class="acenter gap1">
           <span>{{i+1}}</span>
           <img :src="item.img || image" alt="Referencial Image" style="--w:clamp(4em,2vw,4.75em)">
-          <div class="divcol">
+          <div id="container-desc" class="divcol">
             <span class="h11_em">{{item.name}}</span>
             <span class="h12_em">{{item.user}}</span>
           </div>

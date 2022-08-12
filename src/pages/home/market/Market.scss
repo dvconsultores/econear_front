@@ -104,5 +104,12 @@
       height: 1px;
       background-color: #60D2CA;
     }
+    #container-desc {
+      max-width: 30.4ch;
+      word-break: break-all;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      span {}
+    }
   }
 }
