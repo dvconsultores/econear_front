@@ -108,7 +108,7 @@
       v-model="modalRegister"
       max-width="82.358125em"
     >
-      <v-card color="var(--primary)" style="padding:6em">
+      <v-card color="var(--primary)">
         <v-btn icon class="close" @click="modalRegister = false">
           <img src="@/assets/icons/close.svg" alt="close" style="--w:0.921875em">
         </v-btn>
@@ -118,23 +118,27 @@
             <v-text-field
               label="Username"
               style="--c:#000000"
+              solo
             ></v-text-field>
 
             <v-text-field
               label="Email"
               placeholder="example@domain.com"
               style="--c:#000000"
+              solo
             ></v-text-field>
 
             <v-text-field
               label="Discord ID"
               placeholder="Username#321"
               style="--c:#000000"
+              solo
             ></v-text-field>
 
             <v-text-field
               label="Twitter Account"
               style="--c:#000000"
+              solo
             ></v-text-field>
           </section>
 
@@ -151,24 +155,23 @@
       v-model="modalSwitchAccount"
       max-width="62.358125em"
     >
-      <v-card color="var(--primary)" style="padding:6em" class="modalSwitchAccount">
+      <v-card color="var(--primary)" class="modalSwitchAccount">
         <v-btn icon class="close" @click="modalSwitchAccount = false">
           <img src="@/assets/icons/close.svg" alt="close" style="--w:0.921875em">
         </v-btn>
         <h3 class="h7_em tcenter">Switch Account</h3>
-        <v-sheet class="divcol center" style="padding:2em">
-          <section class="fill_w grid" style="gap:2em;margin-bottom:1em;place-content:center">
+        <v-sheet class="divcol center" style="padding:clamp(1em, 2vw, 2em)">
+          <section class="fill_w grid" style="gap:2em;margin-bottom:1em">
             <v-list class="divcol gap1">
-              <v-list-item v-for="(item,i) in dataSwitchAccount" :key="i" class="acenter gap1"
-                @click="dataSwitchAccount.forEach(e=>{e.select=false});item.select=true">
-                <aside class="acenter gap1">
-                  <v-avatar size="4em">
-                    <img :src="item.img" alt="user">
+              <!-- <v-list-item v-for="(item,i) in dataSwitchAccount" :key="i" class="center gap1" :ripple="false"
+                @click="item.select?item.select=!item.select:dataSwitchAccount.forEach(e=>{e.select=false;item.select=true})"> -->
+              <v-list-item v-for="(item,i) in dataSwitchAccount" :key="i" class="center gap1">
+                <aside class="container-accounts divcol">
+                  <v-avatar size="var(--size)">
+                    <img :src="item.img" alt="user" style="--w:100%">
                   </v-avatar>
-                  <div class="divcol">
-                    <span>{{item.name}}</span>
-                    <span>{{item.amount}}</span>
-                  </div>
+                  <span>{{item.name}}</span>
+                  <span>{{item.amount}}</span>
                 </aside>
 
                 <v-checkbox
@@ -191,7 +194,7 @@
       v-model="modalSettings"
       max-width="62.358125em"
     >
-      <v-card color="var(--primary)" style="padding:6em" class="modalSettings">
+      <v-card color="var(--primary)" class="modalSettings">
         <v-btn icon class="close" @click="modalSettings = false">
           <img src="@/assets/icons/close.svg" alt="close" style="--w:0.921875em">
         </v-btn>
@@ -202,6 +205,7 @@
               label="Add Email"
               placeholder="example@domain.com"
               style="--c:#0000000"
+              solo
             ></v-text-field>
             <span class="h10_em">Notification preferences</span>
             <div class="space">
@@ -227,8 +231,9 @@
               <v-text-field
                 id="Minimum-offer"
                 placeholder="123.45 N"
-                reverse
-                style="--c:#000000;max-width:20ch"
+                reverse solo
+                style="--c:#000000"
+                class="minimum"
               ></v-text-field>
             </div>
           </section>
@@ -246,7 +251,7 @@
       v-model="modalAlert"
       max-width="62.358125em"
     >
-      <v-card color="var(--primary)" style="padding:6em" class="modalAlert">
+      <v-card color="var(--primary)" class="modalAlert">
         <v-btn icon class="close" @click="modalAlert = false">
           <img src="@/assets/icons/close.svg" alt="close" style="--w:0.921875em">
         </v-btn>

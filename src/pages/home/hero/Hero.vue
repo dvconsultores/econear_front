@@ -26,7 +26,7 @@
       v-model="modalProject"
       max-width="82.358125em"
     >
-      <v-card color="var(--primary)" style="padding: 4em var(--margin-global)" class="modalProject">
+      <v-card color="var(--primary)" class="modalProject">
         <v-btn icon class="close" @click="modalProject = false">
           <img src="@/assets/icons/close.svg" alt="close" style="--w:0.921875em">
         </v-btn>

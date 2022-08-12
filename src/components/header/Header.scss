@@ -124,17 +124,31 @@
     span {color: var(--clr-inv) !important; line-height: 1.2}
     &-item {
       border-radius: 1.5vmax;
-      overflow: hidden;
+      padding-inline: 0;
       &::after {display: none}
-      .divcol {
-        position: relative;
-        &::before {
-          content: "";
-          @include absolute(auto,auto,0,-2px);
-          width: calc(100%);
-          height: 1px;
-          background-color: rgba(#60D2CA, .5);
-        }
+      // div.divcol {
+        // position: relative;
+        // &::before {
+        //   content: "";
+        //   @include absolute(auto,auto,0,-2px);
+        //   width: calc(100%);
+        //   height: 1px;
+        //   background-color: rgba(#60D2CA, .5);
+        // }
+      // }
+    }
+    .container-accounts {
+      --size: clamp(4.5em, 5vw, 5em);
+      max-width: 20em;
+      width: calc(100% - (var(--size) + clamp(1em, 1.5vw, 1.5em)));
+      margin-left: var(--size);
+      padding: .3em;
+      padding-left: clamp(1em, 2vw, 2em);
+      box-shadow: 0 2px 4px 1px var(--success);
+      position: relative;
+      .v-avatar {
+        @include absolute(calc(var(--size) * -.9),0,auto,0);
+        box-shadow: 0 0 4px 1px var(--success);
       }
     }
   }
@@ -150,6 +164,9 @@
     }
   }
   label, span {color: var(--clr-inv) !important; font-weight: 700}
+  .minimum {
+    @include media(min, 785px){max-width:20ch}
+  }
 }
 
 .modalAlert {
