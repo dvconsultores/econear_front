@@ -184,7 +184,7 @@
             <template v-slot:default>
               <thead>
                 <tr>
-                  <th class="text-center">
+                  <th class="center">
                     <span>#</span>
                     <img src="@/assets/icons/sort.svg" alt="sortable icon" style="--w: 0.5em;margin-left:.3em">
                   </th>
