@@ -44,7 +44,7 @@
               <div class="divcol jcenter aend tend">
                 <span v-if="item2.percent || item2.percent ==0" :style="item2.state?'color:var(--success)':'color:var(--error)'"
                   class="h11_em">
-                  {{item2.state?'+':'-'}}{{item2.percent}}%
+                  {{item2.state?'+':''}}{{item2.percent}}%
                 </span>
 
                 <div v-if="item2.near&&item2.dollar" class="divcol">
@@ -91,6 +91,7 @@ export default {
       nearPrice: null,
       parasPrice: null,
       volume24h: null,
+      volume7d: null,
       image: require('@/assets/nfts/nft1.png'),
       dataMarket: [
         {
@@ -220,7 +221,7 @@ export default {
   async mounted() {
     await this.priceNEAR()
     this.pricePARAS()
-    this.highestVolGainers()
+    this.highestVolGainerss()
     this.salesOfTheDay()
     this.volumen24h()
     this.volumen7d()
@@ -234,7 +235,7 @@ export default {
     }.bind(this), 60000);
 
     this.interval3 = setInterval(function () {
-        this.highestVolGainers()
+        this.highestVolGainerss()
     }.bind(this), 1800000);
 
     this.interval4 = setInterval(function () {
@@ -292,7 +293,6 @@ export default {
       }
       this.axios.post(url, item)
         .then((response) => {
-          console.log("sales", response.data)
           this.dataBoard[1].list = []
           for (var i = 0; i < response.data.length; i++) {
             let collection = {
@@ -309,15 +309,16 @@ export default {
           console.log(error)
         })
     },
-    async highestVolGainers(){
+    async highestVolGainerss(){
       const url = "api/v1/highestvolgainers"
       let item = {
         top: 10
       }
+      console.log("hola")
+      console.log(url)
       this.axios.post(url, item)
         .then((response) => {
           this.dataBoard[0].list = []
-          console.log(response.data)
           for (var i = 0; i < response.data.length; i++) {
             let collection = {
               img: response.data[i].icon,
@@ -335,13 +336,13 @@ export default {
           console.log(error)
         })
     },
+
     async volumen24h(){
       const url = "api/v1/volumen24h"
 
       this.axios.post(url)
         .then((response) => {
           this.volume24h = response.data[0]
-          console.log(this.volume24h)
           this.dataMarket[3].price = parseFloat(this.volume24h.volumen24h).toFixed(2) + " N"
           this.dataMarket[3].value = (this.volume24h.volumen24h - this.volume24h.volumen48h).toFixed(2) + " N"
           this.dataMarket[3].percent = parseFloat(this.volume24h.porcentaje).toFixed(2)
@@ -360,7 +361,6 @@ export default {
       this.axios.post(url)
         .then((response) => {
           this.volume7d = response.data[0]
-          console.log(this.volume24h)
           this.dataMarket[4].price = parseFloat(this.volume7d.volumen7d).toFixed(2) + " N"
           this.dataMarket[4].value = (this.volume7d.volumen7d - this.volume7d.volumen14d).toFixed(2) + " N"
           this.dataMarket[4].percent = parseFloat(this.volume7d.porcentaje).toFixed(2)

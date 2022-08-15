@@ -4,7 +4,7 @@
 
     <aside class="container-controls space gap2 fwrap_inv" style="--fb: 1 1 200px">
       <v-tabs>
-        <v-tab v-for="(item,i) in dataControls" :key="i" class="options">
+        <v-tab v-for="(item,i) in dataControls" :key="i" class="options" @click="getRanking(item)">
           <h6 class="h11_em p">{{item.name}}</h6>
         </v-tab>
       </v-tabs>
@@ -64,7 +64,7 @@
 
       <template v-slot:[`item.nft`]="{ item }">
         <div class="nftDetail center gap1" @click="$router.push('/project-details')">
-          <img class="aspect" :src="item.img" alt="nft" style="--w:4.710625em">
+          <img class="aspect" :src="item.img || image" alt="nft" style="--w:4.710625em">
           <div class="divcol tstart">
             <span>{{item.name}}</span>
             <span>{{item.desc}}</span>
@@ -82,7 +82,7 @@
 
       <template v-slot:[`item.change`]="{ item }">
         <span :style="item.state_change?'color:#22B573':'color:var(--error)'">
-          {{item.state_change?'+':'-'}}{{item.change}}%
+          {{item.state_change?'+':''}}{{item.change}}%
         </span>
       </template>
 
@@ -193,16 +193,19 @@
 </template>
 
 <script>
+import axios from 'axios'
+
 export default {
   name: "ranking",
   i18n: require("./i18n"),
   data() {
     return {
+      image: require('@/assets/nfts/nft1.png'),
       search: "",
       dataControls: [
-        { name: "All Time Best", active: false },
-        { name: "Floor Price", active: false },
-        { name: "Volume", active: false },
+        { id: 1, name: "All Time Best", active: false },
+        { id: 2, name: "Floor Price", active: false },
+        { id: 3, name: "Volume", active: false },
       ],
       //table
       sort: {
@@ -227,36 +230,36 @@ export default {
         { value: "confidence", text: "Confidence Level", align: "center", sortable: false },
       ],
       dataTable: [
-        { 
-          img: require('@/assets/nfts/nft1.png'),
-          name: "Collection o Nft Name",
-          desc: "Lorem ipsum dolor sit",
-          supply: "12,0001",
-          volume: "1,250.104,4  N",
-          price: "104.4 N",
-          change: "0.89",
-          date: "Nov / 23 / 2022",
-          vote: "3456",
-          confidence: "high",
-          state_volume: true,
-          state_price: true,
-          state_change: false,
-        },
-        { 
-          img: require('@/assets/nfts/nft1.png'),
-          name: "Collection o Nft Name",
-          desc: "Lorem ipsum dolor sit",
-          supply: "12,0001",
-          volume: "1,250.104,4  N",
-          price: "104.4 N",
-          change: "0.89",
-          date: "Nov / 23 / 2022",
-          vote: "3456",
-          confidence: "moderate",
-          state_volume: false,
-          state_price: false,
-          state_change: true,
-        },
+        // { 
+        //   img: require('@/assets/nfts/nft1.png'),
+        //   name: "Collection o Nft Name",
+        //   desc: "Lorem ipsum dolor sit",
+        //   supply: "12,0001",
+        //   volume: "1,250.104,4  N",
+        //   price: "104.4 N",
+        //   change: "0.89",
+        //   date: "Nov / 23 / 2022",
+        //   vote: "3456",
+        //   confidence: "high",
+        //   state_volume: true,
+        //   state_price: true,
+        //   state_change: false,
+        // },
+        // { 
+        //   img: require('@/assets/nfts/nft1.png'),
+        //   name: "Collection o Nft Name",
+        //   desc: "Lorem ipsum dolor sit",
+        //   supply: "12,0001",
+        //   volume: "1,250.104,4  N",
+        //   price: "104.4 N",
+        //   change: "0.89",
+        //   date: "Nov / 23 / 2022",
+        //   vote: "3456",
+        //   confidence: "moderate",
+        //   state_volume: false,
+        //   state_price: false,
+        //   state_change: true,
+        // },
       ],
       //tabla 2
       // dataTable: {
@@ -312,7 +315,62 @@ export default {
       // }
     }
   },
+  async mounted() {
+    this.getRanking({ id: 1, name: "All Time Best", active: false })
+
+    this.interval = setInterval(function () {
+        this.getRanking()
+    }.bind(this), 1800000);
+  },
   methods: {
+    async getRanking(select){
+      this.dataTable = []
+      const url = "api/v1/ranking"
+      let item = {
+        horas: 24,
+        top: 50,
+        order: null
+      }
+      if (select.id == 1) {
+        item.order = "best"
+      } else if (select.id == 2) {
+        item.order = "floor"
+      } else if (select.id == 3) {
+        item.order = "volumen"
+      } else {
+        item.order = "best"
+      }
+      this.axios.post(url, item)
+        .then((response) => {
+          for (var i = 0; i < response.data.length; i++) {
+            let collection = {
+              img: response.data[i].icon,
+              name: response.data[i].name,
+              supply: response.data[i].supply,
+              volume: parseFloat(response.data[i].volumen1).toFixed(2) + " N",
+              price: parseFloat(response.data[i].floor_price).toFixed(2) + " N",
+              change: parseFloat(response.data[i].porcentaje).toFixed(2),//"0.89",
+              date: "Nov / 23 / 2022",
+              vote: "3456",
+              confidence: "high",
+              state_volume: true,
+              state_price: true,
+              state_change: true,
+              desc: response.data[i].symbol,
+            }
+            if (response.data[i].floor_price < 0) {
+              collection.state_price = false
+            } 
+            if (response.data[i].porcentaje < 0) {
+              collection.state_change = false
+            }
+
+            this.dataTable.push(collection)
+          }
+        }).catch((error) => {
+          console.log(error)
+        })
+    },
   }
 };
 </script>

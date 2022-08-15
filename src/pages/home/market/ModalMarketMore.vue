@@ -18,9 +18,9 @@
         </div>
 
         <div class="divcol jcenter aend tend">
-          <span v-if="item.percent" :style="item.state?'color:var(--success)':'color:var(--error)'"
+          <span v-if="item.percent || item.percent == 0" :style="item.state?'color:var(--success)':'color:var(--error)'"
             class="h11_em">
-            {{item.state?'+':'-'}}{{item.percent}}%
+            {{item.state?'+':''}}{{item.percent}}%
           </span>
 
           <div v-if="item.near&&item.dollar" class="divcol">
