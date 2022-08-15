@@ -111,14 +111,15 @@
         </v-chip>
       </template>
     </v-data-table>
-    <section v-else align="center" justify="center">
+
+    <center v-else style="margin-block:10em">
       <v-progress-circular
         :size="110"
         :width="10"
         indeterminate
         color="white"
       ></v-progress-circular>
-    </section>
+    </center>
 
 
 
