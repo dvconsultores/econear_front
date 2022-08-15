@@ -6,15 +6,15 @@
 #profile {
   padding-top: 1em;
   padding-inline: var(--margin-global);
-  & > :first-child + * + * ~ * {
-    margin-top: clamp(1em, 2vw, 2em);
-  }
+  & > :first-child + * + * ~ * {margin-top: clamp(1em, 2vw, 2em)}
+  @include media(max,small) {font-size: clamp(10px, 1.5vw, 12px)}
+  @include media(max,x-small) {font-size: clamp(8px, 1vw, 10px)}
   h2 {font-size: 2.8125em}
   .container-header {
     background-color: #58C6BA;
     width: 100vw;
     margin-inline: calc(-50vw + 50%);
-    height: 300px;
+    height: 18.75em;
     padding-left: var(--margin-global);
     padding-bottom: 1em;
     display: flex;
@@ -25,6 +25,8 @@
     pointer-events: none;
     * {pointer-events: all}
     transform: translateY(-110px);
+    @include media(max,small) {transform: translateY(-80px)}
+    @include media(max,x-small) {transform: translateY(-60px)}
     p {
       font-size: 1.8em;
       line-height: 1;
@@ -51,6 +53,7 @@
     }
   }
   .dataTable {
+    font-size: 16px;
     table {border-spacing: 0 1em}
     thead {
       tr {
@@ -67,11 +70,12 @@
           font-size: .9em;
         }
         &:hover:not(.add) {background-color: transparent}
-        &:hover.add {
-          cursor: pointer;
-          background-color: #21786D;
-          transition: .2s $ease-return;
-        }
+        // &:hover.add {
+        //   cursor: pointer;
+        //   background-color: #21786D;
+        //   transition: .2s $ease-return;
+        // }
+        td:nth-of-type(2) {min-width: 200px}
       }
       .v-input {
         input::placeholder {
@@ -80,6 +84,7 @@
       }
     }
     &.wallets {
+      padding-bottom: 84px !important;
       .v-input {
         max-width: 18.125em;
         &__slot {
@@ -90,14 +95,15 @@
     }
   }
   .container-wallets {
-    display: grid;
-    gap: 3em;
-    @include media(min, small) {grid-template-columns: 1fr max-content}
+    font-size: 16px;
+    @include media(min, small) {display: grid;grid-template-columns: 1fr max-content;gap: 3em}
+    @include media(max, small) {& > *:first-child {margin-bottom: 3em}}
     .notes {
       --p: 1.5em;
       --bg: hsl(210, 48%, 13%, .4);
       max-width: 17.185em;
       max-height: 29.19875em;
+      @include media(max, small) {max-width:20.1875em;max-height: max-content;margin-inline: auto}
       h4 {
         font-size: 1.1875em;
         position: relative;
@@ -116,6 +122,21 @@
         font-size: 1.125em;
         line-height: 1;
       }
+    }
+  }
+  .add {
+    --margin: clamp(2em,4vw,4em);
+    @include absolute(calc(var(--margin) / 2),auto,auto,33px);
+    width: calc(100% - var(--margin));
+    height: 48px;
+    display: flex;
+    align-items: center;
+    padding-inline: 2em;
+    gap: 2em;
+    &:hover {
+      cursor: pointer;
+      background-color: #21786D;
+      transition: .2s $ease-return;
     }
   }
 }

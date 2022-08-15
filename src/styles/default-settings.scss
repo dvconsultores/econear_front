@@ -29,13 +29,16 @@
 // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // /
 @include reducedMotion {
   ::-webkit-scrollbar {
-    width: 10px;
+    width: 8px;
     background: $primary;
     // &:hover {background: var(--clr-bg-scroll)}
   }
   ::-webkit-scrollbar-thumb {
     border-radius: 15px;
     background: var(--clr-scroll);
+  }
+  body {
+    &::-webkit-scrollbar {width: 10px}
   }
 }
 
