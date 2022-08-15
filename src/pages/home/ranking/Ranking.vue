@@ -21,12 +21,14 @@
 
     <!-- tabla 1  -->
     <v-data-table
+      v-if="dataTable.length !== 0"
       id="dataTable"
       class="card"
       :headers="headersTable"
       :items="dataTable"
       hide-default-footer
       mobile-breakpoint="-1"
+      :items-per-page="dataTable.length"
     >
       <template v-slot:[`header.volume`]>
         <button class="acenter align" style="cursor:default;gap:.2em">
@@ -109,6 +111,14 @@
         </v-chip>
       </template>
     </v-data-table>
+    <section v-else align="center" justify="center">
+      <v-progress-circular
+        :size="110"
+        :width="10"
+        indeterminate
+        color="white"
+      ></v-progress-circular>
+    </section>
 
 
 
@@ -194,6 +204,7 @@
 
 <script>
 import axios from 'axios'
+import moment from 'moment';
 
 export default {
   name: "ranking",
@@ -350,7 +361,7 @@ export default {
               volume: parseFloat(response.data[i].volumen1).toFixed(2) + " N",
               price: parseFloat(response.data[i].floor_price).toFixed(2) + " N",
               change: parseFloat(response.data[i].porcentaje).toFixed(2),//"0.89",
-              date: "Nov / 23 / 2022",
+              date: moment(response.data[i].fecha).format('DD / MM / YYYY'),
               vote: "3456",
               confidence: "high",
               state_volume: true,
@@ -367,6 +378,7 @@ export default {
 
             this.dataTable.push(collection)
           }
+          console.log("data", this.dataTable)
         }).catch((error) => {
           console.log(error)
         })
