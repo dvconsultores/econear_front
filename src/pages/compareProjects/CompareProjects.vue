@@ -7,10 +7,10 @@
       </p>
     </aside>
 
-    <aside class="spacea acenter gap1">
-      <div class="aend gap1">
-        <img :src="project1.img" alt="project 1" style="--w:6.375em">
-        <div class="divcol">
+    <aside id="container-vs" class="spacea acenter divcolmobile">
+      <div class="aend gap1 fill_wmobile">
+        <img :src="project1.img" alt="project 1" style="--w:var(--size)">
+        <div class="divcol" style="width:calc(100% - var(--size))">
           <h3 class="h10_em">Project Name 1</h3>
           <v-text-field
             solo
@@ -20,11 +20,11 @@
         </div>
       </div>
 
-      <span>VS</span>
+      <span class="eliminarmobile">VS</span>
 
-      <div class="aend gap1">
-        <img :src="project2.img" alt="project 2" style="--w:6.375em">
-        <div class="divcol">
+      <div class="aend gap1 fill_wmobile">
+        <img :src="project2.img" alt="project 2" style="--w:var(--size)">
+        <div class="divcol" style="width:calc(100% - var(--size))">
           <h3 class="h10_em">Project Name 2</h3>
           <v-text-field
             solo
@@ -35,36 +35,34 @@
       </div>
     </aside>
 
-    <v-btn class="btn h10_em center align" @click="showCompareInfo=true"
-      style="--p:0 2em;--h:50px;max-width:13.5em;--bs:0 3px 4px 1px hsl(176, 60%, 40%, .7)">
+    <v-btn id="compare-button" class="btn h10_em center align fill_wmobile" @click="showCompareInfo=true"
+      style="--p:0 2em;--h:50px;width:13.5em;--bs:0 3px 4px 1px hsl(176, 60%, 40%, .7);--br:10px">
       Compare
     </v-btn>
 
     <template v-if="showCompareInfo">
-      <aside class="container-controls divcol gap1">
-        <div class="space gap2">
-          <v-tabs>
-            <v-tab v-for="(item,i) in dataControls" :key="i">
-              <h6 class="h11_em p">{{item.name}}</h6>
-            </v-tab>
-          </v-tabs>
+      <aside class="container-controls space gap2">
+        <v-tabs>
+          <v-tab v-for="(item,i) in dataControls" :key="i">
+            <h6 class="h11_em p">{{item.name}}</h6>
+          </v-tab>
+        </v-tabs>
 
-          <v-tabs class="tab-right">
-            <v-tab>
-              <img class="flr" src="@/assets/logos/near.png" alt="near" style="--w:19.2px">
-            </v-tab>
-            <v-tab style="color:#FFFFFF">
-              $
-            </v-tab>
-          </v-tabs>
-        </div>
+        <v-tabs class="tab-right">
+          <v-tab>
+            <img class="flr" src="@/assets/logos/near.png" alt="near" style="--w:19.2px">
+          </v-tab>
+          <v-tab style="color:#FFFFFF">
+            $
+          </v-tab>
+        </v-tabs>
       </aside>
 
       <section class="section-down divcol" style="gap:2em">
         <Chart ref="chart"></Chart>
         <h3 class="h9_em p">Market stats</h3>
 
-        <v-simple-table class="dataTableMarket">
+        <v-simple-table id="market" class="dataTableSimple">
           <template v-slot:default>
             <thead>
               <tr>
@@ -132,7 +130,7 @@
 
         <h3 class="h9_em p">Socials</h3>
 
-        <v-simple-table class="dataTableMarket">
+        <v-simple-table id="social" class="dataTableSimple">
           <template v-slot:default>
             <thead>
               <tr>
@@ -166,7 +164,7 @@
 
         <h3 class="h9_em p">Additional Information</h3>
 
-        <v-simple-table class="dataTableMarket">
+        <v-simple-table id="aditional" class="dataTableSimple">
           <template v-slot:default>
             <thead>
               <tr>

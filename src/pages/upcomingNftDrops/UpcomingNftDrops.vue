@@ -7,6 +7,8 @@
       </p>
     </aside>
 
+    <h3 class="h9_em p vermobile">Sort by</h3>
+    
     <aside class="container-controls divcol gap1">
       <v-tabs>
         <v-tab v-for="(item,i) in dataControls" :key="i">
@@ -17,7 +19,7 @@
     
     <section class="section-down grid" style="--gtc:repeat(auto-fit,minmax(min(100%,20em),1fr));gap:2em">
       <v-card v-for="(item,i) in dataNftDrops" :key="i" class="card divcol"
-        style="--p:2em;gap:.5em">
+        style="--p:clamp(1em,2vw,2em);gap:.5em">
         <div class="acenter" style="gap:.5em">
           <img :src="item.img" alt="NFT Image" style="--w: 4.5em">
           <div class="divcol">

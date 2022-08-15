@@ -103,6 +103,14 @@
       }
     }
   }
+  .responsive_actions {
+    overscroll-behavior: contain;
+    @include media(max,540px) {font-size: 11px}
+    @include media(max,425px) {
+      --margin: 30px;
+      font-size: 8px;
+    }
+  }
   // labels
   tspan {fill: #ffffff}
   // legend

@@ -54,9 +54,7 @@
           transition: .2s $ease-return;
           &:hover {background-color: #21786D;box-shadow: $sombra-card}
         }
-        td:nth-of-type(2) {
-          min-width: 200px;
-        }
+        td:nth-of-type(2) {min-width: 200px}
       }
     }
     tr:hover {background:none}

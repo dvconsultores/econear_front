@@ -7,14 +7,16 @@
   padding-top: 1em;
   padding-inline: var(--margin-global);
   position: relative;
-  h3 {font-weight: bold}
-  &::before {
-    content: "";
-    @include absolute(0,-40px,0);
-    width: 80%;
-    height: 1px;
-    background-color: rgba($success, .5);
+  @include media(min, small) {
+    &::before {
+      content: "";
+      @include absolute(0,-40px,0);
+      width: 80%;
+      height: 1px;
+      background-color: rgba($success, .5);
+    }
   }
+  h3 {font-weight: bold}
   // btn toggle
   .v-item-group.v-btn-toggle {
     background-color: hsl(210, 48%, 13%, .46);

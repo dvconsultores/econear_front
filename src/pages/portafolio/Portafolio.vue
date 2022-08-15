@@ -1,6 +1,6 @@
 <template>
   <section id="portafolio" class="divcol gap2">
-    <aside class="divcol center tcenter align" style="max-width:max-content;gap:3em">
+    <aside id="container-header" class="divcol center tcenter align">
       <h2 class="h5_em p">My portafolio</h2>
       <v-text-field
         v-model="search"
@@ -15,7 +15,7 @@
 
     <section class="container-profit fwrap spacee acenter gap2">
       <v-card v-for="(item,i) in dataProfit" :key="i"
-        class="card" style="--bg:hsl(212 47% 12% / .5);--p:2em;--b:none">
+        class="card" style="--bg:hsl(212 47% 12% / .5);--p:clamp(.8em,2vw,2em);--b:none">
         <v-sheet class="card" style="--bg:hsl(210, 48%, 13%)" max-height="186px">
           <aside class="divcol" style="gap:.5em">
             <div class="space gap2">
@@ -51,7 +51,7 @@
       </v-card>
     </section>
 
-    <aside class="container-controls space gap2 wrap">
+    <aside class="container-controls space gap2 wrap responsive_controls">
       <v-tabs>
         <v-tab v-for="(item,i) in dataControlsCharts" :key="i" @click="dataControlsCharts.forEach(e=>{e.active=false});item.active=true">
           <v-icon>mdi-{{item.icon}}</v-icon>
@@ -69,13 +69,13 @@
       </v-tabs>
     </aside>
 
-    <section class="container-charts card" style="--bg:hsl(212 47% 12% / .5);--p:2em;--b:none">
+    <section class="container-charts card" style="--bg:hsl(212 47% 12% / .5);--p:clamp(.8em,1vw,2em);--b:none">
       <LineChart ref="linechart" v-show="dataControlsCharts[dataControlsCharts.findIndex(e=>e.key=='line')].active"></LineChart>
       <PieChart ref="piechart" v-show="dataControlsCharts[dataControlsCharts.findIndex(e=>e.key=='pie')].active"></PieChart>
       
       <section v-show="dataControlsCharts[dataControlsCharts.findIndex(e=>e.key=='statistics')].active" class="container-profit divcol gap2">
         <!-- profit -->
-        <v-card class="card profit" style="--bg:hsl(212 47% 12% / .5);--p:2em;--b:none">
+        <v-card class="card profit" style="--bg:hsl(212 47% 12% / .5);--p:clamp(.8em,2vw,2em);--b:none">
           <v-sheet class="card" style="--bg:hsl(210, 48%, 13%)" max-height="186px">
             <aside class="divcol" style="gap:.5em">
               <div class="space gap2">
@@ -99,7 +99,7 @@
 
         <div class="fwrap spacee acenter gap2 gap2">
           <!-- near -->
-          <v-card class="card" style="--bg:hsl(212 47% 12% / .5);--p:2em;--b:none">
+          <v-card class="card" style="--bg:hsl(212 47% 12% / .5);--p:clamp(.8em,2vw,2em);--b:none">
             <v-sheet class="card" style="--bg:hsl(210, 48%, 13%)" max-height="186px">
               <aside class="divcol" style="gap:.5em">
                 <div class="space gap2">
@@ -128,7 +128,7 @@
           </v-card>
           
           <!-- econear -->
-          <v-card class="card" style="--bg:hsl(212 47% 12% / .5);--p:2em;--b:none">
+          <v-card class="card" style="--bg:hsl(212 47% 12% / .5);--p:clamp(.8em,2vw,2em);--b:none">
             <v-sheet class="card" style="--bg:hsl(210, 48%, 13%)" max-height="186px">
               <aside class="divcol" style="gap:.5em">
                 <div class="space gap2">
@@ -159,7 +159,7 @@
       </section>
     </section>
 
-    <aside class="space gap2">
+    <aside class="space gap2 responsive_controls">
       <h2 class="h9_em p">Assets</h2>
 
       <div class="acenter gap1">
@@ -194,7 +194,8 @@
       :headers="headersTable"
       :items="dataTable"
       hide-default-footer
-      style="--p:2em"
+      mobile-breakpoint="-1"
+      style="--p:clamp(1em,2vw,2em)"
     >
       <template v-slot:[`item.nft`]="{ item }">
         <div class="center gap1 h11_em">
@@ -215,8 +216,8 @@
 
     <!-- mosaico -->
     <section v-if="!organizationStyle" class="mosaico card grid"
-      style="--gtc: repeat(auto-fit, minmax(min(100%,var(--size)),1fr)); gap:1.5em;--p:2em;--size:16.2225em">
-      <v-card v-for="(item,i) in dataTable" :key="i" class="divcol alignmobile" color="#112131" width="var(--size)" style="border-radius: .4vmax">
+      style="--gtc: repeat(auto-fit, minmax(min(100%,var(--size)),1fr)); gap:1.5em;--p:clamp(1em,2vw,2em);--size:16.2225em">
+      <v-card v-for="(item,i) in dataTable" :key="i" class="divcol alignmobile" color="#112131" style="border-radius: .4vmax">
         <img class="h11_em" :src="item.img" alt="nft" style="--w:100%">
         <aside class="contenido divcol" style="gap:.2em">
           <span class="Title tcenter h11_em">{{item.name}}</span>

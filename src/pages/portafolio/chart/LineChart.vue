@@ -2,7 +2,7 @@
   <section id="linechart" class="charts fwrap card">
     <!-- chart 1 -->
     <aside class="divcol">
-      <div class="toolbar">
+      <div class="toolbar responsive_actions">
         <v-btn v-for="(item,i) in dataControls" :key="i" @click="updateData(item.key)"
           :class="{active: selection===item.key}">
           {{item.name}}
@@ -22,7 +22,7 @@
 
     <!-- chart 2 -->
     <aside class="divcol">
-      <div class="toolbar">
+      <div class="toolbar responsive_actions">
         <v-btn v-for="(item,i) in dataControls" :key="i" @click="updateData2(item.key)"
           :class="{active: selection2===item.key}">
           {{item.name}}

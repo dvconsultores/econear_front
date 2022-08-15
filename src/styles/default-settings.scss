@@ -165,7 +165,7 @@ img:not(.not_html, .not) {
 }
 
 // normal class
-.v-btn {
+.v-btn.v-size--default {
   --c: var(--clr);
   --fs: 1em;
   --lh: 1;
@@ -176,6 +176,8 @@ img:not(.not_html, .not) {
   --ml: none;
   --mr: none;
   color: var(--c);
+  font-size: var(--fs);
+  max-height: 2.25em;
   transform: var(--t);
   filter: var(--f);
   & :is(span, img, i) {
@@ -183,7 +185,6 @@ img:not(.not_html, .not) {
     letter-spacing: var(--ls);
     line-height: var(--lh);
     color: var(--c);
-    font-size: var(--fs);
   }
   .v-btn__content {
     & :is(img, i) {margin-left: var(--ml);margin-right: var(--mr)}
