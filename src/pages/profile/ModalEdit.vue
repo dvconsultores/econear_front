@@ -3,7 +3,7 @@
     v-model="modalEdit"
     max-width="82.358125em"
   >
-    <v-card color="var(--primary)" class="modalEdit overflowx" style="padding:6em">
+    <v-card color="var(--primary)" class="modalEdit overflowx">
       <v-btn icon class="close" @click="modalEdit = false">
         <img src="@/assets/icons/close.svg" alt="close" style="--w:0.921875em">
       </v-btn>

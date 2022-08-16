@@ -30,7 +30,7 @@
     </aside>
 
     <template v-if="switchInfo">
-      <aside class="space gap2">
+      <aside class="space gap2 wrap" style="font-size:16px">
         <h2 class="h9_em p bold">Your Projects Lists</h2>
 
         <v-text-field
@@ -50,11 +50,14 @@
         :headers="headersTableProjects"
         :items="dataTableProjects"
         hide-default-footer
-        style="--p:2em"
+        mobile-breakpoint="-1"
+        style="--p:clamp(1em,2vw,2em)"
       >
         <template v-slot:[`header.number`]>
-          <span>#</span>
-          <img src="@/assets/icons/sort.svg" alt="sortable icon" style="--w: 0.5em;margin-left:.3em">
+          <center class="center">
+            <span>#</span>
+            <img src="@/assets/icons/sort.svg" alt="sortable icon" style="--w: 0.5em;margin-left:.3em">
+          </center>
         </template>
 
         <template v-slot:[`item.number`]="{ item }">
@@ -70,7 +73,7 @@
       </v-data-table>
 
 
-      <aside class="space gap2">
+      <aside class="space gap2 wrap" style="font-size:16px">
         <h2 class="h9_em p bold">Watchlist</h2>
 
         <v-text-field
@@ -90,11 +93,14 @@
         :headers="headersTableWatchlist"
         :items="dataTableWatchlist"
         hide-default-footer
-        style="--p:2em"
+        mobile-breakpoint="-1"
+        style="--p:clamp(1em,2vw,2em)"
       >
         <template v-slot:[`header.number`]>
-          <span>#</span>
-          <img src="@/assets/icons/sort.svg" alt="sortable icon" style="--w: 0.5em;margin-left:.3em">
+          <center class="center">
+            <span>#</span>
+            <img src="@/assets/icons/sort.svg" alt="sortable icon" style="--w: 0.5em;margin-left:.3em">
+          </center>
         </template>
 
         <template v-slot:[`item.number`]="{ item }">
@@ -110,7 +116,7 @@
       </v-data-table>
 
 
-      <aside class="space gap2">
+      <aside class="space gap2 wrap" style="font-size:16px">
         <h2 class="h9_em p bold">Alerts</h2>
 
         <v-text-field
@@ -130,11 +136,14 @@
         :headers="headersTableAlerts"
         :items="dataTableAlerts"
         hide-default-footer
-        style="--p:2em"
+        mobile-breakpoint="-1"
+        style="--p:clamp(1em,2vw,2em)"
       >
         <template v-slot:[`header.number`]>
-          <span>#</span>
-          <img src="@/assets/icons/sort.svg" alt="sortable icon" style="--w: 0.5em;margin-left:.3em">
+          <center class="center">
+            <span>#</span>
+            <img src="@/assets/icons/sort.svg" alt="sortable icon" style="--w: 0.5em;margin-left:.3em">
+          </center>
         </template>
 
         <template v-slot:[`item.number`]="{ item }">
@@ -152,7 +161,7 @@
 
     <section v-else class="container-wallets">
       <aside class="divcol gap2">
-        <div class="space gap2">
+        <div class="space gap2 wrap">
           <h2 class="h9_em p bold">Your Projects Lists</h2>
 
           <v-text-field
@@ -167,72 +176,72 @@
         </div>
 
         <!-- tabla wallets  -->
-        <v-simple-table
-          class="dataTable wallets card"
-          style="--p:2em"
-        >
-          <template v-slot:default>
-            <thead>
-              <tr>
-                <th class="text-center">
-                  <span>#</span>
-                  <img src="@/assets/icons/sort.svg" alt="sortable icon" style="--w: 0.5em;margin-left:.3em">
-                </th>
-                <th>
-                  Wallet
-                </th>
-                <th class="text-center">
-                  Project Discord
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr
-                v-for="item in dataTableWallets"
-                :key="item.number"
-              >
-                <td class="tcenter">{{dataTableWallets.indexOf(item) + 1}}</td>
-                <td class="tcenter">
-                  <div class="name acenter gap1">
-                    <img :src="item.img" alt="nft image" style="--w:4.710625em">
-                    <v-text-field
-                      v-model="item.name"
-                      placeholder="Wallet name"
-                      type="text"
+        <section class="relative">
+          <v-simple-table
+            class="dataTable wallets card"
+            style="--p:clamp(1em,2vw,2em)"
+          >
+            <template v-slot:default>
+              <thead>
+                <tr>
+                  <th class="center">
+                    <span>#</span>
+                    <img src="@/assets/icons/sort.svg" alt="sortable icon" style="--w: 0.5em;margin-left:.3em">
+                  </th>
+                  <th>
+                    Wallet
+                  </th>
+                  <th class="text-center">
+                    Project Discord
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr
+                  v-for="item in dataTableWallets"
+                  :key="item.number"
+                >
+                  <td class="tcenter">{{dataTableWallets.indexOf(item) + 1}}</td>
+                  <td class="tcenter">
+                    <div class="name acenter gap1">
+                      <img :src="item.img" alt="nft image" style="--w:4.710625em">
+                      <v-text-field
+                        v-model="item.name"
+                        placeholder="Wallet name"
+                        type="text"
+                        hide-details
+                        style="--min-w:200px"
+                      ></v-text-field>
+                      <!-- <span style="max-width:35ch;word-break: break-all" class="bold">{{item.name}}</span> -->
+                    </div>
+                  </td>
+                  <td class="tcenter">
+                    <v-select
+                      v-model="item.project"
+                      :items="projectList"
+                      :item-value="value"
                       hide-details
-                    ></v-text-field>
-                    <!-- <span style="max-width:35ch;word-break: break-all" class="bold">{{item.name}}</span> -->
-                  </div>
-                </td>
-                <td class="tcenter">
-                  <v-select
-                    v-model="item.project"
-                    :items="projectList"
-                    :item-value="value"
-                    hide-details
-                    solo
-                    append-icon="mdi-chevron-down"
-                    style="--bg:#21786D"
-                    class="align"
-                    :menu-props="{ contentClass: 'menuWallets'}"
-                  ></v-select>
-                </td>
-              </tr>
-
-              <tr class="add" @click="dataTableWallets.push({
-                  img: require('@/assets/nfts/nft3.png'),
-                  name: '',
-                  project: { value:'All - Default' },
-                })">
-                <td class="tcenter">
-                  <v-icon color="var(--success)">mdi-plus</v-icon>
-                </td>
-                <td>Add</td>
-                <td></td>
-              </tr>
-            </tbody>
-          </template>
-        </v-simple-table>
+                      solo
+                      append-icon="mdi-chevron-down"
+                      style="--bg:#21786D"
+                      class="align"
+                      :menu-props="{ contentClass: 'menuWallets'}"
+                    ></v-select>
+                  </td>
+                </tr>
+              </tbody>
+            </template>
+          </v-simple-table>
+          
+          <div class="add" @click="dataTableWallets.push({
+            img: require('@/assets/nfts/nft3.png'),
+            name: '',
+            project: { value:'All - Default' },
+          })">
+            <v-icon color="var(--success)">mdi-plus</v-icon>
+            <span>Add</span>
+          </div>
+        </section>
       </aside>
 
       <article class="notes card">
