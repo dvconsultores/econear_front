@@ -65,7 +65,7 @@
         <span>{{dataTable.indexOf(item)+1}}</span>
       </template>
 
-      <template v-slot:[`item.nft`]="{ item }">
+      <template v-slot:[`item.name`]="{ item }">
         <div class="nftDetail start gap1" @click="$router.push('/project-details')">
           <img class="aspect" :src="item.img || image" alt="nft" style="--w:4.710625em">
           <div class="divcol tstart">
@@ -233,7 +233,7 @@ export default {
       },
       headersTable: [
         { value: "number", text: "#", align: "center", sortable: false },
-        { value: "nft", text: "NFT", align: "center", sortable: false },
+        { value: "name", text: "NFT", align: "center", sortable: false },
         { value: "supply", text: "Supply", align: "center", sortable: false },
         { value: "volume", text: "Volume", align: "center", sortable: false },
         { value: "price", text: "Floor Price", align: "center", sortable: false },
