@@ -369,7 +369,7 @@ export default {
       const near = await connect(config);
       const wallet = new WalletConnection(near)
       wallet.requestSignIn(
-        'contract.nearbase.testnet'
+        'contract.monkeonnear.testnet'
       )
     },
     async isSigned () {
