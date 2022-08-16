@@ -24,6 +24,7 @@
       v-if="dataTable.length !== 0"
       id="dataTable"
       class="card"
+      :search="search"
       :headers="headersTable"
       :items="dataTable"
       hide-default-footer
