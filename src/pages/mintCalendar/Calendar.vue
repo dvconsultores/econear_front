@@ -1,7 +1,7 @@
 <template>
-  <section id="calendar" class="divcol gap2 card" style="--p:2em">
+  <section id="calendar" class="divcol gap2 card" style="--p:clamp(1em,2vw,2em)">
     <ModalCalendar ref="modalcalendar"></ModalCalendar>
-    <section class="divcol gap2 card" style="--p:1.5em">
+    <section class="divcol gap2 card" style="--p:clamp(1em,1.5vw,1.5em)">
       <aside class="controls">
         <v-btn id="today" @click="setToday">Today</v-btn>
 

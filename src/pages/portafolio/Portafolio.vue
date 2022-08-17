@@ -9,7 +9,7 @@
         label="Search for wallets"
         append-icon="mdi-magnify"
         style="--bg:hsl(210, 48%, 10%);--c:#FFFFFF;--p:0 1.5em;--w:100%;--label:#FFFFFF"
-        class="search"
+        class="customeFilter"
       ></v-text-field>
     </aside>
 
@@ -55,7 +55,7 @@
       <v-tabs>
         <v-tab v-for="(item,i) in dataControlsCharts" :key="i" @click="dataControlsCharts.forEach(e=>{e.active=false});item.active=true">
           <v-icon>mdi-{{item.icon}}</v-icon>
-          <h6 class="h11_em p">{{item.name}}</h6>
+          <h6 class="p">{{item.name}}</h6>
         </v-tab>
       </v-tabs>
 

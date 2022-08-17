@@ -21,7 +21,7 @@
             style="--p:0;gap:.5em">
             <img :src="item.img" alt="NFT Image" style="--w: 100%;--max-h:11.9375em">
 
-            <div style="padding:2em;padding-top:1em;gap:1em" class="divcol">
+            <div style="padding:clamp(1em,2vw,2em);padding-top:1em;gap:1em" class="divcol">
               <div class="divcol center">
                 <h6 class="bold p">{{item.name}}</h6>
                 <span id="type" class="h11_em">{{item.type}}</span>
@@ -56,7 +56,7 @@
 
               <aside>
                 <div class="cronometer center">
-                  <div class="grid" style="--gtc:repeat(4,1fr);gap:.5em;place-items:center">
+                  <div class="grid" style="--gtc:repeat(4,1fr);gap:12px 0;place-items:center">
                     <span v-for="(item2,i2) in item.cronometer" :key="i2" style="color:var(--success)">
                       {{item2.time}}
                     </span>

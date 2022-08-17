@@ -37,7 +37,7 @@
             <v-expansion-panel-header hide-actions class="h11_em" @click="item.active?item.active=!item.active:dataDrawer.expansion.forEach(e=>{e.active=false;item.active=true})">
               <v-col class="conttitle acenter gap2">
                 <span class="clr_text_btn normal" style="max-width: max-content">{{ item.name }}</span>
-                <v-icon :class="{active_rotate: item.active}">mdi-chevron-down</v-icon>
+                <v-icon :class="{active_rotate: item.active}" size="1.4em">mdi-chevron-down</v-icon>
               </v-col>
             </v-expansion-panel-header>
 
@@ -251,7 +251,6 @@
       v-model="modalAlert"
       max-width="62.358125em"
     >
-    <!-- aqui -->
       <v-card color="var(--primary)" class="modalAlert">
         <v-btn icon class="close" @click="modalAlert = false">
           <img src="@/assets/icons/close.svg" alt="close" style="--w:0.921875em">

@@ -112,29 +112,6 @@
       }
     }
   }
-  .container-controls {
-    .v-tabs {max-width: max-content}
-    .v-item-group {
-      background-color: var(--primary);
-      border: .8px solid rgba(#707070, .1);
-      border-radius: .4vmax;
-      max-width: max-content;
-      .v-slide-group__content {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 1em;
-        gap: 1em;
-        .v-tab {
-          padding: .2em;
-          border-radius: .4vmax;
-          overflow: hidden;
-          h6 {color: #FFFFFF; text-transform: none}
-          &--active h6 {color: $clr-btn-pressed}
-        }
-      }
-    }
-  }
   .container-potential {
     .v-card {
       @include media(min,small) {max-width: 31.25em}
@@ -207,25 +184,33 @@
       thead th:nth-of-type(4) {min-width: 148px}
     }
   }
-  .container-nfts {
-    .v-card {
-      &.widthLimiter {max-width: 21.2225em}
-      h6 {
-        font-size: 1.25em;
-        text-align: center;
-        padding-bottom: 5px;
-        position: relative;
-        &::before {
-          content: "";
-          @include absolute(0,auto,0,0);
-          width: 100%;
-          height: 1px;
-          background-color: var(--clr-line);
-        }
+  #container-nft {
+    #controls {
+      .search {
+        input {font-size: 1em !important}
+        i {font-size: 1.3em !important}
       }
-      span:not(span[class*="v-chip"]) {font-size: 1.095625em}
-      #rank .v-chip__content {font-size: 0.75em}
-      #rarity .v-chip__content {font-size: 0.9375em}
+    }
+    .content {
+      .v-card {
+        &.widthLimiter {max-width: 21.2225em}
+        h6 {
+          font-size: 1.25em;
+          text-align: center;
+          padding-bottom: 5px;
+          position: relative;
+          &::before {
+            content: "";
+            @include absolute(0,auto,0,0);
+            width: 100%;
+            height: 1px;
+            background-color: var(--clr-line);
+          }
+        }
+        span:not(span[class*="v-chip"]) {font-size: 1.095625em}
+        #rank .v-chip__content {font-size: 0.75em}
+        #rarity .v-chip__content {font-size: 0.9375em}
+      }
     }
   }
   #contaioner-buyer-seller {

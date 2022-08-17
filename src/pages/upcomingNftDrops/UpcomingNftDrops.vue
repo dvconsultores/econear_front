@@ -12,7 +12,7 @@
     <aside class="container-controls divcol gap1">
       <v-tabs>
         <v-tab v-for="(item,i) in dataControls" :key="i">
-          <h6 class="h11_em p">{{item.name}}</h6>
+          <h6 class="p">{{item.name}}</h6>
         </v-tab>
       </v-tabs>
     </aside>
@@ -51,7 +51,7 @@
         </div>
 
         <aside class="cronometer center">
-          <div class="grid" style="--gtc:repeat(4,1fr);gap:.5em;place-items:center">
+          <div class="grid" style="--gtc:repeat(4,1fr);gap:12px 0;place-items:center">
             <span v-for="(item2,i2) in item.cronometer" :key="i2" style="color:var(--success)">
               {{item2.time}}
             </span>

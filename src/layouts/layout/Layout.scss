@@ -7,6 +7,11 @@
   background: top no-repeat url(../../assets/images/bg.png);
   background-size: cover;
   overflow: hidden;
+  // responsive
+  .v-main {
+    & > * {@include media(max,small) {font-size: clamp(10px, 1.5vw, 12px)}}
+  }
+  // footer margin
   & .with {
     padding-block: 140px clamp(30em, 35vw, 35em) !important;
     @include media(max, small) {padding-bottom: 40em !important}

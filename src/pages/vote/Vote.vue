@@ -9,70 +9,78 @@
     </aside>
 
     <section id="container-top" class="card jspace fwrap">
-      <section class="container-list card divcol gap2">
+      <section class="card divcol gap2">
         <h4 class="p">The most Voted</h4>
-        <v-card color="transparent" v-for="(item,i) in dataVoted" :key="i" class="space gap1 wrap">
-          <div class="divrow gap2">
-            <div class="center gap1">
-              <span class="number">{{i+1}}</span>
-              <img :src="item.img" alt="project images" style="--w:4.710625em">
-            </div>
+        <v-sheet class="container-wrapper">
+          <section class="container-content scrollx">
+            <v-card color="transparent" v-for="(item,i) in dataVoted" :key="i" class="space gap1">
+              <div class="divrow gap2">
+                <div class="center gap1">
+                  <span class="number">{{i+1}}</span>
+                  <img :src="item.img" alt="project images" style="--w:4.710625em">
+                </div>
 
-            <div class="divcol overflow" style="width:11.63375em">
-              <span style="font-size:1.095625em" class="bold">{{item.name}}</span>
-              <span style="font-size:0.97375em">{{item.desc}}</span>
-            </div>
-          </div>
+                <div class="divcol overflow" style="width:11.63375em">
+                  <span style="font-size:1.095625em" class="bold">{{item.name}}</span>
+                  <span style="font-size:0.97375em">{{item.desc}}</span>
+                </div>
+              </div>
 
-          <div class="right space">
-            <div class="center">
-              <v-btn icon>
-                <img src="@/assets/icons/like.svg" alt="like button" style="--w:1.856875em">
-              </v-btn>
-              <v-btn icon @click="$refs.menu.modalDislike = true">
-                <img src="@/assets/icons/dislike.svg" alt="dislike button" style="--w:1.856875em">
-              </v-btn>
-            </div>
+              <div class="right space">
+                <div class="center">
+                  <v-btn icon>
+                    <img src="@/assets/icons/like.svg" alt="like button">
+                  </v-btn>
+                  <v-btn icon @click="$refs.menu.modalDislike = true">
+                    <img src="@/assets/icons/dislike.svg" alt="dislike button">
+                  </v-btn>
+                </div>
 
-            <div class="divcol">
-              <span style="--c:var(--success)">{{item.voted}}</span>
-              <span>Voted</span>
-            </div>
-          </div>
-        </v-card>
+                <div class="divcol">
+                  <span style="--c:var(--success)">{{item.voted}}</span>
+                  <span>Voted</span>
+                </div>
+              </div>
+            </v-card>
+          </section>
+        </v-sheet>
       </section>
 
-      <section class="container-list card divcol gap2">
+      <section class="card divcol gap2">
         <h4 class="p">Recently Added</h4>
-        <v-card color="transparent" v-for="(item,i) in dataAdded" :key="i" class="space gap1 wrap">
-          <div class="divrow gap2">
-            <div class="center gap1">
-              <span class="number">{{i+1}}</span>
-              <img :src="item.img" alt="project images" style="--w:4.710625em">
-            </div>
+        <v-sheet class="container-wrapper">
+          <section class="container-content scrollx">
+            <v-card color="transparent" v-for="(item,i) in dataAdded" :key="i" class="space gap1">
+              <div class="divrow gap2">
+                <div class="center gap1">
+                  <span class="number">{{i+1}}</span>
+                  <img :src="item.img" alt="project images" style="--w:4.710625em">
+                </div>
 
-            <div class="divcol overflow" style="width:11.63375em">
-              <span style="font-size:1.095625em" class="bold">{{item.name}}</span>
-              <span style="font-size:0.97375em">{{item.desc}}</span>
-            </div>
-          </div>
+                <div class="divcol overflow" style="width:11.63375em">
+                  <span style="font-size:1.095625em" class="bold">{{item.name}}</span>
+                  <span style="font-size:0.97375em">{{item.desc}}</span>
+                </div>
+              </div>
 
-          <div class="right space">
-            <div class="center">
-              <v-btn icon>
-                <img src="@/assets/icons/like.svg" alt="like button" style="--w:1.856875em">
-              </v-btn>
-              <v-btn icon @click="$refs.menu.modalDislike = true">
-                <img src="@/assets/icons/dislike.svg" alt="dislike button" style="--w:1.856875em">
-              </v-btn>
-            </div>
+              <div class="right space">
+                <div class="center">
+                  <v-btn icon>
+                    <img src="@/assets/icons/like.svg" alt="like button">
+                  </v-btn>
+                  <v-btn icon @click="$refs.menu.modalDislike = true">
+                    <img src="@/assets/icons/dislike.svg" alt="dislike button">
+                  </v-btn>
+                </div>
 
-            <div class="divcol">
-              <span style="--c:var(--success)">{{item.voted}}</span>
-              <span>Voted</span>
-            </div>
-          </div>
-        </v-card>
+                <div class="divcol">
+                  <span style="--c:var(--success)">{{item.voted}}</span>
+                  <span>Voted</span>
+                </div>
+              </div>
+            </v-card>
+          </section>
+        </v-sheet>
       </section>
     </section>
 
@@ -83,7 +91,7 @@
         <aside class="container-controls space gap2 wrap">
           <v-tabs>
             <v-tab v-for="(item,i) in dataControlsLeft" :key="i">
-              <h6 class="h11_em p">{{item.name}}</h6>
+              <h6 class="p">{{item.name}}</h6>
             </v-tab>
           </v-tabs>
           <v-text-field
@@ -92,41 +100,45 @@
             solo
             label="Search for Nft Project Name"
             append-icon="mdi-magnify"
-            style="--bg:hsl(210, 48%, 10%, .7);--c:#FFFFFF;--p:0 1.5em;--w:100%;--label:#FFFFFF"
-            class="search"
+            style="--bg:hsl(210, 48%, 10%, .7);--c:#FFFFFF;--p:0 1.5em;--label:#FFFFFF"
+            class="customeFilter"
           ></v-text-field>
         </aside>
 
-        <v-sheet class="container-list card divcol gap2">
-          <v-card color="transparent" v-for="(item,i) in dataVoteLeft" :key="i" class="space gap1 wrap">
-            <div class="divrow gap2">
-              <div class="center gap1">
-                <span class="number">{{i+1}}</span>
-                <img :src="item.img" alt="project images" style="--w:4.710625em">
-              </div>
+        <v-sheet class="card divcol gap2">
+          <v-sheet class="container-wrapper">
+            <section class="container-content scrollx">
+              <v-card color="transparent" v-for="(item,i) in dataVoteLeft" :key="i" class="space gap1">
+                <div class="divrow gap2">
+                  <div class="center gap1">
+                    <span class="number">{{i+1}}</span>
+                    <img :src="item.img" alt="project images" style="--w:4.710625em">
+                  </div>
 
-              <div class="divcol overflow" style="width:11.63375em">
-                <span style="font-size:1.095625em" class="bold">{{item.name}}</span>
-                <span style="font-size:0.97375em">{{item.desc}}</span>
-              </div>
-            </div>
+                  <div class="divcol overflow" style="width:11.63375em">
+                    <span style="font-size:1.095625em" class="bold">{{item.name}}</span>
+                    <span style="font-size:0.97375em">{{item.desc}}</span>
+                  </div>
+                </div>
 
-            <div class="right space">
-              <div class="center">
-                <v-btn icon>
-                  <img src="@/assets/icons/like.svg" alt="like button" style="--w:1.856875em">
-                </v-btn>
-                <v-btn icon @click="$refs.menu.modalDislike = true">
-                  <img src="@/assets/icons/dislike.svg" alt="dislike button" style="--w:1.856875em">
-                </v-btn>
-              </div>
+                <div class="right space">
+                  <div class="center">
+                    <v-btn icon>
+                      <img src="@/assets/icons/like.svg" alt="like button">
+                    </v-btn>
+                    <v-btn icon @click="$refs.menu.modalDislike = true">
+                      <img src="@/assets/icons/dislike.svg" alt="dislike button">
+                    </v-btn>
+                  </div>
 
-              <div class="divcol">
-                <span style="--c:var(--success)">{{item.voted}}</span>
-                <span>Voted</span>
-              </div>
-            </div>
-          </v-card>
+                  <div class="divcol">
+                    <span style="--c:var(--success)">{{item.voted}}</span>
+                    <span>Voted</span>
+                  </div>
+                </div>
+              </v-card>
+            </section>
+          </v-sheet>
           
           <v-btn-toggle mandatory color="#60D2CA" class="align">
             <v-btn color="transparent">
@@ -148,7 +160,7 @@
         <aside class="container-controls space gap2 wrap">
           <v-tabs>
             <v-tab v-for="(item,i) in dataControlsRight" :key="i">
-              <h6 class="h11_em p">{{item.name}}</h6>
+              <h6 class="p">{{item.name}}</h6>
             </v-tab>
           </v-tabs>
           <v-text-field
@@ -157,41 +169,45 @@
             solo
             label="Search for Nft Project Name"
             append-icon="mdi-magnify"
-            style="--bg:hsl(210, 48%, 10%, .7);--c:#FFFFFF;--p:0 1.5em;--w:100%;--label:#FFFFFF"
-            class="search"
+            style="--bg:hsl(210, 48%, 10%, .7);--c:#FFFFFF;--p:0 1.5em;--label:#FFFFFF"
+            class="customeFilter"
           ></v-text-field>
         </aside>
 
-        <v-sheet class="container-list card divcol gap2">
-          <v-card color="transparent" v-for="(item,i) in dataVoteRight" :key="i" class="space gap1 wrap">
-            <div class="divrow gap2">
-              <div class="center gap1">
-                <span class="number">{{i+1}}</span>
-                <img :src="item.img" alt="project images" style="--w:4.710625em">
-              </div>
+        <v-sheet class="card divcol gap2">
+          <v-sheet class="container-wrapper">
+            <section class="container-content scrollx">
+              <v-card color="transparent" v-for="(item,i) in dataVoteRight" :key="i" class="space gap1">
+                <div class="divrow gap2">
+                  <div class="center gap1">
+                    <span class="number">{{i+1}}</span>
+                    <img :src="item.img" alt="project images" style="--w:4.710625em">
+                  </div>
 
-              <div class="divcol overflow" style="width:11.63375em">
-                <span style="font-size:1.095625em" class="bold">{{item.name}}</span>
-                <span style="font-size:0.97375em">{{item.desc}}</span>
-              </div>
-            </div>
+                  <div class="divcol overflow" style="width:11.63375em">
+                    <span style="font-size:1.095625em" class="bold">{{item.name}}</span>
+                    <span style="font-size:0.97375em">{{item.desc}}</span>
+                  </div>
+                </div>
 
-            <div class="right space">
-              <div class="center">
-                <v-btn icon>
-                  <img src="@/assets/icons/like.svg" alt="like button" style="--w:1.856875em">
-                </v-btn>
-                <v-btn icon @click="$refs.menu.modalDislike = true">
-                  <img src="@/assets/icons/dislike.svg" alt="dislike button" style="--w:1.856875em">
-                </v-btn>
-              </div>
+                <div class="right space">
+                  <div class="center">
+                    <v-btn icon>
+                      <img src="@/assets/icons/like.svg" alt="like button">
+                    </v-btn>
+                    <v-btn icon @click="$refs.menu.modalDislike = true">
+                      <img src="@/assets/icons/dislike.svg" alt="dislike button">
+                    </v-btn>
+                  </div>
 
-              <div class="divcol">
-                <span style="--c:var(--success)">{{item.voted}}</span>
-                <span>Voted</span>
-              </div>
-            </div>
-          </v-card>
+                  <div class="divcol">
+                    <span style="--c:var(--success)">{{item.voted}}</span>
+                    <span>Voted</span>
+                  </div>
+                </div>
+              </v-card>
+            </section>
+          </v-sheet>
           
           <v-btn-toggle mandatory color="#60D2CA" class="align">
             <v-btn color="transparent">
@@ -303,6 +319,15 @@ export default {
         },
       ],
     }
+  },
+  mounted() {
+    const el = document.querySelectorAll(".container-wrapper")
+    el.forEach(e=>{
+      const el2 = document.querySelectorAll(".scrollx")
+      el2.forEach(e2=>{
+        e.style.setProperty("--h-slide", `${e2.getBoundingClientRect().height}px`)
+      })
+    })
   },
   methods: {
   }

@@ -16,29 +16,6 @@
       background-color: rgba($success, .5);
     }
   }
-  .container-controls {
-    .v-tabs {max-width: max-content}
-    .v-item-group {
-      background-color: var(--primary);
-      border: .8px solid rgba(#707070, .1);
-      border-radius: .4vmax;
-      max-width: max-content;
-      .v-slide-group__content {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 1em;
-        gap: 1em;
-        .v-tab {
-          padding: .2em;
-          border-radius: .4vmax;
-          overflow: hidden;
-          h6 {color: #FFFFFF; text-transform: none}
-          &--active h6 {color: $clr-btn-pressed}
-        }
-      }
-    }
-  }
   .section-down {
     background-color: hsl(212 47% 12% / .5);
     padding: clamp(.5em, 2vw, 2em);

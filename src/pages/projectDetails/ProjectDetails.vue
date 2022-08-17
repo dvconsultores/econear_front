@@ -85,7 +85,7 @@
     <aside class="container-controls divcol gap1">
       <v-tabs>
         <v-tab v-for="(item,i) in dataControls" :key="i" @click="dataControls.forEach(e=>{e.active=false});item.active=true">
-          <h6 class="h11_em p">{{item.name}}</h6>
+          <h6 class="p">{{item.name}}</h6>
         </v-tab>
       </v-tabs>
     </aside>
@@ -243,8 +243,8 @@
       <ChartRarityPrice ref="chartrarityprice" :Height="chartHeight"></ChartRarityPrice>
 
       <!-- nfts -->
-      <section class="container-chart card divcol gap2" style="--p:2em">
-        <div class="space wrap gap1">
+      <section id="container-nft" class="card divcol gap2" style="--p:clamp(1em,2vw,2em)">
+        <div id="controls" class="space gap2">
           <div class="divcol">
             <h3 class="h9_em p">NFTs</h3>
             <div class="acenter" style="gap:.2em">
@@ -259,12 +259,12 @@
             solo
             label="Search NFT by #"
             append-icon="mdi-magnify"
-            style="--bg:hsl(210, 48%, 10%);--c:#FFFFFF;--p:0 1.5em;--w:100%;--label:#FFFFFF;max-width:30.061875em;"
-            class="search"
+            style="--bg:hsl(210, 48%, 10%);--c:#FFFFFF;--p:0 1.5em;--label:#FFFFFF;max-width:30.061875em;--b: .8px solid hsl(0, 0%, 44%, .1)"
+            class="customeFilter"
           ></v-text-field>
         </div>
 
-        <div class="container-nfts grid" style="--gtc: repeat(auto-fit,minmax(min(100%,21.2225em),1fr));gap:3.5em">
+        <div class="content grid" style="--gtc: repeat(auto-fit,minmax(min(100%,21.2225em),1fr));gap:3.5em">
           <v-card v-for="(item,i) in dataNfts" :key="i" color="transparent" class="divcol" :class="{widthLimiter: widthLimiter}">
             <img :src="item.img" alt="nft images" style="--w:100%;">
 

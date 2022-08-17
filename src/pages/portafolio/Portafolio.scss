@@ -60,22 +60,9 @@
     }
   }
   .container-controls {
-    .v-tabs {max-width: max-content;width: calc(100% - (80px + 2em));}
     .v-item-group {
-      background-color: var(--primary);
-      border: .8px solid rgba(#707070, .1);
-      border-radius: .4vmax;
-      max-width: max-content;
       .v-slide-group__content {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 1em;
-        gap: 1em;
         .v-tab {
-          padding: .2em;
-          border-radius: .4vmax;
-          overflow: hidden;
           h6 {color: #FFFFFF; text-transform: none}
           &--active h6 {color: $clr-btn-pressed}
           i {color: #FFFFFF !important;margin-right:.2em}
@@ -85,6 +72,7 @@
     }
   }
   .tab-right {
+    --o: visible;
     max-width: max-content;
     .v-item-group {background-color: hsl(212 47% 12% / .5) !important;border-radius: .5vmax !important}
     .v-slide-group__content {

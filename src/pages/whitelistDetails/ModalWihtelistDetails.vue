@@ -31,7 +31,7 @@ export default {
     }
   },
   methods: {
-    ClearAlerts(item) {this.dataVerify=[];item.model=false},
+    ClearAlerts(item) {item.model=false;this.dataVerify=[]},
     Alerts(key) {
       // create alert
       if (key=="success") {

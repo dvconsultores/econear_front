@@ -1,7 +1,7 @@
 <template>
   <section id="header">
     <MenuHeader ref="menu"></MenuHeader>
-    <v-app-bar id="headerApp" height="100px" fixed>
+    <v-app-bar id="headerApp" :height="heightApp" fixed>
       <aside class="left acenter">
         <!-- logo -->
         <router-link :to="('/')" class="eliminarmobile">
@@ -197,6 +197,7 @@ export default {
   // },
   data() {
     return {
+      heightApp: "100px",
       model: 1,
       accountId: null,
       user: true,
@@ -279,8 +280,8 @@ export default {
     };
   },
   mounted() {
-    // this.responsive();
-    // window.addEventListener('resize', this.responsive());
+    this.responsive();
+    window.onresize = () => this.responsive();
     document.getElementById("headerApp").style.background = "transparent";
     document.addEventListener('scroll', this.scrollListener);
     this.isSigned()
@@ -293,13 +294,13 @@ export default {
     }
   },
   methods: {
-    // responsive() {
-    //   if (window.innerWidth <= 880) {
-    //     console.log('mobile')
-    //   } else {
-    //     console.log('desktop')
-    //   }
-    // },
+    responsive() {
+      if (window.innerWidth <= 880) {
+        this.heightApp = "75px"
+      } else {
+        this.heightApp = "100px"
+      }
+    },
     // CambiarTheme(theme) {
     //   this.$store.dispatch("CambiarTheme", { theme, element: this.element });
     //   this.themeButton = !this.themeButton;

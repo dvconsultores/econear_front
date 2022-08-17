@@ -10,9 +10,7 @@
     <aside class="container-controls divcol gap1">
       <h3 class="h9_em p">My Porjects</h3>
       <v-tabs>
-        <v-tab v-for="(item,i) in dataControls" :key="i">
-          <h6 class="h11_em p">{{item.name}}</h6>
-        </v-tab>
+        <v-tab v-for="(item,i) in dataControls" :key="i">{{item.name}}</v-tab>
       </v-tabs>
     </aside>
     
@@ -22,7 +20,7 @@
           style="--p:0;gap:.5em">
           <img :src="item.img" alt="NFT Image" style="--w: 100%;--max-h:11.9375em">
 
-          <div style="padding:2em;padding-top:1em;gap:1em" class="divcol">
+          <div style="padding:clamp(1em,2vw,2em);padding-top:1em;gap:1em" class="divcol">
             <div class="divcol center">
               <h6 class="bold p">{{item.name}}</h6>
               <span id="type" class="h11_em">{{item.type}}</span>
