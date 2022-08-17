@@ -24,6 +24,7 @@
       v-if="dataTable.length !== 0"
       id="dataTable"
       class="card"
+      :search="search"
       :headers="headersTable"
       :items="dataTable"
       hide-default-footer
@@ -64,7 +65,7 @@
         <span>{{dataTable.indexOf(item)+1}}</span>
       </template>
 
-      <template v-slot:[`item.nft`]="{ item }">
+      <template v-slot:[`item.name`]="{ item }">
         <div class="nftDetail start gap1" @click="$router.push('/project-details')">
           <img class="aspect" :src="item.img || image" alt="nft" style="--w:4.710625em">
           <div class="divcol tstart">
@@ -92,13 +93,14 @@
         <div class="center" style="gap:.5em">
           <span>{{item.vote}}</span>
           <div class="acenter">
-            <v-btn icon>
+            <v-btn :disabled="item.positivo == 1" icon @click="votar(item.contract_id, true)">
               <img src="@/assets/icons/like.svg" alt="like">
             </v-btn>
-            <v-btn icon>
+            <v-btn :disabled="item.negativo == 1" icon @click="votar(item.contract_id, false)">
               <img src="@/assets/icons/dislike.svg" alt="dislike">
             </v-btn>
           </div>
+          <span>{{item.vote}}</span>
         </div>
       </template>
 
@@ -206,6 +208,18 @@
 <script>
 import axios from 'axios'
 import moment from 'moment';
+import * as nearAPI from 'near-api-js'
+const { connect, keyStores, WalletConnection, Contract, utils } = nearAPI
+
+const keyStore = new keyStores.BrowserLocalStorageKeyStore()
+const config = {
+        networkId: "testnet",
+        keyStore, 
+        nodeUrl: "https://rpc.testnet.near.org",
+        walletUrl: "https://wallet.testnet.near.org",
+        helperUrl: "https://helper.testnet.near.org",
+        explorerUrl: "https://explorer.testnet.near.org",
+        };
 
 export default {
   name: "ranking",
@@ -232,7 +246,7 @@ export default {
       },
       headersTable: [
         { value: "number", text: "#", align: "center", sortable: false },
-        { value: "nft", text: "NFT", align: "center", sortable: false },
+        { value: "name", text: "NFT", align: "center", sortable: false },
         { value: "supply", text: "Supply", align: "center", sortable: false },
         { value: "volume", text: "Volume", align: "center", sortable: false },
         { value: "price", text: "Floor Price", align: "center", sortable: false },
@@ -335,6 +349,29 @@ export default {
     }.bind(this), 1800000);
   },
   methods: {
+    async votar (contract_id, vote) {
+      const CONTRACT_NAME = 'contract.monkeonnear.testnet'
+      // connect to NEAR
+      const near = await connect(config)
+      // create wallet connection
+      const wallet = new WalletConnection(near)
+      const contract = new Contract(wallet.account(), CONTRACT_NAME, {
+        changeMethods: ['votar'],
+        sender: wallet.account()
+      })
+      console.log(contract_id, vote)
+      await contract.votar({
+        collections: contract_id,
+        voto: vote,
+      })
+        .then((response) => {
+          console.log(response)
+          //this.getRanking({ id: 1, name: "All Time Best", active: false })
+          this.getVotaciones()
+        }).catch((error) => {
+          console.log(error)
+        })
+    },
     async getRanking(select){
       this.dataTable = []
       const url = "api/v1/ranking"
@@ -363,7 +400,10 @@ export default {
               price: parseFloat(response.data[i].floor_price).toFixed(2) + " N",
               change: parseFloat(response.data[i].porcentaje).toFixed(2),//"0.89",
               date: moment(response.data[i].fecha).format('DD / MM / YYYY'),
+              contract_id: response.data[i].nft_contract_id,
               vote: "3456",
+              positivo: 0,
+              negativo: 0,
               confidence: "high",
               state_volume: true,
               state_price: true,
@@ -379,10 +419,35 @@ export default {
 
             this.dataTable.push(collection)
           }
-          console.log("data", this.dataTable)
+          this.getVotaciones()
         }).catch((error) => {
           console.log(error)
         })
+    },
+    async getVotaciones() {
+      const CONTRACT_NAME = 'contract.monkeonnear.testnet'
+      // connect to NEAR
+      const near = await connect(config)
+      // create wallet connection
+      const wallet = new WalletConnection(near)
+      const contract = new Contract(wallet.account(), CONTRACT_NAME, {
+        viewMethods: ['get_voto_user'],
+        sender: wallet.account()
+      })
+      for (var i = 0; i < this.dataTable.length; i++) {
+        await contract.get_voto_user({
+          collection: this.dataTable[i].contract_id,
+          user_id: wallet.getAccountId(),
+        })
+          .then((response) => {
+            this.dataTable[i].positivo = response.positivo
+            this.dataTable[i].negativo = response.negativo
+          }).catch((error) => {
+            console.log(error)
+            this.dataTable[i].positivo = 0
+            this.dataTable[i].negativo = 0
+          })
+      }
     },
   }
 };
