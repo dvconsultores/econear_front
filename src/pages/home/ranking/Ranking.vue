@@ -93,10 +93,10 @@
         <div class="center" style="gap:.5em">
           <span>{{item.vote}}</span>
           <div class="acenter">
-            <v-btn :disabled="item.positivo == 1" icon @click="votar(item.contract_id, true)">
+            <v-btn :class="{primary: item.positivo == 1}" icon @click="votar(item.contract_id, true)">
               <img src="@/assets/icons/like.svg" alt="like">
             </v-btn>
-            <v-btn :disabled="item.negativo == 1" icon @click="votar(item.contract_id, false)">
+            <v-btn :class="{primary: item.negativo == 1}" icon @click="votar(item.contract_id, false)">
               <img src="@/assets/icons/dislike.svg" alt="dislike">
             </v-btn>
           </div>

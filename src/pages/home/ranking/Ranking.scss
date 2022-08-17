@@ -55,6 +55,11 @@
           &:hover {background-color: #21786D;box-shadow: $sombra-card}
         }
         td:nth-of-type(2) {min-width: 200px}
+        .v-btn {
+          --p: 0em;
+          width: 30px !important;
+          max-height: 30px !important;
+        }
       }
     }
     tr:hover {background:none}
