@@ -144,13 +144,13 @@
       <!-- overview section -->
       <template v-if="dataControlStats[dataControlStats.findIndex(e=>e.key=='overview')].active">
         <!-- chart marketCap -->
-        <ChartMarketCap ref="chartmarketcap"></ChartMarketCap>
+        <ChartMarketCap ref="chartmarketcap" :Height="chartHeight"></ChartMarketCap>
 
         <!-- chart volume -->
-        <ChartVolume ref="chartvolume"></ChartVolume>
+        <ChartVolume ref="chartvolume" :Height="chartHeight"></ChartVolume>
 
         <!-- chart user visits -->
-        <ChartUserVisits ref="chartuservisits"></ChartUserVisits>
+        <ChartUserVisits ref="chartuservisits" :Height="chartHeight"></ChartUserVisits>
 
         <section class="fwrap" style="--fb:1 1 45em; gap:1em">
           <!-- chart sales -->
@@ -216,7 +216,7 @@
 
 
           <!-- chart total sale -->
-          <ChartTotalSale ref="charttotalsale"></ChartTotalSale>
+          <ChartTotalSale ref="charttotalsale" :Height="chartHeight"></ChartTotalSale>
         </section>
       </template>
 
@@ -224,10 +224,10 @@
       <!-- social section -->
       <template v-if="dataControlStats[dataControlStats.findIndex(e=>e.key=='social')].active">
         <!-- chart discord -->
-        <ChartDiscord ref="chartdiscord"></ChartDiscord>
+        <ChartDiscord ref="chartdiscord" :Height="chartHeight"></ChartDiscord>
 
         <!-- chart twitter -->
-        <ChartTwitter ref="charttwitter"></ChartTwitter>
+        <ChartTwitter ref="charttwitter" :Height="chartHeight"></ChartTwitter>
       </template>
     </section>
   </section>
@@ -247,6 +247,7 @@ export default {
   components: { ChartMarketCap, ChartVolume, ChartUserVisits, ChartTotalSale, ChartDiscord, ChartTwitter },
   data() {
     return {
+      chartHeight: "422.76px",
       dataControls: [
         { key: "all", name: "All time volume", active: true },
         { key: "total", name: "Total estimated users", active: false },
@@ -313,7 +314,18 @@ export default {
       ],
     }
   },
+  mounted() {
+    this.Responsive()
+    window.onresize = () => this.Responsive()
+  },
   methods: {
+    Responsive() {
+      if (window.innerWidth >= 880) {
+        this.chartHeight = "422.76px"
+      } else {
+        this.chartHeight = "222.76px"
+      }
+    },
     ShowStats(item) {
       this.stats = true
       console.log(item)

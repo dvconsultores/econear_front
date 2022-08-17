@@ -11,8 +11,8 @@
 
       <v-sheet style="isolation:isolate">
         <section class="up" style="z-index:-1">
-          <v-btn class="btn" style="--bg:#101C2F;--p:.5em .8em;--bs:0px 2.5px 7px .5px #6FFFE9;width:min(100%, 8.2em)">
-            <span style="font-size: 1.25em">Upload</span>
+          <v-btn class="btn" style="--bg:#101C2F;--p:.5em .8em;--bs:0px 2.5px 7px .5px #6FFFE9;width:clamp(5em, 8vw, 8.2em);--fs:1em">
+            <span>Upload</span>
           </v-btn>
           <v-avatar width="8.130625em" height="8.130625em">
             <img src="@/assets/logos/user.png" alt="avatar" style="--b:3px solid var(--success);--br:50%;--w:100%">

@@ -1,5 +1,5 @@
 <template>
-  <section class="charts card" style="--p:2em">
+  <section class="charts card" style="--p:clamp(1.5em,2vw,2em)">
     <div class="toolbar divcol not_margin">
       <h3 class="h9_em">Rarity and price</h3>
 
@@ -23,9 +23,10 @@
     </div>
 
     <apexchart
+      id="rarityPrice"
       class="tags"
       width="100%"
-      height="422.76px"
+      :height="Height"
       type="scatter"
       ref="chart"
       :options="chartOptions"
@@ -57,6 +58,9 @@ function generateData(baseval, count, yrange) {
 export default {
   name: "chartRarityPrice",
   i18n: require("../i18n"),
+  props: {
+    Height: String,
+  },
   data() {
     return {
       // series

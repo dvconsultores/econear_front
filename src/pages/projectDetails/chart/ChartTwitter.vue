@@ -1,5 +1,5 @@
 <template>
-  <section id="linechart" class="charts card" style="--p:2em">
+  <section id="linechart" class="charts card" style="--p:clamp(1.5em,2vw,2em)">
     <div class="toolbar wrap not_margin">
       <div class="divcol">
         <h3 class="h9_em">Twitter</h3>
@@ -32,7 +32,7 @@
       id="twitter"
       class="tags"
       width="100%"
-      height="422.76px"
+      :height="Height"
       type="line"
       ref="chart"
       :options="chartOptions"
@@ -63,6 +63,9 @@ function generateDayWiseTimeSeries(baseval, count, yrange) {
 export default {
   name: "chartTwitter",
   i18n: require("../i18n"),
+  props: {
+    Height: String,
+  },
   data() {
     return {
       dataTwitter: {

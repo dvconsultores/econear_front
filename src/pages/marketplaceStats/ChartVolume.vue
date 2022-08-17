@@ -1,5 +1,5 @@
 <template>
-  <section id="barchart" class="charts card" style="--p:2em">
+  <section id="barchart" class="charts card" style="--p:clamp(1em,2vw,2em)">
     <div class="toolbar wrap not_margin">
       <div class="divcol">
         <h3 class="h9_em">Volume</h3>
@@ -24,9 +24,10 @@
     </div>
 
     <apexchart
+      id="volume"
       class="tags"
       width="100%"
-      height="422.76px"
+      :height="Height"
       type="bar"
       ref="chart" 
       :options="chartOptions"
@@ -57,6 +58,9 @@ function generateDayWiseTimeSeries(baseval, count, yrange) {
 export default {
   name: "chartVolume",
   i18n: require("./i18n"),
+  props: {
+    Height: String,
+  },
   data() {
     return {
       dataVolume: {

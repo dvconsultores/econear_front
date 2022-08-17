@@ -180,7 +180,6 @@ img:not(.not_html, .not) {
   --mr: none;
   color: var(--c);
   font-size: var(--fs);
-  max-height: 2.25em;
   transform: var(--t);
   filter: var(--f);
   & :is(span, img, i) {

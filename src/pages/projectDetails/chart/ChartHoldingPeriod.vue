@@ -1,5 +1,5 @@
 <template>
-  <section id="piechart" class="charts card" style="--p:2em">
+  <section id="piechart" class="charts card" style="--p:clamp(1.5em,2vw,2em)">
     <h3 class="h9_em">Holding Period Distribution</h3>
 
     <apexchart

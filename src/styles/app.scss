@@ -10,6 +10,18 @@
 
 ///////////////////// global ///////////////////////
 
+// responsive item group
+.v-item-group {
+  @include media(max,small) {font-size: clamp(10px, 1.5vw, 12px)}
+  @include media(max,x-small) {font-size: clamp(8px, 1vw, 10px)}
+  .v-btn {
+    border: none !important;
+    min-width: 3em !important;
+    max-height: 3em !important;
+    i {font-size: 1.3em}
+  }
+}
+
 //- data tables -//
 .v-data-table__wrapper {
   &::-webkit-scrollbar {display: none}

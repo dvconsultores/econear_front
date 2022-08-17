@@ -4,6 +4,8 @@
 /* // // marketplaceStats // // */ 
 // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // /
 #marketplaceStats {
+  @include media(max,small) {font-size: clamp(10px, 1.5vw, 12px)}
+  @include media(max,x-small) {font-size: clamp(8px, 1vw, 10px)}
   padding-top: 1em;
   padding-inline: var(--margin-global);
   position: relative;

@@ -143,6 +143,8 @@
 
 .modalEdit {
   --margin: 2em;
+  @include media(max, 600px) {font-size: 12px}
+  @include media(max, 320px) {font-size: 10px}
   h4 {font-size: clamp(2em, 4.5vw, 4.5em)}
   section.up {
     margin-bottom: 2em;

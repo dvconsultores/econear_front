@@ -251,6 +251,7 @@
       v-model="modalAlert"
       max-width="62.358125em"
     >
+    <!-- aqui -->
       <v-card color="var(--primary)" class="modalAlert">
         <v-btn icon class="close" @click="modalAlert = false">
           <img src="@/assets/icons/close.svg" alt="close" style="--w:0.921875em">

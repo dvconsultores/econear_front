@@ -290,6 +290,7 @@ export default {
     return {
       showCompareInfo: false,
       project1: {
+        
         img: require('@/assets/nfts/nft1.png')
       },
       project2: {

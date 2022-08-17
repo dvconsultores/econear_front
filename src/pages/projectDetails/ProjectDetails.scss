@@ -9,11 +9,18 @@
   // & > :first-child + * + * ~ * {margin-top: clamp(1em, 2vw, 2em)}
   & > :first-child {margin-top:7em}
   & > :first-child + * ~ * {margin-top: clamp(1em, 2vw, 2em)}
+  @include media(max,small) {font-size: clamp(10px, 1.5vw, 12px)}
+  @include media(max,x-small) {font-size: clamp(8px, 1vw, 10px)}
   .infotext {color: #B3B3B3}
   .v-item-group {
     background-color: $primary !important;
     padding: .2em;
-    .v-btn {border: none !important}
+    .v-btn {
+      border: none !important;
+      min-width: 3em !important;
+      max-height: 3em !important;
+      i {font-size: 1.3em}
+    }
     .v-item--active {
       i {color: #FFFFFF !important}
     }
@@ -46,6 +53,12 @@
     transform: translateY(-110px);
     .contactions {
       @include absolute(auto,115px,0);
+      @include media(max,480px) {
+        position: static;
+        margin-top: 2em;
+        box-shadow: 0 0 2px 1px var(--success);
+        border-radius: 1.5vmax;
+      }
     }
     // line
     &::after {
@@ -80,7 +93,7 @@
     --fb: 1 1 20em;
     gap: 1em;
     .v-card {
-      --p: 2em;
+      --p: clamp(1em,2vw,2em);
       @include media(min,small) {max-width: 24.6875em}
       .v-sheet {
         padding: 1em;
@@ -141,8 +154,6 @@
       .holding {font-size: 1em;color: #B3B3B3}
     }
   }
-  .container-chart {
-  }
   .v-item-group.v-btn-toggle {
     background-color: var(--primary);
     border-radius: .5vmax;
@@ -152,6 +163,7 @@
 
 
   .dataTable {
+    font-size: 16px;
     table {border-spacing: 0 1em}
     thead {
       tr {
@@ -159,6 +171,7 @@
           color: #FFFFFF;
           font-size: 1em;
           &:first-of-type {i{display: none !important}}
+          @include child(4, 7) {min-width: 128px}
         }
       }
     }
@@ -190,6 +203,9 @@
         }
       }
     }
+    &.top {
+      thead th:nth-of-type(4) {min-width: 148px}
+    }
   }
   .container-nfts {
     .v-card {
@@ -211,5 +227,8 @@
       #rank .v-chip__content {font-size: 0.75em}
       #rarity .v-chip__content {font-size: 0.9375em}
     }
+  }
+  #contaioner-buyer-seller {
+    @include media(max, small) {display: block;& > *:first-child {margin-bottom: 1em}}
   }
 }

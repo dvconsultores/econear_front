@@ -1,5 +1,5 @@
 <template>
-  <section class="charts card" style="--p:2em">
+  <section class="charts card" style="--p:clamp(1.5em,2vw,2em)">
     <div class="toolbar divcol not_margin">
       <h3 class="h9_em">Rarity Distribution</h3>
 
@@ -67,9 +67,10 @@
     </div>
 
     <apexchart
+      id="rarityDistribution"
       class="tags"
       width="100%"
-      height="422.76px"
+      :height="Height"
       type="bar"
       ref="chart"
       :options="chartOptions"
@@ -84,6 +85,9 @@
 export default {
   name: "chartRarityDistribution",
   i18n: require("../i18n"),
+  props: {
+    Height: String,
+  },
   data() {
     return {
       dataDisrtibution: { common: 146, rare: 116, superRare: 82, legendary: 57, mythic: 23 },

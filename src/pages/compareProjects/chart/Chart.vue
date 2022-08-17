@@ -11,7 +11,7 @@
 
       <apexchart
         width="100%"
-        height="422.76px"
+        :height="chartHeight"
         type="area"
         ref="chart" 
         :options="chartOptions"
@@ -31,7 +31,7 @@
 
       <apexchart
         width="100%"
-        height="422.76px"
+        :height="chartHeight"
         type="area"
         ref="chart2" 
         :options="chartOptions"
@@ -64,6 +64,7 @@ export default {
   i18n: require("../i18n"),
   data() {
     return {
+      chartHeight: "422.76px",
       dataControls: [
         { key: "24h", name: "24h" },
         { key: "7d", name: "7d" },
@@ -134,7 +135,20 @@ export default {
       },
     };
   },
+  mounted() {
+    this.Responsive()
+    window.onresize = () => this.Responsive()
+  },
   methods: {
+    Responsive() {
+      if (window.innerWidth >= 880&&this.dataNfts.length<=3) {
+        this.widthLimiter = true;
+        this.chartHeight = "422.76px"
+      } else {
+        this.widthLimiter = false;
+        this.chartHeight = "222.76px"
+      }
+    },
     updateData: function(timeline) {
       this.selection = timeline
       

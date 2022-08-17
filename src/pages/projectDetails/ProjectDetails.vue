@@ -4,12 +4,6 @@
     </aside> -->
 
     <aside class="container-profile divcol center gap1 tcenter">
-      <div class="contactions acenter spacea gap1">
-        <v-btn v-for="(item,i) in dataSocialActions" :key="i" icon style="--p:2em">
-          <img :src="require(`@/assets/icons/${item.social}.svg`)" alt="social actions" style="--w:2.5em">
-        </v-btn>
-      </div>
-
       <v-avatar width="12.48875em" height="12.48875em">
         <img src="@/assets/images/muestra.jpg" alt="avatar" style="--b:3px solid var(--success);--w:100%;--h:100%;--br:50%">
       </v-avatar>
@@ -20,6 +14,12 @@
       <div class="acenter spacea gap1">
         <v-btn v-for="(item,i) in dataSocialRed" :key="i" icon :href="item.link" target="_blank" style="--p:2em">
           <img :src="require(`@/assets/icons/${item.social}.svg`)" alt="social red" style="--w:2.674375em">
+        </v-btn>
+      </div>
+      
+      <div class="contactions acenter spacea gap1">
+        <v-btn v-for="(item,i) in dataSocialActions" :key="i" icon style="--p:2em">
+          <img :src="require(`@/assets/icons/${item.social}.svg`)" alt="social actions" style="--w:2.5em">
         </v-btn>
       </div>
     </aside>
@@ -49,7 +49,7 @@
     </v-card>
 
     <section class="infodown fwrap">
-      <v-card v-for="(item,i) in dataInfo.down" :key="i" class="card align center">
+      <v-card v-for="(item,i) in dataInfo.down" :key="i" class="card align">
         <v-sheet color="var(--clr-card)" class="jspace" max-height="150px">
           <div class="divcol">
             <div class="infotext bold acenter" style="gap:.7em">
@@ -75,7 +75,7 @@
 
     <h3 class="h9_em p">Buy On:</h3>
 
-    <section class="card grid" style="--p:2em;gap:1em;--gtc: repeat(auto-fit,minmax(min(100%,16.124375em),1fr))">
+    <section class="card grid" style="--p:clamp(1em,2vw,2em);gap:1em;--gtc: repeat(auto-fit,minmax(min(100%,16.124375em),1fr))">
       <v-card v-for="(item,i) in dataBuy" :key="i" class="card" style="--p:1em;display:flex;gap:1em;">
         <img :src="item.img" alt="markets" style="--w:4.710625em">
         <span class="h9_em">{{item.name}}</span>
@@ -92,7 +92,7 @@
 
     <!-- overview section -->
     <template v-if="dataControls[dataControls.findIndex(e=>e.key=='overview')].active">
-      <section class="container-potential card" style="--p:2em">
+      <section class="container-potential card" style="--p:clamp(1em,2vw,2em)">
         <h3 class="h9_em">BlueChip Potential</h3>
 
         <div class="fwrap gap2 space" style="--fb: 1 1 20em">
@@ -123,33 +123,33 @@
       </section>
 
       <!-- chart market -->
-      <ChartMarket ref="chartmarket"></ChartMarket>
+      <ChartMarket ref="chartmarket" :Height="chartHeight"></ChartMarket>
 
       <!-- chart price -->
-      <ChartPrice ref="chartprice"></ChartPrice>
+      <ChartPrice ref="chartprice" :Height="chartHeight"></ChartPrice>
 
       <section class="fwrap" style="gap:2em">
         <!-- chart sales -->
-        <ChartSales ref="chartsales"></ChartSales>
+        <ChartSales ref="chartsales" :Height="chartHeight"></ChartSales>
 
         <!-- chart buyers -->
-        <ChartBuyers ref="chartbuyers"></ChartBuyers>
+        <ChartBuyers ref="chartbuyers" :Height="chartHeight"></ChartBuyers>
       </section>
 
       <!-- chart holders -->
-      <ChartHolders ref="chartholders"></ChartHolders>
+      <ChartHolders ref="chartholders" :Height="chartHeight"></ChartHolders>
 
       <section class="fwrap" style="--fb:1 1 45em; gap:2em">
         <!-- chart holding amount -->
-        <ChartHoldingAmount ref="chartholdingamount"></ChartHoldingAmount>
+        <ChartHoldingAmount ref="chartholdingamount" :Height="chartHeight"></ChartHoldingAmount>
 
         <!-- chart holding period -->
-        <ChartHoldingPeriod ref="chartholdingperiod"></ChartHoldingPeriod>
+        <ChartHoldingPeriod ref="chartholdingperiod" :Height="chartHeight"></ChartHoldingPeriod>
       </section>
 
 
         <!-- top sales  -->
-      <section class="card" style="--p:2em">
+      <section class="card" style="--p:clamp(1em,2vw,2em)">
         <div class="space wrap margin2bottom">
           <h3 class="h9_em">Top sales</h3>
 
@@ -168,11 +168,14 @@
           :headers="headersTableTopSales"
           :items="dataTableTopSales"
           hide-default-footer
+          mobile-breakpoint="-1"
           style="--bg:transparent;--b:none;--p:0em"
         >
           <template v-slot:[`header.number`]>
-            <span>#</span>
-            <img src="@/assets/icons/sort.svg" alt="sortable icon" style="--w: 0.5em;margin-left:.3em">
+            <center class="center">
+              <span>#</span>
+              <img src="@/assets/icons/sort.svg" alt="sortable icon" style="--w: 0.5em;margin-left:.3em">
+            </center>
           </template>
 
           <template v-slot:[`item.number`]="{ item }">
@@ -224,20 +227,20 @@
     <!-- social section -->
     <template v-if="dataControls[dataControls.findIndex(e=>e.key=='social')].active">
       <!-- chart discord -->
-      <ChartDiscord ref="chartdiscord"></ChartDiscord>
+      <ChartDiscord ref="chartdiscord" :Height="chartHeight"></ChartDiscord>
 
       <!-- chart twitter -->
-      <ChartTwitter ref="charttwitter"></ChartTwitter>
+      <ChartTwitter ref="charttwitter" :Height="chartHeight"></ChartTwitter>
     </template>
 
 
     <!-- nft section -->
     <template v-if="dataControls[dataControls.findIndex(e=>e.key=='nft')].active">
       <!-- chart rarity distribution -->
-      <ChartRarityDistribution ref="chartraritydistribution"></ChartRarityDistribution>
+      <ChartRarityDistribution ref="chartraritydistribution" :Height="chartHeight"></ChartRarityDistribution>
 
       <!-- chart rarity and price -->
-      <ChartRarityPrice ref="chartrarityprice"></ChartRarityPrice>
+      <ChartRarityPrice ref="chartrarityprice" :Height="chartHeight"></ChartRarityPrice>
 
       <!-- nfts -->
       <section class="container-chart card divcol gap2" style="--p:2em">
@@ -299,7 +302,7 @@
 
     <!-- leaderboard section -->
     <template v-if="dataControls[dataControls.findIndex(e=>e.key=='leaderboard')].active">
-      <section class="card" style="--p:2em">
+      <section class="card" style="--p:clamp(1em,2vw,2em)">
         <div class="acenter margin2bottom">
           <h3 class="h9_em p">Top Holders</h3>
           <img src="@/assets/icons/sort.svg" alt="sortable icon" style="--w: 0.810625em;margin-left:.3em">
@@ -311,36 +314,49 @@
           :headers="headersTableTopHolders"
           :items="dataTableTopHolders"
           hide-default-footer
-          style="--p:2em;--bg:transparent;--b:none;--p:0"
+          mobile-breakpoint="-1"
+          style="--bg:transparent;--b:none;--p:0"
         >
           <template v-slot:[`header.number`]>
-            <span>#</span>
-            <img src="@/assets/icons/sort.svg" alt="sortable icon" style="--w: 0.5em;margin-left:.3em">
+            <center class="center">
+              <span>#</span>
+              <img src="@/assets/icons/sort.svg" alt="sortable icon" style="--w: 0.5em;margin-left:.3em">
+            </center>
           </template>
           
           <template v-slot:[`header.nft`]>
-            <span>NFT</span>
-            <img src="@/assets/icons/sort.svg" alt="sortable icon" style="--w: 0.5em;margin-left:.3em">
+            <center class="center">
+              <span>NFT</span>
+              <img src="@/assets/icons/sort.svg" alt="sortable icon" style="--w: 0.5em;margin-left:.3em">
+            </center>
           </template>
           
           <template v-slot:[`header.near`]>
-            <span>Holding value (N)</span>
-            <img src="@/assets/icons/sort.svg" alt="sortable icon" style="--w: 0.5em;margin-left:.3em">
+            <center class="center">
+              <span>Holding value (N)</span>
+              <img src="@/assets/icons/sort.svg" alt="sortable icon" style="--w: 0.5em;margin-left:.3em">
+            </center>
           </template>
           
           <template v-slot:[`header.dollar`]>
-            <span>Holding value ($)</span>
-            <img src="@/assets/icons/sort.svg" alt="sortable icon" style="--w: 0.5em;margin-left:.3em">
+            <center class="center">
+              <span>Holding value ($)</span>
+              <img src="@/assets/icons/sort.svg" alt="sortable icon" style="--w: 0.5em;margin-left:.3em">
+            </center>
           </template>
           
           <template v-slot:[`header.buy`]>
-            <span>Buy volume (N)</span>
-            <img src="@/assets/icons/sort.svg" alt="sortable icon" style="--w: 0.5em;margin-left:.3em">
+            <center class="center">
+              <span>Buy volume (N)</span>
+              <img src="@/assets/icons/sort.svg" alt="sortable icon" style="--w: 0.5em;margin-left:.3em">
+            </center>
           </template>
           
           <template v-slot:[`header.sell`]>
-            <span>Sell volume (N)</span>
-            <img src="@/assets/icons/sort.svg" alt="sortable icon" style="--w: 0.5em;margin-left:.3em">
+            <center class="center">
+              <span>Sell volume (N)</span>
+              <img src="@/assets/icons/sort.svg" alt="sortable icon" style="--w: 0.5em;margin-left:.3em">
+            </center>
           </template>
           
           <template v-slot:[`item.number`]="{ item }">
@@ -393,26 +409,31 @@
       </section>
 
 
-      <section class="fwrap" style="gap: 2em 1em">
-        <section class="card" style="--p:2em">
+      <section id="contaioner-buyer-seller" class="fwrap" style="gap: 2em 1em">
+        <section class="card" style="--p:clamp(1em,2vw,2em)">
           <h3 class="h9_em">Top Buyers (24H)</h3>
 
           <!-- table top buyers -->
           <v-data-table
-            class="dataTable card"
+            class="dataTable card top"
             :headers="headersTableTopBuyers"
             :items="dataTableTopBuyers"
             hide-default-footer
-            style="--p:2em;--bg:transparent;--b:none;--p:0"
+            mobile-breakpoint="-1"
+            style="--bg:transparent;--b:none;--p:0"
           >
             <template v-slot:[`header.number`]>
-              <span>#</span>
-              <img src="@/assets/icons/sort.svg" alt="sortable icon" style="--w: 0.5em;margin-left:.3em">
+              <center class="center">
+                <span>#</span>
+                <img src="@/assets/icons/sort.svg" alt="sortable icon" style="--w: 0.5em;margin-left:.3em">
+              </center>
             </template>
             
             <template v-slot:[`header.bought`]>
-              <span>Bought</span>
-              <img src="@/assets/icons/sort.svg" alt="sortable icon" style="--w: 0.5em;margin-left:.3em">
+              <center class="center">
+                <span>Bought</span>
+                <img src="@/assets/icons/sort.svg" alt="sortable icon" style="--w: 0.5em;margin-left:.3em">
+              </center>
             </template>
             
             <template v-slot:[`header.near`]>
@@ -447,30 +468,37 @@
         </section>
 
 
-        <section class="card" style="--p:2em">
+        <section class="card" style="--p:clamp(1em,2vw,2em)">
           <h3 class="h9_em">Top Sellers (24H)</h3>
 
           <!-- table top sellers -->
           <v-data-table
-            class="dataTable card"
+            class="dataTable card top"
             :headers="headersTableTopSellers"
             :items="dataTableTopSellers"
             hide-default-footer
-            style="--p:2em;--bg:transparent;--b:none;--p:0"
+            mobile-breakpoint="-1"
+            style="--bg:transparent;--b:none;--p:0"
           >
             <template v-slot:[`header.number`]>
-              <span>#</span>
-              <img src="@/assets/icons/sort.svg" alt="sortable icon" style="--w: 0.5em;margin-left:.3em">
+              <center class="center">
+                <span>#</span>
+                <img src="@/assets/icons/sort.svg" alt="sortable icon" style="--w: 0.5em;margin-left:.3em">
+              </center>
             </template>
             
             <template v-slot:[`header.sold`]>
-              <span>Sold</span>
-              <img src="@/assets/icons/sort.svg" alt="sortable icon" style="--w: 0.5em;margin-left:.3em">
+              <center class="center">
+                <span>Sold</span>
+                <img src="@/assets/icons/sort.svg" alt="sortable icon" style="--w: 0.5em;margin-left:.3em">
+              </center>
             </template>
             
             <template v-slot:[`header.near`]>
-              <span>Buy volume (N)</span>
-              <img src="@/assets/icons/sort.svg" alt="sortable icon" style="--w: 0.5em;margin-left:.3em">
+              <center class="center">
+                <span>Buy volume (N)</span>
+                <img src="@/assets/icons/sort.svg" alt="sortable icon" style="--w: 0.5em;margin-left:.3em">
+              </center>
             </template>
             
             <template v-slot:[`item.number`]="{ item }">
@@ -501,7 +529,7 @@
       </section>
 
 
-      <section class="card" style="--p:2em">
+      <section class="card" style="--p:clamp(1em,2vw,2em)">
         <h3 class="h9_em">Top Traders (24H)</h3>
 
         <!-- table top traders -->
@@ -510,31 +538,42 @@
           :headers="headersTableTopTraders"
           :items="dataTableTopTraders"
           hide-default-footer
-          style="--p:2em;--bg:transparent;--b:none;--p:0"
+          mobile-breakpoint="-1"
+          style="--bg:transparent;--b:none;--p:0"
         >
           <template v-slot:[`header.number`]>
-            <span>#</span>
-            <img src="@/assets/icons/sort.svg" alt="sortable icon" style="--w: 0.5em;margin-left:.3em">
+            <center class="center">
+              <span>#</span>
+              <img src="@/assets/icons/sort.svg" alt="sortable icon" style="--w: 0.5em;margin-left:.3em">
+            </center>
           </template>
           
           <template v-slot:[`header.near`]>
-            <span>Holding value (N)</span>
-            <img src="@/assets/icons/sort.svg" alt="sortable icon" style="--w: 0.5em;margin-left:.3em">
+            <center class="cente">
+              <span>Holding value (N)</span>
+              <img src="@/assets/icons/sort.svg" alt="sortable icon" style="--w: 0.5em;margin-left:.3em">
+            </center>
           </template>
           
           <template v-slot:[`header.dollar`]>
-            <span>Holding value ($)</span>
-            <img src="@/assets/icons/sort.svg" alt="sortable icon" style="--w: 0.5em;margin-left:.3em">
+            <center class="center">
+              <span>Holding value ($)</span>
+              <img src="@/assets/icons/sort.svg" alt="sortable icon" style="--w: 0.5em;margin-left:.3em">
+            </center>
           </template>
           
           <template v-slot:[`header.buy`]>
-            <span>Buy volume (N)</span>
-            <img src="@/assets/icons/sort.svg" alt="sortable icon" style="--w: 0.5em;margin-left:.3em">
+            <center class="center">
+              <span>Buy volume (N)</span>
+              <img src="@/assets/icons/sort.svg" alt="sortable icon" style="--w: 0.5em;margin-left:.3em">
+            </center>
           </template>
           
           <template v-slot:[`header.sell`]>
-            <span>Sell volume (N)</span>
-            <img src="@/assets/icons/sort.svg" alt="sortable icon" style="--w: 0.5em;margin-left:.3em">
+            <center class="center">
+              <span>Sell volume (N)</span>
+              <img src="@/assets/icons/sort.svg" alt="sortable icon" style="--w: 0.5em;margin-left:.3em">
+            </center>
           </template>
           
           <template v-slot:[`item.number`]="{ item }">
@@ -583,7 +622,7 @@
 
     <!-- activity section -->
     <template v-if="dataControls[dataControls.findIndex(e=>e.key=='activity')].active">
-      <section class="card" style="--p:2em">
+      <section class="card" style="--p:clamp(1em,2vw,2em)">
         <div class="space wrap margin2bottom">
           <h3 class="h9_em p">Activity</h3>
 
@@ -600,7 +639,8 @@
           :headers="headersTableActivity"
           :items="dataTableActivity"
           hide-default-footer
-          style="--p:2em;--bg:transparent;--b:none;--p:0"
+          mobile-breakpoint="-1"
+          style="--bg:transparent;--b:none;--p:0"
         >
           <template v-slot:[`item.name`]="{ item }">
             <div class="acenter gap1 tstart">
@@ -664,6 +704,7 @@ export default {
   components: { ChartMarket, ChartPrice, ChartSales, ChartBuyers, ChartHolders, ChartHoldingAmount, ChartHoldingPeriod, ChartDiscord, ChartTwitter, ChartRarityDistribution, ChartRarityPrice },
   data() {
     return {
+      chartHeight: "422.76px",
       dataSocialRed: [
         { social: "clip", link: "#" },
         { social: "twitter", link: "#" },
@@ -709,12 +750,12 @@ export default {
       ],
       headersTableTopSales: [
         { value:"number", text:"#", align:"center", sortable: false },
-        { value:"name", text:"NFT", align:"center" },
-        { value:"buyer", text:"Buyer", align:"center" },
-        { value:"seller", text:"Seller", align:"center" },
-        { value:"price", text:"Price", align:"center" },
-        { value:"time", text:"Time", align:"center" },
-        { value:"history", text:"History", align:"center" },
+        { value:"name", text:"NFT", align:"center", sortable: false },
+        { value:"buyer", text:"Buyer", align:"center", sortable: false },
+        { value:"seller", text:"Seller", align:"center", sortable: false },
+        { value:"price", text:"Price", align:"center", sortable: false },
+        { value:"time", text:"Time", align:"center", sortable: false },
+        { value:"history", text:"History", align:"center", sortable: false },
       ],
       dataTableTopSales: [
         {
@@ -853,12 +894,12 @@ export default {
         },
       ],
       headersTableActivity: [
-        { value:"name", text:"NFT", align:"center" },
-        { value:"action", text:"Action", align:"center" },
-        { value:"price", text:"Price", align:"center" },
-        { value:"from", text:"From", align:"center" },
-        { value:"to", text:"To", align:"center" },
-        { value:"time", text:"Time", align:"center" },
+        { value:"name", text:"NFT", align:"center", sortable: false },
+        { value:"action", text:"Action", align:"center", sortable: false },
+        { value:"price", text:"Price", align:"center", sortable: false },
+        { value:"from", text:"From", align:"center", sortable: false },
+        { value:"to", text:"To", align:"center", sortable: false },
+        { value:"time", text:"Time", align:"center", sortable: false },
       ],
       dataTableActivity: [
         {
@@ -890,10 +931,12 @@ export default {
   },
   methods: {
     Responsive() {
-      if (window.innerWidth >= 880&&this.dataNfts.length<=3) {
-        this.widthLimiter = true
+      if (window.innerWidth >= 880) {
+        if (this.dataNfts.length<=3) {this.widthLimiter = true}
+        else {this.widthLimiter = false}
+        this.chartHeight = "422.76px"
       } else {
-        this.widthLimiter = false
+        this.chartHeight = "222.76px"
       }
     },
   }
