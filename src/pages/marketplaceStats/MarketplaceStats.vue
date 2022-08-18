@@ -41,23 +41,24 @@
       </v-btn-toggle>
     </section>
 
-    <!-- aqui -->
     <section v-show="stats" class="divcol gap2">
       <div class="space gap2">
-        <v-card id="card-stats" class="card center">
+        <v-card id="card-stats" class="card center gap1mobile alignmobile">
           <div class="acenter gap1">
             <img :src="dataStats.img" alt="marketplace image" style="--w:4.710625em">
             <span class="h9_em">{{dataStats.name}}</span>
           </div>
 
-          <div class="grid" style="--gtc: repeat(2, max-content)">
+          <div class="grid">
             <v-btn v-for="(item,i) in dataStats.dataSocialRed" :key="i" icon :href="item.link" target="_blank">
-              <img :src="require(`@/assets/icons/${item.social}.svg`)" :alt="`${item.social} icon`" style="--w:1.80375em">
+              <img :src="require(`@/assets/icons/${item.social}.svg`)" :alt="`${item.social} icon`">
             </v-btn>
           </div>
+          
+          <p class="p vermobile tcenter" style="font-size:1.7em">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc volutpat ligula orci, ac imperdiet tortor cursus vitae. Nunc fringilla lacus vel tempus</p>
         </v-card>
 
-        <p class="p" style="font-size:1.8em">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc volutpat ligula orci, ac imperdiet tortor cursus vitae. Nunc fringilla lacus vel tempus</p>
+        <p class="p eliminarmobile" style="font-size:clamp(1em,1.8vw,1.8em)">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc volutpat ligula orci, ac imperdiet tortor cursus vitae. Nunc fringilla lacus vel tempus</p>
       </div>
 
       <v-card id="container-info" class="card fwrap">
@@ -153,9 +154,9 @@
         <!-- chart user visits -->
         <ChartUserVisits ref="chartuservisits" :Height="chartHeight"></ChartUserVisits>
 
-        <section class="fwrap" style="--fb:1 1 45em; gap:1em">
+        <section id="container-fwrap" class="fwrap" style="--fb:1 1 45em; gap:1em">
           <!-- chart sales -->
-          <aside class="container-chart card" style="--p:2em">
+          <aside class="card" style="--p:clamp(1em,2vw,2em)">
             <div class="space wrap margin2bottom">
               <h3 class="h9_em">Sales (24h)</h3>
 
@@ -172,11 +173,14 @@
               :headers="headersTableSales"
               :items="dataTableSales"
               hide-default-footer
+              mobile-breakpoint="-1"
               style="--bg:transparent;--b:none;--p:0"
             >
               <template v-slot:[`header.number`]>
-                <span>#</span>
-                <img src="@/assets/icons/sort.svg" alt="sortable icon" style="--w: 0.5em;margin-left:.3em">
+                <center class="center">
+                  <span>#</span>
+                  <img src="@/assets/icons/sort.svg" alt="sortable icon" style="--w: 0.5em;margin-left:.3em">
+                </center>
               </template>
               
               <template v-slot:[`item.number`]="{ item }">

@@ -26,9 +26,12 @@
     .v-btn {border-radius: .5vmax}
   }
   .footer-controls {
+    --distance: 6.25em;
     position: relative;
-    & > div {
-      width: 60%;
+    @include media(max, 1300px) {padding-top:var(--distance)}
+    #container-transfer {
+      @include absolute(auto,0,auto,0);
+      @include media(max, 1300px) {@include absolute(auto,calc((var(--distance) / 2) * -1),auto,0);}
     }
   }
   #container-nfts {
@@ -42,7 +45,7 @@
         border-radius: .3vmax;
         background-color: #FFFFFF;
       }
-      &.widthLimiter {max-width: 21.2225em}
+      &.widthLimiter {max-width: 20.2225em}
       h6 {
         font-size: 1.25em;
         text-align: center;

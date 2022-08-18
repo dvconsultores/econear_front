@@ -189,7 +189,7 @@ img:not(.not_html, .not) {
         color: var(--c);
         font-size: var(--fs);
         & > * {
-          font-size: calc(var(--fs) / 1em);
+          font-size: 1em;
           color: var(--c);
         }
         &--active {
