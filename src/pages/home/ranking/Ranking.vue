@@ -22,7 +22,7 @@
 
     <!-- tabla 1  -->
     <v-data-table
-      v-if="dataTable.length !== 0"
+      v-if="dataTableBool"
       id="dataTable"
       class="card"
       :search="search"
@@ -43,6 +43,7 @@
             hide-details
             append-icon="mdi-chevron-down"
             style="--w:min-content;--h:24px;--p:0 0 0 .5em;--bg:#0D2C3F;--bs: 3px 0 5px 1px rgb(0,0,0,.4);--c:#FFFFFF;--br:.4vmax"
+            @change="getRanking()"
           ></v-select>
         </button>
       </template>
@@ -58,6 +59,7 @@
             hide-details
             append-icon="mdi-chevron-down"
             style="--w:min-content;--h:24px;--p:0 0 0 .5em;--bg:#0D2C3F;--bs: 3px 0 5px 1px rgb(0,0,0,.4);--c:#FFFFFF;--br:.4vmax"
+            @change="getRanking()"
           ></v-select>
         </button>
       </template>
@@ -92,7 +94,7 @@
 
       <template v-slot:[`item.vote`]="{ item }">
         <div class="center" style="gap:.5em">
-          <span>{{item.vote}}</span>
+          <span>{{item.vote_positivo}}</span>
           <div class="acenter">
             <v-btn :class="{clr_primary: item.positivo == 1}" icon @click="votar(item.contract_id, true)">
               <img src="@/assets/icons/like.svg" alt="like">
@@ -101,18 +103,18 @@
               <img src="@/assets/icons/dislike.svg" alt="dislike">
             </v-btn>
           </div>
-          <span>{{item.vote}}</span>
+          <span>{{item.vote_negativo}}</span>
         </div>
       </template>
 
-      <template v-slot:[`item.confidence`]="{ item }">
+      <!-- <template v-slot:[`item.confidence`]="{ item }">
         <v-chip style="border-radius: .3vmax"
           :color="item.confidence=='high'?'#22B573':
           item.confidence=='moderate'?'var(--warning)':
           item.confidence=='low'?'var(--error)':null">
           <span class="tfirst">{{item.confidence}}</span>
         </v-chip>
-      </template>
+      </template> -->
     </v-data-table>
 
     <center v-else style="margin-block:10em">
@@ -227,6 +229,7 @@ export default {
   i18n: require("./i18n"),
   data() {
     return {
+      dataTableBool: false,
       image: require('@/assets/nfts/nft1.png'),
       search: "",
       dataControls: [
@@ -238,11 +241,11 @@ export default {
       sort: {
         volume: {
           value: "24h",
-          items: ['24h', '7d', '30d', '90d', '1Y']
+          items: ['24h', '48h', '7d']
         },
         price: {
           value: "24h",
-          items: ['24h', '7d', '30d', '90d', '1Y']
+          items: ['24h', '48h', '7d']
         }
       },
       headersTable: [
@@ -254,7 +257,7 @@ export default {
         { value: "change", text: "Change 24h", align: "center", sortable: false },
         { value: "date", text: "Launch Date", align: "center", sortable: false },
         { value: "vote", text: "Vote", align: "center", sortable: false },
-        { value: "confidence", text: "Confidence Level", align: "center", sortable: false },
+        // { value: "confidence", text: "Confidence Level", align: "center", sortable: false },
       ],
       dataTable: [
         // { 
@@ -343,7 +346,7 @@ export default {
     }
   },
   async mounted() {
-    this.getRanking({ id: 1, name: "All Time Best", active: false })
+    this.getRanking()
 
     this.interval = setInterval(function () {
         this.getRanking()
@@ -356,42 +359,80 @@ export default {
       const near = await connect(config)
       // create wallet connection
       const wallet = new WalletConnection(near)
-      const contract = new Contract(wallet.account(), CONTRACT_NAME, {
-        changeMethods: ['votar'],
-        sender: wallet.account()
-      })
-      console.log(contract_id, vote)
-      await contract.votar({
-        collections: contract_id,
-        voto: vote,
-      })
-        .then((response) => {
-          console.log(response)
-          //this.getRanking({ id: 1, name: "All Time Best", active: false })
-          this.getVotaciones()
-        }).catch((error) => {
-          console.log(error)
+      if (wallet.isSignedIn()) {
+        const contract = new Contract(wallet.account(), CONTRACT_NAME, {
+          changeMethods: ['votar'],
+          sender: wallet.account()
         })
+        console.log(contract_id, vote)
+        await contract.votar({
+          collections: contract_id,
+          voto: vote,
+        })
+          .then((response) => {
+            console.log(response)
+            const url = "http://157.230.2.213:3070/api/v1/updatevoto"
+            this.axios.post(url)
+              .then((response) => {
+                console.log(response)
+                this.getRanking()
+              }).catch((error) => {
+                console.log(error)
+              })
+          }).catch((error) => {
+            console.log(error)
+          })
+      }
     },
     async getRanking(select){
+      this.dataTableBool = false
       this.dataTable = []
       const url = "api/v1/ranking"
       let item = {
-        horas: 24,
+        horas_vol: 24,
+        horas_floor: 24,
         top: 50,
         order: null
       }
-      if (select.id == 1) {
-        item.order = "best"
-      } else if (select.id == 2) {
-        item.order = "floor"
-      } else if (select.id == 3) {
-        item.order = "volumen"
+
+      if (this.sort.volume.value == '24h') {
+        item.horas_vol = 24
+      }
+      if (this.sort.volume.value == '48h') {
+        item.horas_vol = 48
+      }
+      if (this.sort.volume.value == '7d') {
+        item.horas_vol = 168
+      }
+
+      if (this.sort.price.value == '24h') {
+        item.horas_floor = 24
+      }
+      if (this.sort.price.value == '48h') {
+        item.horas_floor = 48
+      }
+      if (this.sort.price.value == '7d') {
+        item.horas_floor = 168
+      }
+
+      if (select) {
+        if (select.id == 1) {
+          item.order = "best"
+        } else if (select.id == 2) {
+          item.order = "floor"
+        } else if (select.id == 3) {
+          item.order = "volumen"
+        } else {
+          item.order = "best"
+        }
       } else {
         item.order = "best"
       }
+
+      console.log("ITEM", item)
       this.axios.post(url, item)
         .then((response) => {
+          console.log("response", response.data)
           for (var i = 0; i < response.data.length; i++) {
             let collection = {
               img: response.data[i].icon,
@@ -400,12 +441,13 @@ export default {
               volume: parseFloat(response.data[i].volumen1).toFixed(2) + " N",
               price: parseFloat(response.data[i].floor_price).toFixed(2) + " N",
               change: parseFloat(response.data[i].porcentaje).toFixed(2),//"0.89",
-              date: moment(response.data[i].fecha).format('DD / MM / YYYY'),
+              date: moment(response.data[i].fecha_creacion/1000000).format('DD / MM / YYYY'),
               contract_id: response.data[i].nft_contract_id,
-              vote: "3456",
+              vote_positivo: response.data[i].voto_positivo,
+              vote_negativo: response.data[i].voto_negativo,
               positivo: 0,
               negativo: 0,
-              confidence: "high",
+              // confidence: "high",
               state_volume: true,
               state_price: true,
               state_change: true,
@@ -431,24 +473,27 @@ export default {
       const near = await connect(config)
       // create wallet connection
       const wallet = new WalletConnection(near)
-      const contract = new Contract(wallet.account(), CONTRACT_NAME, {
-        viewMethods: ['get_voto_user'],
-        sender: wallet.account()
-      })
-      for (var i = 0; i < this.dataTable.length; i++) {
-        await contract.get_voto_user({
-          collection: this.dataTable[i].contract_id,
-          user_id: wallet.getAccountId(),
+      if (wallet.isSignedIn()) {
+        const contract = new Contract(wallet.account(), CONTRACT_NAME, {
+          viewMethods: ['get_voto_user'],
+          sender: wallet.account()
         })
-          .then((response) => {
-            this.dataTable[i].positivo = response.positivo
-            this.dataTable[i].negativo = response.negativo
-          }).catch((error) => {
-            console.log(error)
-            this.dataTable[i].positivo = 0
-            this.dataTable[i].negativo = 0
+        for (var i = 0; i < this.dataTable.length; i++) {
+          await contract.get_voto_user({
+            collection: this.dataTable[i].contract_id,
+            user_id: wallet.getAccountId(),
           })
+            .then((response) => {
+              this.dataTable[i].positivo = response.positivo
+              this.dataTable[i].negativo = response.negativo
+            }).catch((error) => {
+              console.log(error)
+              this.dataTable[i].positivo = 0
+              this.dataTable[i].negativo = 0
+            })
+        }
       }
+      this.dataTableBool = true
     },
   }
 };
