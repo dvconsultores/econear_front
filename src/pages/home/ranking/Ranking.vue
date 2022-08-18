@@ -21,7 +21,7 @@
 
     <!-- tabla 1  -->
     <v-data-table
-      v-if="dataTable.length !== 0"
+      v-if="dataTableBool"
       id="dataTable"
       class="card"
       :search="search"
@@ -226,6 +226,7 @@ export default {
   i18n: require("./i18n"),
   data() {
     return {
+      dataTableBool: false,
       image: require('@/assets/nfts/nft1.png'),
       search: "",
       dataControls: [
@@ -373,6 +374,7 @@ export default {
         })
     },
     async getRanking(select){
+      this.dataTableBool = false
       this.dataTable = []
       const url = "api/v1/ranking"
       let item = {
@@ -448,6 +450,7 @@ export default {
             this.dataTable[i].negativo = 0
           })
       }
+      this.dataTableBool = true
     },
   }
 };
