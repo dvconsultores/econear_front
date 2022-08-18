@@ -109,3 +109,8 @@ $ease: cubic-bezier(0.23, 1, 0.32, 1);
 $ease-return: cubic-bezier(0.445, 0.05, 0.55, 0.95);
 $skew-right: skewX(12deg) translateX(1px);
 $skew-left: skewX(-12deg) translateX(-1px);
+
+
+// custome classes //
+.clr_primary {background-color: var(--primary) !important}
+.clr_secondary {background-color: var(--secondary) !important}

@@ -31,30 +31,6 @@
       width: 60%;
     }
   }
-  .container-controls {
-    // slider
-    .v-tabs {max-width: max-content}
-    .v-item-group {
-      background-color: var(--primary);
-      border: .8px solid rgba(#707070, .1);
-      border-radius: .4vmax;
-      max-width: 32.6875em;
-      .v-slide-group__content {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        gap: 1em;
-        padding: 1em;
-        .v-tab {
-          padding: .2em;
-          border-radius: .4vmax;
-          overflow: hidden;
-          h6 {color: #FFFFFF; text-transform: none}
-          &--active h6 {color: $clr-btn-pressed}
-        }
-      }
-    }
-  }
   #container-nfts {
     .v-card {
       position: relative;

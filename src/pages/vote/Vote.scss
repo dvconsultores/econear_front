@@ -27,30 +27,8 @@
       // @include media(min,small) {max-width:22.966875em}
       max-width:22.966875em
     }
-    .v-tabs {max-width: max-content}
-    .v-item-group {
-      background-color: hsl(210, 48%, 10%, .7);
-      border: .8px solid rgba(#707070, .1);
-      border-radius: .4vmax;
-      max-width: max-content;
-      .v-slide-group__content {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 1em;
-        gap: .5em;
-        .v-tab {
-          color: #FFFFFF;
-          padding: .2em;
-          border-radius: .4vmax;
-          overflow: hidden;
-          min-width: max-content !important;
-          h6 {color: #FFFFFF; text-transform: none}
-          &--active h6 {color: $clr-btn-pressed}
-        }
-      }
-    }
     .tab-right {
+      --o: visible;
       .v-item-group {background-color: hsl(212 47% 12% / .5) !important;border-radius: .5vmax !important}
       .v-slide-group__content {
         display: flex;
@@ -73,38 +51,53 @@
     }
   }
   #container-top {
-    --p: 2em;
+    --p: clamp(1em,2vw,2em);
+    --fb: 1 1 22.0625em;
     gap: 3em;
   }
   #container-bottom {
+    --fb: 1 1 23.0625em;
     gap: 3em;
   }
-  .container-list {
-    --p:2em;
-    .v-card {
-      position: relative;
-      padding-bottom: .5em;
-      &::after {
-        content: "";
-        @include absolute(auto,auto,0,0);
-        // width: calc(100% - (105px + clamp(1em, 2vw, 2em)));
-        width: calc(100% - (13px + clamp(.5em, 1vw, 1em)));
-        // width: 100%;
-        height: 1px;
-        background-color: var(--clr-line);
+  h4 {font-size: 1.620625em}
+  .container-wrapper {
+    isolation: isolate;
+    position: relative;
+    width: 100%;
+    height: var(--h-slide);
+    background-color: transparent !important;
+    .scrollx {
+      position: absolute;
+      width: 100%;
+      &::-webkit-scrollbar {display: none}
+      --p:2em;
+      .v-card {
+        position: relative;
+        padding-bottom: .5em;
+        &::after {
+          content: "";
+          @include absolute(auto,auto,0,0);
+          // width: calc(100% - (105px + clamp(1em, 2vw, 2em)));
+          width: calc(100% - (13px + clamp(.5em, 1vw, 1em)));
+          // width: 100%;
+          height: 1px;
+          background-color: var(--clr-line);
+        }
       }
-    }
-    h4 {font-size: 1.620625em}
-    .number {font-size: 1.405625em;font-weight: bold}
-    .right {
-      gap: clamp(3em, 5vw, 5em);
-      // margin-left: auto;
+      .number {font-size: 1.405625em;font-weight: bold}
+      .right {
+        gap: clamp(3em, 5vw, 5em);
+        // margin-left: auto;
+        .v-btn {
+          --p: 1.4em;
+          img {--w: 1.8em}
+        }
+      }
     }
   }
 }
 
 #modalDislike {
-  padding-inline: 3em;
   h4 {font-size: clamp(2em, 4.5vw, 4.5em)}
   .v-sheet {
     padding:clamp(2em, 3vw, 3em);

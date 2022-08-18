@@ -5,7 +5,7 @@
     <aside class="container-controls space gap2 fwrap_inv" style="--fb: 1 1 200px">
       <v-tabs>
         <v-tab v-for="(item,i) in dataControls" :key="i" class="options" @click="getRanking(item)">
-          <h6 class="h11_em p">{{item.name}}</h6>
+          <h6 class="p">{{item.name}}</h6>
         </v-tab>
       </v-tabs>
 
@@ -16,6 +16,7 @@
         label="Search for NFT's and collections"
         append-icon="mdi-magnify"
         style="max-width:30.061875em;--bg:hsl(210, 48%, 13%, .46);--c:#FFFFFF;--p:0 1.5em"
+        class="customeFilter"
       ></v-text-field>
     </aside>
 
@@ -93,10 +94,10 @@
         <div class="center" style="gap:.5em">
           <span>{{item.vote}}</span>
           <div class="acenter">
-            <v-btn :class="{primary: item.positivo == 1}" icon @click="votar(item.contract_id, true)">
+            <v-btn :class="{clr_primary: item.positivo == 1}" icon @click="votar(item.contract_id, true)">
               <img src="@/assets/icons/like.svg" alt="like">
             </v-btn>
-            <v-btn :class="{primary: item.negativo == 1}" icon @click="votar(item.contract_id, false)">
+            <v-btn :class="{clr_primary: item.negativo == 1}" icon @click="votar(item.contract_id, false)">
               <img src="@/assets/icons/dislike.svg" alt="dislike">
             </v-btn>
           </div>

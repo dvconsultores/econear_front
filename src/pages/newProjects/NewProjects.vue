@@ -12,7 +12,7 @@
     <aside class="container-controls divcol gap1">
       <v-tabs>
         <v-tab v-for="(item,i) in dataControls" :key="i">
-          <h6 class="h11_em p">{{item.name}}</h6>
+          <h6 class="p">{{item.name}}</h6>
         </v-tab>
       </v-tabs>
     </aside>

@@ -5,12 +5,6 @@
     </aside> -->
 
     <aside class="container-profile divcol center gap1 tcenter">
-      <div class="contactions acenter spacea gap1">
-        <v-btn v-for="(item,i) in dataSocialActions" :key="i" icon style="--p:2em">
-          <img :src="require(`@/assets/icons/${item.social}.svg`)" alt="social actions" style="--w:2.5em">
-        </v-btn>
-      </div>
-
       <v-avatar width="12.48875em" height="12.48875em">
         <img src="@/assets/images/whitelist-avatar.png" alt="avatar" style="--b:3px solid var(--success);--w:100%;--h:100%;--br:50%">
       </v-avatar>
@@ -23,6 +17,12 @@
           <img :src="require(`@/assets/icons/${item.social}.svg`)" alt="social red" style="--w:2.674375em">
         </v-btn>
       </div>
+      
+      <div class="contactions acenter spacea gap1">
+        <v-btn v-for="(item,i) in dataSocialActions" :key="i" icon style="--p:2em">
+          <img :src="require(`@/assets/icons/${item.social}.svg`)" alt="social actions" style="--w:2.5em">
+        </v-btn>
+      </div>
     </aside>
 
     <p class="description p align" style="max-width:65ch">
@@ -31,8 +31,8 @@
 
     <h3 class="h9_em p">Discord Server Project Name - Whitelist Criteria</h3>
 
-    <section id="container-whitelist" class="card grid gap2" style="--p:2em;--gtc:repeat(auto-fit,minmax(min(100%,22.999375em),1fr))">
-      <v-card v-for="(item,i) in dataWhitelist" :key="i" class="card divcol gap2" style="--p:2em">
+    <section id="container-whitelist" class="card grid gap2" style="--p:clamp(1em,2vw,2em);--gtc:repeat(auto-fit,minmax(min(100%,22.999375em),1fr))">
+      <v-card v-for="(item,i) in dataWhitelist" :key="i" class="card divcol gap2" style="--p:clamp(1em,2vw,2em)">
         <v-sheet class="card scrolly" style="--p:1em" height="11.648125em">
           <div class="acenter" style="gap:.2em">
             <h6 class="p bold">{{item.name}}</h6>

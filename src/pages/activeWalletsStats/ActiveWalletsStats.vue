@@ -39,22 +39,22 @@
 
 
     <!-- wallets stats -->
-    <aside class="container-controls space gap2">
+    <aside class="container-controls space gap2 wrap">
       <v-tabs>
         <v-tab v-for="(item,i) in dataControlsStats" :key="i" @click="dataControlsStats.forEach(e=>{e.active=false});item.active=true">
-          <h6 class="h11_em p">{{item.name}}</h6>
+          <h6 class="p">{{item.name}}</h6>
         </v-tab>
       </v-tabs>
       
-      <div class="acenter gap1">
+      <div class="acenter gap1 marginaleft">
         <v-text-field
           v-model="searchStats"
           hide-details
           solo
           label="Search for wallet"
           append-icon="mdi-magnify"
-          style="--bg:hsl(210, 48%, 13%, .46);--c:#FFFFFF;--p:0 1.5em;--w:100%;--label:#FFFFFF;max-width:30.061875em"
-          class="searchStats"
+          style="--bg:hsl(210, 48%, 13%, .46);--c:#FFFFFF;--p:0 1.5em;--label:#FFFFFF;max-width:30.061875em"
+          class="customeFilter"
         ></v-text-field>
         <v-select
           v-model="sort.stats.value"
@@ -64,6 +64,7 @@
           append-icon="mdi-chevron-down"
           style="--w:min-content;--h:42px;--p:0 0 0 .5em;--bg:#1F6C64;--bs: none;--c:#FFFFFF;--br:.4vmax"
           :menu-props="{ contentClass: 'selectGreen' }"
+          class="customeFilter"
         ></v-select>
       </div>
     </aside>
@@ -74,40 +75,55 @@
       :headers="headersTableStats"
       :items="dataTableStats"
       hide-default-footer
+      mobile-breakpoint="-1"
     >
       <template v-slot:[`header.number`]>
-        <span>#</span>
-        <img src="@/assets/icons/sort.svg" alt="sortable icon" style="--w: 0.5em;margin-left:.3em">
+        <center class="center">
+          <span>#</span>
+          <img src="@/assets/icons/sort.svg" alt="sortable icon" style="--w: 0.5em;margin-left:.3em">
+        </center>
       </template>
       
       <template v-slot:[`header.spend`]>
-        <span>Total Spend</span>
-        <img src="@/assets/icons/sort.svg" alt="sortable icon" style="--w: 0.5em;margin-left:.3em">
+        <center class="center">
+          <span>Total Spend</span>
+          <img src="@/assets/icons/sort.svg" alt="sortable icon" style="--w: 0.5em;margin-left:.3em">
+        </center>
       </template>
       
       <template v-slot:[`header.bought`]>
-        <span># NFTs Bought</span>
-        <img src="@/assets/icons/sort.svg" alt="sortable icon" style="--w: 0.5em;margin-left:.3em">
+        <center class="center">
+          <span># NFTs Bought</span>
+          <img src="@/assets/icons/sort.svg" alt="sortable icon" style="--w: 0.5em;margin-left:.3em">
+        </center>
       </template>
       
       <template v-slot:[`header.purchase`]>
-        <span>Highest Purchase</span>
-        <img src="@/assets/icons/sort.svg" alt="sortable icon" style="--w: 0.5em;margin-left:.3em">
+        <center class="center">
+          <span>Highest Purchase</span>
+          <img src="@/assets/icons/sort.svg" alt="sortable icon" style="--w: 0.5em;margin-left:.3em">
+        </center>
       </template>
       
       <template v-slot:[`header.toal`]>
-        <span>Total Sales</span>
-        <img src="@/assets/icons/sort.svg" alt="sortable icon" style="--w: 0.5em;margin-left:.3em">
+        <center class="center">
+          <span>Total Sales</span>
+          <img src="@/assets/icons/sort.svg" alt="sortable icon" style="--w: 0.5em;margin-left:.3em">
+        </center>
       </template>
       
       <template v-slot:[`header.sold`]>
-        <span># NFTs Sold</span>
-        <img src="@/assets/icons/sort.svg" alt="sortable icon" style="--w: 0.5em;margin-left:.3em">
+        <center class="center">
+          <span># NFTs Sold</span>
+          <img src="@/assets/icons/sort.svg" alt="sortable icon" style="--w: 0.5em;margin-left:.3em">
+        </center>
       </template>
       
       <template v-slot:[`header.sale`]>
-        <span>Highest Sale</span>
-        <img src="@/assets/icons/sort.svg" alt="sortable icon" style="--w: 0.5em;margin-left:.3em">
+        <center class="center">
+          <span>Highest Sale</span>
+          <img src="@/assets/icons/sort.svg" alt="sortable icon" style="--w: 0.5em;margin-left:.3em">
+        </center>
       </template>
       
       <template v-slot:[`item.number`]="{ item }">
@@ -115,7 +131,7 @@
       </template>
       
       <template v-slot:[`item.wallet`]="{ item }">
-        <div class="walletDetails center gap1" @click="$router.push('/wallet-details')">
+        <div class="walletDetails start gap1" @click="$router.push('/wallet-details')">
           <img class="aspect" :src="item.img" alt="nft" style="--w:4.710625em">
           <span class="astart twrapa">{{item.wallet}}</span>
         </div>
@@ -162,16 +178,16 @@
 
 
     <!-- wallets by market -->
-    <h3 class="h9_em">Active wallets by market</h3>
+    <h3 class="h9_em margin2top">Active wallets by market</h3>
     
-    <aside class="container-controls space gap2">
+    <aside class="container-controls space gap2 wrap">
       <v-tabs>
         <v-tab v-for="(item,i) in dataControlsMarket" :key="i" @click="dataControlsMarket.forEach(e=>{e.active=false});item.active=true">
-          <h6 class="h11_em p">{{item.name}}</h6>
+          <h6 class="p">{{item.name}}</h6>
         </v-tab>
       </v-tabs>
       
-      <div class="acenter gap1">
+      <div class="acenter gap1 marginaleft">
         <v-text-field
           v-model="searchMarket"
           hide-details
@@ -179,7 +195,7 @@
           label="Search for wallet"
           append-icon="mdi-magnify"
           style="--bg:hsl(210, 48%, 13%, .46);--c:#FFFFFF;--p:0 1.5em;--w:100%;--label:#FFFFFF;max-width:30.061875em"
-          class="searchMarket"
+          class="customeFilter"
         ></v-text-field>
         <v-select
           v-model="sort.market.value"
@@ -189,6 +205,7 @@
           append-icon="mdi-chevron-down"
           style="--w:min-content;--h:42px;--p:0 0 0 .5em;--bg:#1F6C64;--bs: none;--c:#FFFFFF;--br:.4vmax"
           :menu-props="{ contentClass: 'selectGreen' }"
+          class="customeFilter"
         ></v-select>
       </div>
     </aside>
@@ -199,40 +216,55 @@
       :headers="headersTableMarket"
       :items="dataTableMarket"
       hide-default-footer
+      mobile-breakpoint="-1"
     >
       <template v-slot:[`header.number`]>
-        <span>#</span>
-        <img src="@/assets/icons/sort.svg" alt="sortable icon" style="--w: 0.5em;margin-left:.3em">
+        <center class="center">
+          <span>#</span>
+          <img src="@/assets/icons/sort.svg" alt="sortable icon" style="--w: 0.5em;margin-left:.3em">
+        </center>
       </template>
       
       <template v-slot:[`header.spend`]>
-        <span>Total Spend</span>
-        <img src="@/assets/icons/sort.svg" alt="sortable icon" style="--w: 0.5em;margin-left:.3em">
+        <center class="center">
+          <span>Total Spend</span>
+          <img src="@/assets/icons/sort.svg" alt="sortable icon" style="--w: 0.5em;margin-left:.3em">
+        </center>
       </template>
       
       <template v-slot:[`header.bought`]>
-        <span># NFTs Bought</span>
-        <img src="@/assets/icons/sort.svg" alt="sortable icon" style="--w: 0.5em;margin-left:.3em">
+        <center class="center">
+          <span># NFTs Bought</span>
+          <img src="@/assets/icons/sort.svg" alt="sortable icon" style="--w: 0.5em;margin-left:.3em">
+        </center>
       </template>
       
       <template v-slot:[`header.purchase`]>
-        <span>Highest Purchase</span>
-        <img src="@/assets/icons/sort.svg" alt="sortable icon" style="--w: 0.5em;margin-left:.3em">
+        <center class="center">
+          <span>Highest Purchase</span>
+          <img src="@/assets/icons/sort.svg" alt="sortable icon" style="--w: 0.5em;margin-left:.3em">
+        </center>
       </template>
       
       <template v-slot:[`header.toal`]>
-        <span>Total Sales</span>
-        <img src="@/assets/icons/sort.svg" alt="sortable icon" style="--w: 0.5em;margin-left:.3em">
+        <center class="center">
+          <span>Total Sales</span>
+          <img src="@/assets/icons/sort.svg" alt="sortable icon" style="--w: 0.5em;margin-left:.3em">
+        </center>
       </template>
       
       <template v-slot:[`header.sold`]>
-        <span># NFTs Sold</span>
-        <img src="@/assets/icons/sort.svg" alt="sortable icon" style="--w: 0.5em;margin-left:.3em">
+        <center class="center">
+          <span># NFTs Sold</span>
+          <img src="@/assets/icons/sort.svg" alt="sortable icon" style="--w: 0.5em;margin-left:.3em">
+        </center>
       </template>
       
       <template v-slot:[`header.sale`]>
-        <span>Highest Sale</span>
-        <img src="@/assets/icons/sort.svg" alt="sortable icon" style="--w: 0.5em;margin-left:.3em">
+        <center class="center">
+          <span>Highest Sale</span>
+          <img src="@/assets/icons/sort.svg" alt="sortable icon" style="--w: 0.5em;margin-left:.3em">
+        </center>
       </template>
       
       <template v-slot:[`item.number`]="{ item }">
@@ -240,7 +272,7 @@
       </template>
       
       <template v-slot:[`item.wallet`]="{ item }">
-        <div class="walletDetails center gap1" @click="$router.push('/wallet-details')">
+        <div class="walletDetails start gap1" @click="$router.push('/wallet-details')">
           <img class="aspect" :src="item.img" alt="nft" style="--w:4.710625em">
           <span class="astart twrapa">{{item.wallet}}</span>
         </div>

@@ -25,35 +25,12 @@
     * {border: none !important}
     .v-btn {border-radius: .5vmax}
   }
-  .container-controls {
-    // slider
-    .v-tabs {max-width: max-content}
-    .v-item-group {
-      background-color: var(--primary);
-      border: .8px solid rgba(#707070, .1);
-      border-radius: .4vmax;
-      max-width: 32.6875em;
-      .v-slide-group__content {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        gap: 1em;
-        padding: 1em;
-        .v-tab {
-          padding: .2em;
-          border-radius: .4vmax;
-          overflow: hidden;
-          h6 {color: #FFFFFF; text-transform: none}
-          &--active h6 {color: $clr-btn-pressed}
-        }
-      }
-    }
-  }
   .infodown {
     --fb: 1 1 20em;
     gap: 1em;
     .v-card {
-      --p: 2em;
+      max-width: max-content;
+      --p: clamp(1em,2vw,2em);
       @include media(min,small) {max-width: 24.6875em}
       .v-sheet {
         padding: 1em;
@@ -80,6 +57,7 @@
           color: #FFFFFF;
           font-size: 1em;
           &:first-of-type {i{display: none !important}}
+          @include child(3,8) {min-width: 99px}
         }
       }
     }
@@ -89,6 +67,8 @@
           font-size: .9em;
           padding-bottom: .5em;
           border-bottom-color: var(--clr-line);
+          &:nth-of-type(2) {min-width: 224px}
+          &:nth-of-type(3n + 5) {min-width: 145px}
         }
         &:hover:not(.add) {background-color: transparent}
         &:hover.add {
@@ -112,6 +92,7 @@
 }
 
 .selectGreen {
+  @include media(max,small) {font-size: clamp(10px, 1.5vw, 12px)}
   .v-list {
     background-color: #1F6C64 !important;
   }

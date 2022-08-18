@@ -11,7 +11,7 @@
     <aside class="container-controls space gap2">
       <v-tabs>
         <v-tab v-for="(item,i) in dataControls" :key="i" @click="dataControls.forEach(e=>{e.active=false});item.active=true">
-          <h6 class="h11_em p">{{item.name}}</h6>
+          <h6 class="p">{{item.name}}</h6>
         </v-tab>
       </v-tabs>
       
@@ -22,7 +22,7 @@
         label="Search for NFTs and collections"
         append-icon="mdi-magnify"
         style="--bg:hsl(210, 48%, 13%, .46);--c:#FFFFFF;--p:0 1.5em;--w:100%;--label:#FFFFFF;max-width:30.061875em"
-        class="search"
+        class="customeFilter"
       ></v-text-field>
     </aside>
 
@@ -99,7 +99,7 @@
     <section v-show="dataControls[dataControls.findIndex(e=>e.key=='bulk')].active" id="container-bulk" class="card divcol gap2 container-controls" style="--p:2em 3em">
       <v-tabs color="var(--primary)">
         <v-tab v-for="(item,i) in dataControlsBulk" :key="i" @click="dataControlsBulk.forEach(e=>{e.active=false});item.active=true">
-          <h6 class="h11_em p">{{item.name}}</h6>
+          <h6 class="p">{{item.name}}</h6>
         </v-tab>
       </v-tabs>
 

@@ -7,6 +7,7 @@
   padding-top: 1em;
   padding-inline: var(--margin-global);
   position: relative;
+  @include media(max,x-small) {font-size: clamp(12px, 2vw, 14px)}
   @include media(min, small) {
     &::before {
       content: "";
@@ -18,7 +19,7 @@
   }
   .section-down {
     background-color: hsl(212 47% 12% / .5);
-    padding: 3em;
+    padding: clamp(1em,3vw,3em);
     .v-card {
       width: 24.6875em;
       @include media(max,897px) {width: 100%}
@@ -93,6 +94,9 @@
       border-radius: .2vmax;
       span {color: var(--clr-inv);font-size: 1.25em;font-weight: bold;}
     }
+    div.center {
+      @include media(max,520px) {margin-top: 50px}
+    }
   }
   //
   .v-calendar {
@@ -121,9 +125,9 @@
 }
 
 #modalCalendar {
+  @include media(max,x-small) {font-size: clamp(12px, 2vw, 14px)}
   background-color: hsl(0, 0%, 70%, .3) !important;
   backdrop-filter: blur(10px);
-  padding: 3em;
   .v-card {
     max-width: 24.6875em;
     @include media(max,897px) {width: 100%}

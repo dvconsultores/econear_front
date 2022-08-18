@@ -47,7 +47,7 @@
 
           <aside>
             <div class="cronometer center">
-              <div class="grid" style="--gtc:repeat(4,1fr);gap:.5em;place-items:center">
+              <div class="grid" style="--gtc:repeat(4,1fr);gap:12px 0;place-items:center">
                 <span v-for="(item,i) in dataModalCalendar.cronometer" :key="i" style="color:var(--success)">
                   {{item.time}}
                 </span>
