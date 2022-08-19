@@ -382,6 +382,7 @@ img:not(.not_html, .not) {
   --br: .4vmax;
   --bs: 0px 3px 6px 1px #6FFFE9;
   --fw: 400;
+  --fs: 1em;
   --f: initial;
   --t: initial;
   background: var(--bg) !important;
@@ -389,6 +390,7 @@ img:not(.not_html, .not) {
   box-shadow: var(--bs) !important;
   border-radius: var(--br) !important;
   padding: var(--p) !important;
+  font-size: var(--fs);
   min-width: var(--w);
   min-height: var(--h);
   border: var(--b) !important;
@@ -396,17 +398,11 @@ img:not(.not_html, .not) {
   transform: var(--t);
   filter: var(--f);
 }
-:is(span, a).btn {
-  --fs: 1em;
-  @include btn;
-  font-size: var(--fs);
-}
 .btn {
-  --fs: 1em;
   @include btn;
   & :is(span, img, i) {
     color: var(--c) !important;
-    font-size: var(--fs);
+    font-size: 1em;
   }
   & :is(img, i) {margin-left: .2em}
   & :is(img, i):only-child {margin-left: 0 !important}

@@ -29,9 +29,22 @@
     --distance: 6.25em;
     position: relative;
     @include media(max, 1300px) {padding-top:var(--distance)}
-    #container-transfer {
+    #container-button {
       @include absolute(auto,0,auto,0);
-      @include media(max, 1300px) {@include absolute(auto,calc((var(--distance) / 2) * -1),auto,0);}
+      @include media(max, 1300px) {@include absolute(auto,calc((var(--distance) / 2) * -1),auto,0)}
+    }
+    &#listed {
+      @include media(max, 1700px) {padding-top:var(--distance)}
+      @include media(max, 400px) {padding-top:calc(var(--distance) + 4em)}
+      #container-button {
+        @include media(max, 1700px) {@include absolute(auto,calc((var(--distance) / 2) * -1),auto,0)}
+        @include media(max, 400px) {
+          @include absolute(auto,calc(((var(--distance) - 5em) / 2) * -1),auto,0);
+          align-items: flex-end !important;
+          flex-direction: column !important;
+          .contents {display: flex !important; gap: 1em}
+        }
+      }
     }
   }
   #container-nfts {
@@ -66,7 +79,18 @@
   }
   #container-bulk {
     .v-card {
-      .nfts {width: 100%}
+      .nfts {
+        width: 100%;
+        position: relative;
+        &.active::before {
+          content: "";
+          @include absolute(0,0);
+          width: 2.08375em;
+          aspect-ratio: 1 / 1;
+          border-radius: .3vmax;
+          background-color: #FFFFFF;
+        }
+      }
       & > .v-sheet:first-of-type {
         &.active {
           padding-bottom: 1em;

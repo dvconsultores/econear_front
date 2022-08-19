@@ -79,7 +79,7 @@
           </v-btn>
         </v-btn-toggle>
 
-        <div id="container-transfer" class="acenter" style="gap:1em">
+        <div id="container-button" class="acenter" style="gap:1em">
           <div class="acenter" style="gap:.2em">
             <span>Select</span>
             <v-chip color="#26A17B" style="border-radius:.2vmax;height:1.861875em" class="bold">4/{{dataNfts.length}}</v-chip>
@@ -94,7 +94,7 @@
 
 
     <!-- bulk NFT listing -->
-    <section v-show="dataControls[dataControls.findIndex(e=>e.key=='bulk')].active" id="container-bulk" class="card divcol gap2 container-controls" style="--p:2em 3em">
+    <section v-show="dataControls[dataControls.findIndex(e=>e.key=='bulk')].active" id="container-bulk" class="card divcol gap2 container-controls" style="--p:2em clamp(1em,3vw,3em)">
       <v-tabs color="var(--primary)">
         <v-tab v-for="(item,i) in dataControlsBulk" :key="i" @click="dataControlsBulk.forEach(e=>{e.active=false});item.active=true">
           <h6 class="p">{{item.name}}</h6>
@@ -102,10 +102,10 @@
       </v-tabs>
 
       <template v-if="dataControlsBulk[dataControlsBulk.findIndex(e=>e.key=='unlisted')].active">
-        <div class="divcol gap1">
+        <div class="divcol gap2">
           <v-card v-for="(item,i) in dataBulk.unlisted" :key="i" class="card">
             <v-sheet color="transparent" class="fwrap acenter gap1" style="--fb: 1 1 12.5em" :class="{active: item.show}">
-              <div class="nfts">
+              <div class="nfts" :class="{active: false}">
                 <img :src="item.img" alt="nft images" style="--w:100%;--max-h: 10.468125em">
               </div>
               <v-sheet class="card">
@@ -149,58 +149,54 @@
             </v-sheet>
             
             <aside v-show="item.show" class="footer-controls end" style="margin-top:2em">
-              <div class="space gap1">
-                <v-btn-toggle mandatory color="#60D2CA">
-                  <v-btn color="transparent">
-                    <v-icon color="#707070">mdi-chevron-left</v-icon>
-                  </v-btn>
-                  <v-btn v-for="n in 5" :key="n" color="transparent">
-                    <span>{{n}}</span>
-                  </v-btn>
-                  <v-btn color="transparent">
-                    <v-icon color="#707070">mdi-chevron-right</v-icon>
-                  </v-btn>
-                </v-btn-toggle>
+              <v-btn-toggle mandatory color="#60D2CA" class="align">
+                <v-btn color="transparent">
+                  <v-icon color="#707070">mdi-chevron-left</v-icon>
+                </v-btn>
+                <v-btn v-for="n in 5" :key="n" color="transparent">
+                  <span>{{n}}</span>
+                </v-btn>
+                <v-btn color="transparent">
+                  <v-icon color="#707070">mdi-chevron-right</v-icon>
+                </v-btn>
+              </v-btn-toggle>
 
-                <div class="acenter" style="gap:1em">
-                  <div class="acenter" style="gap:.2em">
-                    <span>Select</span>
-                    <v-chip color="#26A17B" style="border-radius:.2vmax;height:1.861875em" class="bold">4/{{item.dataNfts.length}}</v-chip>
-                  </div>
-                  <v-btn class="btn bold" style="--h:2.75em;--p:0 2em;--bs:0 3px 4px 1px hsl(176, 60%, 40%, .7);--fs:1.1em"
-                    @click="$refs.menu.modalListNfts=true">
-                    List NFTS
-                  </v-btn>
+              <div id="container-button" class="acenter" style="gap:1em">
+                <div class="acenter" style="gap:.2em">
+                  <span>Select</span>
+                  <v-chip color="#26A17B" style="border-radius:.2vmax;height:1.861875em" class="bold">4/{{item.dataNfts.length}}</v-chip>
                 </div>
+                <v-btn class="btn bold" style="--h:2.75em;--p:0 2em;--bs:0 3px 4px 1px hsl(176, 60%, 40%, .7);--fs:1.1em"
+                  @click="$refs.menu.modalListNfts=true">
+                  List NFTS
+                </v-btn>
               </div>
             </aside>
           </v-card>
         </div>
 
         <aside class="footer-controls end">
-          <div class="space gap1">
-            <v-btn-toggle mandatory color="#60D2CA">
-              <v-btn color="transparent">
-                <v-icon color="#707070">mdi-chevron-left</v-icon>
-              </v-btn>
-              <v-btn v-for="n in 5" :key="n" color="transparent">
-                <span>{{n}}</span>
-              </v-btn>
-              <v-btn color="transparent">
-                <v-icon color="#707070">mdi-chevron-right</v-icon>
-              </v-btn>
-            </v-btn-toggle>
+          <v-btn-toggle mandatory color="#60D2CA" class="align">
+            <v-btn color="transparent">
+              <v-icon color="#707070">mdi-chevron-left</v-icon>
+            </v-btn>
+            <v-btn v-for="n in 5" :key="n" color="transparent">
+              <span>{{n}}</span>
+            </v-btn>
+            <v-btn color="transparent">
+              <v-icon color="#707070">mdi-chevron-right</v-icon>
+            </v-btn>
+          </v-btn-toggle>
 
-            <div class="acenter" style="gap:1em">
-              <div class="acenter" style="gap:.2em">
-                <span>Select</span>
-                <v-chip color="#26A17B" style="border-radius:.2vmax;height:1.861875em" class="bold">1/{{dataNfts.length}}</v-chip>
-              </div>
-              <v-btn class="btn bold" style="--h:2.75em;--p:0 2em;--bs:0 3px 4px 1px hsl(176, 60%, 40%, .7);--fs:1.1em"
-                @click="$refs.menu.modalNfts=true">
-                Transfer NFTS
-              </v-btn>
+          <div id="container-button" class="acenter" style="gap:1em">
+            <div class="acenter" style="gap:.2em">
+              <span>Select</span>
+              <v-chip color="#26A17B" style="border-radius:.2vmax;height:1.861875em" class="bold">1/{{dataNfts.length}}</v-chip>
             </div>
+            <v-btn class="btn bold" style="--h:2.75em;--p:0 2em;--bs:0 3px 4px 1px hsl(176, 60%, 40%, .7);--fs:1.1em"
+              @click="$refs.menu.modalNfts=true">
+              Transfer NFTS
+            </v-btn>
           </div>
         </aside>
       </template>
@@ -210,7 +206,7 @@
         <div class="divcol gap1">
           <v-card v-for="(item,i) in dataBulk.listed" :key="i" class="card">
             <v-sheet color="transparent" class="fwrap acenter gap1" style="--fb: 1 1 12.5em" :class="{active: item.show}">
-              <div class="nfts">
+              <div class="nfts" :class="{active: false}">
                 <img :src="item.img" alt="nft images" style="--w:100%;--max-h: 10.468125em">
               </div>
               <v-sheet class="card">
@@ -253,25 +249,25 @@
               </v-card>
             </v-sheet>
             
-            <aside v-show="item.show" class="footer-controls end" style="margin-top:2em">
-              <div class="space gap1">
-                <v-btn-toggle mandatory color="#60D2CA">
-                  <v-btn color="transparent">
-                    <v-icon color="#707070">mdi-chevron-left</v-icon>
-                  </v-btn>
-                  <v-btn v-for="n in 5" :key="n" color="transparent">
-                    <span>{{n}}</span>
-                  </v-btn>
-                  <v-btn color="transparent">
-                    <v-icon color="#707070">mdi-chevron-right</v-icon>
-                  </v-btn>
-                </v-btn-toggle>
+            <aside v-show="item.show" id="listed" class="footer-controls end" style="margin-top:2em">
+              <v-btn-toggle mandatory color="#60D2CA" class="align">
+                <v-btn color="transparent">
+                  <v-icon color="#707070">mdi-chevron-left</v-icon>
+                </v-btn>
+                <v-btn v-for="n in 5" :key="n" color="transparent">
+                  <span>{{n}}</span>
+                </v-btn>
+                <v-btn color="transparent">
+                  <v-icon color="#707070">mdi-chevron-right</v-icon>
+                </v-btn>
+              </v-btn-toggle>
 
-                <div class="acenter" style="gap:1em">
-                  <div class="acenter" style="gap:.2em">
-                    <span>Select</span>
-                    <v-chip color="#26A17B" style="border-radius:.2vmax;height:1.861875em" class="bold">4/{{item.dataNfts.length}}</v-chip>
-                  </div>
+              <div id="container-button" class="acenter" style="gap: 1em">
+                <div class="acenter" style="gap:.2em">
+                  <span>Select</span>
+                  <v-chip color="#26A17B" style="border-radius:.2vmax;height:1.861875em" class="bold">4/{{item.dataNfts.length}}</v-chip>
+                </div>
+                <div class="contents">
                   <v-btn class="btn bold" style="--h:2.75em;--p:0 2em;--bs:0 3px 4px 1px hsl(176, 60%, 40%, .7);--fs:1.1em"
                     @click="$refs.menu.modalUpdate=true">
                     Update NFTS
@@ -338,7 +334,7 @@ export default {
             total: 300,
             show: false,
             dataNfts: [
-              { img: require("@/assets/nfts/nft1.png"), name: "Collection / Nft Name #43", selected: false },
+              { img: require("@/assets/nfts/nft1.png"), name: "Collection / Nft Name #43", selected: true },
               { img: require("@/assets/nfts/nft1.png"), name: "Collection / Nft Name #43", selected: false },
               { img: require("@/assets/nfts/nft1.png"), name: "Collection / Nft Name #43", selected: false },
               { img: require("@/assets/nfts/nft1.png"), name: "Collection / Nft Name #43", selected: false },
@@ -352,7 +348,7 @@ export default {
             total: 300,
             show: false,
             dataNfts: [
-              { img: require("@/assets/nfts/nft1.png"), name: "Collection / Nft Name #43", selected: false },
+              { img: require("@/assets/nfts/nft1.png"), name: "Collection / Nft Name #43", selected: true },
               { img: require("@/assets/nfts/nft1.png"), name: "Collection / Nft Name #43", selected: false },
               { img: require("@/assets/nfts/nft1.png"), name: "Collection / Nft Name #43", selected: false },
               { img: require("@/assets/nfts/nft1.png"), name: "Collection / Nft Name #43", selected: false },
@@ -368,7 +364,7 @@ export default {
             total: 300,
             show: false,
             dataNfts: [
-              { img: require("@/assets/nfts/nft1.png"), name: "Collection / Nft Name #43", selected: false },
+              { img: require("@/assets/nfts/nft1.png"), name: "Collection / Nft Name #43", selected: true },
               { img: require("@/assets/nfts/nft1.png"), name: "Collection / Nft Name #43", selected: false },
               { img: require("@/assets/nfts/nft1.png"), name: "Collection / Nft Name #43", selected: false },
             ]
