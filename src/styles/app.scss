@@ -10,6 +10,11 @@
 
 ///////////////////// global ///////////////////////
 
+// responsive tabs
+.tab-right {
+  img {width: 1.3em !important}
+}
+
 //responsive filters
 .customeFilter {
   @include media(max,small) {font-size: clamp(10px, 1.5vw, 12px)}

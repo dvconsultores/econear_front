@@ -29,7 +29,7 @@
       :headers="headersTable"
       :items="dataTable"
       hide-default-footer
-      mobile-breakpoint="-1"
+      mobile-breakpoint="880"
       :items-per-page="dataTable.length"
     >
       <template v-slot:[`header.volume`]>

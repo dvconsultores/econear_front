@@ -194,7 +194,7 @@
       :headers="headersTable"
       :items="dataTable"
       hide-default-footer
-      mobile-breakpoint="-1"
+      mobile-breakpoint="880"
       style="--p:clamp(1em,2vw,2em)"
     >
       <template v-slot:[`item.nft`]="{ item }">
