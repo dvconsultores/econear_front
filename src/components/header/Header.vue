@@ -7,7 +7,7 @@
         <router-link :to="('/')" class="eliminarmobile">
           <img src="@/assets/logos/logo.svg" alt="Logo" style="--w: clamp(13em, 17vw, 17.3125em);--h:8.115em">
         </router-link>
-        <v-btn icon class="vermobile" @click.stop="$refs.menu.drawer=true" style="--p:2em;--br:3.5vmax/50%">
+        <v-btn icon class="vermobile" @click.stop="$refs.menu.drawer=true" style="--p:1.6em;--br:3.5vmax/50%">
           <img src="@/assets/icons/toggle.svg" alt="toggle button"
             style="--w:clamp(2em, 3vw, 3em); margin-left:0">
         </v-btn>
@@ -18,10 +18,11 @@
           {{item.name}}
         </a>
         <v-menu offset-y>
-          <!-- slot -->
+          <!-- slot more -->
           <template v-slot:activator="{ on, attrs}">
-            <button class="h11_em eliminarmobile" v-on="on" v-bind="attrs">
-              More<v-icon medium color="var(--success)">mdi-chevron-down</v-icon>
+            <button class="acenter h11_em eliminarmobile" v-on="on" v-bind="attrs">
+              <span>More</span>
+              <v-icon color="var(--success)" size="1.3em">mdi-chevron-down</v-icon>
             </button>
           </template>
 
@@ -56,10 +57,11 @@
         </v-menu>
 
         <v-menu offset-y>
-          <!-- slot -->
+          <!-- slot language if !user -->
           <template v-slot:activator="{ on, attrs}">
-            <button v-show="!user" class="h11_em" v-on="on" v-bind="attrs">
-              {{languageText}}<v-icon color="var(--success)">mdi-chevron-down</v-icon>
+            <button v-show="!user" class="acenter h11_em" v-on="on" v-bind="attrs">
+              <span>{{languageText}}</span>
+              <v-icon color="var(--success)" size="1.3em">mdi-chevron-down</v-icon>
             </button>
           </template>
 
@@ -74,10 +76,11 @@
 
       <aside class="right acenter" style="gap:clamp(1em, 1.5vw, 1.5em)">
         <v-menu offset-y>
-          <!-- slot -->
+          <!-- slot language if user -->
           <template v-slot:activator="{ on, attrs}">
-            <button v-show="user" class="h11_em" v-on="on" v-bind="attrs">
-              {{languageText}}<v-icon color="var(--success)">mdi-chevron-down</v-icon>
+            <button v-show="user" class="center h11_em" v-on="on" v-bind="attrs">
+              <span>{{languageText}}</span>
+              <v-icon color="var(--success)" size="1.3em">mdi-chevron-down</v-icon>
             </button>
           </template>
 
@@ -94,17 +97,17 @@
           Connect Wallet
         </v-btn>
 
-        <v-badge overlap :content="messages" :value="messages" class="openNotifications eliminarmobile"
+        <v-badge v-if="!user" overlap :content="messages" :value="messages" class="openNotifications"
           style="--bg:var(--error);--c:#FFFFFF;--b:1.5px solid var(--success);--t:translate(-30%, 30%)">
           <v-btn icon>
-            <img src="@/assets/icons/bell-outline.svg" alt="notifications" style="width:clamp(1.5em, 1.7vw, 1.775em)">
+            <img src="@/assets/icons/bell-outline.svg" alt="notifications" style="width:clamp(24px, 1.7vw, 1.775em)">
           </v-btn>
         </v-badge>
 
         <v-btn v-show="!user" class="btn avatarBtn"
           style="--p: clamp(1em, 1.5vw, 1.5em) .2em clamp(1em, 1.5vw, 1.5em) 0;--br:.2vmax;
           --bs: 0 2px 8px 3px #6FFFE9;">
-          <v-avatar style="box-shadow:0px 0px 8px 3px #6FFFE9" width="clamp(3.8em, 4.6vw, 4.6em)" height="clamp(3.8em, 4.6vw, 4.6em)">
+          <v-avatar style="box-shadow:0px 0px 8px 3px #6FFFE9" width="clamp(55px, 4.6vw, 4.6em)" height="clamp(55px, 4.6vw, 4.6em)">
             <img src="@/assets/logos/user-empty.png" alt="Avatar" style="--w:100%">
           </v-avatar>
           <div id="container-account" class="divcol" style="gap:.2em">
@@ -367,24 +370,25 @@ export default {
       if (localStorage.getItem('logKey') == 'out') {this.user = true}
     },
     async signIn () {
-      const near = await connect(config);
-      const wallet = new WalletConnection(near)
-      wallet.requestSignIn(
-        'contract.monkeonnear.testnet'
-      )
+      this.isSigned()
+      // const near = await connect(config);
+      // const wallet = new WalletConnection(near)
+      // wallet.requestSignIn(
+      //   'contract.monkeonnear.testnet'
+      // )
     },
     async isSigned () {
-      const near = await connect(config);
-      const wallet = new WalletConnection(near)
-      if (wallet.isSignedIn()) {
+      // const near = await connect(config);
+      // const wallet = new WalletConnection(near)
+      // if (wallet.isSignedIn()) {
         localStorage.setItem('logKey', 'in')
         this.user = false
-      }
+      // }
     },
     async signOut () {
-      const near = await connect(config);
-      const wallet = new WalletConnection(near)
-      wallet.signOut()
+      // const near = await connect(config);
+      // const wallet = new WalletConnection(near)
+      // wallet.signOut()
       localStorage.setItem('logKey', 'out')
       this.user = true
       this.$router.push({ path: '/' })

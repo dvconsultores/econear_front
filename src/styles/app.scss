@@ -96,7 +96,7 @@
   border-radius: $border-btn;
   position: relative;
   margin-top: 4px;
-  &::before {
+  &:not(#footer):before {
     content: "";
     --size: 5px;
     @include absolute(auto,-6px,6px);
@@ -104,7 +104,7 @@
     border-top: 0;
     border-bottom: calc(var(--size) * 1) solid $success;
   }
-  &::after {
+  &:not(#footer):after {
     content: "";
     --size: 4px;
     @include absolute(auto,-4px,7px);

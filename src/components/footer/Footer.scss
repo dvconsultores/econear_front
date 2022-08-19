@@ -12,7 +12,7 @@
   @include media(max, 1220px) {font-size: 14px}
   @include media(max, 1080px) {font-size: 12px}
   @include media(max, 922px) {font-size: 11px}
-  @include media(max, small) {font-size: 16px}
+  @include media(max, small) {font-size: 14px}
   .row {
     .v-text-field--solo {
       @include media(max, small) {--w: 100% !important}

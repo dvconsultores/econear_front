@@ -11,6 +11,22 @@
     @include media(max, 1025px) {font-size: 11px}
     @include media(max, 991px) {font-size: 9px}
     @include media(max, small) {font-size: 16px}
+    @include media(max, 410px) {font-size: 14px}
+    @include media(max, 340px) {
+      font-size: 12px;
+      .openNotifications {
+        --size: 2em;
+        img {width: 1.5em !important}
+      }
+      .avatarBtn {
+        .v-avatar {
+          min-width: 4em !important;
+          max-width: 4em !important;
+          min-height: 4em !important;
+          max-height: 4em !important;
+        }
+      }
+    }
     margin-inline: auto;
     transition: all 0.4s ease-in-out;
     .v-toolbar__content {
@@ -18,7 +34,7 @@
       justify-content: space-between;
       align-items: center;
       padding-inline: var(--margin-global);
-      @include media(max, 350px) {padding-left: 0 !important}
+      @include media(max, 410px) {padding-inline: 0 .5em !important}
       overflow: hidden;
       .avatarBtn {
         .v-avatar {
@@ -28,11 +44,12 @@
       }
       .middle {
         gap: clamp(.5em, 2vw, 2em);
-        @include media(max,small) {margin-inline: auto 1em}
+        @include media(max,small) {margin-inline: .5em auto}
       }
       #container-account {
         font-size: 16px;
         @include media(max, 1200px) {font-size: 14px}
+        @include media(max, 340px) {font-size: 12px}
       }
     }
   }
@@ -234,4 +251,6 @@
       }
     }
   }
+  .v-list-item {height: 50px !important}
+  .v-expansion-panel-header {height: 50px !important}
 }

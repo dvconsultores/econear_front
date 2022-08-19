@@ -26,9 +26,43 @@
             <a v-for="(item,i) in dataFooter" :key="i" :href="item.to" class="h11_em">
               {{item.name}}
             </a>
-            <button class="h11_em">
-              More<v-icon medium color="var(--success)">mdi-chevron-down</v-icon>
-            </button>
+            <v-menu offset-y>
+              <!-- slot more -->
+              <template v-slot:activator="{ on, attrs}">
+                <button class="h11_em" v-on="on" v-bind="attrs">
+                  More<v-icon medium color="var(--success)">mdi-chevron-down</v-icon>
+                </button>
+              </template>
+              
+              <v-card id="footer" class="menu_list morelist">
+                <v-list v-for="(item,i) in dataMore" :key="i" color="hsl(212 47% 12% / .7)">
+                  <template v-for="(item2,i2) in item.list">
+                    <v-list-item :key="i2" disabled>
+                      <v-list-item-title class="Title">{{item2.title}}</v-list-item-title>
+                    </v-list-item>
+
+                    <v-list-item :key="i2" @click="$emit('SelectMore',item2)">
+                      <v-list-item-title>{{item2.name}}</v-list-item-title>
+                    </v-list-item>
+                  </template>
+                </v-list>
+
+                <aside class="divcol center">
+                  <span>Join us on:</span>
+                  <div class="acenter" style="gap:.5em">
+                    <v-btn icon>
+                      <img src="@/assets/icons/twitter.svg" alt="twitter" style="--w:1.5625em">
+                    </v-btn>
+                    <v-btn icon>
+                      <img src="@/assets/icons/discord.svg" alt="discord" style="--w:1.5625em">
+                    </v-btn>
+                    <v-btn icon>
+                      <img src="@/assets/icons/telegram.svg" alt="telegram" style="--w:1.5625em">
+                    </v-btn>
+                  </div>
+                </aside>
+              </v-card>
+            </v-menu>
           </div>
 
           <v-text-field
@@ -76,6 +110,51 @@ export default {
         { key: "nfts", name: "NFTS", to: "" },
         { key: "snipe", name: "Snipe tool", to: "" },
         { key: "contact", name: "Contact us", to: "" },
+      ],
+      dataMore: [
+        {
+          list: [
+            { title: "Account" },
+            { key: "login", name: "Login" },
+            { key: "whitelist", name: "Whitelist" },
+            { key: "register", name: "Register" },
+          ]
+        },
+        {
+          list: [
+            { title: "NFTS" },
+            { key: "compare-projects", name: "Compare Projectss" },
+            { key: "upcoming-projects", name: "Upcoming Projects (Drops)" },
+            { key: "new-projects", name: "New Projects" },
+          ]
+        },
+        {
+          list: [
+            { title: "ECONEAR" },
+            { key: "wallet-submission", name: "Wallet Submission" },
+            { key: "vote", name: "Vote" },
+            { key: "contact-us", name: "Contact Us" },
+          ]
+        },
+        {
+          list: [
+            { title: "Others" },
+            { key: "marketplace-stats", name: "Marketplace Stats" },
+            { key: "alert", name: "Alert" },
+            { key: "bulk-nft-management", name: "Bulk NFT Management" },
+            { key: "active-wallets-stats", name: "Active Wallets Stats" },
+            { key: "mint-calendar", name: "Mint Calendar" },
+          ]
+        },
+        {
+          list: [
+            { title: "Services" },
+            { key: "advertising", name: "Advertising" },
+            { key: "ama-hosting", name: "AMA Hosting" },
+            { key: "twitter-space", name: "Twitter Space" },
+            { key: "giveaways", name: "Giveaways" },
+          ]
+        }
       ],
       input: "",
       rules: {

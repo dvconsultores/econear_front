@@ -5,7 +5,6 @@ import goTo from 'vuetify/lib/services/goto'
 Vue.use(Router);
 
 export default new Router({
-  /*
   scrollBehavior: (to, from, savedPosition) => {
     let scrollTo = 0
     if (to.hash) {
@@ -14,7 +13,7 @@ export default new Router({
       scrollTo = savedPosition.y
     }
     return goTo(scrollTo)
-  },*/
+  },
   routes: [
     // path 1
     {

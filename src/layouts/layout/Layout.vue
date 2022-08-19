@@ -4,7 +4,7 @@
     <v-main :class="wrapperSpace?'with':'without'" class="parent">
       <router-view></router-view>
     </v-main>
-    <Footer ref="footer" />
+    <Footer @SelectMore="(item) => {$refs.header.SelectItem_More(item)}" ref="footer" />
   </v-app>
 </template>
 
