@@ -17,6 +17,7 @@
         append-icon="mdi-magnify"
         style="max-width:30.061875em;--bg:hsl(210, 48%, 13%, .46);--c:#FFFFFF;--p:0 1.5em"
         class="customeFilter"
+        @input="searchCollection()"
       ></v-text-field>
     </aside>
 
@@ -25,7 +26,6 @@
       v-if="dataTableBool"
       id="dataTable"
       class="card"
-      :search="search"
       :headers="headersTable"
       :items="dataTable"
       hide-default-footer
@@ -384,6 +384,19 @@ export default {
           })
       }
     },
+    searchCollection() {
+      let item = {
+        search: this.search,
+        top: 50
+      }
+      const url = "api/v1/buscarcollection"
+      this.axios.post(url, item)
+        .then((response) => {
+          console.log(response.data)
+        }).catch((error) => {
+          console.log(error)
+        })
+    },
     async getRanking(select){
       this.dataTableBool = false
       this.dataTable = []
@@ -392,7 +405,8 @@ export default {
         horas_vol: 24,
         horas_floor: 24,
         top: 50,
-        order: null
+        order: null,
+        collection: "%"
       }
 
       if (this.sort.volume.value == '24h') {
