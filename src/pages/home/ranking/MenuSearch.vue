@@ -5,7 +5,7 @@
         <img :src="item.img" alt="referencial image">
         <div class="divcol">
           <h6 class="p bold">{{item.name}}</h6>
-          <span>{{item.desc}}</span>
+          <span>{{item.contract}}</span>
         </div>
       </v-list-item>
     </v-list>
@@ -23,20 +23,21 @@ export default {
     return {
       menuSearch: false,
       dataMenuSearch: [
-        { img: require("@/assets/nfts/nft1.png"), name: "monkeonnear", desc: "lorem ipsum pardumn dolor" },
-        { img: require("@/assets/nfts/nft1.png"), name: "monkeonnear2", desc: "lorem ipsum pardumn dolor" },
-        { img: require("@/assets/nfts/nft1.png"), name: "monkeonnear3", desc: "lorem ipsum pardumn dolor" },
-        { img: require("@/assets/nfts/nft1.png"), name: "monkeonnear4", desc: "lorem ipsum pardumn dolor" },
-        { img: require("@/assets/nfts/nft1.png"), name: "monkeonnear5", desc: "lorem ipsum pardumn dolor" },
-        { img: require("@/assets/nfts/nft1.png"), name: "monkeonnear6", desc: "lorem ipsum pardumn dolor" },
-        { img: require("@/assets/nfts/nft1.png"), name: "monkeonnear7", desc: "lorem ipsum pardumn dolor" },
-        { img: require("@/assets/nfts/nft1.png"), name: "monkeonnear8", desc: "lorem ipsum pardumn dolor" },
-        { img: require("@/assets/nfts/nft1.png"), name: "monkeonnear9", desc: "lorem ipsum pardumn dolor" },
+        { img: require("@/assets/nfts/nft1.png"), name: "monkeonnear", contract: "lorem ipsum pardumn dolor" },
+        { img: require("@/assets/nfts/nft1.png"), name: "monkeonnear2", contract: "lorem ipsum pardumn dolor" },
+        { img: require("@/assets/nfts/nft1.png"), name: "monkeonnear3", contract: "lorem ipsum pardumn dolor" },
+        { img: require("@/assets/nfts/nft1.png"), name: "monkeonnear4", contract: "lorem ipsum pardumn dolor" },
+        { img: require("@/assets/nfts/nft1.png"), name: "monkeonnear5", contract: "lorem ipsum pardumn dolor" },
+        { img: require("@/assets/nfts/nft1.png"), name: "monkeonnear6", contract: "lorem ipsum pardumn dolor" },
+        { img: require("@/assets/nfts/nft1.png"), name: "monkeonnear7", contract: "lorem ipsum pardumn dolor" },
+        { img: require("@/assets/nfts/nft1.png"), name: "monkeonnear8", contract: "lorem ipsum pardumn dolor" },
+        { img: require("@/assets/nfts/nft1.png"), name: "monkeonnear9", contract: "lorem ipsum pardumn dolor" },
       ]
     }
   },
   methods: {
     Filter(item) {
+      // funcion para filrar datatable
       console.log(item)
     },
   }

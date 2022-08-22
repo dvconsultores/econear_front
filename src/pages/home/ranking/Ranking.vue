@@ -167,7 +167,7 @@ export default {
     return {
       dataTableBool: false,
       image: require('@/assets/nfts/nft1.png'),
-      search: "",
+      search: "m",
       searchTable: "",
       dataControls: [
         { id: 1, name: "All Time Best", active: false },
