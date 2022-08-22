@@ -321,6 +321,19 @@ export default {
           })
       }
     },
+    searchCollection() {
+      let item = {
+        search: this.search,
+        top: 50
+      }
+      const url = "api/v1/buscarcollection"
+      this.axios.post(url, item)
+        .then((response) => {
+          console.log(response.data)
+        }).catch((error) => {
+          console.log(error)
+        })
+    },
     async getRanking(select){
       this.dataTableBool = false
       this.dataTable = []
@@ -329,7 +342,8 @@ export default {
         horas_vol: 24,
         horas_floor: 24,
         top: 50,
-        order: null
+        order: null,
+        collection: "%"
       }
 
       if (this.sort.volume.value == '24h') {
