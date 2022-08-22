@@ -1,6 +1,5 @@
 <template>
   <section id="ranking" class="divcol gap2">
-    <MenuSearch ref="menu" :Search="dataMenuSearch" :menuSearch="menuSearch"></MenuSearch>
     <h2 class="h7_em p">All Time Best</h2>
 
     <aside class="container-controls space gap2 fwrap_inv" style="--fb: 1 1 200px">
@@ -20,9 +19,22 @@
         class="customeFilter openRankingSearch"
         autocomplete="off"
         @click:append="searchCollection()"
+        @keydown.enter.prevent="searchCollection()"
         @input="inputSearch()"
       ></v-text-field>
     </aside>
+
+    <v-menu ref="menu" v-model="menuSearch" bottom offset-y activator=".openRankingSearch">
+      <v-list id="menuSearch" class="card scrolly" v-show="dataMenuSearch.length != 0">
+        <v-list-item v-for="(item,i) in dataMenuSearch" :key="i" @click="getRanking(null, item.contract)" v-show="dataMenuSearch.length != 0">
+          <img :src="item.img" alt="referencial image">
+          <div class="divcol">
+            <h6 class="p bold">{{item.name}}</h6>
+            <span>{{item.contract}}</span>
+          </div>
+        </v-list-item>
+      </v-list>
+    </v-menu>
 
     <!-- tabla 1  -->
     <v-data-table
@@ -143,7 +155,7 @@
 </template>
 
 <script>
-import MenuSearch from './MenuSearch.vue'
+//import MenuSearch from './MenuSearch.vue'
 import axios from 'axios'
 import moment from 'moment';
 import * as nearAPI from 'near-api-js'
@@ -162,7 +174,7 @@ const config = {
 export default {
   name: "ranking",
   i18n: require("./i18n"),
-  components: { MenuSearch },
+  //components: { MenuSearch },
   data() {
     return {
       menuSearch: false,
@@ -294,6 +306,7 @@ export default {
   methods: {
     inputSearch () {
       if (this.search == '' || this.search == null) {
+        this.getRanking()
         this.dataMenuSearch = []
         this.menuSearch = false
       }
@@ -357,16 +370,18 @@ export default {
         this.menuSearch = false
       }
     },
-    async getRanking(select){
+    async getRanking(select, collection){
+      console.log(collection)
       this.dataTableBool = false
       this.dataTable = []
       const url = "api/v1/ranking"
+
       let item = {
         horas_vol: 24,
         horas_floor: 24,
         top: 50,
         order: null,
-        collection: "%"
+        collection: collection || '%'
       }
 
       if (this.sort.volume.value == '24h') {
@@ -405,6 +420,7 @@ export default {
 
       this.axios.post(url, item)
         .then((response) => {
+          console.log(response.data)
           for (var i = 0; i < response.data.length; i++) {
             let collection = {
               img: response.data[i].icon,
@@ -434,6 +450,7 @@ export default {
 
             this.dataTable.push(collection)
           }
+          this.dataTableBool = true
           this.getVotaciones()
         }).catch((error) => {
           console.log(error)
