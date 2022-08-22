@@ -11,7 +11,6 @@
       </v-tabs>
 
       <v-text-field
-        id="searchRanking"
         v-model="search"
         hide-details
         solo
@@ -167,7 +166,7 @@ export default {
     return {
       dataTableBool: false,
       image: require('@/assets/nfts/nft1.png'),
-      search: "m",
+      search: "",
       searchTable: "",
       dataControls: [
         { id: 1, name: "All Time Best", active: false },
