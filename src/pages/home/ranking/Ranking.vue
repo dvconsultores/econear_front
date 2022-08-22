@@ -1,6 +1,6 @@
 <template>
   <section id="ranking" class="divcol gap2">
-    <MenuSearch ref="menu" :Search="search"></MenuSearch>
+    <MenuSearch ref="menu" :Search="dataMenuSearch" :menuSearch="menuSearch"></MenuSearch>
     <h2 class="h7_em p">All Time Best</h2>
 
     <aside class="container-controls space gap2 fwrap_inv" style="--fb: 1 1 200px">
@@ -20,7 +20,8 @@
         style="max-width:30.061875em;--bg:hsl(210, 48%, 13%, .46);--c:#FFFFFF;--p:0 1.5em"
         class="customeFilter openRankingSearch"
         autocomplete="off"
-        @keyup="($e) => {$refs.menu.menuSearch=true; search=$e.target.value; $e.key=='Escape'?search='':null}"
+        @click:append="searchCollection()"
+        @input="inputSearch()"
       ></v-text-field>
     </aside>
 
@@ -165,9 +166,11 @@ export default {
   components: { MenuSearch },
   data() {
     return {
+      menuSearch: false,
+      dataMenuSearch: [],
       dataTableBool: false,
       image: require('@/assets/nfts/nft1.png'),
-      search: "m",
+      search: "",
       searchTable: "",
       dataControls: [
         { id: 1, name: "All Time Best", active: false },
@@ -290,6 +293,12 @@ export default {
     }.bind(this), 1800000);
   },
   methods: {
+    inputSearch () {
+      if (this.search == '' || this.search == null) {
+        this.dataMenuSearch = []
+        this.menuSearch = false
+      }
+    },
     async votar (contract_id, vote) {
       const CONTRACT_NAME = 'contract.monkeonnear.testnet'
       // connect to NEAR
@@ -322,17 +331,32 @@ export default {
       }
     },
     searchCollection() {
+      console.log(this.search)
       let item = {
         search: this.search,
         top: 50
       }
-      const url = "api/v1/buscarcollection"
-      this.axios.post(url, item)
-        .then((response) => {
-          console.log(response.data)
-        }).catch((error) => {
-          console.log(error)
-        })
+      if (this.search) {
+        const url = "api/v1/buscarcollection"
+        this.axios.post(url, item)
+          .then((response) => {
+            this.dataMenuSearch = []
+            for (var i = 0; i < response.data.length; i++) {
+              let item = {
+                img: response.data[i].icon || this.image,
+                name: response.data[i].name,
+                contract: response.data[i].nft_contract
+              }
+              this.dataMenuSearch.push(item)
+            }
+            this.menuSearch = true
+          }).catch((error) => {
+            console.log(error)
+          })
+      } else {
+        this.dataMenuSearch = []
+        this.menuSearch = false
+      }
     },
     async getRanking(select){
       this.dataTableBool = false
@@ -380,10 +404,8 @@ export default {
         item.order = "best"
       }
 
-      console.log("ITEM", item)
       this.axios.post(url, item)
         .then((response) => {
-          console.log("response", response.data)
           for (var i = 0; i < response.data.length; i++) {
             let collection = {
               img: response.data[i].icon,
