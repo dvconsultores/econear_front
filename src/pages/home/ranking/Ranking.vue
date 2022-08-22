@@ -11,7 +11,6 @@
       </v-tabs>
 
       <v-text-field
-        id="searchRanking"
         v-model="search"
         hide-details
         solo
