@@ -1,5 +1,6 @@
 <template>
   <section id="ranking" class="divcol gap2">
+    <MenuSearch ref="menu" :Search="search"></MenuSearch>
     <h2 class="h7_em p">All Time Best</h2>
 
     <aside class="container-controls space gap2 fwrap_inv" style="--fb: 1 1 200px">
@@ -10,13 +11,16 @@
       </v-tabs>
 
       <v-text-field
+        id="searchRanking"
         v-model="search"
         hide-details
         solo
         label="Search for NFT's and collections"
         append-icon="mdi-magnify"
         style="max-width:30.061875em;--bg:hsl(210, 48%, 13%, .46);--c:#FFFFFF;--p:0 1.5em"
-        class="customeFilter"
+        class="customeFilter openRankingSearch"
+        autocomplete="off"
+        @keyup="($e) => {$refs.menu.menuSearch=true; search=$e.target.value; $e.key=='Escape'?search='':null}"
       ></v-text-field>
     </aside>
 
@@ -25,7 +29,7 @@
       v-if="dataTableBool"
       id="dataTable"
       class="card"
-      :search="search"
+      :search="searchTable"
       :headers="headersTable"
       :items="dataTable"
       hide-default-footer
@@ -127,76 +131,6 @@
     </center>
 
 
-
-    <!-- tabla 2
-    <table class="dataTable card">
-      <thead>
-        <th v-for="(item,i) in dataTable.headers" :key="i">
-          <button v-if="item.key!=='volume'&&item.key!=='price'" style="cursor:default">{{item.name}}</button>
-
-          <button v-if="item.key=='volume'||item.key=='price'" class="acenter align" style="cursor:default;gap:.2em">
-            <label :for="item.key" style="cursor:pointer">{{item.name}}</label>
-            <v-select
-              :id="item.key"
-              :items="item.select"
-              solo
-              hide-details
-              append-icon="mdi-chevron-down"
-              style="--w:min-content;--h:24px;--p:0 0 0 .5em;--bg:#0D2C3F;--bs: 3px 0 5px 1px rgb(0,0,0,.4);--c:#FFFFFF;--br:.4vmax"
-            ></v-select>
-          </button>
-        </th>
-      </thead>
-
-      <tbody class="tcenter">
-        <tr v-for="(item,i) in dataTable.items" :key="i">
-          <td v-for="(item2,i2) in item.columns" :key="i2">
-            col 1
-            <span v-if="item2.key=='number'">{{i+1}}</span>
-            col 2
-            <div v-if="item2.key=='nft'" class="center gap1">
-              <img class="aspect" :src="item2.img" alt="nft" style="--w:4.710625em">
-              <div class="divcol">
-                <span>{{item2.name}}</span>
-                <span>{{item2.desc}}</span>
-              </div>
-            </div>
-            col 3
-            <span>{{item2.supply}}</span>
-            col 4
-            <span :style="item2.state?'color:#22B573':'color:var(--error)'">{{item2.volume}}</span>
-            col 5
-            <span :style="item2.state?'color:#22B573':'color:var(--error)'">{{item2.price}}</span>
-            col 6
-            <span v-if="item2.key=='change'" :style="item2.state?'color:#22B573':'color:var(--error)'">
-              {{item2.state?'+':'-'}}{{item2.change}}%
-            </span>
-            col 7
-            <span>{{item2.date}}</span>
-            col 8
-            <div v-if="item2.key=='vote'" class="center" style="gap:.5em">
-              <span>{{item2.vote}}</span>
-              <div>
-                <v-btn icon>
-                  <img src="@/assets/icons/like.svg" alt="like">
-                </v-btn>
-                <v-btn icon>
-                  <img src="@/assets/icons/dislike.svg" alt="dislike">
-                </v-btn>
-              </div>
-            </div>
-            col 9
-            <v-chip v-if="item2.key=='confidence'" style="border-radius: .3vmax"
-              :color="item2.confidence=='high'?'#22B573':
-              item2.confidence=='moderate'?'var(--warning)':
-              item2.confidence=='low'?'var(--error)':null">
-              <span class="tfirst">{{item2.confidence}}</span>
-            </v-chip>
-          </td>
-        </tr>
-      </tbody>
-    </table> -->
-
     <section id="container-footer" class="divcol gap1" style="padding-block:6em 7em">
       <h2 class="h6_em tcenter">Want to get Your Project Listed?</h2>
       <p class="divcol center tcenter">
@@ -209,29 +143,32 @@
 </template>
 
 <script>
+import MenuSearch from './MenuSearch.vue'
 import axios from 'axios'
 import moment from 'moment';
 import * as nearAPI from 'near-api-js'
-const { connect, keyStores, WalletConnection, Contract, utils } = nearAPI
 
+const { connect, keyStores, WalletConnection, Contract, utils } = nearAPI
 const keyStore = new keyStores.BrowserLocalStorageKeyStore()
 const config = {
-        networkId: "testnet",
-        keyStore, 
-        nodeUrl: "https://rpc.testnet.near.org",
-        walletUrl: "https://wallet.testnet.near.org",
-        helperUrl: "https://helper.testnet.near.org",
-        explorerUrl: "https://explorer.testnet.near.org",
-        };
+  networkId: "testnet",
+  keyStore, 
+  nodeUrl: "https://rpc.testnet.near.org",
+  walletUrl: "https://wallet.testnet.near.org",
+  helperUrl: "https://helper.testnet.near.org",
+  explorerUrl: "https://explorer.testnet.near.org",
+};
 
 export default {
   name: "ranking",
   i18n: require("./i18n"),
+  components: { MenuSearch },
   data() {
     return {
       dataTableBool: false,
       image: require('@/assets/nfts/nft1.png'),
       search: "",
+      searchTable: "",
       dataControls: [
         { id: 1, name: "All Time Best", active: false },
         { id: 2, name: "Floor Price", active: false },
