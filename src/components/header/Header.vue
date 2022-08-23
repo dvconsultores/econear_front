@@ -371,24 +371,24 @@ export default {
     },
     async signIn () {
       this.isSigned()
-      const near = await connect(config);
-      const wallet = new WalletConnection(near)
-      wallet.requestSignIn(
-        'contract.monkeonnear.testnet'
-      )
+      // const near = await connect(config);
+      // const wallet = new WalletConnection(near)
+      // wallet.requestSignIn(
+      //   'contract.monkeonnear.testnet'
+      // )
     },
     async isSigned () {
-      const near = await connect(config);
-      const wallet = new WalletConnection(near)
-      if (wallet.isSignedIn()) {
+      // const near = await connect(config);
+      // const wallet = new WalletConnection(near)
+      // if (wallet.isSignedIn()) {
         localStorage.setItem('logKey', 'in')
         this.user = false
-      }
+      // }
     },
     async signOut () {
-      const near = await connect(config);
-      const wallet = new WalletConnection(near)
-      wallet.signOut()
+      // const near = await connect(config);
+      // const wallet = new WalletConnection(near)
+      // wallet.signOut()
       localStorage.setItem('logKey', 'out')
       this.user = true
       this.$router.push({ path: '/' })

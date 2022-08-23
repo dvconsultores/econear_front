@@ -173,7 +173,7 @@
               :headers="headersTableSales"
               :items="dataTableSales"
               hide-default-footer
-              mobile-breakpoint="880"
+              mobile-breakpoint="-1"
               style="--bg:transparent;--b:none;--p:0"
             >
               <template v-slot:[`header.number`]>

@@ -74,6 +74,22 @@
   .tab-right {
     --o: visible;
     max-width: max-content;
+    // line
+    &.doble .v-slide-group__content:before {
+      content: "";
+      @include absoluteCenter;
+      width: 1px;
+      height: 15px;
+      background-color: #FFFFFF;
+    }
+    // line
+    &.triple .v-slide-group__content:before {
+      content: "";
+      @include absoluteCenter;
+      width: 1.5em;
+      height: 15px;
+      border-inline: 1px solid #FFFFFF;
+    }
     .v-item-group {background-color: hsl(212 47% 12% / .5) !important;border-radius: .5vmax !important}
     .v-slide-group__content {
       display: flex;
@@ -81,13 +97,6 @@
       align-items: center;
       gap: 1em;
       padding: 0 1em;
-      &::before {
-        content: "";
-        @include absoluteCenter;
-        width: 1px;
-        height: 15px;
-        background-color: #FFFFFF;
-      }
       i {color: #FFFFFF !important}
       &--active i {color: $clr-btn-pressed !important}
     }

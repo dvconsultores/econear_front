@@ -168,7 +168,7 @@
           :headers="headersTableTopSales"
           :items="dataTableTopSales"
           hide-default-footer
-          mobile-breakpoint="880"
+          mobile-breakpoint="-1"
           style="--bg:transparent;--b:none;--p:0em"
         >
           <template v-slot:[`header.number`]>
@@ -314,7 +314,7 @@
           :headers="headersTableTopHolders"
           :items="dataTableTopHolders"
           hide-default-footer
-          mobile-breakpoint="880"
+          mobile-breakpoint="-1"
           style="--bg:transparent;--b:none;--p:0"
         >
           <template v-slot:[`header.number`]>
@@ -419,7 +419,7 @@
             :headers="headersTableTopBuyers"
             :items="dataTableTopBuyers"
             hide-default-footer
-            mobile-breakpoint="880"
+            mobile-breakpoint="-1"
             style="--bg:transparent;--b:none;--p:0"
           >
             <template v-slot:[`header.number`]>
@@ -477,7 +477,7 @@
             :headers="headersTableTopSellers"
             :items="dataTableTopSellers"
             hide-default-footer
-            mobile-breakpoint="880"
+            mobile-breakpoint="-1"
             style="--bg:transparent;--b:none;--p:0"
           >
             <template v-slot:[`header.number`]>
@@ -538,7 +538,7 @@
           :headers="headersTableTopTraders"
           :items="dataTableTopTraders"
           hide-default-footer
-          mobile-breakpoint="880"
+          mobile-breakpoint="-1"
           style="--bg:transparent;--b:none;--p:0"
         >
           <template v-slot:[`header.number`]>
@@ -639,7 +639,7 @@
           :headers="headersTableActivity"
           :items="dataTableActivity"
           hide-default-footer
-          mobile-breakpoint="880"
+          mobile-breakpoint="-1"
           style="--bg:transparent;--b:none;--p:0"
         >
           <template v-slot:[`item.name`]="{ item }">

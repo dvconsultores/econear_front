@@ -75,7 +75,7 @@
       :headers="headersTableStats"
       :items="dataTableStats"
       hide-default-footer
-      mobile-breakpoint="880"
+      mobile-breakpoint="-1"
     >
       <template v-slot:[`header.number`]>
         <center class="center">
@@ -216,7 +216,7 @@
       :headers="headersTableMarket"
       :items="dataTableMarket"
       hide-default-footer
-      mobile-breakpoint="880"
+      mobile-breakpoint="-1"
     >
       <template v-slot:[`header.number`]>
         <center class="center">

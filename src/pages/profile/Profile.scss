@@ -75,7 +75,7 @@
         //   background-color: #21786D;
         //   transition: .2s $ease-return;
         // }
-        td:nth-of-type(2) {min-width: 200px}
+        td:nth-of-type(2) {min-width: 250px !important}
       }
       .v-input {
         input::placeholder {

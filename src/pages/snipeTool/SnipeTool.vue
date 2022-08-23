@@ -48,7 +48,7 @@
       :headers="headersTable"
       :items="dataTable"
       hide-default-footer
-      mobile-breakpoint="880"
+      mobile-breakpoint="-1"
     >
       <template v-slot:[`item.nft`]="{ item }">
         <div class="center gap1">

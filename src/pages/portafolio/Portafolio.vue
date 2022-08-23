@@ -59,7 +59,7 @@
         </v-tab>
       </v-tabs>
 
-      <v-tabs class="tab-right">
+      <v-tabs class="tab-right doble">
         <v-tab>
           <img class="flr" src="@/assets/logos/near.png" alt="near" style="--w:19.2px">
         </v-tab>
@@ -163,7 +163,7 @@
       <h2 class="h9_em p">Assets</h2>
 
       <div class="acenter gap1">
-        <v-tabs class="tab-right">
+        <v-tabs class="tab-right doble">
           <v-tab @click="organizationStyle=true">
             <v-icon>mdi-format-list-bulleted-square</v-icon>
           </v-tab>
@@ -172,7 +172,7 @@
           </v-tab>
         </v-tabs>
 
-        <v-tabs class="tab-right">
+        <v-tabs class="tab-right triple">
           <v-tab>
             <img class="flr" src="@/assets/logos/near.png" alt="near" style="--w:19.2px">
           </v-tab>
@@ -194,7 +194,7 @@
       :headers="headersTable"
       :items="dataTable"
       hide-default-footer
-      mobile-breakpoint="880"
+      mobile-breakpoint="-1"
       style="--p:clamp(1em,2vw,2em)"
     >
       <template v-slot:[`item.nft`]="{ item }">

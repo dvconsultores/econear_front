@@ -23,12 +23,7 @@
         @input="inputSearch()"
       ></v-text-field>
     </aside>
-    
-    <!-- ////////////////////////////////////////////////////////////////////////////////////////////// -->
-    <!-- ////////////////////////////////////////////////////////////////////////////////////////////// -->
-    <!-- que es esto ? solo tenias que hacer un emit y recibir el evento con el nombre que definas -->
-    <!-- ////////////////////////////////////////////////////////////////////////////////////////////// -->
-    <!-- ////////////////////////////////////////////////////////////////////////////////////////////// -->
+
     <v-menu ref="menu" v-model="menuSearch" bottom offset-y activator=".openRankingSearch">
       <v-list id="menuSearch" class="card scrolly" v-show="dataMenuSearch.length != 0">
         <v-list-item v-for="(item,i) in dataMenuSearch" :key="i" @click="getRanking(item.contract)" v-show="dataMenuSearch.length != 0">
@@ -50,7 +45,7 @@
       :headers="headersTable"
       :items="dataTable"
       hide-default-footer
-      mobile-breakpoint="880"
+      mobile-breakpoint="-1"
       :items-per-page="dataTable.length"
     >
       <template v-slot:[`header.volume`]>
@@ -427,35 +422,35 @@ export default {
       this.axios.post(url, item)
         .then((response) => {
           console.log(response.data)
-          Object.entries(response.data).forEach(([i, value]) => {
-              let collection = {
-                img: response.data[i].icon,
-                name: response.data[i].name,
-                supply: response.data[i].supply,
-                volume: parseFloat(response.data[i].volumen1).toFixed(2) + " N",
-                price: parseFloat(response.data[i].floor_price).toFixed(2) + " N",
-                change: parseFloat(response.data[i].porcentaje).toFixed(2),//"0.89",
-                date: moment(response.data[i].fecha_creacion/1000000).format('DD / MM / YYYY'),
-                contract_id: response.data[i].nft_contract_id,
-                vote_positivo: response.data[i].voto_positivo,
-                vote_negativo: response.data[i].voto_negativo,
-                positivo: 0,
-                negativo: 0,
-                // confidence: "high",
-                state_volume: true,
-                state_price: true,
-                state_change: true,
-                desc: response.data[i].symbol,
-              }
-              if (response.data[i].floor_price < 0) {
+          for (var i = 0; i < response.data.length; i++) {
+            let collection = {
+              img: response.data[i].icon,
+              name: response.data[i].name,
+              supply: response.data[i].supply,
+              volume: parseFloat(response.data[i].volumen1).toFixed(2) + " N",
+              price: parseFloat(response.data[i].floor_price).toFixed(2) + " N",
+              change: parseFloat(response.data[i].porcentaje).toFixed(2),//"0.89",
+              date: moment(response.data[i].fecha_creacion/1000000).format('DD / MM / YYYY'),
+              contract_id: response.data[i].nft_contract_id,
+              vote_positivo: response.data[i].voto_positivo,
+              vote_negativo: response.data[i].voto_negativo,
+              positivo: 0,
+              negativo: 0,
+              // confidence: "high",
+              state_volume: true,
+              state_price: true,
+              state_change: true,
+              desc: response.data[i].symbol,
+            }
+            if (response.data[i].floor_price < 0) {
               collection.state_price = false
-              } 
-              if (response.data[i].porcentaje < 0) {
-                collection.state_change = false
-              }
+            } 
+            if (response.data[i].porcentaje < 0) {
+              collection.state_change = false
+            }
+
             this.dataTable.push(collection)
-          });
-          
+          }
           this.dataTableBool = true
           this.getVotaciones()
         }).catch((error) => {

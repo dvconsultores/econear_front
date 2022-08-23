@@ -50,7 +50,7 @@
         :headers="headersTableProjects"
         :items="dataTableProjects"
         hide-default-footer
-        mobile-breakpoint="880"
+        mobile-breakpoint="-1"
         style="--p:clamp(1em,2vw,2em)"
       >
         <template v-slot:[`header.number`]>
@@ -93,7 +93,7 @@
         :headers="headersTableWatchlist"
         :items="dataTableWatchlist"
         hide-default-footer
-        mobile-breakpoint="880"
+        mobile-breakpoint="-1"
         style="--p:clamp(1em,2vw,2em)"
       >
         <template v-slot:[`header.number`]>
@@ -136,7 +136,7 @@
         :headers="headersTableAlerts"
         :items="dataTableAlerts"
         hide-default-footer
-        mobile-breakpoint="880"
+        mobile-breakpoint="-1"
         style="--p:clamp(1em,2vw,2em)"
       >
         <template v-slot:[`header.number`]>
@@ -180,6 +180,7 @@
           <v-simple-table
             class="dataTable wallets card"
             style="--p:clamp(1em,2vw,2em)"
+            
           >
             <template v-slot:default>
               <thead>
