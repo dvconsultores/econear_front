@@ -4,7 +4,7 @@
 
     <aside class="container-controls space gap2 fwrap_inv" style="--fb: 1 1 200px">
       <v-tabs>
-        <v-tab v-for="(item,i) in dataControls" :key="i" class="options" @click="getRanking(item)">
+        <v-tab v-for="(item,i) in dataControls" :key="i" class="options" @click="getRanking(collection, item)">
           <h6 class="p">{{item.name}}</h6>
         </v-tab>
       </v-tabs>
@@ -26,7 +26,7 @@
 
     <v-menu ref="menu" v-model="menuSearch" bottom offset-y activator=".openRankingSearch">
       <v-list id="menuSearch" class="card scrolly" v-show="dataMenuSearch.length != 0">
-        <v-list-item v-for="(item,i) in dataMenuSearch" :key="i" @click="getRanking(null, item.contract)" v-show="dataMenuSearch.length != 0">
+        <v-list-item v-for="(item,i) in dataMenuSearch" :key="i" @click="getRanking(item.contract)" v-show="dataMenuSearch.length != 0">
           <img :src="item.img" alt="referencial image">
           <div class="divcol">
             <h6 class="p bold">{{item.name}}</h6>
@@ -177,6 +177,7 @@ export default {
   //components: { MenuSearch },
   data() {
     return {
+      collection: null,
       menuSearch: false,
       dataMenuSearch: [],
       dataTableBool: false,
@@ -306,7 +307,7 @@ export default {
   methods: {
     inputSearch () {
       if (this.search == '' || this.search == null) {
-        this.getRanking()
+        this.getRanking('%')
         this.dataMenuSearch = []
         this.menuSearch = false
       }
@@ -370,8 +371,8 @@ export default {
         this.menuSearch = false
       }
     },
-    async getRanking(select, collection){
-      console.log(collection)
+    async getRanking(collection, select){
+      this.collection = collection || this.collection
       this.dataTableBool = false
       this.dataTable = []
       const url = "api/v1/ranking"
@@ -381,7 +382,7 @@ export default {
         horas_floor: 24,
         top: 50,
         order: null,
-        collection: collection || '%'
+        collection: this.collection || '%'
       }
 
       if (this.sort.volume.value == '24h') {
