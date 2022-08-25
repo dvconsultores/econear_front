@@ -101,7 +101,7 @@
   border-radius: $border-btn;
   position: relative;
   margin-top: 4px;
-  &:not(#footer):before {
+  &:not(#footer, .not_triangule):before {
     content: "";
     --size: 5px;
     @include absolute(auto,-6px,6px);
@@ -109,7 +109,7 @@
     border-top: 0;
     border-bottom: calc(var(--size) * 1) solid $success;
   }
-  &:not(#footer):after {
+  &:not(#footer, .not_triangule):after {
     content: "";
     --size: 4px;
     @include absolute(auto,-4px,7px);

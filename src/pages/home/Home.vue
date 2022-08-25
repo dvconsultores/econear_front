@@ -1,7 +1,7 @@
 <template>
   <section id="home" class="divcol">
-    <Hero ref="hero"></Hero>
     <Market ref="market"></Market>
+    <Hero ref="hero"></Hero>
     <Ranking ref="ranking"></Ranking>
   </section>
 </template>

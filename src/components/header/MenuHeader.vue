@@ -5,14 +5,14 @@
       id="toggleBar"
       v-model="drawer"
       height="100%"
-      fixed right
+      fixed left
       temporary
       overlay-opacity="0.5"
       overlay-color="black"
       color="var(--primary)"
     >
       <router-link :to="('/')">
-        <img src="@/assets/logos/logo.svg" alt="Logo" style="--w: 100%;--h:8.115em;">
+        <img src="@/assets/logos/logo.svg" alt="Logo" style="--w: 95%;--h:8.115em;margin-left:2%">
       </router-link>
       
       <v-expansion-panels focusable accordion class="anim_moveleft">
@@ -34,22 +34,44 @@
         <template v-if="dataDrawer.expansion">
           <v-expansion-panel v-for="(item,i) in dataDrawer.expansion" :key="i">
             <!-- title -->
-            <v-expansion-panel-header hide-actions class="h11_em" @click="item.active?item.active=!item.active:dataDrawer.expansion.forEach(e=>{e.active=false;item.active=true})">
-              <v-col class="conttitle acenter gap2">
+            <v-expansion-panel-header hide-actions class="h10_em"
+              @click="item.active?item.active=!item.active:dataDrawer.expansion.forEach(e=>{e.active=false;item.active=true});
+              item.key=='account'&&User?$emit('SignIn'):null">
+              <v-col v-show="item.key!=='account'" class="conttitle acenter gap2">
                 <span class="clr_text_btn normal" style="max-width: max-content">{{ item.name }}</span>
                 <v-icon :class="{active_rotate: item.active}" size="1.4em">mdi-chevron-down</v-icon>
               </v-col>
+
+              <v-btn v-show="item.key=='account'&&User" class="btn h11_em align" @click="$emit('SignIn')"
+                style="--p: clamp(.8em, 1.5vw, 1.5em) clamp(1em, 1.7vw, 1.7em);max-width:max-content">
+                Connect Wallet
+              </v-btn>
+
+              <v-btn v-show="item.key=='account'&&!User" class="btn avatarBtn align"
+                style="--p: clamp(1em, 1.5vw, 1.5em) .2em clamp(1em, 1.5vw, 1.5em) 0;--br:.2vmax;
+                --bs: 0 2px 8px 3px #6FFFE9;">
+                <v-avatar style="box-shadow:0px 0px 8px 3px #6FFFE9" width="clamp(55px, 4.6vw, 4.6em)" height="clamp(55px, 4.6vw, 4.6em)">
+                  <img src="@/assets/logos/user-empty.png" alt="Avatar" style="--w:100%">
+                </v-avatar>
+                <div id="container-account" class="divcol" style="gap:.2em">
+                  <span class="h11_em">Disconnect Wallet</span>
+                  <span class="h12_em">{{ AccountId }}</span>
+                </div>
+                <v-icon color="#6FFFE9" size="1.4em" :class="{active_rotate: item.active}">mdi-menu-down</v-icon>
+              </v-btn>
             </v-expansion-panel-header>
 
             <v-expansion-panel-content>
               <v-list>
                 <!-- ciclo for items -->
                 <template v-for="(item2,i) in item.selection">
+                  <!-- titles -->
                   <v-list-item :key="i" v-show="item2.title" disabled>
                     <v-list-item-title class="titles center h10_em">
                       <span class="clr_text_btn normal" style="color:var(--success) !important">{{ item2.title}}</span>
                     </v-list-item-title>
                   </v-list-item>
+                  <!-- content -->
                   <v-list-item :key="i" v-show="item2.name"
                     @click="SelectDrawer(item.key, item2)">
                     <v-list-item-title class="center h10_em">
@@ -57,6 +79,34 @@
                     </v-list-item-title>
                   </v-list-item>
                 </template>
+
+                <!-- account -->
+                <v-list-item v-show="item.key=='account'&&!User" id="account">
+                  <v-list color="transparent" class="cabecera">
+                    <v-list-item>
+                      <v-list-item-title class="h10_em">{{ AccountId }}</v-list-item-title>
+                    </v-list-item>
+                  </v-list>
+
+                  <v-list color="hsl(212 47% 12% / .5)">
+                    <v-list-item class="divcol">
+                      <div class="spacea fill_w h10_em">
+                        <span class="h11_em">NEAR</span>
+                        <span class="h12_em" style="color:var(--success)">478.5 N</span>
+                      </div>
+                      <div class="spacea fill_w">
+                        <span class="h11_em">ECO</span>
+                        <span class="h12_em" style="color:var(--success)">234.72 E</span>
+                      </div>
+                    </v-list-item>
+                  </v-list>
+
+                  <v-list v-for="(item,i) in DataLogout" :key="i" color="#112131">
+                    <v-list-item v-for="(item2,i2) in item.list" :key="i2" @click="SelectItem_AvatarMenu(item2)">
+                      <v-list-item-title class="h10_em">{{item2.name}}</v-list-item-title>
+                    </v-list-item>
+                  </v-list>
+                </v-list-item>
               </v-list>
             </v-expansion-panel-content>
           </v-expansion-panel>
@@ -66,6 +116,23 @@
 
     <!-- menu notifications -->
     <v-menu offset-y :close-on-content-click="false" activator=".openNotifications">
+      <v-card class="menu_list notifications divcol">
+        <h3 class="h9_em light">Notifications</h3>
+        <v-list color="hsl(212 47% 12% / .7)" class="divcol gap1">
+          <v-list-item v-for="(item,i) in dataNotifications" :key="i" class="padd0 space" style="gap:1em">
+            <div class="acenter" style="gap:.5em;">
+              <img :src="item.img" alt="profile" style="--w:3.125em">
+              <span class="h11_em">{{item.desc}}</span>
+            </div>
+            <span class="h11_em marginaleft" style="color:var(--success)">{{item.ago}}</span>
+          </v-list-item>
+        </v-list>
+        <a class="tcenter">Ver Todas</a>
+      </v-card>
+    </v-menu>
+    
+    <!-- menu notifications mobile -->
+    <v-menu offset-y :close-on-content-click="false" activator=".openNotificationsMobile">
       <v-card class="menu_list notifications divcol">
         <h3 class="h9_em light">Notifications</h3>
         <v-list color="hsl(212 47% 12% / .7)" class="divcol gap1">
@@ -306,6 +373,11 @@ import { i18n } from "@/plugins/i18n";
 export default {
   name: "headerMenu",
   i18n: require("./i18n"),
+  props: {
+    AccountId: String,
+    DataLogout: Array,
+    User: Boolean,
+  },
   // created() {
   //   const theme = localStorage.getItem("theme");
   //   this.OverlayMethod(theme);
@@ -332,7 +404,7 @@ export default {
           {
             key: "more",
             active: false,
-            name: "MORE",
+            name: "More",
             selection: [
               { title: "Account" },
               { key: "login", name: "Login" },
@@ -362,12 +434,17 @@ export default {
           {
             key: "lang",
             active: false,
-            name: "LANGUAGE",
+            name: "Language",
             selection: [
               {name: "English", key: "EN"},
               {name: "Spanish", key: "ES"},
               {name: "Portuguese", key: "PR"},
             ],
+          },
+          {
+            key: "account",
+            active: false,
+            name: "Account",
           },
         ],
       },
@@ -410,6 +487,9 @@ export default {
     };
   },
   methods: {
+    SelectItem_AvatarMenu(item) {
+      this.$emit("SelectItem_AvatarMenu", item)
+    },
     SelectDrawer(key, item) {
       if (key=="lang") {CambiarLanguage(item.key)}
       if (key=="more") {

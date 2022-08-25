@@ -1,19 +1,16 @@
 <template>
   <section id="header">
-    <MenuHeader ref="menu"></MenuHeader>
+    <MenuHeader ref="menu" :AccountId="accountId" :DataLogout="dataLogout" :User="user"
+      @SelectItem_AvatarMenu="(item) => SelectItem_AvatarMenu(item)" @SignIn="signIn()"></MenuHeader>
     <v-app-bar id="headerApp" :height="heightApp" fixed>
       <aside class="left acenter">
         <!-- logo -->
-        <router-link :to="('/')" class="eliminarmobile">
+        <router-link :to="('/')">
           <img src="@/assets/logos/logo.svg" alt="Logo" style="--w: clamp(13em, 17vw, 17.3125em);--h:8.115em">
         </router-link>
-        <v-btn icon class="vermobile" @click.stop="$refs.menu.drawer=true" style="--p:1.6em;--br:3.5vmax/50%">
-          <img src="@/assets/icons/toggle.svg" alt="toggle button"
-            style="--w:clamp(2em, 3vw, 3em); margin-left:0">
-        </v-btn>
       </aside>
 
-      <aside class="middle acenter">
+      <aside class="middle acenter eliminarmobile">
         <a v-for="(item,i) in dataHeader" :key="i" @click="$router.push(item.to)" class="h11_em eliminarmobile">
           {{item.name}}
         </a>
@@ -74,7 +71,7 @@
         </v-menu>
       </aside>
 
-      <aside class="right acenter" style="gap:clamp(1em, 1.5vw, 1.5em)">
+      <aside class="right acenter eliminarmobile" style="gap:clamp(1em, 1.5vw, 1.5em)">
         <v-menu offset-y>
           <!-- slot language if user -->
           <template v-slot:activator="{ on, attrs}">
@@ -104,7 +101,7 @@
           </v-btn>
         </v-badge>
 
-        <v-btn v-show="!user" class="btn avatarBtn"
+        <v-btn v-show="!user" class="btn avatarBtn openAccount"
           style="--p: clamp(1em, 1.5vw, 1.5em) .2em clamp(1em, 1.5vw, 1.5em) 0;--br:.2vmax;
           --bs: 0 2px 8px 3px #6FFFE9;">
           <v-avatar style="box-shadow:0px 0px 8px 3px #6FFFE9" width="clamp(55px, 4.6vw, 4.6em)" height="clamp(55px, 4.6vw, 4.6em)">
@@ -117,7 +114,8 @@
           <v-icon color="#6FFFE9">mdi-menu-down</v-icon>
         </v-btn>
 
-        <v-menu v-model="avatarMenu" offset-y :close-on-content-click="false" activator=".avatarBtn">
+        <!-- menu account -->
+        <v-menu v-model="avatarMenu" offset-y :close-on-content-click="false" activator=".openAccount">
           <v-card class="menu_list morelist">
             <v-list color="transparent" class="cabecera">
               <v-list-item>
@@ -145,6 +143,21 @@
             </v-list>
           </v-card>
         </v-menu>
+      </aside>
+      
+      <!-- mobile elements -->
+      <aside class="center gap1 vermobile">
+        <v-badge overlap :content="messages" :value="messages" class="openNotificationsMobile"
+          style="--bg:var(--error);--c:#FFFFFF;--b:1.5px solid var(--success);--t:translate(-30%, 30%)">
+          <v-btn icon>
+            <img src="@/assets/icons/bell-outline.svg" alt="notifications" style="width:clamp(24px, 1.7vw, 1.775em)">
+          </v-btn>
+        </v-badge>
+        
+        <v-btn icon class="vermobile" @click.stop="$refs.menu.drawer=true" style="--p:1.6em;--br:3.5vmax/50%">
+          <img src="@/assets/icons/toggle.svg" alt="toggle button"
+            style="--w:clamp(2em, 3vw, 3em); margin-left:0">
+        </v-btn>
       </aside>
     </v-app-bar>
   </section>
@@ -397,9 +410,11 @@ export default {
       let Desplazamiento_Actual = window.pageYOffset;
       //     // in top
       if (Desplazamiento_Actual > scrollValue) {
-        document.getElementById("headerApp").style.background = "var(--clr-gradient)";
+        // document.getElementById("headerApp").style.background = "hsl(180, 37%, 17%)";
+        document.getElementById("headerApp").style.backdropFilter = "blur(8px)";
       } else {
-        document.getElementById("headerApp").style.background = "transparent";
+        // document.getElementById("headerApp").style.background = "transparent";
+        document.getElementById("headerApp").style.backdropFilter = "none";
       }
     },
     scrollListener() {resizeThrottler(this.OcultarNavbar)}
