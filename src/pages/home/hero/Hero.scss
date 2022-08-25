@@ -8,7 +8,7 @@
     border: .8px solid rgba(#707070, .1);
     padding: 1em;
     --br: .5vmax;
-    @include media(max,933px) {max-width: min-content !important}
+    .scrollx {&::-webkit-scrollbar {display: none !important}}
     @include media(max, 500px) {font-size: 12px}
     @include media(max, 320px) {font-size: 10px}
   }

@@ -5,7 +5,7 @@
         <h3 class="h9_em">Sales Of The Day</h3>
       </div>
 
-      <div class="space gap1 wrap">
+      <div class="space gap1 scrollx">
         <aside v-for="(item2,i2) in dataSales.slice(0,3)" :key="i2"
           class="space gap1 tnowrap card align" style="--bg: #122432;--br:.5vmax">
           <div class="acenter gap1">
