@@ -14,11 +14,20 @@
       isolation: isolate;
     }
   }
+  #hero-btn {
+    @include media(max,small) {--h: 3em !important}
+  }
   blockquote {
     &::-webkit-scrollbar {display: none}
     @include media(max, 1400px) {font-size: 14px}
     @include media(max, 1200px) {font-size: 12px}
     @include media(max, 1050px) {font-size: 10px}
+    @include media(max, 700px) {font-size: 9px}
+    @include media(max, 640px) {font-size: 8px}
+    @include media(max, 560px) {font-size: 7px}
+    // @include media(max, 500px) {font-size: 6px}
+    // @include media(max, 430px) {font-size: 5px}
+    // @include media(max, 350px) {font-size: 4px}
     margin-top: 2em;
     min-height: 24.375em;
     display: inline-grid;
@@ -76,9 +85,11 @@
           --bs: 0px 0px 2.5px 1px #6FFFE9;
           --p: 0 0.75em;
           min-width: min(90%,7.875em);
+          height: 3em;
           @include media(max, small) {margin-block: .5em !important}
           span {
             font-size: 0.8425em;
+            @include media(max,small) {font-size: 1em}
           }
         }
       }

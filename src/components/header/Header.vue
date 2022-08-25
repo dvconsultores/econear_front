@@ -97,7 +97,7 @@
           Connect Wallet
         </v-btn>
 
-        <v-badge v-if="!user" overlap :content="messages" :value="messages" class="openNotifications"
+        <v-badge v-show="!user" overlap :content="messages" :value="messages" class="openNotifications"
           style="--bg:var(--error);--c:#FFFFFF;--b:1.5px solid var(--success);--t:translate(-30%, 30%)">
           <v-btn icon>
             <img src="@/assets/icons/bell-outline.svg" alt="notifications" style="width:clamp(24px, 1.7vw, 1.775em)">

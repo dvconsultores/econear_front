@@ -7,7 +7,7 @@
       The whole <br class="vermobile"><span class="mask">NEAR ecosystem</span><br>at one place.
     </h1>
 
-    <v-btn class="btn h10_em center" @click="modalProject=true"
+    <v-btn id="hero-btn" class="btn h10_em center" @click="modalProject=true"
       style="--p:0 2em;--h:62px;--w:13.5em;--bs:0 3px 4px 1px hsl(176, 60%, 40%, .7)">Get Started</v-btn>
 
     <blockquote class="fill_w scrollxmobile">
