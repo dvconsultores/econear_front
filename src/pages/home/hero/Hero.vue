@@ -1,5 +1,39 @@
 <template>
   <section id="hero" class="divcol acenter gap2">
+    <v-card id="sales" class="divcol card">
+      <div class="center">
+        <h3 class="h9_em">Sales Of The Day</h3>
+      </div>
+
+      <div class="space gap1 wrap">
+        <aside v-for="(item2,i2) in dataSales.slice(0,3)" :key="i2"
+          class="space gap1 tnowrap card align" style="--bg: #122432;--br:.5vmax">
+          <div class="acenter gap1">
+            <span>{{i2+1}}</span>
+            <img :src="item2.img || image" alt="Referencial Image" style="--w:clamp(3.5em,2vw,4.75em)">
+            <div class="divcol">
+              <span class="h11_em">{{item2.name}}</span>
+              <span class="h12_em">{{item2.user}}</span>
+            </div>
+          </div>
+
+          <div class="divcol jcenter aend tend">
+            <span v-if="item2.percent || item2.percent ==0" :style="item2.state?'color:var(--success)':'color:var(--error)'"
+              class="h11_em">
+              {{item2.state?'+':''}}{{item2.percent}}%
+            </span>
+
+            <div v-if="item2.near&&item2.dollar" class="divcol">
+              <span :style="item2.state?'color:var(--success)':'color:var(--error)'" class="h11_em">
+                {{item2.near}}
+              </span>
+              <span class="h12_em">{{item2.dollar}}</span>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </v-card>
+
     <!-- <h1 class="h4_em h5_emmobile tcenter">
       The whole <br class="vermobile"><span class="mask" :style="`--mask:'NEAR ecosystem'`">NEAR ecosystem</span><br>at one place.
     </h1> -->
@@ -21,22 +55,6 @@
         </v-card>
       </aside>
     </blockquote>
-
-    <article>
-      <v-card class="fwrap center overflow">
-        <img src="@/assets/images/anuncio.png" alt="Announcement Image" style="--w:min(100%,40em)">
-
-        <div class="container-info space gap2">
-          <h3 class="h7_em p bold">Our Collection MonkeONear</h3>
-          <p class="p h11_em">
-            The first ever community voting tool and wallet management tool that comes with 
-            built-in data analysis system to find the best project on NEAR PROTOCOLV
-          </p>
-          <v-btn href ="https://paras.id/collection/monkeonear.neartopia.near" target="_blank" class="btn" style="--bg: var(--primary);--bs: 0px 0px 2.5px 1px #6FFFE9;--p: 0 0.75em;
-            width: 7.875em;">Buy Here</v-btn>
-        </div>
-      </v-card>
-    </article>
 
     <v-dialog
       v-model="modalProject"
@@ -154,6 +172,32 @@ export default {
           img: require('@/assets/images/c5.png'),
           title: "Top Floor Featured Projects",
           style: { clip: rightCards, top: "-12.5em", right: "0"}
+        },
+      ],
+      dataSales: [
+        {
+          img: require('@/assets/nfts/nft1.png'),
+          name: "Secret Skellies Society #708",
+          user: "secretskelliessociety.near",
+          near: "165.0 ",
+          dollar: "709.50",
+          state: true,
+        },
+        {
+          img: require('@/assets/nfts/nft1.png'),
+          name: "Secret Skellies Society #708",
+          user: "secretskelliessociety.near",
+          near: "165.0 ",
+          dollar: "709.50",
+          state: true,
+        },
+        {
+          img: require('@/assets/nfts/nft1.png'),
+          name: "Secret Skellies Society #708",
+          user: "secretskelliessociety.near",
+          near: "165.0 ",
+          dollar: "709.50",
+          state: true,
         },
       ]
     }

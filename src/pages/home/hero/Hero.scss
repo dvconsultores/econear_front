@@ -4,8 +4,32 @@
 /* // // hero // // */ 
 // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // /
 #hero {
-  padding-top: 1em;
+  .v-card#sales {
+    border: .8px solid rgba(#707070, .1);
+    padding: 1em;
+    --br: .5vmax;
+    @include media(max,933px) {max-width: min-content !important}
+    @include media(max, 500px) {font-size: 12px}
+    @include media(max, 320px) {font-size: 10px}
+  }
+  .sectionDown {
+    @include media(max, 500px) {font-size: 12px}
+    @include media(max, 320px) {font-size: 10px}
+    .v-card {
+      aside {
+        position: relative;
+        &::before {
+          content: "";
+          @include absolute(auto,auto,0,0);
+          width: calc(100% - clamp(4em,4.7vw,4.75em) - clamp(.5em, 1vw, 1em) - 20px);
+          height: 1px;
+          background-color: #60D2CA;
+        }
+      }
+    }
+  }
   h1 {
+    padding-top: 1em;
     .mask {
       position: relative;
       color: transparent;
@@ -29,7 +53,7 @@
     // @include media(max, 430px) {font-size: 5px}
     // @include media(max, 350px) {font-size: 4px}
     margin-top: 2em;
-    margin-bottom: clamp(2em, 6vw, 6em);
+    // margin-bottom: clamp(2em, 6vw, 6em);
     min-height: 24.375em;
     display: inline-grid;
     align-items: flex-start;

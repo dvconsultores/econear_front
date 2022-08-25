@@ -60,6 +60,21 @@
       </aside>
     </section>
 
+    <article>
+      <v-card class="fwrap center overflow">
+        <img src="@/assets/images/anuncio.png" alt="Announcement Image" style="--w:min(100%,40em)">
+
+        <div class="container-info space gap2">
+          <h3 class="h7_em p bold">Our Collection MonkeONear</h3>
+          <p class="p h11_em">
+            The first ever community voting tool and wallet management tool that comes with 
+            built-in data analysis system to find the best project on NEAR PROTOCOLV
+          </p>
+          <v-btn href ="https://paras.id/collection/monkeonear.neartopia.near" target="_blank" class="btn" style="--bg: var(--primary);--bs: 0px 0px 2.5px 1px #6FFFE9;--p: 0 0.75em;
+            width: 7.875em;">Buy Here</v-btn>
+        </div>
+      </v-card>
+    </article>
   </section>
 </template>
 
