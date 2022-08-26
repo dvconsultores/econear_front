@@ -23,6 +23,7 @@ export default {
     const el = document.querySelectorAll('[class*="scrollx"]');
     el.forEach((el) => {el.addEventListener("wheel", (e) => {
       e.preventDefault();el.scrollLeft += e.deltaY
+      if (el === document.querySelector("#containerSliderHero")&&window.innerWidth <= 880) {el.scrollLeft = null}
     })});
   },
   methods: {

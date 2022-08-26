@@ -8,7 +8,27 @@
     border: .8px solid rgba(#707070, .1);
     padding: 1em;
     --br: .5vmax;
-    .scrollx {&::-webkit-scrollbar {display: none !important}}
+    #containerSliderHero {
+      position: relative;
+      min-height: 5.625em;
+      @include media(max,small) {overflow: hidden !important}
+      &::-webkit-scrollbar {display: none !important}
+      #sliderHero {
+        gap: clamp(1em,2vw,2em);
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        @include media(max,small) {
+          gap: 3em;
+          animation: slider 20s linear infinite;
+          &.paused {animation-play-state: paused}
+          @keyframes slider {
+            0% {left: 150%}
+            100% {left: -200%}
+          }
+        }
+      }
+    }
     @include media(max, 500px) {font-size: 12px}
     @include media(max, 320px) {font-size: 10px}
   }

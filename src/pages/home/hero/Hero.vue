@@ -1,37 +1,39 @@
 <template>
   <section id="hero" class="divcol acenter gap2">
-    <v-card id="sales" class="divcol card">
+    <v-card id="sales" class="divcol card fill_w">
       <div class="center">
         <h3 class="h9_em">Sales Of The Day</h3>
       </div>
 
-      <div class="space gap1 scrollx">
-        <aside v-for="(item2,i2) in dataSales.slice(0,3)" :key="i2"
-          class="space gap1 tnowrap card align" style="--bg: #122432;--br:.5vmax">
-          <div class="acenter gap1">
-            <span>{{i2+1}}</span>
-            <img :src="item2.img || image" alt="Referencial Image" style="--w:clamp(3.5em,2vw,4.75em)">
-            <div class="divcol">
-              <span class="h11_em">{{item2.name}}</span>
-              <span class="h12_em">{{item2.user}}</span>
+      <section id="containerSliderHero" class="scrollx">
+        <div id="sliderHero" class="space">
+          <aside v-for="(item2,i2) in dataSales.slice(0,3)" :key="i2"
+            class="space gap1 tnowrap card align" style="--bg: #122432;--br:.5vmax">
+            <div class="acenter gap1">
+              <span>{{i2+1}}</span>
+              <img :src="item2.img || image" alt="Referencial Image" style="--w:clamp(3.5em,2vw,4.75em)">
+              <div class="divcol">
+                <span class="h11_em">{{item2.name}}</span>
+                <span class="h12_em">{{item2.user}}</span>
+              </div>
             </div>
-          </div>
 
-          <div class="divcol jcenter aend tend">
-            <span v-if="item2.percent || item2.percent ==0" :style="item2.state?'color:var(--success)':'color:var(--error)'"
-              class="h11_em">
-              {{item2.state?'+':''}}{{item2.percent}}%
-            </span>
-
-            <div v-if="item2.near&&item2.dollar" class="divcol">
-              <span :style="item2.state?'color:var(--success)':'color:var(--error)'" class="h11_em">
-                {{item2.near}}
+            <div class="divcol jcenter aend tend">
+              <span v-if="item2.percent || item2.percent ==0" :style="item2.state?'color:var(--success)':'color:var(--error)'"
+                class="h11_em">
+                {{item2.state?'+':''}}{{item2.percent}}%
               </span>
-              <span class="h12_em">{{item2.dollar}}</span>
+
+              <div v-if="item2.near&&item2.dollar" class="divcol">
+                <span :style="item2.state?'color:var(--success)':'color:var(--error)'" class="h11_em">
+                  {{item2.near}} N
+                </span>
+                <span class="h12_em">${{item2.dollar}}</span>
+              </div>
             </div>
-          </div>
-        </aside>
-      </div>
+          </aside>
+        </div>
+      </section>
     </v-card>
 
     <!-- <h1 class="h4_em h5_emmobile tcenter">
@@ -202,18 +204,15 @@ export default {
       ]
     }
   },
-  // mounted() {
-  //   this.Responsive();
-  //   window.onresize = () => this.Responsive();
-  // },
+  mounted() {
+    if (window.innerWidth <= 880) {
+      const cont = document.querySelector("#containerSliderHero")
+      const el = document.querySelector("#sliderHero")
+      cont.addEventListener("touchstart", () => {el.classList.add("paused")})
+      cont.addEventListener("touchend", () => {el.classList.remove("paused")})
+    }
+  },
   methods: {
-    // Responsive() {
-    //   if (window.innerWidth <= 880) {
-    //     this.responsive = true
-    //   } else {
-    //     this.responsive = false
-    //   }
-    // },
   }
 };
 </script>
