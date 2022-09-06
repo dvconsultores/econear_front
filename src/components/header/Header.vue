@@ -2,7 +2,7 @@
   <section id="header">
     <MenuHeader ref="menu" :AccountId="accountId" :DataLogout="dataLogout" :User="user"
       @SelectItem_AvatarMenu="(item) => SelectItem_AvatarMenu(item)" @SignIn="signIn()"></MenuHeader>
-    <v-app-bar id="headerApp" :height="heightApp" fixed>
+    <v-app-bar id="headerApp" :height="heightApp" absolute color="transparent">
       <aside class="left acenter">
         <!-- logo -->
         <router-link :to="('/')">
@@ -182,21 +182,21 @@ const config = {
   explorerUrl: "https://explorer.testnet.near.org",
 };
 
-let scrollValue =
-document.body.scrollTop || document.documentElement.scrollTop;
-// let ubicacionPrincipal = window.pageYOffset;
-let resizeTimeout;
-function resizeThrottler(actualResizeHandler) {
-  // ignore resize events as long as an actualResizeHandler execution is in the queue
-  if (!resizeTimeout) {
-    resizeTimeout = setTimeout(() => {
-      resizeTimeout = null;
-      actualResizeHandler();
+// let scrollValue =
+// document.body.scrollTop || document.documentElement.scrollTop;
+// // let ubicacionPrincipal = window.pageYOffset;
+// let resizeTimeout;
+// function resizeThrottler(actualResizeHandler) {
+//   // ignore resize events as long as an actualResizeHandler execution is in the queue
+//   if (!resizeTimeout) {
+//     resizeTimeout = setTimeout(() => {
+//       resizeTimeout = null;
+//       actualResizeHandler();
 
-      // The actualResizeHandler will execute at a rate of 15fps
-    }, 80);
-  }
-}
+//       // The actualResizeHandler will execute at a rate of 15fps
+//     }, 80);
+//   }
+// }
 
 export default {
   name: "header",
@@ -298,8 +298,8 @@ export default {
   mounted() {
     this.responsive();
     window.onresize = () => this.responsive();
-    document.getElementById("headerApp").style.background = "transparent";
-    document.addEventListener('scroll', this.scrollListener);
+    // document.getElementById("headerApp").style.background = "transparent";
+    // document.addEventListener('scroll', this.scrollListener);
     this.isSigned()
     this.getData()
     this.LogState();
@@ -406,22 +406,22 @@ export default {
       this.user = true
       this.$router.push({ path: '/' })
     },
-    OcultarNavbar() {
-      let Desplazamiento_Actual = window.pageYOffset;
-      //     // in top
-      if (Desplazamiento_Actual > scrollValue) {
-        // document.getElementById("headerApp").style.background = "hsl(180, 37%, 17%)";
-        document.getElementById("headerApp").style.backdropFilter = "blur(8px)";
-      } else {
-        // document.getElementById("headerApp").style.background = "transparent";
-        document.getElementById("headerApp").style.backdropFilter = "none";
-      }
-    },
-    scrollListener() {resizeThrottler(this.OcultarNavbar)}
+    // OcultarNavbar() {
+    //   let Desplazamiento_Actual = window.pageYOffset;
+    //   //     // in top
+    //   if (Desplazamiento_Actual > scrollValue) {
+    //     // document.getElementById("headerApp").style.background = "hsl(180, 37%, 17%)";
+    //     document.getElementById("headerApp").style.backdropFilter = "blur(8px)";
+    //   } else {
+    //     // document.getElementById("headerApp").style.background = "transparent";
+    //     document.getElementById("headerApp").style.backdropFilter = "none";
+    //   }
+    // },
+    // scrollListener() {resizeThrottler(this.OcultarNavbar)}
   },
-  beforeDestroy() {
-    document.removeEventListener('scroll', this.scrollListener);
-  }
+  // beforeDestroy() {
+  //   document.removeEventListener('scroll', this.scrollListener);
+  // }
 };
 </script>
 
