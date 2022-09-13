@@ -87,7 +87,7 @@
 
     <section id="container-bottom" class="fwrap space">
       <!-- left -->
-      <section class="divcol gap2">
+      <!-- <section class="divcol gap2">
         <aside class="container-controls space gap2 wrap">
           <v-tabs>
             <v-tab v-for="(item,i) in dataControlsLeft" :key="i">
@@ -152,7 +152,7 @@
             </v-btn>
           </v-btn-toggle>
         </v-sheet>
-      </section>
+      </section> -->
 
 
       <!-- right -->
@@ -251,6 +251,14 @@ export default {
           dislike: false,
           voted: 3556,
         },
+        {
+          img: require("@/assets/nfts/nft1.png"),
+          name: "Nft Project Name",
+          desc: "Project description Lorem ipsum dolor sit amet",
+          like: false,
+          dislike: false,
+          voted: 3556,
+        }
       ],
       dataAdded: [
         {
@@ -269,6 +277,14 @@ export default {
           dislike: false,
           voted: 3556,
         },
+        {
+          img: require("@/assets/nfts/nft1.png"),
+          name: "Nft Project Name",
+          desc: "Project description Lorem ipsum dolor sit amet",
+          like: false,
+          dislike: false,
+          voted: 3556,
+        }
       ],
       searchLeft: "",
       dataControlsLeft: [
@@ -301,6 +317,14 @@ export default {
         { name: "New", active: false },
       ],
       dataVoteRight: [
+        {
+          img: require("@/assets/nfts/nft1.png"),
+          name: "Nft Project Name",
+          desc: "Project description Lorem ipsum dolor sit amet",
+          like: false,
+          dislike: false,
+          voted: 3556,
+        },
         {
           img: require("@/assets/nfts/nft1.png"),
           name: "Nft Project Name",

@@ -44,10 +44,10 @@
             <span>{{item.date}}</span>
           </div>
 
-          <div class="space h11_em">
+          <!-- <div class="space h11_em">
             <span>Votes</span>
             <span>{{item.votes}}</span>
-          </div>
+          </div> -->
         </div>
 
         <aside class="cronometer center">
@@ -94,7 +94,7 @@ export default {
     return {
       dataControls: [
         { name: "Sort by Price", active: false },
-        { name: "Sort by Votes", active: false },
+        //{ name: "Sort by Votes", active: false },
         { name: "Sort by Supply", active: false },
         { name: "Sort by Date", active: false },
       ],
@@ -107,7 +107,7 @@ export default {
           price: "9 NEAR",
           supply: "3333",
           date: "01 FEB 2022 17:00:00",
-          votes: "6,917",
+          //votes: "6,917",
           cronometer: [ {time: '02'}, {time: '11'}, {time: '31'}, {time: '42'} ],
           redes: [
             { name: "twitter", url: "#" },
@@ -123,7 +123,7 @@ export default {
           price: "9 NEAR",
           supply: "3333",
           date: "01 FEB 2022 17:00:00",
-          votes: "6,917",
+          //: "6,917",
           cronometer: [ {time: '02'}, {time: '11'}, {time: '31'}, {time: '42'} ],
           redes: [
             { name: "twitter", url: "#" },
@@ -139,7 +139,7 @@ export default {
           price: "9 NEAR",
           supply: "3333",
           date: "01 FEB 2022 17:00:00",
-          votes: "6,917",
+          //votes: "6,917",
           cronometer: [ {time: '02'}, {time: '11'}, {time: '31'}, {time: '42'} ],
           redes: [
             { name: "twitter", url: "#" },
@@ -155,7 +155,7 @@ export default {
           price: "9 NEAR",
           supply: "3333",
           date: "01 FEB 2022 17:00:00",
-          votes: "6,917",
+          //votes: "6,917",
           cronometer: [ {time: '02'}, {time: '11'}, {time: '31'}, {time: '42'} ],
           redes: [
             { name: "twitter", url: "#" },
@@ -171,7 +171,7 @@ export default {
           price: "9 NEAR",
           supply: "3333",
           date: "01 FEB 2022 17:00:00",
-          votes: "6,917",
+          //votes: "6,917",
           cronometer: [ {time: '02'}, {time: '11'}, {time: '31'}, {time: '42'} ],
           redes: [
             { name: "twitter", url: "#" },
@@ -187,7 +187,7 @@ export default {
           price: "9 NEAR",
           supply: "3333",
           date: "01 FEB 2022 17:00:00",
-          votes: "6,917",
+          //votes: "6,917",
           cronometer: [ {time: '02'}, {time: '11'}, {time: '31'}, {time: '42'} ],
           redes: [
             { name: "twitter", url: "#" },
@@ -203,7 +203,7 @@ export default {
           price: "9 NEAR",
           supply: "3333",
           date: "01 FEB 2022 17:00:00",
-          votes: "6,917",
+          //votes: "6,917",
           cronometer: [ {time: '02'}, {time: '11'}, {time: '31'}, {time: '42'} ],
           redes: [
             { name: "twitter", url: "#" },
@@ -219,7 +219,7 @@ export default {
           price: "9 NEAR",
           supply: "3333",
           date: "01 FEB 2022 17:00:00",
-          votes: "6,917",
+          //: "6,917",
           cronometer: [ {time: '02'}, {time: '11'}, {time: '31'}, {time: '42'} ],
           redes: [
             { name: "twitter", url: "#" },

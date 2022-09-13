@@ -229,7 +229,7 @@ export default {
     this.interval = setInterval(function () {
         this.priceNEAR()
     }.bind(this), 60000);
-
+nearPrice
     this.interval2 = setInterval(function () {
         this.pricePARAS()
     }.bind(this), 60000);

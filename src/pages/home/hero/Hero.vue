@@ -140,6 +140,7 @@
 </template>
 
 <script>
+import axios from 'axios'
 const leftCards = 'polygon(15% 0, 100% 0, 100% 100%, 0 100%, 0 10%)';
 const rightCards = 'polygon(0 0, 85% 0, 100% 10%, 100% 100%, 0 100%)';
 export default {
@@ -148,6 +149,8 @@ export default {
   data() {
     return {
       // responsive: false,
+      nearPrice: null,
+      image: require('@/assets/nfts/nft1.png'),
       modalProject: false,
       dataCards: [
         {
@@ -179,32 +182,37 @@ export default {
       dataSales: [
         {
           img: require('@/assets/nfts/nft1.png'),
-          name: "Secret Skellies Society #708",
-          user: "secretskelliessociety.near",
-          near: "165.0 ",
-          dollar: "709.50",
+          name: null,
+          user: null,
+          near: null,
+          dollar: null,
           state: true,
         },
         {
           img: require('@/assets/nfts/nft1.png'),
-          name: "Secret Skellies Society #708",
-          user: "secretskelliessociety.near",
-          near: "165.0 ",
-          dollar: "709.50",
+          name: null,
+          user: null,
+          near: null,
+          dollar: null,
           state: true,
         },
         {
           img: require('@/assets/nfts/nft1.png'),
-          name: "Secret Skellies Society #708",
-          user: "secretskelliessociety.near",
-          near: "165.0 ",
-          dollar: "709.50",
+          name: null,
+          user: null,
+          near: null,
+          dollar: null,
           state: true,
         },
       ]
     }
   },
-  mounted() {
+  async mounted() {
+    await this.priceNEAR()
+    this.salesOfTheDay()
+    this.interval = setInterval(function () {
+        this.salesOfTheDay()
+    }.bind(this), 1800000);
     if (window.innerWidth <= 880) {
       const cont = document.querySelector("#containerSliderHero")
       const el = document.querySelector("#sliderHero")
@@ -213,6 +221,43 @@ export default {
     }
   },
   methods: {
+    async priceNEAR(){
+      axios.get("https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=near&order=market_cap_desc&per_page=100&page=1&sparkline=false")
+        .then((response) => {
+          console.log(response.data[0])
+          this.nearPrice = response.data[0]
+        })
+        .catch((e) => {
+          console.log(e)
+        })
+    },
+    async salesOfTheDay(){
+      console.log("HOLA1")
+      const url = "api/v1/salesoftheday"
+      let item = {
+        top: 3
+      }
+      this.axios.post(url, item)
+        .then((response) => {
+          this.dataSales = []
+          for (var i = 0; i < response.data.length; i++) {
+            console.log("HOLA2")
+            let collection = {
+              img: response.data[i].icon,
+              name: response.data[i].name + " #" + response.data[i].token_id,
+              user: response.data[i].nft_contract_id,
+              near: parseFloat(response.data[i].price).toFixed(1) + " N",
+              dollar: "$"+(response.data[i].price * this.nearPrice.current_price).toFixed(2),
+              state: true,
+            }
+            this.dataSales.push(collection)
+          }
+          console.log("DATA",this.dataSales)
+        }).catch((error) => {
+          console.log("HOLA3")
+          console.log(error)
+        })
+    },
   }
 };
 </script>

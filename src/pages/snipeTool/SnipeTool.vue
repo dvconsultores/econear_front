@@ -8,15 +8,7 @@
     </aside>
 
     <aside class="container-controls divcol gap1 gap2mobile">
-      <div id="container-trackmobile" class="contents order2mobile spacemobile alignmobile">
-        <v-card class="tracking-pause card acenter" style="max-width:max-content;--bg:hsl(212 47% 12% / .5);gap:1em;--p:.5em 1em">
-          <v-btn v-for="(item,i) in dataControls.up" :key="i" text style="--ml:.5em" :class="{active: item.active}"
-              @click="dataControls.up.forEach(e=>{e.active=false});item.active=true">
-            <span>{{item.name}}</span><img :src="require(`@/assets/icons/${item.name}.svg`)"
-            :style="item.name=='tracking'?'--w:1em':'--w:.7em'">
-          </v-btn>
-        </v-card>
-        
+      <div id="container-trackmobile" class="contents order2mobile spacemobile alignmobile">        
         <div id="container-switch" class="acenter  gap1 card vermobile">
           <span>Notifications</span>
           <div class="switch" :style="`--color:${notifications?'var(--success)':'var(--error)'}`"
@@ -25,11 +17,19 @@
       </div>
 
       <div class="space contentsmobile">
-        <v-tabs class="order3mobile alignmobile">
+        <v-card class="tracking-pause card acenter" style="max-width:max-content;--bg:hsl(212 47% 12% / .5);gap:1em;--p:.5em 1em">
+          <v-btn v-for="(item,i) in dataControls.up" :key="i" text style="--ml:.5em" :class="{active: item.active}"
+              @click="dataControls.up.forEach(e=>{e.active=false});item.active=true">
+            <span>{{item.name}}</span><img :src="require(`@/assets/icons/${item.name}.svg`)"
+            :style="item.name=='tracking'?'--w:1em':'--w:.7em'">
+          </v-btn>
+        </v-card>
+
+        <!-- <v-tabs class="order3mobile alignmobile">
           <v-tab v-for="(item,i) in dataControls.down" :key="i" class="options">
             <h6 class="p">{{item.name}}</h6>
           </v-tab>
-        </v-tabs>
+        </v-tabs> -->
 
         <h3 class="h9_em p order1mobile tcentermobile">Recently listed</h3>
 
@@ -111,7 +111,7 @@ export default {
       headersTable: [
         { value: "nft", text: "NFT", align: "center", sortable: false },
         { value: "supply", text: "Supply", align: "center", sortable: false },
-        { value: "rareness", text: "Rareness", align: "center", sortable: false },
+        //{ value: "rareness", text: "Rareness", align: "center", sortable: false },
         { value: "price", text: "Price", align: "center", sortable: false },
         { value: "market", text: "Market", align: "center", sortable: false },
         { value: "lorem", text: "Lorem ipsum", align: "center", sortable: false },
@@ -122,7 +122,7 @@ export default {
           name: "Collection o Nft Name",
           desc: "#3232",
           supply: "12,0001",
-          rareness: "common",
+          //rareness: "common",
           price: "104.4 N",
           market: require('@/assets/logos/market-p.svg'),
           state_price: true,
@@ -132,7 +132,7 @@ export default {
           name: "Collection o Nft Name",
           desc: "#3232",
           supply: "12,0001",
-          rareness: "rare",
+          //rareness: "rare",
           price: "104.4 N",
           market: require('@/assets/logos/market-p.svg'),
           state_price: true,
@@ -142,7 +142,7 @@ export default {
           name: "Collection o Nft Name",
           desc: "#3232",
           supply: "12,0001",
-          rareness: "legendary",
+          //rareness: "legendary",
           price: "104.4 N",
           market: require('@/assets/logos/market-p.svg'),
           state_price: true,
@@ -152,7 +152,7 @@ export default {
           name: "Collection o Nft Name",
           desc: "#3232",
           supply: "12,0001",
-          rareness: "mystic",
+          //rareness: "mystic",
           price: "104.4 N",
           market: require('@/assets/logos/market-p.svg'),
           state_price: true,

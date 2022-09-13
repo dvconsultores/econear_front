@@ -232,7 +232,7 @@ export default {
             { title: "Account" },
             { key: "login", name: "Login" },
             { key: "whitelist", name: "Whitelist" },
-            { key: "register", name: "Register" },
+            //{ key: "register", name: "Register" },
           ]
         },
         {
@@ -334,7 +334,7 @@ export default {
       // account
       if (item.key=='login') {this.$refs.menu.modalLogin = true}
       if (item.key=='whitelist') {this.$router.push(item.key)}
-      if (item.key=='register') {this.$refs.menu.modalRegister = true}
+      //if (item.key=='register') {this.$refs.menu.modalRegister = true}
       // nft
       if (item.key=='compare-projects') {this.$router.push(item.key)}
       if (item.key=='new-projects') {this.$router.push(item.key)}
@@ -363,19 +363,19 @@ export default {
       const wallet = new WalletConnection(near)
       this.accountId= wallet.getAccountId()
 
-      // if (wallet.isSignedIn()) {
-      //   const url = "api/v1/profile/?wallet=" + this.accountId
-      //   this.axios.defaults.headers.common.Authorization='token'
-      //   this.axios.get(url)
-      //     .then((response) => {
-      //       if (response.data[0]){
-      //         this.avatar = response.data[0].avatar
-      //         this.$store.commit("Avatar", this.avatar)
-      //       }
-      //   }).catch((error) => {
-      //     console.log(error)
-      //   })
-      // }
+      if (wallet.isSignedIn()) {
+        const url = "api/v1/profile/?wallet=" + this.accountId
+        this.axios.defaults.headers.common.Authorization='token'
+        this.axios.get(url)
+          .then((response) => {
+            if (response.data[0]){
+              this.avatar = response.data[0].avatar
+              this.$store.commit("Avatar", this.avatar)
+            }
+        }).catch((error) => {
+          console.log(error)
+        })
+      }
     },
     // use for update account log states
     LogState() {
@@ -384,24 +384,24 @@ export default {
     },
     async signIn () {
       this.isSigned()
-      // const near = await connect(config);
-      // const wallet = new WalletConnection(near)
-      // wallet.requestSignIn(
-      //   'contract.monkeonnear.testnet'
-      // )
+      const near = await connect(config);
+      const wallet = new WalletConnection(near)
+      wallet.requestSignIn(
+        'contract.monkeonnear.testnet'
+      )
     },
     async isSigned () {
-      // const near = await connect(config);
-      // const wallet = new WalletConnection(near)
-      // if (wallet.isSignedIn()) {
+      const near = await connect(config);
+      const wallet = new WalletConnection(near)
+      if (wallet.isSignedIn()) {
         localStorage.setItem('logKey', 'in')
         this.user = false
-      // }
+      }
     },
     async signOut () {
-      // const near = await connect(config);
-      // const wallet = new WalletConnection(near)
-      // wallet.signOut()
+      const near = await connect(config);
+      const wallet = new WalletConnection(near)
+      wallet.signOut()
       localStorage.setItem('logKey', 'out')
       this.user = true
       this.$router.push({ path: '/' })

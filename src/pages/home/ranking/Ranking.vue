@@ -85,7 +85,8 @@
       </template>
 
       <template v-slot:[`item.name`]="{ item }">
-        <div class="nftDetail start gap1" @click="$router.push('/project-details')">
+        <!-- @click="$router.push('/project-details')" -->
+        <div class="nftDetail start gap1" >
           <img class="aspect" :src="item.img || image" alt="nft" style="--w:4.710625em">
           <div class="divcol tstart">
             <span>{{item.name}}</span>
