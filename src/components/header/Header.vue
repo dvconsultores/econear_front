@@ -387,7 +387,7 @@ export default {
       const near = await connect(config);
       const wallet = new WalletConnection(near)
       wallet.requestSignIn(
-        'contract.monkeonnear.testnet'
+        'backend.monkeonnear.near'
       )
     },
     async isSigned () {

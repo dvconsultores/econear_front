@@ -314,7 +314,7 @@ export default {
       }
     },
     async votar (contract_id, vote) {
-      const CONTRACT_NAME = 'contract.monkeonnear.testnet'
+      const CONTRACT_NAME = 'backend.monkeonnear.near'
       // connect to NEAR
       const near = await connect(config)
       // create wallet connection
@@ -459,7 +459,7 @@ export default {
         })
     },
     async getVotaciones() {
-      const CONTRACT_NAME = 'contract.monkeonnear.testnet'
+      const CONTRACT_NAME = 'backend.monkeonnear.near'
       // connect to NEAR
       const near = await connect(config)
       // create wallet connection

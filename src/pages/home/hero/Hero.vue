@@ -96,7 +96,7 @@
                 placeholder="example@domain.com"
                 style="--c:#000000"
                 solo
-                :rules="rules.date"
+                :rules="rules.email"
               ></v-text-field>
 
               <v-text-field
@@ -142,6 +142,7 @@
                     solo
                     v-bind="attrs"
                     v-on="on"
+                    :error="error_date"
                   ></v-text-field>
                 </template>
                 <v-date-picker
@@ -150,6 +151,7 @@
                   no-title
                   :min="min_date"
                   @input="menu2 = false"
+                  @change="changeDate()"
                 ></v-date-picker>
               </v-menu>
 
@@ -225,17 +227,18 @@ export default {
       // responsive: false,
       rules: {
         date: [
-          v => !!v || 'Required value',
+          v => !!v,
         ],
         long: [
           v => (v || '' ).length <= 255 || '255 caracteres o menos',
         ],
         email: [
-          v => /.+@.+\..+/.test(v) || 'E-mail tiene que ser valido',
+          v => /.+@.+\..+/.test(v),// || 'E-mail tiene que ser valido',
         ]
       },
       min_date: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
       menu: false,
+      error_date: null,
       modal: false,
       menu2: false,
       item: {},
@@ -312,54 +315,71 @@ export default {
   },
   methods: {
     async submint(){
-      if (this.$refs.form.validate()) {
-        console.log("VALIDACION")
-      }
-      console.log(this.item)
-      let items = {
-        "project_name": this.item.project_name,
-        "email": this.item.email,
-        "discord_id": this.item.discord_id,
-        "website": this.item.website,
-        "twiter": this.item.twitter,
-        "discord_server": this.item.discord_server,
-        "upcoming": this.item.no_mint,
-        "already": this.item.yes_mint,
-        "fecha_lanzamiento": this.item.date || 0,
-        "id_contract_project": this.item.contract_id,
-      }
-
-      console.log(items)
-
-      // const CONTRACT_NAME = 'contract.monkeonnear.testnet'
-      // // connect to NEAR
-      // const near = await connect(config)
-      // // create wallet connection
-      // const wallet = new WalletConnection(near)
-      // if (wallet.isSignedIn()) {
-      //   const contract = new Contract(wallet.account(), CONTRACT_NAME, {
-      //     changeMethods: ['listar_project'],
-      //     sender: wallet.account()
-      //   })
       
-      //   await contract.listar_project({
-      //     items: items,
-      //   })
-      //     .then((response) => {
-      //       console.log(response)
-      //     }).catch((error) => {
-      //       console.log(error)
-      //     })
-      // }
+      if (this.$refs.form.validate()) {
+        if ((this.item.no_mint === true && this.item.yes_mint === false) || (this.item.no_mint === false && this.item.yes_mint === true)) {
+          if ((this.item.no_mint === true && this.item.date) || (this.item.yes_mint === true)) {
+            let items = {
+              "project_name": this.item.project_name,
+              "email": this.item.email,
+              "discord_id": this.item.discord_id,
+              "website": this.item.website,
+              "twiter": this.item.twitter,
+              "discord_server": this.item.discord_server,
+              "upcoming": this.item.no_mint,
+              "already": this.item.yes_mint,
+              "fecha_lanzamiento": this.item.date || 0,
+              "id_contract_project": this.item.contract_id,
+            }
+
+            console.log(items)
+
+            const CONTRACT_NAME = 'backend.monkeonnear.near'
+            // connect to NEAR
+            const near = await connect(config)
+            // create wallet connection
+            const wallet = new WalletConnection(near)
+            if (wallet.isSignedIn()) {
+              const contract = new Contract(wallet.account(), CONTRACT_NAME, {
+                changeMethods: ['listar_project'],
+                sender: wallet.account()
+              })
+            
+              await contract.listar_project({
+                items: items,
+              })
+                .then((response) => {
+                  console.log(response)
+                }).catch((error) => {
+                  console.log(error)
+                })
+            }
+          } else {
+            this.error_date = true
+          }
+          
+        } else {     
+          console.log("CHECK ERROR")
+        }
+      } else {
+        if (this.item.no_mint === true && !this.item.date) {
+          this.error_date = true
+        }
+      }
+    },
+    async changeDate(){
+      if (this.item.date) {
+        this.error_date = false
+      }
     },
     async buttonYes(){
-      if (this.item.yes_mint === true && this.item.no_mint === true) {
+      if (this.item.yes_mint === true) {
         this.item.no_mint = false
         this.item.date = null
       }
     },
     async buttonNo(){
-      if (this.item.no_mint === true && this.item.yes_mint === true) {
+      if (this.item.no_mint === true) {
         this.item.yes_mint = false
       } else {
         this.item.date = null
