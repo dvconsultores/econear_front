@@ -79,6 +79,7 @@
                 label="Project Name"
                 style="--c:#000000"
                 solo
+                disabled
                 :rules="rules.date"
               ></v-text-field>
 
@@ -170,7 +171,7 @@
                 <label style="color:var(--clr-inv)">Have you already minted ?</label>
               </center>
               <div class="container-checkbox space">
-                <aside class="acenter">
+                <aside class="acenter" :style="variable_de_error?'--color: var(--error)':'--color:var(--success)'">
                   <label class="labels" for="A" style="color:var(--clr-inv);--tag:'A'">No, the mint is upcoming!</label>
                   <v-checkbox
                     v-model="item.no_mint"
@@ -179,7 +180,7 @@
                   ></v-checkbox>
                 </aside>
 
-                <aside class="acenter">
+                <aside class="acenter" :style="variable_de_error?'--color: var(--error)':'--color:var(--success)'">
                   <label class="labels" for="B" style="color:var(--clr-inv);--tag:'B'">Yes, Already minted</label>
                   <v-checkbox
                     v-model="item.yes_mint"
@@ -224,7 +225,7 @@ export default {
   i18n: require("./i18n"),
   data() {
     return {
-      // responsive: false,
+      variable_de_error: true,
       rules: {
         date: [
           v => !!v,
