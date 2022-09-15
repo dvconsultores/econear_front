@@ -302,11 +302,14 @@ img:not(.not_html, .not) {
     -ms-text-stroke: var(--stroke) var(--c);
     -o-text-stroke: var(--stroke) var(--c);
   }
-}
-
-// input statements
-.v-text-field--solo.error--text .v-input__slot {
-  --bs: 0 2px 4px 1px var(--error);
+  // input statements //
+  &.error--text .v-input__slot {
+    --bs: 0 2px 4px 1px var(--error);
+  }
+  &.v-input--is-disabled {
+    --bs: 0 2px 4px 1px #b9b9b9;
+    opacity: .7;
+  }
 }
 
 
