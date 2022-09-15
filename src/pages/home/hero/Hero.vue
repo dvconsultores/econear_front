@@ -70,12 +70,21 @@
         <v-sheet class="divcol center" style="padding:2em">
           <section class="fill_w grid" style="--gtc:repeat(auto-fit, minmax(min(100%,350px), 1fr));gap:2em;margin-bottom:1em">
             <v-text-field
+              v-model="item.project_name"
               label="Project Name"
               style="--c:#000000"
               solo
             ></v-text-field>
 
             <v-text-field
+              v-model="item.contract_id"
+              label="Contract Id"
+              style="--c:#000000"
+              solo
+            ></v-text-field>
+
+            <v-text-field
+              v-model="item.email"
               label="Email"
               placeholder="example@domain.com"
               style="--c:#000000"
@@ -83,6 +92,7 @@
             ></v-text-field>
 
             <v-text-field
+              v-model="item.discord_id"
               label="Discord ID"
               placeholder="Username#321"
               style="--c:#000000"
@@ -90,18 +100,50 @@
             ></v-text-field>
 
             <v-text-field
+              v-model="item.website"
               label="Website"
               style="--c:#000000"
               solo
             ></v-text-field>
 
             <v-text-field
+              v-model="item.twitter"
               label="Twitter Account"
               style="--c:#000000"
               solo
             ></v-text-field>
 
+            <v-menu
+              v-model="menu2"
+              :disabled="!this.item.no_mint"
+              :close-on-content-click="false"
+              :nudge-right="40"
+              offset-y
+              min-width="auto"
+            >
+              <template v-slot:activator="{ on, attrs }">
+                <v-text-field
+                  v-model="item.date"
+                  label="Date"
+                  prepend-icon="mdi-calendar"
+                  readonly
+                  style="--c:#000000"
+                  solo
+                  v-bind="attrs"
+                  v-on="on"
+                ></v-text-field>
+              </template>
+              <v-date-picker
+                v-model="item.date"
+                style="--c:#000000"
+                no-title
+                :min="min_date"
+                @input="menu2 = false"
+              ></v-date-picker>
+            </v-menu>
+
             <v-text-field
+              v-model="item.discord_server"
               label="Discord Server"
               placeholder="discord.gg/invitecode"
               style="--c:#000000"
@@ -117,20 +159,24 @@
               <aside class="acenter">
                 <label class="labels" for="A" style="color:var(--clr-inv);--tag:'A'">No, the mint is upcoming!</label>
                 <v-checkbox
+                  v-model="item.no_mint"
                   id="A"
+                  @click="buttonNo()"
                 ></v-checkbox>
               </aside>
 
               <aside class="acenter">
                 <label class="labels" for="B" style="color:var(--clr-inv);--tag:'B'">Yes, Already minted</label>
                 <v-checkbox
+                  v-model="item.yes_mint"
                   id="B"
+                  @click="buttonYes()"
                 ></v-checkbox>
               </aside>
             </div>
           </section>
 
-          <v-btn class="btn h10_em" style="--bs:0 3px 4px 2px hsl(176, 60%, 70%, .4);width:min(90%,517px);--br:.8vmax">
+          <v-btn class="btn h10_em" @click="submint()" style="--bs:0 3px 4px 2px hsl(176, 60%, 70%, .4);width:min(90%,517px);--br:.8vmax">
             Submint
           </v-btn>
         </v-sheet>
@@ -141,6 +187,20 @@
 
 <script>
 import axios from 'axios'
+import moment from 'moment';
+import * as nearAPI from 'near-api-js'
+
+const { connect, keyStores, WalletConnection, Contract, utils } = nearAPI
+const keyStore = new keyStores.BrowserLocalStorageKeyStore()
+const config = {
+  networkId: "testnet",
+  keyStore, 
+  nodeUrl: "https://rpc.testnet.near.org",
+  walletUrl: "https://wallet.testnet.near.org",
+  helperUrl: "https://helper.testnet.near.org",
+  explorerUrl: "https://explorer.testnet.near.org",
+};
+
 const leftCards = 'polygon(15% 0, 100% 0, 100% 100%, 0 100%, 0 10%)';
 const rightCards = 'polygon(0 0, 85% 0, 100% 10%, 100% 100%, 0 100%)';
 export default {
@@ -149,6 +209,11 @@ export default {
   data() {
     return {
       // responsive: false,
+      min_date: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
+      menu: false,
+      modal: false,
+      menu2: false,
+      item: {},
       nearPrice: null,
       image: require('@/assets/nfts/nft1.png'),
       modalProject: false,
@@ -221,6 +286,57 @@ export default {
     }
   },
   methods: {
+    async submint(){
+      console.log(this.item)
+      let items = {
+        "project_name": this.item.project_name,
+        "email": this.item.email,
+        "discord_id": this.item.discord_id,
+        "website": this.item.website,
+        "twiter": this.item.twitter,
+        "discord_server": this.item.discord_server,
+        "upcoming": this.item.no_mint,
+        "already": this.item.yes_mint,
+        "fecha_lanzamiento": this.item.date || 0,
+        "id_contract_project": this.item.contract_id,
+      }
+
+      console.log(items)
+
+      // const CONTRACT_NAME = 'contract.monkeonnear.testnet'
+      // // connect to NEAR
+      // const near = await connect(config)
+      // // create wallet connection
+      // const wallet = new WalletConnection(near)
+      // if (wallet.isSignedIn()) {
+      //   const contract = new Contract(wallet.account(), CONTRACT_NAME, {
+      //     changeMethods: ['listar_project'],
+      //     sender: wallet.account()
+      //   })
+      
+      //   await contract.listar_project({
+      //     items: items,
+      //   })
+      //     .then((response) => {
+      //       console.log(response)
+      //     }).catch((error) => {
+      //       console.log(error)
+      //     })
+      // }
+    },
+    async buttonYes(){
+      if (this.item.yes_mint === true && this.item.no_mint === true) {
+        this.item.no_mint = false
+        this.item.date = null
+      }
+    },
+    async buttonNo(){
+      if (this.item.no_mint === true && this.item.yes_mint === true) {
+        this.item.yes_mint = false
+      } else {
+        this.item.date = null
+      }
+    },
     async priceNEAR(){
       axios.get("https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=near&order=market_cap_desc&per_page=100&page=1&sparkline=false")
         .then((response) => {
