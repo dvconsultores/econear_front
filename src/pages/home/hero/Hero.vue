@@ -79,7 +79,6 @@
                 label="Project Name"
                 style="--c:#000000"
                 solo
-                disabled
                 :rules="rules.date"
               ></v-text-field>
 
@@ -153,7 +152,7 @@
                 <label style="color:var(--clr-inv)">Have you already minted ?</label>
               </center>
               <div class="container-checkbox space">
-                <aside class="acenter" :style="variable_de_error?'--color: var(--error)':'--color:var(--success)'">
+                <aside class="acenter" :style="check_error?'--color: var(--error)':'--color:var(--success)'">
                   <label class="labels" for="A" style="color:var(--clr-inv);--tag:'A'">No, the mint is upcoming!</label>
                   <v-checkbox
                     v-model="item.no_mint"
@@ -162,7 +161,7 @@
                   ></v-checkbox>
                 </aside>
 
-                <aside class="acenter" :style="variable_de_error?'--color: var(--error)':'--color:var(--success)'">
+                <aside class="acenter" :style="check_error?'--color: var(--error)':'--color:var(--success)'">
                   <label class="labels" for="B" style="color:var(--clr-inv);--tag:'B'">Yes, Already minted</label>
                   <v-checkbox
                     v-model="item.yes_mint"
@@ -207,7 +206,7 @@ export default {
   i18n: require("./i18n"),
   data() {
     return {
-      variable_de_error: true,
+      check_error: null,
       rules: {
         date: [
           v => !!v,
@@ -298,10 +297,10 @@ export default {
   },
   methods: {
     async submint(){
-      
       if (this.$refs.form.validate()) {
         if ((this.item.no_mint === true && this.item.yes_mint === false) || (this.item.no_mint === false && this.item.yes_mint === true)) {
           if ((this.item.no_mint === true && this.item.datetime) || (this.item.yes_mint === true)) {
+            let epoch = moment(this.item.datetime).unix()
             let items = {
               "project_name": this.item.project_name,
               "email": this.item.email,
@@ -311,7 +310,7 @@ export default {
               "discord_server": this.item.discord_server,
               "upcoming": this.item.no_mint,
               "already": this.item.yes_mint,
-              "fecha_lanzamiento": moment(this.item.datetime).unix() || 0,
+              "fecha_lanzamiento": parseInt(epoch) || 0,
               "id_contract_project": this.item.contract_id,
             }
 
@@ -328,21 +327,22 @@ export default {
                 sender: wallet.account()
               })
             
-              // await contract.listar_project({
-              //   items: items,
-              // })
-              //   .then((response) => {
-              //     console.log(response)
-              //   }).catch((error) => {
-              //     console.log(error)
-              //   })
+              await contract.listar_project({
+                items: items,
+              }, '300000000000000', // attached GAS (optional)
+                '1')
+                .then((response) => {
+                  console.log(response)
+                }).catch((error) => {
+                  console.log(error)
+                })
             }
           } else {
             this.error_date = true
           }
           
-        } else {     
-          console.log("CHECK ERROR")
+        } else {    
+          this.check_error = true
         }
       } else {
         if (this.item.no_mint === true && !this.item.datetime) {
@@ -356,12 +356,17 @@ export default {
       }
     },
     async buttonYes(){
+      console.log(this.item.datetime)
+      this.check_error = false
       if (this.item.yes_mint === true) {
         this.item.no_mint = false
         this.item.datetime = null
       }
     },
     async buttonNo(){
+      console.log(this.item.datetime)
+      console.log(this.item.no_mint)
+      this.check_error = false
       if (this.item.no_mint === true) {
         this.item.yes_mint = false
       } else {
