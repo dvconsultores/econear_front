@@ -310,7 +310,7 @@ export default {
               "discord_server": this.item.discord_server,
               "upcoming": this.item.no_mint,
               "already": this.item.yes_mint,
-              "fecha_lanzamiento": this.item.datetime || 0,
+              "fecha_lanzamiento": moment(this.item.datetime).unix() || 0,
               "id_contract_project": this.item.contract_id,
             }
 
