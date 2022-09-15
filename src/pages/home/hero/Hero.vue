@@ -67,119 +67,133 @@
           <img src="@/assets/icons/close.svg" alt="close" style="--w:0.921875em">
         </v-btn>
         <h3 class="h7_em tcenter align" style="max-width: 15ch">Listed Your Project on Econear</h3>
+        <v-form
+          ref="form"
+          v-model="valid"
+          lazy-validation
+        >
         <v-sheet class="divcol center" style="padding:2em">
-          <section class="fill_w grid" style="--gtc:repeat(auto-fit, minmax(min(100%,350px), 1fr));gap:2em;margin-bottom:1em">
-            <v-text-field
-              v-model="item.project_name"
-              label="Project Name"
-              style="--c:#000000"
-              solo
-            ></v-text-field>
-
-            <v-text-field
-              v-model="item.contract_id"
-              label="Contract Id"
-              style="--c:#000000"
-              solo
-            ></v-text-field>
-
-            <v-text-field
-              v-model="item.email"
-              label="Email"
-              placeholder="example@domain.com"
-              style="--c:#000000"
-              solo
-            ></v-text-field>
-
-            <v-text-field
-              v-model="item.discord_id"
-              label="Discord ID"
-              placeholder="Username#321"
-              style="--c:#000000"
-              solo
-            ></v-text-field>
-
-            <v-text-field
-              v-model="item.website"
-              label="Website"
-              style="--c:#000000"
-              solo
-            ></v-text-field>
-
-            <v-text-field
-              v-model="item.twitter"
-              label="Twitter Account"
-              style="--c:#000000"
-              solo
-            ></v-text-field>
-
-            <v-menu
-              v-model="menu2"
-              :disabled="!this.item.no_mint"
-              :close-on-content-click="false"
-              :nudge-right="40"
-              offset-y
-              min-width="auto"
-            >
-              <template v-slot:activator="{ on, attrs }">
-                <v-text-field
-                  v-model="item.date"
-                  label="Date"
-                  prepend-icon="mdi-calendar"
-                  readonly
-                  style="--c:#000000"
-                  solo
-                  v-bind="attrs"
-                  v-on="on"
-                ></v-text-field>
-              </template>
-              <v-date-picker
-                v-model="item.date"
+            <section class="fill_w grid" style="--gtc:repeat(auto-fit, minmax(min(100%,350px), 1fr));gap:2em;margin-bottom:1em">
+              <v-text-field
+                v-model="item.project_name"
+                label="Project Name"
                 style="--c:#000000"
-                no-title
-                :min="min_date"
-                @input="menu2 = false"
-              ></v-date-picker>
-            </v-menu>
+                solo
+                :rules="rules.date"
+              ></v-text-field>
 
-            <v-text-field
-              v-model="item.discord_server"
-              label="Discord Server"
-              placeholder="discord.gg/invitecode"
-              style="--c:#000000"
-              solo
-            ></v-text-field>
-          </section>
+              <v-text-field
+                v-model="item.contract_id"
+                label="Contract Id"
+                style="--c:#000000"
+                solo
+                :rules="rules.date"
+              ></v-text-field>
 
-          <section class="fill_w">
-            <center style="font-size:clamp(14px, 1vw, 16px)">
-              <label style="color:var(--clr-inv)">Have you already minted ?</label>
-            </center>
-            <div class="container-checkbox space">
-              <aside class="acenter">
-                <label class="labels" for="A" style="color:var(--clr-inv);--tag:'A'">No, the mint is upcoming!</label>
-                <v-checkbox
-                  v-model="item.no_mint"
-                  id="A"
-                  @click="buttonNo()"
-                ></v-checkbox>
-              </aside>
+              <v-text-field
+                v-model="item.email"
+                label="Email"
+                placeholder="example@domain.com"
+                style="--c:#000000"
+                solo
+                :rules="rules.date"
+              ></v-text-field>
 
-              <aside class="acenter">
-                <label class="labels" for="B" style="color:var(--clr-inv);--tag:'B'">Yes, Already minted</label>
-                <v-checkbox
-                  v-model="item.yes_mint"
-                  id="B"
-                  @click="buttonYes()"
-                ></v-checkbox>
-              </aside>
-            </div>
-          </section>
+              <v-text-field
+                v-model="item.discord_id"
+                label="Discord ID"
+                placeholder="Username#321"
+                style="--c:#000000"
+                solo
+                :rules="rules.date"
+              ></v-text-field>
+
+              <v-text-field
+                v-model="item.website"
+                label="Website"
+                style="--c:#000000"
+                solo
+                :rules="rules.date"
+              ></v-text-field>
+
+              <v-text-field
+                v-model="item.twitter"
+                label="Twitter Account"
+                style="--c:#000000"
+                solo
+                :rules="rules.date"
+              ></v-text-field>
+
+              <v-menu
+                v-model="menu2"
+                :disabled="!this.item.no_mint"
+                :close-on-content-click="false"
+                :nudge-right="40"
+                offset-y
+                min-width="auto"
+              >
+                <template v-slot:activator="{ on, attrs }">
+                  <v-text-field
+                    v-model="item.date"
+                    label="Date"
+                    prepend-icon="mdi-calendar"
+                    readonly
+                    style="--c:#000000"
+                    solo
+                    v-bind="attrs"
+                    v-on="on"
+                  ></v-text-field>
+                </template>
+                <v-date-picker
+                  v-model="item.date"
+                  style="--c:#000000"
+                  no-title
+                  :min="min_date"
+                  @input="menu2 = false"
+                ></v-date-picker>
+              </v-menu>
+
+              <v-text-field
+                v-model="item.discord_server"
+                label="Discord Server"
+                placeholder="discord.gg/invitecode"
+                style="--c:#000000"
+                solo
+                :rules="rules.date"
+              ></v-text-field>
+            </section>
+
+            <section class="fill_w">
+              <center style="font-size:clamp(14px, 1vw, 16px)">
+                <label style="color:var(--clr-inv)">Have you already minted ?</label>
+              </center>
+              <div class="container-checkbox space">
+                <aside class="acenter">
+                  <label class="labels" for="A" style="color:var(--clr-inv);--tag:'A'">No, the mint is upcoming!</label>
+                  <v-checkbox
+                    v-model="item.no_mint"
+                    id="A"
+                    @click="buttonNo()"
+                  ></v-checkbox>
+                </aside>
+
+                <aside class="acenter">
+                  <label class="labels" for="B" style="color:var(--clr-inv);--tag:'B'">Yes, Already minted</label>
+                  <v-checkbox
+                    v-model="item.yes_mint"
+                    id="B"
+                    @click="buttonYes()"
+                  ></v-checkbox>
+                </aside>
+              </div>
+            </section>
+          
 
           <v-btn class="btn h10_em" @click="submint()" style="--bs:0 3px 4px 2px hsl(176, 60%, 70%, .4);width:min(90%,517px);--br:.8vmax">
             Submint
           </v-btn>
         </v-sheet>
+        </v-form>
       </v-card>
     </v-dialog>
   </section>
@@ -209,6 +223,17 @@ export default {
   data() {
     return {
       // responsive: false,
+      rules: {
+        date: [
+          v => !!v || 'Required value',
+        ],
+        long: [
+          v => (v || '' ).length <= 255 || '255 caracteres o menos',
+        ],
+        email: [
+          v => /.+@.+\..+/.test(v) || 'E-mail tiene que ser valido',
+        ]
+      },
       min_date: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
       menu: false,
       modal: false,
@@ -287,6 +312,9 @@ export default {
   },
   methods: {
     async submint(){
+      if (this.$refs.form.validate()) {
+        console.log("VALIDACION")
+      }
       console.log(this.item)
       let items = {
         "project_name": this.item.project_name,
