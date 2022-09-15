@@ -124,36 +124,18 @@
                 :rules="rules.date"
               ></v-text-field>
 
-              <v-menu
-                v-model="menu2"
+              <v-text-field
+                v-model="item.datetime"
+                type="datetime-local"
+                id="meeting-time"
+                name="meeting-time"
+                style="--c:#000000"
+                solo
                 :disabled="!this.item.no_mint"
-                :close-on-content-click="false"
-                :nudge-right="40"
-                offset-y
-                min-width="auto"
-              >
-                <template v-slot:activator="{ on, attrs }">
-                  <v-text-field
-                    v-model="item.date"
-                    label="Date"
-                    prepend-icon="mdi-calendar"
-                    readonly
-                    style="--c:#000000"
-                    solo
-                    v-bind="attrs"
-                    v-on="on"
-                    :error="error_date"
-                  ></v-text-field>
-                </template>
-                <v-date-picker
-                  v-model="item.date"
-                  style="--c:#000000"
-                  no-title
-                  :min="min_date"
-                  @input="menu2 = false"
-                  @change="changeDate()"
-                ></v-date-picker>
-              </v-menu>
+                :min="min_date"
+                :error="error_date"
+                @input="changeDate()"
+              ></v-text-field>
 
               <v-text-field
                 v-model="item.discord_server"
@@ -162,7 +144,7 @@
                 style="--c:#000000"
                 solo
                 :rules="rules.date"
-              ></v-text-field>
+              ></v-text-field>             
             </section>
 
             <section class="fill_w">
@@ -318,7 +300,7 @@ export default {
       
       if (this.$refs.form.validate()) {
         if ((this.item.no_mint === true && this.item.yes_mint === false) || (this.item.no_mint === false && this.item.yes_mint === true)) {
-          if ((this.item.no_mint === true && this.item.date) || (this.item.yes_mint === true)) {
+          if ((this.item.no_mint === true && this.item.datetime) || (this.item.yes_mint === true)) {
             let items = {
               "project_name": this.item.project_name,
               "email": this.item.email,
@@ -328,7 +310,7 @@ export default {
               "discord_server": this.item.discord_server,
               "upcoming": this.item.no_mint,
               "already": this.item.yes_mint,
-              "fecha_lanzamiento": this.item.date || 0,
+              "fecha_lanzamiento": this.item.datetime || 0,
               "id_contract_project": this.item.contract_id,
             }
 
@@ -345,14 +327,14 @@ export default {
                 sender: wallet.account()
               })
             
-              await contract.listar_project({
-                items: items,
-              })
-                .then((response) => {
-                  console.log(response)
-                }).catch((error) => {
-                  console.log(error)
-                })
+              // await contract.listar_project({
+              //   items: items,
+              // })
+              //   .then((response) => {
+              //     console.log(response)
+              //   }).catch((error) => {
+              //     console.log(error)
+              //   })
             }
           } else {
             this.error_date = true
@@ -362,27 +344,27 @@ export default {
           console.log("CHECK ERROR")
         }
       } else {
-        if (this.item.no_mint === true && !this.item.date) {
+        if (this.item.no_mint === true && !this.item.datetime) {
           this.error_date = true
         }
       }
     },
     async changeDate(){
-      if (this.item.date) {
+      if (this.item.datetime) {
         this.error_date = false
       }
     },
     async buttonYes(){
       if (this.item.yes_mint === true) {
         this.item.no_mint = false
-        this.item.date = null
+        this.item.datetime = null
       }
     },
     async buttonNo(){
       if (this.item.no_mint === true) {
         this.item.yes_mint = false
       } else {
-        this.item.date = null
+        this.item.datetime = null
       }
     },
     async priceNEAR(){
