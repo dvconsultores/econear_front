@@ -422,7 +422,6 @@ export default {
 
       this.axios.post(url, item)
         .then((response) => {
-          console.log(response.data)
           for (var i = 0; i < response.data.length; i++) {
             let collection = {
               img: response.data[i].icon,
@@ -449,7 +448,6 @@ export default {
             if (response.data[i].porcentaje < 0) {
               collection.state_change = false
             }
-
             this.dataTable.push(collection)
           }
           this.dataTableBool = true
