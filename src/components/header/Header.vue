@@ -174,12 +174,12 @@ const { connect, keyStores, WalletConnection } = nearAPI
 
 const keyStore = new keyStores.BrowserLocalStorageKeyStore()
 const config = {
-  networkId: "testnet",
+  networkId: "mainnet",
   keyStore, 
-  nodeUrl: "https://rpc.testnet.near.org",
-  walletUrl: "https://wallet.testnet.near.org",
-  helperUrl: "https://helper.testnet.near.org",
-  explorerUrl: "https://explorer.testnet.near.org",
+  nodeUrl: "https://rpc.mainnet.near.org",
+  walletUrl: "https://wallet.mainnet.near.org",
+  helperUrl: "https://helper.mainnet.near.org",
+  explorerUrl: "https://explorer.mainnet.near.org",
 };
 
 // let scrollValue =
