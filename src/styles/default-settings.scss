@@ -304,6 +304,12 @@ img:not(.not_html, .not) {
   }
 }
 
+// input statements
+.v-text-field--solo.error--text .v-input__slot {
+  --bs: 0 2px 4px 1px var(--error);
+}
+
+
 //- defaut badge -//
 .v-badge:not(.not_vuetify, .not) {
   --bg: var(--clr-badge);
