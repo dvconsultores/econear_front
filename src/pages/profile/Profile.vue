@@ -12,7 +12,7 @@
       <v-avatar width="12.48875em" height="12.48875em">
         <img src="@/assets/logos/user.png" alt="avatar" style="--b:3px solid var(--success);--br:50%;--w:100%">
       </v-avatar>
-      <h2 class="p bold">pedro NFT Gperez</h2>
+      <h2 class="p bold">{{accountId}}</h2>
       <div class="acenter spacea gap1">
         <v-btn v-for="(item,i) in dataSocialRed" :key="i" icon :href="item.link" target="_blank" style="--p:2em">
           <img :src="require(`@/assets/icons/${item.social}.svg`)" alt="social red" style="--w:2.674375em">
@@ -259,12 +259,28 @@
 
 <script>
 import ModalEdit from './ModalEdit.vue'
+import * as nearAPI from 'near-api-js'
+
+// const theme = localStorage.getItem("theme");
+
+const { connect, keyStores, WalletConnection } = nearAPI
+
+const keyStore = new keyStores.BrowserLocalStorageKeyStore()
+const config = {
+  networkId: "mainnet",
+  keyStore, 
+  nodeUrl: "https://rpc.mainnet.near.org",
+  walletUrl: "https://wallet.mainnet.near.org",
+  helperUrl: "https://helper.mainnet.near.org",
+  explorerUrl: "https://explorer.mainnet.near.org",
+};
 export default {
   name: "profile",
   i18n: require("./i18n"),
   components: { ModalEdit },
   data() {
     return {
+      accountId: null,
       switchInfo: true,
       dataSocialRed: [
         { social: "clip", link: "#" },
@@ -389,7 +405,17 @@ export default {
       ]
     }
   },
+  mounted() {
+    this.getData()
+  },
   methods: {
+    async getData () {
+      // connect to NEAR
+      const near = await connect(config);
+      // create wallet connection
+      const wallet = new WalletConnection(near)
+      this.accountId= wallet.getAccountId()
+    },
   }
 };
 </script>

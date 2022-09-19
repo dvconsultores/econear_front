@@ -313,6 +313,18 @@ export default {
         this.menuSearch = false
       }
     },
+    refreshVote() {
+      const url = "api/v1/refreshvotes"
+      console.log("refresh")
+      this.axios.post(url)
+        .then((response) => {
+          console.log("bien refresh")
+          console.log(response)
+          this.getRanking()
+        }).catch((error) => {
+          console.log(error)
+        })
+    },
     async votar (contract_id, vote) {
       const CONTRACT_NAME = 'backend.monkeonnear.near'
       // connect to NEAR
@@ -325,23 +337,21 @@ export default {
           sender: wallet.account()
         })
         console.log(contract_id, vote)
+        let aux = null
         await contract.votar({
           collections: contract_id,
           voto: vote,
         })
           .then((response) => {
             console.log(response)
-            const url = "http://157.230.2.213:3070/api/v1/updatevoto"
-            this.axios.post(url)
-              .then((response) => {
-                console.log(response)
-                this.getRanking()
-              }).catch((error) => {
-                console.log(error)
-              })
+            aux = true            
           }).catch((error) => {
             console.log(error)
+            aux = false
           })
+        if (aux) {
+          setTimeout(this.refreshVote, 30000)
+        }
       }
     },
     searchCollection() {

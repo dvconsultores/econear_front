@@ -19,7 +19,7 @@
       <div class="space contentsmobile">
         <v-card class="tracking-pause card acenter" style="max-width:max-content;--bg:hsl(212 47% 12% / .5);gap:1em;--p:.5em 1em">
           <v-btn v-for="(item,i) in dataControls.up" :key="i" text style="--ml:.5em" :class="{active: item.active}"
-              @click="dataControls.up.forEach(e=>{e.active=false});item.active=true">
+              @click="dataControls.up.forEach(e=>{e.active=false});item.active=true, tracking()">
             <span>{{item.name}}</span><img :src="require(`@/assets/icons/${item.name}.svg`)"
             :style="item.name=='tracking'?'--w:1em':'--w:.7em'">
           </v-btn>
@@ -52,10 +52,10 @@
     >
       <template v-slot:[`item.nft`]="{ item }">
         <div class="center gap1">
-          <img class="aspect" :src="item.img" alt="nft" style="--w:4.710625em">
+          <img class="aspect" :src="item.img || image" alt="nft" style="--w:4.710625em">
           <div class="divcol tstart">
             <span>{{item.name}}</span>
-            <span>{{item.desc}}</span>
+            <!-- <span>{{item.desc}}</span> -->
           </div>
         </div>
       </template>
@@ -71,13 +71,17 @@
       </template>
 
       <template v-slot:[`item.price`]="{ item }">
-        <span :style="item.state_price?'color:#22B573':'color:var(--error)'">
-          {{item.state_price?'+':'-'}}{{item.price}}%
+        <!-- <span :style="item.state_price?'color:#22B573':'color:var(--error)'"> -->
+        <span>
+          {{item.price}}
         </span>
       </template>
 
       <template v-slot:[`item.market`]="{ item }">
-        <img :src="item.market" alt="market">
+        <!-- <img :src="item.market" alt="market"> -->
+        <span>
+          {{item.marketplace}}
+        </span>
       </template>
 
       <template v-slot:[`item.lorem`]>
@@ -95,6 +99,7 @@ export default {
   i18n: require("./i18n"),
   data() {
     return {
+      image: require('@/assets/nfts/nft1.png'),
       notifications: true,
       dataControls: {
         up: [
@@ -116,51 +121,43 @@ export default {
         { value: "market", text: "Market", align: "center", sortable: false },
         { value: "lorem", text: "Lorem ipsum", align: "center", sortable: false },
       ],
-      dataTable: [
-        { 
-          img: require('@/assets/nfts/nft1.png'),
-          name: "Collection o Nft Name",
-          desc: "#3232",
-          supply: "12,0001",
-          //rareness: "common",
-          price: "104.4 N",
-          market: require('@/assets/logos/market-p.svg'),
-          state_price: true,
-        },
-        { 
-          img: require('@/assets/nfts/nft1.png'),
-          name: "Collection o Nft Name",
-          desc: "#3232",
-          supply: "12,0001",
-          //rareness: "rare",
-          price: "104.4 N",
-          market: require('@/assets/logos/market-p.svg'),
-          state_price: true,
-        },
-        { 
-          img: require('@/assets/nfts/nft1.png'),
-          name: "Collection o Nft Name",
-          desc: "#3232",
-          supply: "12,0001",
-          //rareness: "legendary",
-          price: "104.4 N",
-          market: require('@/assets/logos/market-p.svg'),
-          state_price: true,
-        },
-        { 
-          img: require('@/assets/nfts/nft1.png'),
-          name: "Collection o Nft Name",
-          desc: "#3232",
-          supply: "12,0001",
-          //rareness: "mystic",
-          price: "104.4 N",
-          market: require('@/assets/logos/market-p.svg'),
-          state_price: true,
-        },
-      ]
+      dataTable: []
     }
   },
+  async mounted() {
+    this.recentlyListed()
+    this.tracking()
+  },
   methods: {
+    tracking () {
+      if (this.dataControls.up[0].active === true) {
+        this.interval = setInterval(function () {
+            this.recentlyListed()
+        }.bind(this), 10000);
+      } else {
+        clearInterval(this.interval)
+      }
+    },
+    async recentlyListed(){
+      const url = "api/v1/recentlylisted"
+      this.axios.post(url)
+        .then((response) => {
+          this.dataTable = []
+          for (var i = 0; i < response.data.length; i++) {
+            let collection = {
+              img: response.data[i].icon,
+              name: response.data[i].name,
+              supply: response.data[i].total_supply,
+              price: parseFloat(response.data[i].price).toFixed(1) + " N",
+              marketplace: response.data[i].marketplace,
+              state_price: true,
+            }
+            this.dataTable.push(collection)
+          }
+        }).catch((error) => {
+          console.log(error)
+        })
+    },
   }
 };
 </script>

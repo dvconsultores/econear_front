@@ -239,7 +239,7 @@ export default {
           list: [
             { title: "NFTS" },
             { key: "compare-projects", name: "Compare Projectss" },
-            { key: "upcoming-projects", name: "Upcoming Projects (Drops)" },
+            { key: "upcoming-nft-drops", name: "Upcoming Projects (Drops)" },
             { key: "new-projects", name: "New Projects" },
           ]
         },
@@ -338,6 +338,7 @@ export default {
       // nft
       if (item.key=='compare-projects') {this.$router.push(item.key)}
       if (item.key=='new-projects') {this.$router.push(item.key)}
+      if (item.key=='upcoming-nft-drops') {this.$router.push(item.key)}
       // econear
       if (item.key=='vote') {this.$router.push(item.key)}
       // other
@@ -363,21 +364,20 @@ export default {
       const wallet = new WalletConnection(near)
       this.accountId= wallet.getAccountId()
 
-      if (wallet.isSignedIn()) {
-        const url = "api/v1/profile/?wallet=" + this.accountId
-        this.axios.defaults.headers.common.Authorization='token'
-        this.axios.get(url)
-          .then((response) => {
-            if (response.data[0]){
-              this.avatar = response.data[0].avatar
-              this.$store.commit("Avatar", this.avatar)
-            }
-        }).catch((error) => {
-          console.log(error)
-        })
-      }
+      // if (wallet.isSignedIn()) {
+      //   const url = "api/v1/profile/?wallet=" + this.accountId
+      //   this.axios.defaults.headers.common.Authorization='token'
+      //   this.axios.get(url)
+      //     .then((response) => {
+      //       if (response.data[0]){
+      //         this.avatar = response.data[0].avatar
+      //         this.$store.commit("Avatar", this.avatar)
+      //       }
+      //   }).catch((error) => {
+      //     console.log(error)
+      //   })
+      // }
     },
-    // use for update account log states
     LogState() {
       if (localStorage.getItem('logKey') == 'in') {this.user = false}
       if (localStorage.getItem('logKey') == 'out') {this.user = true}

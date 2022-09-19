@@ -12,7 +12,7 @@ import vuetify from './plugins/vuetify'
 
 
 Vue.use(VueAxios,axios);
-axios.defaults.baseURL='http://157.230.2.213:3070/'
+axios.defaults.baseURL='http://68.183.26.222:3070/'
 
 Vue.config.productionTip = false
 

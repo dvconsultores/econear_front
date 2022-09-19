@@ -191,26 +191,26 @@ export default {
           list: [
             {
               img: require('@/assets/nfts/nft1.png'),
-              name: "Collection o Nft Name",
-              user: "Nftloremipsum.near",
-              near: "123,45 N",
-              dollar: "$ 3102",
+              name: null,
+              user: null,
+              near: null,
+              dollar: null,
               state: true,
             },
             {
               img: require('@/assets/nfts/nft1.png'),
-              name: "Collection o Nft Name",
-              user: "Nftloremipsum.near",
-              near: "23,45 N",
-              dollar: "$ 120,3",
+              name: null,
+              user: null,
+              near: null,
+              dollar: null,
               state: true,
             },
             {
               img: require('@/assets/nfts/nft1.png'),
-              name: "Collection o Nft Name",
-              user: "Nftloremipsum.near",
-              near: "5 N",
-              dollar: "$ 28",
+              name: null,
+              user: null,
+              near: null,
+              dollar: null,
               state: true,
             },
           ]
@@ -223,13 +223,14 @@ export default {
     this.pricePARAS()
     this.highestVolGainerss()
     this.salesOfTheDay()
+    this.recentlyListed()
     this.volumen24h()
     this.volumen7d()
     
     this.interval = setInterval(function () {
         this.priceNEAR()
     }.bind(this), 60000);
-nearPrice
+
     this.interval2 = setInterval(function () {
         this.pricePARAS()
     }.bind(this), 60000);
@@ -240,6 +241,10 @@ nearPrice
 
     this.interval4 = setInterval(function () {
         this.salesOfTheDay()
+    }.bind(this), 1800000);
+
+    this.interval7 = setInterval(function () {
+        this.recentlyListed()
     }.bind(this), 1800000);
 
     this.interval5 = setInterval(function () {
@@ -294,6 +299,7 @@ nearPrice
       this.axios.post(url, item)
         .then((response) => {
           this.dataBoard[1].list = []
+          console.log("SALES", response.data)
           for (var i = 0; i < response.data.length; i++) {
             let collection = {
               img: response.data[i].icon,
@@ -304,6 +310,30 @@ nearPrice
               state: true,
             }
             this.dataBoard[1].list.push(collection)
+          }
+        }).catch((error) => {
+          console.log(error)
+        })
+    },
+    async recentlyListed(){
+      const url = "api/v1/recentlylisted"
+      let item = {
+        top: 10
+      }
+      this.axios.post(url, item)
+        .then((response) => {
+          this.dataBoard[2].list = []
+          console.log("LISTED", response.data)
+          for (var i = 0; i < response.data.length; i++) {
+            let collection = {
+              img: response.data[i].icon,
+              name: response.data[i].name,
+              user: response.data[i].nft_contract,
+              near: parseFloat(response.data[i].price).toFixed(1) + " N",
+              dollar: "$"+(response.data[i].price * this.nearPrice.current_price).toFixed(2),
+              state: true,
+            }
+            this.dataBoard[2].list.push(collection)
           }
         }).catch((error) => {
           console.log(error)

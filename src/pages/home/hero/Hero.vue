@@ -26,9 +26,9 @@
 
               <div v-if="item2.near&&item2.dollar" class="divcol">
                 <span :style="item2.state?'color:var(--success)':'color:var(--error)'" class="h11_em">
-                  {{item2.near}} N
+                  {{item2.near}}
                 </span>
-                <span class="h12_em">${{item2.dollar}}</span>
+                <span class="h12_em">{{item2.dollar}}</span>
               </div>
             </div>
           </aside>
@@ -100,6 +100,16 @@
               ></v-text-field>
 
               <v-text-field
+                v-model="item.description"
+                label="Description"
+                style="--c:#000000"
+                :rules="rules.long"
+                :error="error_desc"
+                solo
+                @input="changeDesc()"
+              ></v-text-field>
+
+              <v-text-field
                 v-model="item.discord_id"
                 label="Discord ID"
                 placeholder="Username#321"
@@ -125,6 +135,15 @@
               ></v-text-field>
 
               <v-text-field
+                v-model="item.discord_server"
+                label="Discord Server"
+                placeholder="discord.gg/invitecode"
+                style="--c:#000000"
+                solo
+                :rules="rules.date"
+              ></v-text-field> 
+
+              <v-text-field
                 v-model="item.datetime"
                 type="datetime-local"
                 id="meeting-time"
@@ -138,13 +157,12 @@
               ></v-text-field>
 
               <v-text-field
-                v-model="item.discord_server"
-                label="Discord Server"
-                placeholder="discord.gg/invitecode"
+                v-model="item.telegram"
+                label="Telegram Account"
                 style="--c:#000000"
                 solo
                 :rules="rules.date"
-              ></v-text-field>             
+              ></v-text-field>
             </section>
 
             <section class="fill_w">
@@ -207,20 +225,24 @@ export default {
   data() {
     return {
       check_error: null,
+      valid: null,
       rules: {
         date: [
           v => !!v,
         ],
         long: [
-          v => (v || '' ).length <= 255 || '255 caracteres o menos',
+          v => (v || '' ).length <= 155 || '155 max',
         ],
         email: [
           v => /.+@.+\..+/.test(v),// || 'E-mail tiene que ser valido',
         ]
       },
-      min_date: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
+      date: new Date(Date.now()),
+      min_date: null,
+      months: ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"],
       menu: false,
       error_date: null,
+      error_desc: null,
       modal: false,
       menu2: false,
       item: {},
@@ -283,11 +305,18 @@ export default {
     }
   },
   async mounted() {
+    this.min_date = String(this.date.getFullYear()+ "-" + this.months[this.date.getMonth()] + "-" + this.date.getDate() + "T" + this.date.getHours() + ":" + this.date.getMinutes())
+
+    console.log("MINDATE",this.min_date)
     await this.priceNEAR()
     this.salesOfTheDay()
     this.interval = setInterval(function () {
         this.salesOfTheDay()
     }.bind(this), 1800000);
+    if (localStorage.started === true || localStorage.started === 'true') {
+      console.log("entro")
+      setTimeout(this.refreshForm, 30000)
+    }
     if (window.innerWidth <= 880) {
       const cont = document.querySelector("#containerSliderHero")
       const el = document.querySelector("#sliderHero")
@@ -296,6 +325,17 @@ export default {
     }
   },
   methods: {
+    refreshForm() {
+      const url = "api/v1/refreshform"
+      this.axios.post(url)
+        .then((response) => {
+          console.log("bien refresh")
+          localStorage.started = false
+          console.log(response)
+        }).catch((error) => {
+          console.log(error)
+        })
+    },
     async submint(){
       if (this.$refs.form.validate()) {
         if ((this.item.no_mint === true && this.item.yes_mint === false) || (this.item.no_mint === false && this.item.yes_mint === true)) {
@@ -306,6 +346,8 @@ export default {
               "email": this.item.email,
               "discord_id": this.item.discord_id,
               "website": this.item.website,
+              "descripcion": this.item.description,
+              "telegram": this.item.telegram,
               "twiter": this.item.twitter,
               "discord_server": this.item.discord_server,
               "upcoming": this.item.no_mint,
@@ -314,7 +356,7 @@ export default {
               "id_contract_project": this.item.contract_id,
             }
 
-            console.log(items)
+            console.log("ITEMS",items)
 
             const CONTRACT_NAME = 'backend.monkeonnear.near'
             // connect to NEAR
@@ -322,12 +364,15 @@ export default {
             // create wallet connection
             const wallet = new WalletConnection(near)
             if (wallet.isSignedIn()) {
+              console.log("entro")
               const contract = new Contract(wallet.account(), CONTRACT_NAME, {
-                changeMethods: ['listar_project'],
+                changeMethods: ['addproject'],
                 sender: wallet.account()
               })
+
+              localStorage.started = true
             
-              await contract.listar_project({
+              await contract.addproject({
                 items: items,
               }, '300000000000000', // attached GAS (optional)
                 '1')
@@ -348,11 +393,19 @@ export default {
         if (this.item.no_mint === true && !this.item.datetime) {
           this.error_date = true
         }
+        if (!this.item.description || this.item.description === '' || this.item.description === null) {
+          this.error_desc = true
+        }
       }
     },
     async changeDate(){
       if (this.item.datetime) {
         this.error_date = false
+      }
+    },
+    async changeDesc(){
+      if (this.item.description) {
+        this.error_desc = false
       }
     },
     async buttonYes(){
