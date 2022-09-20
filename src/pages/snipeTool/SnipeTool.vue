@@ -24,6 +24,7 @@
             :style="item.name=='tracking'?'--w:1em':'--w:.7em'">
           </v-btn>
         </v-card>
+        {{variable}}
 
         <!-- <v-tabs class="order3mobile alignmobile">
           <v-tab v-for="(item,i) in dataControls.down" :key="i" class="options">
@@ -36,7 +37,7 @@
         <div id="container-switch" class="acenter  gap1 card eliminarmobile">
           <span>Notifications</span>
           <div class="switch" :style="`--color:${notifications?'var(--success)':'var(--error)'}`"
-            :class="{active:notifications}" @click="notifications=!notifications" />
+            :class="{active:notifications}" @click="notifications=!notifications, changeNotificacion()" />
         </div>
       </div>
     </aside>
@@ -100,7 +101,8 @@ export default {
   data() {
     return {
       image: require('@/assets/nfts/nft1.png'),
-      notifications: true,
+      notifications: false,
+      auxNoti: null,
       dataControls: {
         up: [
           { name: "tracking", active: false },
@@ -114,14 +116,15 @@ export default {
         ],
       },
       headersTable: [
-        { value: "nft", text: "NFT", align: "center", sortable: false },
+        { value: "nft", text: "Collection NFT", align: "center", sortable: false },
         { value: "supply", text: "Supply", align: "center", sortable: false },
         //{ value: "rareness", text: "Rareness", align: "center", sortable: false },
         { value: "price", text: "Price", align: "center", sortable: false },
         { value: "market", text: "Market", align: "center", sortable: false },
         { value: "lorem", text: "Lorem ipsum", align: "center", sortable: false },
       ],
-      dataTable: []
+      dataTable: [],
+      variable: null,
     }
   },
   async mounted() {
@@ -129,16 +132,67 @@ export default {
     this.tracking()
   },
   methods: {
+    async changeNotificacion() {
+      if(this.notifications === true) {
+        this.auxNoti = await Notification.requestPermission().then(function(result) {
+          console.log("noti",result);
+           return result
+        });
+
+        console.log("aux", this.auxNoti)
+
+        if (this.auxNoti === 'denied' || this.auxNoti === 'default') {
+          this.notifications = false
+        } else {
+          // this.notificacion()
+        }
+      }
+    },
+    notificacion(name, img, price, marketplace) {
+      if (Notification) {
+        if (Notification.permission !== "granted") {
+          Notification.requestPermission()
+        }
+        var title = "ECONEAR"
+        var extra = {          
+          icon: img || this.image,
+          //icon: "http://xitrus.es/imgs/logo_claro.png",
+          body: "NFT: " + name + " salio a un precio de " + price + " en " + marketplace
+        }
+        var noti = new Notification( title, extra)
+        noti.onclick = {
+        // Al hacer click
+        }
+        noti.onclose = {
+        // Al cerrar
+        }
+        setTimeout( function() { noti.close() }, 20000)
+      }
+    },
+    permisoNotificacion () {
+      Notification.requestPermission().then(function(result) {
+        console.log("noti",result);
+      });
+    },
     tracking () {
       if (this.dataControls.up[0].active === true) {
         this.interval = setInterval(function () {
             this.recentlyListed()
         }.bind(this), 10000);
+        this.interval2 = setInterval(function () {
+            this.variable = this.variable + 1
+            if (this.variable > 9) {
+              this.variable = 0
+            }
+        }.bind(this), 1000);
       } else {
         clearInterval(this.interval)
+        clearInterval(this.interval2)
+        this.variable = 0
       }
     },
     async recentlyListed(){
+      console.log("entro")
       const url = "api/v1/recentlylisted"
       this.axios.post(url)
         .then((response) => {
@@ -147,6 +201,7 @@ export default {
             let collection = {
               img: response.data[i].icon,
               name: response.data[i].name,
+              nft_contract: response.data[i].nft_contract,
               supply: response.data[i].total_supply,
               price: parseFloat(response.data[i].price).toFixed(1) + " N",
               marketplace: response.data[i].marketplace,
@@ -154,6 +209,21 @@ export default {
             }
             this.dataTable.push(collection)
           }
+          if (this.notifications === true) {
+            const snipetool = JSON.parse(localStorage.getItem('snipetool'))
+            this.dataTable.forEach(dataTable => {
+              snipetool.forEach(item => {
+                if (dataTable.nft_contract === item.nft_contract && dataTable.marketplace === item.marketplace) {
+                  if (dataTable.price < item.price) {
+                    console.log("ENTROOO", dataTable.name)
+                    this.notificacion(dataTable.name, dataTable.img, dataTable.price, dataTable.marketplace)
+                  } 
+                }
+              })
+            })
+          }
+
+          localStorage.snipetool = JSON.stringify(this.dataTable)
         }).catch((error) => {
           console.log(error)
         })

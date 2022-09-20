@@ -17,7 +17,7 @@
       </v-tabs>
     </aside>
     
-    <section class="section-down grid" style="--gtc:repeat(auto-fit,minmax(min(100%,20em),1fr));gap:2em">
+    <section v-if="variableCarga" class="section-down grid" style="--gtc:repeat(auto-fit,minmax(min(100%,20em),1fr));gap:2em">
       <v-card v-for="(item,i3) in dataNftDrops" :key="i3" class="card divcol"
         style="--p:clamp(1em,2vw,2em);gap:.5em">
         <div class="acenter" style="gap:.5em">
@@ -77,13 +77,21 @@
               <v-icon>mdi-thumb-up</v-icon>
             </v-btn>
             <v-btn class="btn" style="--p:.45em 1.5em;min-width:max-content;height:max-content;
-              --c:#000000;--bs:0 2px 3px 1px hsl(171, 100%, 72%, .4)">
+              --c:#000000;--bs:0 2px 3px 1px hsl(171, 100%, 72%, .4)" :href="item.website"  target="_blank">
               Mint
             </v-btn>
           </div>
         </aside>
       </v-card>
     </section>
+    <center v-else style="margin-block:10em">
+      <v-progress-circular
+        :size="110"
+        :width="10"
+        indeterminate
+        color="white"
+      ></v-progress-circular>
+    </center>
   </section>
 </template>
 
@@ -106,6 +114,7 @@ export default {
   i18n: require("./i18n"),
   data() {
     return {
+      variableCarga: false,
       intervals: [],
       start: new Date().getTime(),
       dataControls: [
@@ -247,12 +256,12 @@ export default {
     }
   },
   async mounted() {
-    console.log("DATE", this.start)
     this.refreshVote()
     this.upcomingListed()
   },
   methods: {
     orderList (item) {
+      this.variableCarga = false
       if (item.id === 1) {
         this.dataControls[0].active = true
         this.dataControls[1].active = false
@@ -366,7 +375,6 @@ export default {
       
     },
     async upcomingListed(){
-      console.log("llama")
       const url = "api/v1/upcominglisted"
       let item = {
         top: "20",
@@ -392,6 +400,7 @@ export default {
               fecha_lanzamiento: response.data[i].fecha_lanzamiento,
               type: response.data[i].collection,
               desc: response.data[i].descripcion,
+              website: response.data[i].website,
               // price: "9 NEAR","01 FEB 2022 17:00:00"
               // supply: "3333",
               date: moment.unix(timeEnd).format("Do MMM YYYY, h:mm A"),
@@ -405,6 +414,7 @@ export default {
             }
             this.dataNftDrops.push(collection)
           }
+          this.variableCarga = true
           this.interval = setInterval(function () {
             this.updateTime()
           }.bind(this), 1000);
