@@ -378,8 +378,8 @@ export default {
         .then((response) => {
           console.log("MCAP",response.data.est_market_capitalization)
           let est_market_cap = response.data.est_market_capitalization
-          this.dataMarket[0].price = "$" + (est_market_cap.current_value * this.nearPrice.current_price).toFixed(2)
-          this.dataMarket[0].value = ((est_market_cap.current_value * this.nearPrice.current_price) - (est_market_cap.value_24h_ago * this.nearPrice.current_price)).toFixed(2)
+          this.dataMarket[0].price = "$" + (est_market_cap.current_value * this.nearPrice.current_price).toLocaleString("en-US")
+          this.dataMarket[0].value = ((est_market_cap.current_value * this.nearPrice.current_price) - (est_market_cap.value_24h_ago * this.nearPrice.current_price)).toLocaleString("en-US")
           this.dataMarket[0].percent = (((est_market_cap.current_value / est_market_cap.value_24h_ago) * 100) - 100).toFixed(2)
           if (this.dataMarket[0].percent > 0) {
             this.dataMarket[0].state = true

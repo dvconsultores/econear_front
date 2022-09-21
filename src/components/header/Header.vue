@@ -127,11 +127,11 @@
               <v-list-item class="divcol">
                 <div class="space fill_w h11_em">
                   <span class="h11_em">NEAR</span>
-                  <span class="h12_em" style="color:var(--success)">478.5 N</span>
+                  <span class="h12_em" style="color:var(--success)">{{profile.near}} N</span>
                 </div>
                 <div class="space fill_w">
                   <span class="h11_em">ECO</span>
-                  <span class="h12_em" style="color:var(--success)">234.72 E</span>
+                  <span class="h12_em" style="color:var(--success)">0 E</span>
                 </div>
               </v-list-item>
             </v-list>
@@ -213,6 +213,7 @@ export default {
   // },
   data() {
     return {
+      profile: {},
       heightApp: "100px",
       model: 1,
       accountId: null,
@@ -302,6 +303,7 @@ export default {
     // document.addEventListener('scroll', this.scrollListener);
     this.isSigned()
     this.getData()
+    this.getBalance()
     this.LogState();
     if (localStorage.language) {
       const index = this.dataLanguage.findIndex(e=>e.key==localStorage.language)
@@ -396,6 +398,22 @@ export default {
       if (wallet.isSignedIn()) {
         localStorage.setItem('logKey', 'in')
         this.user = false
+      }
+    },
+    async getBalance () {
+      const near = await connect(config);
+      const wallet = new WalletConnection(near)
+      if (wallet.isSignedIn()) {
+        const account = await near.account(wallet.getAccountId());
+        const response = await account.state();
+        let valueStorage = Math.pow(10, 19)
+        let valueYocto = Math.pow(10, 24)
+
+        console.log(response)
+
+        const storage = (response.storage_usage * valueStorage) / valueYocto 
+        this.profile.near = ((response.amount / valueYocto) - storage).toFixed(2)
+        console.log(this.profile.near)
       }
     },
     async signOut () {

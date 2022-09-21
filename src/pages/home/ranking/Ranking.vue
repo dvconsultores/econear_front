@@ -203,7 +203,7 @@ export default {
       },
       headersTable: [
         { value: "number", text: "#", align: "center", sortable: false },
-        { value: "name", text: "NFT", align: "center", sortable: false },
+        { value: "name", text: "Collection NFT", align: "center", sortable: false },
         { value: "supply", text: "Supply", align: "center", sortable: false },
         { value: "volume", text: "Volume", align: "center", sortable: false },
         { value: "price", text: "Floor Price", align: "center", sortable: false },
