@@ -11,7 +11,7 @@
         <span class="tfirst">Utility</span>
       </v-chip>
       <h2 class="p bold">MonkeONear Gen 0</h2>
-      <div class="acenter spacea gap1">
+      <!-- <div class="acenter spacea gap1">
         <v-btn v-for="(item,i) in dataSocialRed" :key="i" icon :href="item.link" target="_blank" style="--p:2em">
           <img :src="require(`@/assets/icons/${item.social}.svg`)" alt="social red" style="--w:2.674375em">
         </v-btn>
@@ -21,12 +21,12 @@
         <v-btn v-for="(item,i) in dataSocialActions" :key="i" icon style="--p:2em">
           <img :src="require(`@/assets/icons/${item.social}.svg`)" alt="social actions" style="--w:2.5em">
         </v-btn>
-      </div>
+      </div> -->
     </aside>
 
-    <p class="description p align" style="max-width:65ch">
+    <!-- <p class="description p align" style="max-width:65ch">
       Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc volutpat ligula orci, ac imperdiet tortor cursus vitae. Nunc fringilla lacus vel tempus ultrices. Nulla facilisi.
-    </p>
+    </p> -->
 
     <v-card class="infoup card fwrap align">
       <div class="divcol">
@@ -48,7 +48,7 @@
       </div>
     </v-card>
 
-    <section class="infodown fwrap">
+    <!-- <section class="infodown fwrap">
       <v-card v-for="(item,i) in dataInfo.down" :key="i" class="card align">
         <v-sheet color="var(--clr-card)" class="jspace" max-height="150px">
           <div class="divcol">
@@ -71,7 +71,7 @@
           </v-chip>
         </v-sheet>
       </v-card>
-    </section>
+    </section> -->
 
     <aside class="container-controls space gap2 fwrap_inv" style="--fb: 1 1 200px">
       <v-tabs>
