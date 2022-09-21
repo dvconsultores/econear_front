@@ -35,7 +35,7 @@
       </div>
 
       <div class="divcol">
-        <label>owners</label>
+        <label>Owners</label>
         <span>{{dataInfo.owners}}</span>
       </div>
 
@@ -95,11 +95,11 @@
       ></v-text-field>
     </aside>
 
-    <section class="container-list">
+    <section v-if="variableCarga" class="container-list">
       <v-card v-for="(item, i) in dataList" :key="i" class="card divcol" :style="`--max-width: ${dataList.length <= 3 ? '20em' :'auto'}`">
-        <img :src="item.nft" :alt="`${item.name} NFT`">
         <h6>{{item.name}}</h6>
         <span>{{item.contract}}</span>
+        <img :src="item.nft || image" :alt="`${item.name} NFT`">
         <span><b>Marketplace: </b><a style="color:var(--success)">{{item.marketplace}}</a></span>
         <div class="space gap2 wrap">
           <div class="acenter" style="gap:.6ch">
@@ -112,15 +112,38 @@
         </div>
       </v-card>
     </section>
+
+    <center v-else style="margin-block:10em">
+      <v-progress-circular
+        :size="110"
+        :width="10"
+        indeterminate
+        color="white"
+      ></v-progress-circular>
+    </center>
   </section>
 </template>
 
 <script>
+import * as nearAPI from 'near-api-js'
+
+const { connect, keyStores, WalletConnection, Contract, utils } = nearAPI
+const keyStore = new keyStores.BrowserLocalStorageKeyStore()
+const config = {
+  networkId: "mainnet",
+  keyStore, 
+  nodeUrl: "https://rpc.mainnet.near.org",
+  walletUrl: "https://wallet.mainnet.near.org",
+  helperUrl: "https://helper.mainnet.near.org",
+  explorerUrl: "https://explorer.mainnet.near.org",
+};
 export default {
   name: "viewCollections",
   i18n: require("./i18n"),
   data() {
     return {
+      variableCarga: false,
+      image: require('@/assets/nfts/nft1.png'),
       dataSocialRed: [
         { social: "clip", link: "#" },
         { social: "twitter", link: "#" },
@@ -144,27 +167,60 @@ export default {
         ]
       },
       dataControls: [
-        { id: 1, name: "By NFT Name", active: false },
-        { id: 2, name: "By high price", active: false },
-        { id: 3, name: "By low price", active: false },
+        //{ id: 1, name: "By NFT Name", active: false },
+        { id: 1, name: "By high price", active: false },
+        { id: 2, name: "By low price", active: false },
       ],
       search: "",
-      dataList: [
-        {
-          nft: require('@/assets/nfts/nft1.png'),
-          name: "Regular #3 #141",
-          contract: "frehorsesspartans.near",
-          marketplace: "Paras.io",
-          price: 0.9,
-        },
-      ],
+      dataList: [],
+      dataList2: [],
+      contract_nft: this.$route.params.id
     }
+  },
+  async mounted() {
+    console.log(this.contract_nft)
+    this.getNftCollection()
   },
   methods: {
     conversion(item) {
       console.log(item)
       return item
-    }
+    },
+    async getNftCollection(){
+      const url = "api/v1/listnft"
+      let item = {
+        "collection": this.contract_nft,
+        "marketplace": "%",
+        "limit": "20",
+        "index": "0",
+        "sales": "true",
+        "order": "precio",
+        "type_order": "asc"
+      }
+
+      console.log("ENTRO")
+      
+      this.axios.post(url, item)
+        .then((response) => {
+          console.log("NFTS", response.data)
+          this.dataList2 = []
+          for (var i = 0; i < response.data.length; i++) {
+            let collection = {
+              nft: response.data[i].media,//,
+              name: response.data[i].titulo + " #" + response.data[i].token_id,
+              contract: response.data[i].collection,
+              marketplace: response.data[i].marketplace,
+              price: utils.format.formatNearAmount(response.data[i].precio),
+            }
+            this.dataList2.push(collection)
+          }
+          this.dataList = this.dataList2
+          //this.dataList = this.dataList.concat(this.dataList2)
+          this.variableCarga = true
+        }).catch((error) => {
+          console.log("ERRORRRR",error)
+        })
+    },
   }
 };
 </script>

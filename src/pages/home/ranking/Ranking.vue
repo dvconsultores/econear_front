@@ -134,7 +134,7 @@
       </template> -->
 
       <template v-slot:[`item.view`]="{ item }">
-        <v-btn class="btn" @click="$router.push(`/view-collections:${item.name}`)">
+        <v-btn class="btn" @click="$router.push(`/view-collections/${item.contract_id}`)">
           View Collections
         </v-btn>
       </template>

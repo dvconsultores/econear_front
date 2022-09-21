@@ -68,7 +68,7 @@ export default new Router({
           component: () => import('@/pages/projectDetails/ProjectDetails'),
         },
         {
-          path: '/view-collections:id?',
+          path: '/view-collections/:id?',
           name: 'viewCollections',
           component: () => import('@/pages/viewCollections/ViewCollections'),
         },

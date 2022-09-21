@@ -198,6 +198,7 @@ export default {
       this.axios.post(url)
         .then((response) => {
           this.dataTable = []
+          console.log("SNIPE",response.data)
           for (var i = 0; i < response.data.length; i++) {
             let collection = {
               img: response.data[i].icon,
