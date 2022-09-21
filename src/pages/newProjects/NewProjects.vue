@@ -12,12 +12,12 @@
     <aside class="container-controls divcol gap1">
       <v-tabs>
         <v-tab v-for="(item,i) in dataControls" :key="i">
-          <h6 class="p">{{item.name}}</h6>
+          <h6 class="p" @click="orderList(item)">{{item.name}}</h6>
         </v-tab>
       </v-tabs>
     </aside>
 
-    <section class="section-down grid" style="--gtc:repeat(auto-fit,minmax(min(100%,20em),1fr));gap:2em">
+    <section v-if="variableCarga" class="section-down grid" style="--gtc:repeat(auto-fit,minmax(min(100%,20em),1fr));gap:2em">
       <v-card v-for="(item,i) in dataNftDrops" :key="i" class="card divcol"
         style="--p:clamp(1em,2vw,2em);gap:.5em">
         <div class="acenter" style="gap:.5em">
@@ -72,154 +72,248 @@
         </aside>
       </v-card>
     </section>
+
+    <center v-else style="margin-block:10em">
+      <v-progress-circular
+        :size="110"
+        :width="10"
+        indeterminate
+        color="white"
+      ></v-progress-circular>
+    </center>
   </section>
 </template>
 
 <script>
+import moment from 'moment';
 export default {
   name: "newProjects",
   i18n: require("./i18n"),
   data() {
     return {
+      variableCarga: false,
       dataControls: [
-        { name: "Sort by Price", active: false },
-        { name: "Sort by Votes", active: false },
-        { name: "Sort by Supply", active: false },
-        { name: "Sort by Date", active: false },
+        { name: "Sort by Price", active: false, id:1 },
+        { name: "Sort by Votes", active: false, id: 2 },
+        { name: "Sort by Supply", active: false, id: 3 },
+        { name: "Sort by Date", active: false, id: 4 },
       ],
       dataNftDrops: [
-        {
-          img: require("@/assets/nfts/nft1.png"),
-          name: "Collection o NFT Name",
-          type: "Utility",
-          desc: "The first ever community voting tool and wallet management tool that comes with built-in data analysis system to find the best project on NEAR PROTOCOL",
-          price: "9 NEAR",
-          supply: "3333",
-          date: "01 FEB 2022 17:00:00",
-          votes: "6,917",
-          cronometer: [ {time: '02'}, {time: '11'}, {time: '31'}, {time: '42'} ],
-          redes: [
-            { name: "twitter", url: "#" },
-            { name: "discord", url: "#" },
-            { name: "telegram", url: "#" },
-          ],
-        },
-        {
-          img: require("@/assets/nfts/nft2.png"),
-          name: "Collection o NFT Name",
-          type: "Utility",
-          desc: "The first ever community voting tool and wallet management tool that comes with built-in data analysis system to find the best project on NEAR PROTOCOL",
-          price: "9 NEAR",
-          supply: "3333",
-          date: "01 FEB 2022 17:00:00",
-          votes: "6,917",
-          cronometer: [ {time: '02'}, {time: '11'}, {time: '31'}, {time: '42'} ],
-          redes: [
-            { name: "twitter", url: "#" },
-            { name: "discord", url: "#" },
-            { name: "telegram", url: "#" },
-          ],
-        },
-        {
-          img: require("@/assets/nfts/nft3.png"),
-          name: "Collection o NFT Name",
-          type: "Utility",
-          desc: "The first ever community voting tool and wallet management tool that comes with built-in data analysis system to find the best project on NEAR PROTOCOL",
-          price: "9 NEAR",
-          supply: "3333",
-          date: "01 FEB 2022 17:00:00",
-          votes: "6,917",
-          cronometer: [ {time: '02'}, {time: '11'}, {time: '31'}, {time: '42'} ],
-          redes: [
-            { name: "twitter", url: "#" },
-            { name: "discord", url: "#" },
-            { name: "telegram", url: "#" },
-          ],
-        },
-        {
-          img: require("@/assets/nfts/nft4.png"),
-          name: "Collection o NFT Name",
-          type: "Utility",
-          desc: "The first ever community voting tool and wallet management tool that comes with built-in data analysis system to find the best project on NEAR PROTOCOL",
-          price: "9 NEAR",
-          supply: "3333",
-          date: "01 FEB 2022 17:00:00",
-          votes: "6,917",
-          cronometer: [ {time: '02'}, {time: '11'}, {time: '31'}, {time: '42'} ],
-          redes: [
-            { name: "twitter", url: "#" },
-            { name: "discord", url: "#" },
-            { name: "telegram", url: "#" },
-          ],
-        },
-        {
-          img: require("@/assets/nfts/nft1.png"),
-          name: "Collection o NFT Name",
-          type: "Utility",
-          desc: "The first ever community voting tool and wallet management tool that comes with built-in data analysis system to find the best project on NEAR PROTOCOL",
-          price: "9 NEAR",
-          supply: "3333",
-          date: "01 FEB 2022 17:00:00",
-          votes: "6,917",
-          cronometer: [ {time: '02'}, {time: '11'}, {time: '31'}, {time: '42'} ],
-          redes: [
-            { name: "twitter", url: "#" },
-            { name: "discord", url: "#" },
-            { name: "telegram", url: "#" },
-          ],
-        },
-        {
-          img: require("@/assets/nfts/nft2.png"),
-          name: "Collection o NFT Name",
-          type: "Utility",
-          desc: "The first ever community voting tool and wallet management tool that comes with built-in data analysis system to find the best project on NEAR PROTOCOL",
-          price: "9 NEAR",
-          supply: "3333",
-          date: "01 FEB 2022 17:00:00",
-          votes: "6,917",
-          cronometer: [ {time: '02'}, {time: '11'}, {time: '31'}, {time: '42'} ],
-          redes: [
-            { name: "twitter", url: "#" },
-            { name: "discord", url: "#" },
-            { name: "telegram", url: "#" },
-          ],
-        },
-        {
-          img: require("@/assets/nfts/nft3.png"),
-          name: "Collection o NFT Name",
-          type: "Utility",
-          desc: "The first ever community voting tool and wallet management tool that comes with built-in data analysis system to find the best project on NEAR PROTOCOL",
-          price: "9 NEAR",
-          supply: "3333",
-          date: "01 FEB 2022 17:00:00",
-          votes: "6,917",
-          cronometer: [ {time: '02'}, {time: '11'}, {time: '31'}, {time: '42'} ],
-          redes: [
-            { name: "twitter", url: "#" },
-            { name: "discord", url: "#" },
-            { name: "telegram", url: "#" },
-          ],
-        },
-        {
-          img: require("@/assets/nfts/nft4.png"),
-          name: "Collection o NFT Name",
-          type: "Utility",
-          desc: "The first ever community voting tool and wallet management tool that comes with built-in data analysis system to find the best project on NEAR PROTOCOL",
-          price: "9 NEAR",
-          supply: "3333",
-          date: "01 FEB 2022 17:00:00",
-          votes: "6,917",
-          cronometer: [ {time: '02'}, {time: '11'}, {time: '31'}, {time: '42'} ],
-          redes: [
-            { name: "twitter", url: "#" },
-            { name: "discord", url: "#" },
-            { name: "telegram", url: "#" },
-          ],
-        },
+        // {
+        //   img: require("@/assets/nfts/nft1.png"),
+        //   name: "Collection o NFT Name",
+        //   type: "Utility",
+        //   desc: "The first ever community voting tool and wallet management tool that comes with built-in data analysis system to find the best project on NEAR PROTOCOL",
+        //   price: "9 NEAR",
+        //   supply: "3333",
+        //   date: "01 FEB 2022 17:00:00",
+        //   votes: "6,917",
+        //   cronometer: [ {time: '02'}, {time: '11'}, {time: '31'}, {time: '42'} ],
+        //   redes: [
+        //     { name: "twitter", url: "#" },
+        //     { name: "discord", url: "#" },
+        //     { name: "telegram", url: "#" },
+        //   ],
+        // },
+        // {
+        //   img: require("@/assets/nfts/nft2.png"),
+        //   name: "Collection o NFT Name",
+        //   type: "Utility",
+        //   desc: "The first ever community voting tool and wallet management tool that comes with built-in data analysis system to find the best project on NEAR PROTOCOL",
+        //   price: "9 NEAR",
+        //   supply: "3333",
+        //   date: "01 FEB 2022 17:00:00",
+        //   votes: "6,917",
+        //   cronometer: [ {time: '02'}, {time: '11'}, {time: '31'}, {time: '42'} ],
+        //   redes: [
+        //     { name: "twitter", url: "#" },
+        //     { name: "discord", url: "#" },
+        //     { name: "telegram", url: "#" },
+        //   ],
+        // },
+        // {
+        //   img: require("@/assets/nfts/nft3.png"),
+        //   name: "Collection o NFT Name",
+        //   type: "Utility",
+        //   desc: "The first ever community voting tool and wallet management tool that comes with built-in data analysis system to find the best project on NEAR PROTOCOL",
+        //   price: "9 NEAR",
+        //   supply: "3333",
+        //   date: "01 FEB 2022 17:00:00",
+        //   votes: "6,917",
+        //   cronometer: [ {time: '02'}, {time: '11'}, {time: '31'}, {time: '42'} ],
+        //   redes: [
+        //     { name: "twitter", url: "#" },
+        //     { name: "discord", url: "#" },
+        //     { name: "telegram", url: "#" },
+        //   ],
+        // },
+        // {
+        //   img: require("@/assets/nfts/nft4.png"),
+        //   name: "Collection o NFT Name",
+        //   type: "Utility",
+        //   desc: "The first ever community voting tool and wallet management tool that comes with built-in data analysis system to find the best project on NEAR PROTOCOL",
+        //   price: "9 NEAR",
+        //   supply: "3333",
+        //   date: "01 FEB 2022 17:00:00",
+        //   votes: "6,917",
+        //   cronometer: [ {time: '02'}, {time: '11'}, {time: '31'}, {time: '42'} ],
+        //   redes: [
+        //     { name: "twitter", url: "#" },
+        //     { name: "discord", url: "#" },
+        //     { name: "telegram", url: "#" },
+        //   ],
+        // },
+        // {
+        //   img: require("@/assets/nfts/nft1.png"),
+        //   name: "Collection o NFT Name",
+        //   type: "Utility",
+        //   desc: "The first ever community voting tool and wallet management tool that comes with built-in data analysis system to find the best project on NEAR PROTOCOL",
+        //   price: "9 NEAR",
+        //   supply: "3333",
+        //   date: "01 FEB 2022 17:00:00",
+        //   votes: "6,917",
+        //   cronometer: [ {time: '02'}, {time: '11'}, {time: '31'}, {time: '42'} ],
+        //   redes: [
+        //     { name: "twitter", url: "#" },
+        //     { name: "discord", url: "#" },
+        //     { name: "telegram", url: "#" },
+        //   ],
+        // },
+        // {
+        //   img: require("@/assets/nfts/nft2.png"),
+        //   name: "Collection o NFT Name",
+        //   type: "Utility",
+        //   desc: "The first ever community voting tool and wallet management tool that comes with built-in data analysis system to find the best project on NEAR PROTOCOL",
+        //   price: "9 NEAR",
+        //   supply: "3333",
+        //   date: "01 FEB 2022 17:00:00",
+        //   votes: "6,917",
+        //   cronometer: [ {time: '02'}, {time: '11'}, {time: '31'}, {time: '42'} ],
+        //   redes: [
+        //     { name: "twitter", url: "#" },
+        //     { name: "discord", url: "#" },
+        //     { name: "telegram", url: "#" },
+        //   ],
+        // },
+        // {
+        //   img: require("@/assets/nfts/nft3.png"),
+        //   name: "Collection o NFT Name",
+        //   type: "Utility",
+        //   desc: "The first ever community voting tool and wallet management tool that comes with built-in data analysis system to find the best project on NEAR PROTOCOL",
+        //   price: "9 NEAR",
+        //   supply: "3333",
+        //   date: "01 FEB 2022 17:00:00",
+        //   votes: "6,917",
+        //   cronometer: [ {time: '02'}, {time: '11'}, {time: '31'}, {time: '42'} ],
+        //   redes: [
+        //     { name: "twitter", url: "#" },
+        //     { name: "discord", url: "#" },
+        //     { name: "telegram", url: "#" },
+        //   ],
+        // },
+        // {
+        //   img: require("@/assets/nfts/nft4.png"),
+        //   name: "Collection o NFT Name",
+        //   type: "Utility",
+        //   desc: "The first ever community voting tool and wallet management tool that comes with built-in data analysis system to find the best project on NEAR PROTOCOL",
+        //   price: "9 NEAR",
+        //   supply: "3333",
+        //   date: "01 FEB 2022 17:00:00",
+        //   votes: "6,917",
+        //   cronometer: [ {time: '02'}, {time: '11'}, {time: '31'}, {time: '42'} ],
+        //   redes: [
+        //     { name: "twitter", url: "#" },
+        //     { name: "discord", url: "#" },
+        //     { name: "telegram", url: "#" },
+        //   ],
+        // },
       ]
     }
   },
+  async mounted() {
+    this.getNewProjects()
+  },
   methods: {
+    orderList (item) {
+      this.variableCarga = false
+      if (item.id === 1) {
+        this.dataControls[0].active = true
+        this.dataControls[1].active = false
+        this.dataControls[2].active = false
+        this.dataControls[3].active = false
+      } else if (item.id === 2) {
+        this.dataControls[0].active = false
+        this.dataControls[1].active = true
+        this.dataControls[2].active = false
+        this.dataControls[3].active = false
+      } else if (item.id === 3) {
+        this.dataControls[0].active = false
+        this.dataControls[1].active = false
+        this.dataControls[2].active = true
+        this.dataControls[3].active = false
+      } else if (item.id === 4) {
+        this.dataControls[0].active = false
+        this.dataControls[1].active = false
+        this.dataControls[2].active = false
+        this.dataControls[3].active = true
+      }
+      this.getNewProjects()
+    },
+    async getNewProjects(){
+      this.dataNftDrops = []
+      const url = "api/v1/newprojectslisted"
+      let item = {
+        top: "20",
+        order: null
+      }
+      if (this.dataControls[0].active === true) {
+        item.order = "price"
+      }
+      if (this.dataControls[1].active === true) {
+        item.order = "voto"
+      }
+      if (this.dataControls[2].active === true) {
+        item.order = "supply"
+      }
+      if (this.dataControls[3].active === true) {
+        item.order = "fecha"
+      }
+     
+      this.axios.post(url, item)
+        .then(async (response) => {
+          console.log("NEWPROJECTS", response.data)
+          for (var i = 0; i < response.data.length; i++) {
+            if (response.data[i].fecha_lanzamiento === 0 || response.data[i].fecha_lanzamiento === "0" || !response.data[i].fecha_lanzamiento) {
+              response.data[i].fecha_lanzamiento = parseInt(response.data[i].fecha_creacion)
+            }
+            // console.log("Lanzamiento: ",response.data[i].fecha_lanzamiento)
+            // console.log("FECHA",moment(response.data[i].fecha_lanzamiento / 1000000).format("Do MMM YYYY, h:mm A"))
+            let collection = {
+              img: response.data[i].icon || require("@/assets/nfts/nft1.png"),
+              name: response.data[i].name,
+              fecha_lanzamiento: response.data[i].fecha_lanzamiento,
+              type: response.data[i].nft_contract,
+              desc: response.data[i].descripcion,
+              website: response.data[i].website,
+              price: parseFloat(response.data[i].price).toFixed(2) + " NEAR",
+              supply: response.data[i].total_supply,
+              // price: "9 NEAR","01 FEB 2022 17:00:00"
+              // supply: "3333",
+              date: moment(response.data[i].fecha_lanzamiento / 1000000).format("Do MMM YYYY, h:mm A"),
+              votes: response.data[i].voto,
+              redes: [
+                { name: "twitter", url: "https://twitter.com/" + response.data[i].telegram },
+                { name: "discord", url: response.data[i].discord_server },
+                { name: "telegram", url: "https://t.me/" + response.data[i].telegram },
+              ],
+            }
+            this.dataNftDrops.push(collection)
+          }
+          this.variableCarga = true
+        }).catch((error) => {
+          console.log(error)
+        })
+    },
   }
 };
 </script>

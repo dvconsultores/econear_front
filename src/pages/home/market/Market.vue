@@ -96,10 +96,10 @@ export default {
       dataMarket: [
         {
           name: "EST.MCAP",
-          price: "$12,531.843",
-          value: "$0.07",
-          percent: "0.25",
-          state: true
+          price: null,
+          value: null,
+          percent: null,
+          state: false
         },
         {
           name: "USD/NEAR",
@@ -226,9 +226,14 @@ export default {
     this.recentlyListed()
     this.volumen24h()
     this.volumen7d()
+    this.estMcap()
     
     this.interval = setInterval(function () {
         this.priceNEAR()
+    }.bind(this), 60000);
+
+    this.interval8 = setInterval(function () {
+        this.estMcap()
     }.bind(this), 60000);
 
     this.interval2 = setInterval(function () {
@@ -366,7 +371,25 @@ export default {
           console.log(error)
         })
     },
+    async estMcap(){
+      const url = "https://api.degenwhale.club/historical"
 
+      this.axios.get(url)
+        .then((response) => {
+          console.log("MCAP",response.data.est_market_capitalization)
+          let est_market_cap = response.data.est_market_capitalization
+          this.dataMarket[0].price = "$" + (est_market_cap.current_value * this.nearPrice.current_price).toFixed(2)
+          this.dataMarket[0].value = ((est_market_cap.current_value * this.nearPrice.current_price) - (est_market_cap.value_24h_ago * this.nearPrice.current_price)).toFixed(2)
+          this.dataMarket[0].percent = (((est_market_cap.current_value / est_market_cap.value_24h_ago) * 100) - 100).toFixed(2)
+          if (this.dataMarket[0].percent > 0) {
+            this.dataMarket[0].state = true
+          } else {
+            this.dataMarket[0].state = false
+          }
+        }).catch((error) => {
+          console.log(error)
+        })
+    },
     async volumen24h(){
       const url = "api/v1/volumen24h"
 

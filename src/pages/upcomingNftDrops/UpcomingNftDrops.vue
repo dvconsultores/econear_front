@@ -375,6 +375,7 @@ export default {
       
     },
     async upcomingListed(){
+      this.dataNftDrops = []
       const url = "api/v1/upcominglisted"
       let item = {
         top: "20",
@@ -389,7 +390,7 @@ export default {
      
       this.axios.post(url, item)
         .then(async (response) => {
-          this.dataNftDrops = []
+          
           console.log("UPCOMING", response.data)
           for (var i = 0; i < response.data.length; i++) {
             let times = await this.getTime(response.data[i].fecha_lanzamiento)

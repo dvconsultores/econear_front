@@ -23,8 +23,9 @@
             <span>{{item.name}}</span><img :src="require(`@/assets/icons/${item.name}.svg`)"
             :style="item.name=='tracking'?'--w:1em':'--w:.7em'">
           </v-btn>
+          {{variable}}
         </v-card>
-        {{variable}}
+        
 
         <!-- <v-tabs class="order3mobile alignmobile">
           <v-tab v-for="(item,i) in dataControls.down" :key="i" class="options">
