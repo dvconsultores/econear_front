@@ -68,6 +68,11 @@ export default new Router({
           component: () => import('@/pages/projectDetails/ProjectDetails'),
         },
         {
+          path: '/view-collections:id?',
+          name: 'viewCollections',
+          component: () => import('@/pages/viewCollections/ViewCollections'),
+        },
+        {
           path: '/marketplace-stats',
           name: 'marketplaceStats',
           component: () => import('@/pages/marketplaceStats/MarketplaceStats'),

@@ -132,6 +132,12 @@
           <span class="tfirst">{{item.confidence}}</span>
         </v-chip>
       </template> -->
+
+      <template v-slot:[`item.view`]="{ item }">
+        <v-btn class="btn" @click="$router.push(`/view-collections:${item.name}`)">
+          View Collections
+        </v-btn>
+      </template>
     </v-data-table>
 
     <center v-else style="margin-block:10em">
@@ -211,6 +217,7 @@ export default {
         { value: "date", text: "Launch Date", align: "center", sortable: false },
         { value: "vote", text: "Vote", align: "center", sortable: false },
         // { value: "confidence", text: "Confidence Level", align: "center", sortable: false },
+        { value: "view", align: "center", sortable: false },
       ],
       dataTable: [
         // { 

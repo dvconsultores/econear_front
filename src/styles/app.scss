@@ -22,7 +22,10 @@
     min-height: 3em !important;
     height: 3em !important;
     .v-select__selections {font-size: 1em}
-    i {font-size: 1.5em}
+    .v-input__icon {
+      font-size: 1.3em;
+      i {font-size: 1.5em}
+    }
   }
 }
 

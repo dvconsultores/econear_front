@@ -41,6 +41,15 @@
           width: 30px !important;
           max-height: 30px !important;
         }
+        .v-btn.btn {
+          --p: 0 1.2em;
+          --bs :0 3px 4px 1px hsl(176, 60%, 40%, .7);
+          max-width: clamp(2em, 13vw, 13.5em) !important;
+          min-width: max-content !important;
+          height: 2.5em !important;
+          min-height: max-content !important;
+          max-height: max-content !important;
+        }
       }
     }
     tr:hover {background:none}
