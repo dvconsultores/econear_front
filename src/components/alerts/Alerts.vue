@@ -1,5 +1,5 @@
 <template>
-  <section id="alerts">
+  <div id="alerts">
     <v-snackbar
       v-for="(item,i) in dataAlerts" :key="i"
       v-model="item.model"
@@ -7,78 +7,77 @@
       transition="slide-Y-reverse-transition"
       :style="`--color-snackbar: ${item.color}`"
     >
-      <!-- <v-icon :style="`color: ${item.color} !important`" size="2.5rem">{{ item.icon }}</v-icon> -->
-      <img :src="require(`@/assets/icons/${item.icon}.svg`)" :alt="`${item.key} Icon`">
+      <v-icon :style="`color: ${item.color} !important`" size="2.5rem">{{ item.icon }}</v-icon>
+      <!-- <img :src="require(`~/assets/sources/icons/${item.icon}.svg`)" :alt="`${item.key} Icon`"> -->
       <div class="divcol">
-        <h3 class="font1">{{$t(item.title)}}</h3>
-        <p class="font2 p">{{$t(item.desc)}}</p>
+        <h3 v-if="item.title_default" class="font1">{{$t(item.title_default)}}</h3>
+        <h3 v-else class="font1">{{item.title}}</h3>
+        <p v-if="item.desc_default" class="font2 p">{{$t(item.desc_default)}}</p>
+        <p v-else class="font2 p">{{item.desc}}</p>
       </div>
     </v-snackbar>
-  </section>
+  </div>
 </template>
 
 <script>
 export default {
-  name: "alerts",
+  name: "AlertsComponent",
   i18n: require("./i18n"),
   data() {
     return {
-      alert: true,
       dataAlerts: []
     };
   },
   methods: {
-    ClearAlerts() {this.dataAlerts=[]},
-    Alerts(key, title, desc) {
-
-      // clear alerts
-      setTimeout(() => {
-        this.ClearAlerts()
-      }, 5000);
-
+    GenerateAlert(key, title, desc) {
       // create alert
-      if (title&&desc) {
-        var alert = {
-          key: key,
-          title: title,
-          desc: desc,
-          // icon: key=='success'?'mdi-check-circle':key=='cancel'?'mdi-close-circle':null,
-          icon: key=='success'?'success':key=='cancel'?'cancel':null,
-          color: key=='success'?'#A4FDDF':key=='cancel'?'rgb(200, 0, 0)':null,
+      let alert = {};
+      if (title && desc) {
+        alert = {
+          key,
+          title,
+          desc,
+          icon: key === 'success' ? 'mdi-check-circle' : key === 'cancel' ? 'mdi-close-circle' : null,
+          // icon: key === 'success' ? 'success' : key === 'cancel' ? 'cancel' : null,
+          color: key === 'success' ? '#A4FDDF' : key === 'cancel' ? 'rgb(200, 0, 0)' : null,
           model: true,
         }
       } else if (title) {
-        var alert = {
-          key: key,
-          title: title,
-          desc: `text${key.replace(/^\w/, (c) => c.toUpperCase())}`,
-          // icon: key=='success'?'mdi-check-circle':key=='cancel'?'mdi-close-circle':null,
-          icon: key=='success'?'success':key=='cancel'?'cancel':null,
-          color: key=='success'?'#A4FDDF':key=='cancel'?'rgb(200, 0, 0)':null,
+        alert = {
+          key,
+          title,
+          desc_default: `text${key.replace(/^\w/, (c) => c.toUpperCase())}`,
+          icon: key === 'success' ? 'mdi-check-circle' : key === 'cancel' ? 'mdi-close-circle' : null,
+          // icon: key === 'success' ? 'success' : key === 'cancel' ? 'cancel' : null,
+          color: key === 'success' ? '#A4FDDF' : key === 'cancel' ? 'rgb(200, 0, 0)' : null,
           model: true,
         }
       } else if (desc) {
-        var alert = {
-          key: key,
-          title: key,
-          desc: desc,
-          // icon: key=='success'?'mdi-check-circle':key=='cancel'?'mdi-close-circle':null,
-          icon: key=='success'?'success':key=='cancel'?'cancel':null,
-          color: key=='success'?'#A4FDDF':key=='cancel'?'rgb(200, 0, 0)':null,
+        alert = {
+          key,
+          title_default: key,
+          desc,
+          icon: key === 'success' ? 'mdi-check-circle' : key === 'cancel' ? 'mdi-close-circle' : null,
+          // icon: key === 'success' ? 'success' : key === 'cancel' ? 'cancel' : null,
+          color: key === 'success' ? '#A4FDDF' : key === 'cancel' ? 'rgb(200, 0, 0)' : null,
           model: true,
         }
       } else {
-        var alert = {
-          key: key,
-          title: key,
-          desc: `text${key.replace(/^\w/, (c) => c.toUpperCase())}`,
-          // icon: key=='success'?'mdi-check-circle':key=='cancel'?'mdi-close-circle':null,
-          icon: key=='success'?'success':key=='cancel'?'cancel':null,
-          color: key=='success'?'#A4FDDF':key=='cancel'?'rgb(200, 0, 0)':null,
+        alert = {
+          key,
+          title_default: key,
+          desc_default: `text${key.replace(/^\w/, (c) => c.toUpperCase())}`,
+          icon: key === 'success' ? 'mdi-check-circle' : key === 'cancel' ? 'mdi-close-circle' : null,
+          // icon: key === 'success' ? 'success' : key === 'cancel' ? 'cancel' : null,
+          color: key === 'success' ? '#A4FDDF' : key === 'cancel' ? 'rgb(200, 0, 0)' : null,
           model: true,
         }
-      }
-      this.dataAlerts.push(alert)
+      };
+      this.dataAlerts.push(alert);
+      // clear alerts
+      setTimeout(() => {
+        this.dataAlerts.splice(this.dataAlerts.shift(), 0)
+      }, 5000);
     },
   }
 };

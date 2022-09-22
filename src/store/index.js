@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
+import router from '../Routes'
 
 Vue.use(Vuex);
 
@@ -26,6 +27,10 @@ export default new Vuex.Store({
     // },
   },
   actions: {
+    GenerateAlert({commit}, {key, title, desc}) {
+      const layout = router.app.$children[0].$children[0].$children[0];
+      layout.$children[1].GenerateAlert(key, title, desc);
+    },
     // CambiarTheme({state, commit}, {theme, element}) {
     //   element.href = `${state.baseURL}themes/${theme}/theme.css`;
     //   localStorage.setItem("theme", theme);
