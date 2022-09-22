@@ -28,7 +28,7 @@
       Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc volutpat ligula orci, ac imperdiet tortor cursus vitae. Nunc fringilla lacus vel tempus ultrices. Nulla facilisi.
     </p> -->
 
-    <v-card class="infoup card fwrap align">
+    <!-- <v-card class="infoup card fwrap align">
       <div class="divcol">
         <label>Total Supply</label>
         <span>{{dataInfo.supply}}</span>
@@ -46,7 +46,7 @@
           <img src="@/assets/logos/near.svg" alt="near" style="--w:1.3em">
         </div>
       </div>
-    </v-card>
+    </v-card> -->
 
     <!-- <section class="infodown fwrap">
       <v-card v-for="(item,i) in dataInfo.down" :key="i" class="card align">
@@ -84,7 +84,7 @@
         v-model="search"
         hide-details
         solo
-        label="Search for NFT's and collections"
+        label="Search for NFT's"
         append-icon="mdi-magnify"
         style="max-width:30.061875em;--bg:hsl(210, 48%, 13%, .46);--c:#FFFFFF;--p:0 1.5em"
         class="customeFilter openRankingSearch"
@@ -94,6 +94,18 @@
         @input="inputSearch()"
       ></v-text-field>
     </aside>
+
+    <v-menu ref="menu" v-model="menuSearch" bottom offset-y activator=".openRankingSearch">
+      <v-list id="menuSearch" class="card scrolly" v-show="dataMenuSearch.length != 0">
+        <v-list-item v-for="(item,i) in dataMenuSearch" :key="i" @click="clickSearch(item)" v-show="dataMenuSearch.length != 0">
+          <img :src="item.img" alt="referencial image">
+          <div class="divcol">
+            <h6 class="p bold">{{item.name}}</h6>
+            <span>{{item.contract}}</span>
+          </div>
+        </v-list-item>
+      </v-list>
+    </v-menu>
 
     <section v-if="variableCarga" class="container-list">
       <v-card v-for="(item, i) in dataList" :key="i" class="card divcol" :style="`--max-width: ${dataList.length <= 3 ? '20em' :'auto'}`">
@@ -105,10 +117,10 @@
           <div class="acenter" style="gap:.6ch">
             <span class="price">{{item.price}}</span>
             <img src="@/assets/logos/near.svg" alt="near">
-            <span style="color: #9ca3af">~ {{conversion(item.price)}}</span>
+            <span style="color: #9ca3af">~ ${{conversion(item.price_yocto)}}</span>
           </div>
 
-          <v-btn class="btn">Buy now</v-btn>
+          <v-btn class="btn" @click="buy_nft(item)">Buy now</v-btn>
         </div>
       </v-card>
     </section>
@@ -146,6 +158,9 @@ export default {
     return {
       seeMoreDis: false,
       seeMoreVisible: true,
+      token_id: null,
+      menuSearch: false,
+      dataMenuSearch: [],
       variableCarga: false,
       image: require('@/assets/nfts/nft1.png'),
       dataSocialRed: [
@@ -182,18 +197,115 @@ export default {
       index: 0,
       dataList: [],
       dataList2: [],
-      contract_nft: this.$route.params.id
+      nearPrice: null,
+      contract_nft: this.$route.params.id,
+      hash: null,
+      transactionHashes: null
     }
   },
   async mounted() {
-    console.log(this.contract_nft)
+    localStorage.nft_contract = this.contract_nft
+    const queryString = window.location.search; // tomo mi url
+    const urlParams = new URLSearchParams(queryString); // tomo los paramtros de url
+    urlParams.get("transactionHashes") //variable donde esta el hash
+    this.hash = "https://explorer.mainnet.near.org/transactions/" + urlParams.get("transactionHashes") // esto es para tener el explorer
+    if (urlParams.get("transactionHashes") !== null) {
+      // le das tu mensaje de exito
+      this.$store.dispatch('GenerateAlert', {key:'success', title: 'Success!', desc: 'Your purchase has been successful.'})
+      this.transactionHashes = urlParams.get("transactionHashes")
+      history.replaceState(null, location.href.split("?")[0], '/#/view-collections/' + localStorage.nft_contract);
+      // this.$router.go(0)
+    }
+    if (urlParams.get("errorCode") !== null) {
+      // error de transaccion
+      console.log("ERRORRRRR")
+      history.replaceState(null, location.href.split("?")[0], '/#/view-collections/'  + localStorage.nft_contract);
+    }
+
+    
+
+    await this.priceNEAR()
     this.getNftCollection()
     this.getDataCollection()
   },
   methods: {
+    async buy_nft(item) {
+      const near = await connect(config);
+      const wallet = new WalletConnection(near);
+      // const contract = new Contract(wallet.account(), item.contract_market, {
+      const contract = new Contract(wallet.account(), item.marketplace, {
+        changeMethods: ["buy"],
+        sender: wallet.account(),
+      })
+      await contract.buy({
+        nft_contract_id: item.contract ,
+        token_id: item.token_id,
+        ft_token_id: 'near',
+        price: item.price_yocto
+      },'300000000000000',
+      item.price_yocto).then((response) => {
+        console.log(response);
+      }).catch(err => {
+        console.log(err)
+      })
+    },
+    clickSearch (item) {
+      this.token_id = item.token_id
+      this.getNftCollection()
+    },
+    inputSearch () {
+      if (this.search == '' || this.search == null) {
+        this.token_id = null
+        this.getNftCollection()
+        this.dataMenuSearch = []
+        this.menuSearch = false
+      }
+    },
+    searchCollection() {
+      console.log(this.search)
+      let item = {
+        "search": this.search,
+        "collection": this.contract_nft,
+        "top": "10"
+      }
+      if (this.search) {
+        const url = "api/v1/searchnft"
+        this.axios.post(url, item)
+          .then((response) => {
+            console.log("SEACRH", response.data)
+            this.dataMenuSearch = []
+            for (var i = 0; i < response.data.length; i++) {
+              let item = {
+                img: response.data[i].media,
+                name: response.data[i].titulo,
+                contract: "#"+response.data[i].token_id,
+                token_id: response.data[i].token_id
+              }
+              this.dataMenuSearch.push(item)
+            }
+            this.menuSearch = true
+          }).catch((error) => {
+            console.log(error)
+          })
+      } else {
+        this.dataMenuSearch = []
+        this.menuSearch = false
+      }
+    },
+    async priceNEAR(){
+      this.axios.get("https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=near&order=market_cap_desc&per_page=100&page=1&sparkline=false")
+        .then((response) => {
+          this.nearPrice = response.data[0].current_price
+          console.log("PRECIOOO",this.nearPrice)
+        })
+        .catch((e) => {
+          console.log(e)
+        })
+    },
     conversion(item) {
-      console.log(item)
-      return item
+      let valueYocto = Math.pow(10, 24)
+      item = (item/valueYocto) * this.nearPrice
+      return Number(item.toFixed(2)).toLocaleString("en-US")
     },
     orderList (item) {
       console.log(item)
@@ -217,12 +329,14 @@ export default {
     async getNftCollection(){
       this.index = 0
       const url = "api/v1/listnft"
+      console.log("TOKEN_ID", this.token_id)
       let item = {
         "collection": this.contract_nft,
         "marketplace": "%",
+        "tokenid": this.token_id || "1014",
         "limit": this.limit,
         "index": this.index,
-        "sales": "true",
+        "sales": "%",
         "order": "",
         "type_order": ""
       }
@@ -251,9 +365,11 @@ export default {
             let collection = {
               nft: response.data[i].media,//,
               name: response.data[i].titulo + " #" + response.data[i].token_id,
+              token_id: response.data[i].token_id,
               contract: response.data[i].collection,
               marketplace: response.data[i].marketplace,
               price: utils.format.formatNearAmount(response.data[i].precio),
+              price_yocto: response.data[i].precio,
             }
             this.dataList2.push(collection)
           }
@@ -290,9 +406,11 @@ export default {
             let collection = {
               nft: response.data[i].media,//,
               name: response.data[i].titulo + " #" + response.data[i].token_id,
+              token_id: response.data[i].token_id,
               contract: response.data[i].collection,
               marketplace: response.data[i].marketplace,
               price: utils.format.formatNearAmount(response.data[i].precio),
+              price_yocto: response.data[i].precio,
             }
             this.dataList2.push(collection)
           }

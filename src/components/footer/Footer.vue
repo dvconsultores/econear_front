@@ -7,7 +7,7 @@
           <img class="alignmobile" src="@/assets/logos/logo.svg" alt="Logo" style="--w:min(100%,17.25em)">
 
           <div class="gap1 acenter alignmobile margin2bottom">
-            <v-btn v-for="(item,i) in dataRedes" :key="i" icon :href="item.to"
+            <v-btn v-for="(item,i) in dataRedes" :key="i" icon :href="item.to" target="_blank"
               style="--p:2.2em">
               <img class="aspect" :src="item.icon" alt="social icons"
                 style="margin-left:0;--w:2.674375em">
@@ -100,7 +100,7 @@ export default {
   data() {
     return {
       dataRedes: [
-        { icon: require("@/assets/icons/twitter.svg"), to: "#" },
+        { icon: require("@/assets/icons/twitter.svg"), to: "https://twitter.com/MonkeOnear" },
         { icon: require("@/assets/icons/discord.svg"), to: "#" },
         { icon: require("@/assets/icons/telegram.svg"), to: "#" },
       ],

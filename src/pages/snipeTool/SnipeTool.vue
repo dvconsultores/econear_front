@@ -3,7 +3,7 @@
     <aside class="divcol center gap1 tcenter">
       <h2 class="h5_em p">Snipe Tool</h2>
       <p class="h10_em" style="max-width:60ch">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut facilisis accumsan nisl, et blandit orci pellentesque
+        Bag your favorite NFT from any collection
       </p>
     </aside>
 
@@ -23,7 +23,7 @@
             <span>{{item.name}}</span><img :src="require(`@/assets/icons/${item.name}.svg`)"
             :style="item.name=='tracking'?'--w:1em':'--w:.7em'">
           </v-btn>
-          {{variable}}
+          <!-- {{variable}} -->
         </v-card>
         
 
@@ -86,9 +86,9 @@
         </span>
       </template>
 
-      <template v-slot:[`item.lorem`]>
+      <template v-slot:[`item.buy`]="{ item }">
         <v-btn class="btn" style="border-radius: .3vmax;--bs:0 3px 4px 1px hsl(176, 60%, 40%, .7)">
-          <span class="tfirst">Buy Now</span>
+          <span class="tfirst" @click="$router.push(`/view-collections/${item.nft_contract}`)">Buy Now</span>
         </v-btn>
       </template>
     </v-data-table>
@@ -122,7 +122,7 @@ export default {
         //{ value: "rareness", text: "Rareness", align: "center", sortable: false },
         { value: "price", text: "Price", align: "center", sortable: false },
         { value: "market", text: "Market", align: "center", sortable: false },
-        { value: "lorem", text: "Lorem ipsum", align: "center", sortable: false },
+        { value: "buy", text: "Buy", align: "center", sortable: false },
       ],
       dataTable: [],
       variable: null,
