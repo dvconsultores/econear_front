@@ -5,12 +5,12 @@
 
     <aside class="container-profile divcol center gap1 tcenter">
       <v-avatar width="12.48875em" height="12.48875em">
-        <img src="@/assets/images/muestra.jpg" alt="avatar" style="--b:3px solid var(--success);--w:100%;--h:100%;--br:50%">
+        <img :src="dataInfo.img" alt="avatar" style="--b:3px solid var(--success);--w:100%;--h:100%;--br:50%">
       </v-avatar>
       <v-chip class="center" style="border-radius: .3vmax;min-width:6.174375em" color="#6A25D2">
-        <span class="tfirst">Utility</span>
+        <span>{{contract_nft}}</span>
       </v-chip>
-      <h2 class="p bold">MonkeONear Gen 0</h2>
+      <h2 class="p bold">{{dataInfo.name}}</h2>
       <!-- <div class="acenter spacea gap1">
         <v-btn v-for="(item,i) in dataSocialRed" :key="i" icon :href="item.link" target="_blank" style="--p:2em">
           <img :src="require(`@/assets/icons/${item.social}.svg`)" alt="social red" style="--w:2.674375em">
@@ -76,7 +76,7 @@
     <aside class="container-controls space gap2 fwrap_inv" style="--fb: 1 1 200px">
       <v-tabs>
         <v-tab v-for="(item,i) in dataControls" :key="i" class="options" @click="getRanking(collection, item)">
-          <h6 class="p">{{item.name}}</h6>
+          <h6 class="p" @click="orderList(item)">{{item.name}}</h6>
         </v-tab>
       </v-tabs>
 
@@ -113,7 +113,9 @@
       </v-card>
     </section>
 
-    <center v-else style="margin-block:10em">
+    <v-btn v-if="variableCarga && seeMoreVisible" text :disabled="seeMoreDis" @click="seeMore()" class="align" style="color:var(--success); font-size: 1.4025em; margin-block:3em">See more...</v-btn>
+
+    <center v-if="!variableCarga" style="margin-block:10em">
       <v-progress-circular
         :size="110"
         :width="10"
@@ -142,6 +144,8 @@ export default {
   i18n: require("./i18n"),
   data() {
     return {
+      seeMoreDis: false,
+      seeMoreVisible: true,
       variableCarga: false,
       image: require('@/assets/nfts/nft1.png'),
       dataSocialRed: [
@@ -156,9 +160,11 @@ export default {
         { social: "bell-white" },
       ],
       dataInfo: {
-        supply: "3333",
-        owners: "1967",
-        total_volume: "1,967,234.43",
+        img: null,
+        name: null,
+        supply: null,
+        owners: null,
+        total_volume: null,
         down: [
           { key: "market", price: "71,629", percent: "-0.12", number: 3 },
           { key: "holders", price: "361", percent: "+12.78", number: 23 },
@@ -167,11 +173,13 @@ export default {
         ]
       },
       dataControls: [
-        //{ id: 1, name: "By NFT Name", active: false },
+        { id: 0, name: "Any", active: true },
         { id: 1, name: "By high price", active: false },
         { id: 2, name: "By low price", active: false },
       ],
       search: "",
+      limit: 20,
+      index: 0,
       dataList: [],
       dataList2: [],
       contract_nft: this.$route.params.id
@@ -180,26 +188,61 @@ export default {
   async mounted() {
     console.log(this.contract_nft)
     this.getNftCollection()
+    this.getDataCollection()
   },
   methods: {
     conversion(item) {
       console.log(item)
       return item
     },
+    orderList (item) {
+      console.log(item)
+      this.variableCarga = false
+      if (item.id === 0) {
+        this.dataControls[0].active = true
+        this.dataControls[1].active = false
+        this.dataControls[2].active = false
+      } else if (item.id === 1) {
+        this.dataControls[0].active = false
+        this.dataControls[1].active = true
+        this.dataControls[2].active = false
+      }
+      else if (item.id === 2) {
+        this.dataControls[0].active = false
+        this.dataControls[1].active = false
+        this.dataControls[2].active = true
+      }
+      this.getNftCollection()
+    },
     async getNftCollection(){
+      this.index = 0
       const url = "api/v1/listnft"
       let item = {
         "collection": this.contract_nft,
         "marketplace": "%",
-        "limit": "20",
-        "index": "0",
+        "limit": this.limit,
+        "index": this.index,
         "sales": "true",
-        "order": "precio",
-        "type_order": "asc"
+        "order": "",
+        "type_order": ""
       }
 
-      console.log("ENTRO")
-      
+      if (this.dataControls[0].active === true) {
+        console.log("entro aqui")
+        item.order = ""
+        item.type_order = ""
+      }
+      else if (this.dataControls[1].active === true) {
+        console.log("entro aqui2")
+        item.order = "precio"
+        item.type_order = "desc"
+      }
+      else if (this.dataControls[2].active === true) {
+        console.log("entro aqui3")
+        item.order = "precio"
+        item.type_order = "asc"
+      }
+      console.log("COLLECION", item)
       this.axios.post(url, item)
         .then((response) => {
           console.log("NFTS", response.data)
@@ -215,11 +258,109 @@ export default {
             this.dataList2.push(collection)
           }
           this.dataList = this.dataList2
+          this.index = this.dataList.length
+          console.log("INDx", this.index)
           //this.dataList = this.dataList.concat(this.dataList2)
           this.variableCarga = true
+          this.verifyMore()
         }).catch((error) => {
           console.log("ERRORRRR",error)
         })
+    },
+    async seeMore(){
+      this.seeMoreDis = true
+      const url = "api/v1/listnft"
+      let item = {
+        "collection": this.contract_nft,
+        "marketplace": "%",
+        "limit": this.limit,
+        "index": this.index,
+        "sales": "true",
+        "order": "precio",
+        "type_order": "asc"
+      }
+
+      console.log("ENTRO")
+      
+      this.axios.post(url, item)
+        .then((response) => {
+          this.dataList2 = []
+          console.log("SEEMORE", response.data)
+          for (var i = 0; i < response.data.length; i++) {
+            let collection = {
+              nft: response.data[i].media,//,
+              name: response.data[i].titulo + " #" + response.data[i].token_id,
+              contract: response.data[i].collection,
+              marketplace: response.data[i].marketplace,
+              price: utils.format.formatNearAmount(response.data[i].precio),
+            }
+            this.dataList2.push(collection)
+          }
+          this.dataList = this.dataList.concat(this.dataList2)
+          this.index = this.dataList.length
+          this.seeMoreDis = false
+          this.verifyMore()
+        }).catch((error) => {
+          this.seeMoreDis = false
+          console.log("ERRORRRR",error)
+        })
+    },
+    async verifyMore(){
+      const url = "api/v1/listnft"
+      let item = {
+        "collection": this.contract_nft,
+        "marketplace": "%",
+        "limit": this.limit,
+        "index": this.index,
+        "sales": "true",
+        "order": "precio",
+        "type_order": "asc"
+      }
+      
+      this.axios.post(url, item)
+        .then((response) => {
+          if (response.data.length === 0) {
+            this.seeMoreVisible = false
+          }
+        }).catch((error) => {
+          console.log("ERRORRRR",error)
+        })
+    },
+    async getDataCollection(){
+      const url = "api/v1/collectiondetails"
+      let item = {
+        "collection": this.contract_nft,
+      }
+      console.log("DATA", this.contract_nft)
+      this.axios.post(url, item)
+        .then((response) => {
+          console.log("DATA1", response.data[0])
+          if (response.data[0]) {
+            this.dataInfo.supply = response.data[0].supply
+            this.dataInfo.owners = response.data[0].owner_for_tokens
+            this.dataInfo.total_volume = Number(parseFloat(response.data[0].total_volumen).toFixed(2)).toLocaleString("en-US")
+            this.dataInfo.name = response.data[0].name
+            this.dataInfo.img = response.data[0].icon
+          }
+          if (!this.dataInfo.img) {
+            this.getImgCollection()
+          }
+        }).catch((error) => {
+          console.log("ERRORRRR",error)
+        })
+    },
+    getImgCollection() {
+      this.axios.get("https://api-v2-mainnet.paras.id/collections?creator_id=" + this.contract_nft).then(res => {
+          // console.log(res.data.data.results)
+        let data = res.data.data.results
+        console.log("DATA", data)
+        data.forEach(element => {
+          if ((element.collection).toLowerCase() === this.dataInfo.name.toLowerCase()) {
+            this.dataInfo.img = 'https://ipfs.fleek.co/ipfs/' + element.media
+          }
+        });
+        this.dataInfo.img = this.dataInfo.img || require('@/assets/nfts/nft1.png')
+      })
     },
   }
 };

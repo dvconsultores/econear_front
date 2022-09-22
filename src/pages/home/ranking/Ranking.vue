@@ -86,7 +86,7 @@
 
       <template v-slot:[`item.name`]="{ item }">
         <!-- @click="$router.push('/project-details')" -->
-        <div class="nftDetail start gap1" @click="$router.push('/project-details')">
+        <div class="nftDetail start gap1" @click="$router.push(`/project-details/${item.contract_id}`)">
           <img class="aspect" :src="item.img || image" alt="nft" style="--w:4.710625em">
           <div class="divcol tstart">
             <span>{{item.name}}</span>
@@ -374,9 +374,22 @@ export default {
             this.dataMenuSearch = []
             for (var i = 0; i < response.data.length; i++) {
               let item = {
-                img: response.data[i].icon || this.image,
+                img: response.data[i].icon,
                 name: response.data[i].name,
                 contract: response.data[i].nft_contract
+              }
+              if (!item.img) {
+                console.log("ENTRO IMG")
+                this.axios.get("https://api-v2-mainnet.paras.id/collections?creator_id=" + item.contract).then(res => {
+                    // console.log(res.data.data.results)
+                  let data = res.data.data.results
+                  data.forEach(element => {
+                    if ((element.collection).toLowerCase() === item.name.toLowerCase()) {
+                      item.img = 'https://ipfs.fleek.co/ipfs/' + element.media
+                    }
+                  });
+                  item.img = item.img || require('@/assets/nfts/nft1.png')
+                })
               }
               this.dataMenuSearch.push(item)
             }
@@ -464,6 +477,19 @@ export default {
             } 
             if (response.data[i].porcentaje < 0) {
               collection.state_change = false
+            }
+            if (!collection.img) {
+              console.log("ENTRO IMG")
+              this.axios.get("https://api-v2-mainnet.paras.id/collections?creator_id=" + collection.contract_id).then(res => {
+                  // console.log(res.data.data.results)
+                let data = res.data.data.results
+                data.forEach(element => {
+                  if ((element.collection).toLowerCase() === collection.name.toLowerCase()) {
+                    collection.img = 'https://ipfs.fleek.co/ipfs/' + element.media
+                  }
+                });
+                collection.img = collection.img || require('@/assets/nfts/nft1.png')
+              })
             }
             this.dataTable.push(collection)
           }

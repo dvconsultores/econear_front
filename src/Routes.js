@@ -63,7 +63,7 @@ export default new Router({
           component: () => import('@/pages/newProjects/NewProjects'),
         },
         {
-          path: '/project-details:id?',
+          path: '/project-details/:id?',
           name: 'projectDetails',
           component: () => import('@/pages/projectDetails/ProjectDetails'),
         },

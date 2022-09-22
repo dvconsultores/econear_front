@@ -5,12 +5,12 @@
 
     <aside class="container-profile divcol center gap1 tcenter">
       <v-avatar width="12.48875em" height="12.48875em">
-        <img src="@/assets/images/muestra.jpg" alt="avatar" style="--b:3px solid var(--success);--w:100%;--h:100%;--br:50%">
+        <img :src="dataInfo.img" alt="avatar" style="--b:3px solid var(--success);--w:100%;--h:100%;--br:50%">
       </v-avatar>
       <v-chip class="center" style="border-radius: .3vmax;min-width:6.174375em" color="#6A25D2">
-        <span class="tfirst">Utility</span>
+        <span>{{contract_nft}}</span>
       </v-chip>
-      <h2 class="p bold">MonkeONear Gen 0</h2>
+      <h2 class="p bold">{{dataInfo.name}}</h2>
       <!-- <div class="acenter spacea gap1">
         <v-btn v-for="(item,i) in dataSocialRed" :key="i" icon :href="item.link" target="_blank" style="--p:2em">
           <img :src="require(`@/assets/icons/${item.social}.svg`)" alt="social red" style="--w:2.674375em">
@@ -111,6 +111,7 @@ export default {
   components: { ChartMarket, ChartPrice, ChartSales, ChartBuyers, ChartHolders, ChartHoldingAmount, ChartHoldingPeriod, ChartDiscord, ChartTwitter, ChartRarityDistribution, ChartRarityPrice },
   data() {
     return {
+      contract_nft: this.$route.params.id,
       chartHeight: "422.76px",
       dataSocialRed: [
         { social: "clip", link: "#" },
@@ -124,9 +125,11 @@ export default {
         { social: "bell-white" },
       ],
       dataInfo: {
-        supply: "3333",
-        owners: "1967",
-        total_volume: "1,967,234.43",
+        name: null,
+        img: null,
+        supply: null,
+        owners: null,
+        total_volume: null,
         down: [
           { key: "market", price: "71,629", percent: "-0.12", number: 3 },
           { key: "holders", price: "361", percent: "+12.78", number: 23 },
@@ -333,6 +336,7 @@ export default {
     }
   },
   mounted() {
+    this.getDataCollection()
     this.Responsive()
     window.onresize = () => this.Responsive()
   },
@@ -345,6 +349,42 @@ export default {
       } else {
         this.chartHeight = "222.76px"
       }
+    },
+    async getDataCollection(){
+      const url = "api/v1/collectiondetails"
+      let item = {
+        "collection": this.contract_nft,
+      }
+      console.log("DATA", this.contract_nft)
+      this.axios.post(url, item)
+        .then((response) => {
+          console.log("DATA1", response.data[0])
+          if (response.data[0]) {
+            this.dataInfo.supply = response.data[0].supply
+            this.dataInfo.owners = response.data[0].owner_for_tokens
+            this.dataInfo.total_volume = Number(parseFloat(response.data[0].total_volumen).toFixed(2)).toLocaleString("en-US")
+            this.dataInfo.name = response.data[0].name
+            this.dataInfo.img = response.data[0].icon
+          }
+          if (!this.dataInfo.img) {
+            this.getImgCollection()
+          }
+        }).catch((error) => {
+          console.log("ERRORRRR",error)
+        })
+    },
+    getImgCollection() {
+      this.axios.get("https://api-v2-mainnet.paras.id/collections?creator_id=" + this.contract_nft).then(res => {
+          // console.log(res.data.data.results)
+        let data = res.data.data.results
+        console.log("DATA", data)
+        data.forEach(element => {
+          if ((element.collection).toLowerCase() === this.dataInfo.name.toLowerCase()) {
+            this.dataInfo.img = 'https://ipfs.fleek.co/ipfs/' + element.media
+          }
+        });
+        this.dataInfo.img = this.dataInfo.img || require('@/assets/nfts/nft1.png')
+      })
     },
   }
 };

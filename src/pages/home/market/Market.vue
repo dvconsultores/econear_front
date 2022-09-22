@@ -378,8 +378,8 @@ export default {
         .then((response) => {
           console.log("MCAP",response.data.est_market_capitalization)
           let est_market_cap = response.data.est_market_capitalization
-          this.dataMarket[0].price = "$" + (est_market_cap.current_value * this.nearPrice.current_price).toLocaleString("en-US")
-          this.dataMarket[0].value = ((est_market_cap.current_value * this.nearPrice.current_price) - (est_market_cap.value_24h_ago * this.nearPrice.current_price)).toLocaleString("en-US")
+          this.dataMarket[0].price = "$" + Number((est_market_cap.current_value * this.nearPrice.current_price).toFixed(2)).toLocaleString("en-US")
+          this.dataMarket[0].value = Number(((est_market_cap.current_value * this.nearPrice.current_price) - (est_market_cap.value_24h_ago * this.nearPrice.current_price)).toFixed(2)).toLocaleString("en-US")
           this.dataMarket[0].percent = (((est_market_cap.current_value / est_market_cap.value_24h_ago) * 100) - 100).toFixed(2)
           if (this.dataMarket[0].percent > 0) {
             this.dataMarket[0].state = true
@@ -396,6 +396,7 @@ export default {
       this.axios.post(url)
         .then((response) => {
           this.volume24h = response.data[0]
+          console.log("VOLUMEN 23H", this.volume24h)
           this.dataMarket[3].price = parseFloat(this.volume24h.volumen24h).toFixed(2) + " N"
           this.dataMarket[3].value = (this.volume24h.volumen24h - this.volume24h.volumen48h).toFixed(2) + " N"
           this.dataMarket[3].percent = parseFloat(this.volume24h.porcentaje).toFixed(2)

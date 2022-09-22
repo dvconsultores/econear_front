@@ -52,7 +52,7 @@
         <v-card class="hero-cards divcol center tcenter gap1"
             :style="`--clip:${item.style.clip}`">
           <h3 class="p">{{item.title}}</h3>
-          <v-btn class="btn">Buy Here</v-btn>
+          <v-btn class="btn" @click="$router.push(item.link)">Buy Here</v-btn>
           <img :src="item.img" alt="Card Image" style="--w:min(100%,10.25em)">
         </v-card>
       </aside>
@@ -253,27 +253,32 @@ export default {
         {
           img: require('@/assets/images/c1.png'),
           title: "New Collection",
-          style: { clip: leftCards, top: "-12.5em", left: "0"}
+          style: { clip: leftCards, top: "-12.5em", left: "0"},
+          link: "/new-projects"
         },
         {
           img: require('@/assets/images/c2.png'),
           title: "Top Volume Projects",
-          style: { clip: leftCards, top: "-3.125em", left: "20%"}
+          style: { clip: leftCards, top: "-3.125em", left: "20%"},
+          link: "/new-projects"
         },
         {
           img: require('@/assets/images/c3.png'),
           title: "Top Collection",
-          style: { clip: rightCards , top: "3.125em"}
+          style: { clip: rightCards , top: "3.125em"},
+          link: "/new-projects"
         },
         {
           img: require('@/assets/images/c4.png'),
           title: "Top Voted Projects",
-          style: { clip: rightCards, top: "-3.125em", right: "20%"}
+          style: { clip: rightCards, top: "-3.125em", right: "20%"},
+          link: "/vote"
         },
         {
           img: require('@/assets/images/c5.png'),
           title: "Top Floor Featured Projects",
-          style: { clip: rightCards, top: "-12.5em", right: "0"}
+          style: { clip: rightCards, top: "-12.5em", right: "0"},
+          link: "/new-projects"
         },
       ],
       dataSales: [
@@ -437,7 +442,6 @@ export default {
         })
     },
     async salesOfTheDay(){
-      console.log("HOLA1")
       const url = "api/v1/salesoftheday"
       let item = {
         top: 3
@@ -446,15 +450,29 @@ export default {
         .then((response) => {
           this.dataSales = []
           for (var i = 0; i < response.data.length; i++) {
-            console.log("HOLA2")
             let collection = {
               img: response.data[i].icon,
+              contract_id: response.data[i].nft_contract_id,
               name: response.data[i].name + " #" + response.data[i].token_id,
               user: response.data[i].nft_contract_id,
               near: parseFloat(response.data[i].price).toFixed(1) + " N",
               dollar: "$"+(response.data[i].price * this.nearPrice.current_price).toFixed(2),
               state: true,
             }
+            // if (!collection.img) {
+            //   console.log("ENTRO IMG")
+            //   this.axios.get("https://api-v2-mainnet.paras.id/collections?creator_id=" + collection.contract_id).then(res => {
+            //       // console.log(res.data.data.results)
+            //     let data = res.data.data.results
+            //     data.forEach(element => {
+            //       if ((element.collection).toLowerCase() === collection.name.toLowerCase()) {
+            //         collection.img = 'https://ipfs.fleek.co/ipfs/' + element.media
+            //       }
+            //     });
+            //     console.log("COLLE", collection.img)
+            //     collection.img = collection.img || require('@/assets/nfts/nft1.png')
+            //   })
+            // }
             this.dataSales.push(collection)
           }
           console.log("DATA",this.dataSales)
