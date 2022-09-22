@@ -22,7 +22,6 @@ export default {
     return { wrapperSpace: true }
   },
   mounted() {
-    this.$store.dispatch('GenerateAlert', {key:'success', title: 'titulo', desc: 'descripcion'})
     const el = document.querySelectorAll('[class*="scrollx"]');
     el.forEach((el) => {el.addEventListener("wheel", (e) => {
       e.preventDefault();el.scrollLeft += e.deltaY
