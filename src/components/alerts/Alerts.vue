@@ -6,7 +6,6 @@
       centered top
       transition="slide-Y-reverse-transition"
       :style="`--color-snackbar: ${item.color}`"
-      timeout="999999"
     >
       <v-icon :style="`color: ${item.color} !important`" size="3.5em">{{ item.icon }}</v-icon>
       <!-- <img :src="require(`~/assets/sources/icons/${item.icon}.svg`)" :alt="`${item.key} Icon`"> -->
