@@ -3,7 +3,7 @@
     <h2 class="h7_em p">All Time Best</h2>
 
     <aside class="container-controls space gap2 fwrap_inv" style="--fb: 1 1 200px">
-      <v-tabs>
+      <v-tabs v-model="tab">
         <v-tab v-for="(item,i) in dataControls" :key="i" class="options" @click="getRanking(collection, item)">
           <h6 class="p">{{item.name}}</h6>
         </v-tab>
@@ -191,10 +191,11 @@ export default {
       image: require('@/assets/nfts/nft1.png'),
       search: "",
       searchTable: "",
+      tab: 2,
       dataControls: [
-        { id: 1, name: "All Time Best", active: false },
-        { id: 2, name: "Floor Price", active: false },
-        { id: 3, name: "Volume", active: false },
+        { key: 'collection', id: 1, name: "All Time Best", active: false },
+        { key: 'floor', id: 2, name: "Floor Price", active: false },
+        { key: 'volume', id: 3, name: "Volume", active: false },
       ],
       //table
       sort: {

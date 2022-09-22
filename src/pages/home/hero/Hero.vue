@@ -52,7 +52,7 @@
         <v-card class="hero-cards divcol center tcenter gap1"
             :style="`--clip:${item.style.clip}`">
           <h3 class="p">{{item.title}}</h3>
-          <v-btn class="btn" @click="$router.push(item.link)">Buy Here</v-btn>
+          <v-btn class="btn" @click="item.link ? $router.push(item.link) : scrollTo(item)">Buy Here</v-btn>
           <img :src="item.img" alt="Card Image" style="--w:min(100%,10.25em)">
         </v-card>
       </aside>
@@ -257,16 +257,16 @@ export default {
           link: "/new-projects"
         },
         {
+          key: "volume",
           img: require('@/assets/images/c2.png'),
           title: "Top Volume Projects",
           style: { clip: leftCards, top: "-3.125em", left: "20%"},
-          link: "/new-projects"
         },
         {
+          key: "collection",
           img: require('@/assets/images/c3.png'),
           title: "Top Collection",
           style: { clip: rightCards , top: "3.125em"},
-          link: "/new-projects"
         },
         {
           img: require('@/assets/images/c4.png'),
@@ -275,10 +275,10 @@ export default {
           link: "/vote"
         },
         {
+          key: "floor",
           img: require('@/assets/images/c5.png'),
           title: "Top Floor Featured Projects",
           style: { clip: rightCards, top: "-12.5em", right: "0"},
-          link: "/new-projects"
         },
       ],
       dataSales: [
@@ -330,6 +330,16 @@ export default {
     }
   },
   methods: {
+    scrollTo(item) {
+      const ranking = this.$parent.$refs.ranking;
+      const rankingControls = ranking.dataControls;
+      const rankingItem = rankingControls[rankingControls.findIndex(data=>data.key == item.key)];
+      const collection = undefined;
+
+      document.getElementById('ranking').scrollIntoView(true);
+      ranking.tab = rankingItem.id-1;
+      ranking.getRanking(collection, rankingItem);
+    },
     refreshForm() {
       const url = "api/v1/refreshform"
       this.axios.post(url)
