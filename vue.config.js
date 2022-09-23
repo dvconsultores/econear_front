@@ -13,5 +13,5 @@ module.exports = {
       }
     }
 },
-  publicPath: '/monkeonnear/'
+  publicPath: '/'
 }

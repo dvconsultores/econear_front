@@ -1,6 +1,6 @@
 <template>
   <section id="hero" class="divcol acenter gap2">
-    <h1 class="h3_em h5_emmobile tcenter" style="margin-block:2.7em; max-width:60ch">
+    <h1 class="h3_em h5_emmobile tcenter" style="margin-block:2.3em; max-width:60ch">
       COMING SOON
     </h1>
   </section>

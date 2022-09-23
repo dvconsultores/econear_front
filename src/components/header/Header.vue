@@ -247,8 +247,8 @@ export default {
         {
           list: [
             { title: "ECONEAR" },
-            //{ key: "wallet-submission", name: "Wallet Submission" },
-            { key: "coming-soon", name: "Wallet Submission" },
+            { key: "wallet-submission", name: "Wallet Submission" },
+            //{ key: "coming-soon", name: "Wallet Submission" },
             { key: "vote", name: "Vote" },
             { key: "contact-us", name: "Contact Us" },
           ]
@@ -336,21 +336,22 @@ export default {
     SelectItem_More(item) {
       // account
       if (item.key=='login') {this.$refs.menu.modalLogin = true}
-      if (item.key=='whitelist') {this.$router.push(item.key)}
+      if (item.key=='whitelist') {this.$router.push("/"+item.key)}
       //if (item.key=='register') {this.$refs.menu.modalRegister = true}
       // nft
-      if (item.key=='compare-projects') {this.$router.push(item.key)}
-      if (item.key=='new-projects') {this.$router.push(item.key)}
-      if (item.key=='upcoming-nft-drops') {this.$router.push(item.key)}
+      if (item.key=='compare-projects') {this.$router.push('/coming-soon')}
+      if (item.key=='new-projects') {this.$router.push("/"+item.key)}
+      if (item.key=='upcoming-nft-drops') {this.$router.push("/"+item.key)}
       // econear
-      if (item.key=='coming-soon') {this.$router.push(item.key)}
-      if (item.key=='vote') {this.$router.push(item.key)}
+      if (item.key=='wallet-submission') {this.$router.push('/coming-soon')}
+      if (item.key=='vote') {this.$router.push("/"+item.key)}
       // other
-      if (item.key=='marketplace-stats') {this.$router.push(item.key)}
+      //if (item.key=='marketplace-stats') {this.$router.push(item.key)}
+      if (item.key=='marketplace-stats') {this.$router.push('/coming-soon')}
       if (item.key=='alert') {this.$refs.menu.modalAlert = true}
-      if (item.key=='bulk-nft-management') {this.$router.push(item.key)}
-      if (item.key=='active-wallets-stats') {this.$router.push(item.key)}
-      if (item.key=='mint-calendar') {this.$router.push(item.key)}
+      if (item.key=='bulk-nft-management') {this.$router.push("/"+item.key)}
+      if (item.key=='active-wallets-stats') {this.$router.push("/"+item.key)}
+      if (item.key=='mint-calendar') {this.$router.push("/"+item.key)}
     },
     SelectItem_AvatarMenu(item) {
       this.avatarMenu = false

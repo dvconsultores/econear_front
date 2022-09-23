@@ -116,7 +116,7 @@
             <v-btn :class="{clr_primary: item.positivo == 1}" icon @click="votar(item.contract_id, true)">
               <img src="@/assets/icons/like.svg" alt="like">
             </v-btn>
-            <v-btn :class="{clr_primary: item.negativo == 1}" icon @click="votar(item.contract_id, false)">
+            <v-btn :class="{clr_primary: item.negativo == 1}" :disabled="!item.permission" icon @click="votar(item.contract_id, false)">
               <img src="@/assets/icons/dislike.svg" alt="dislike">
             </v-btn>
           </div>
@@ -404,17 +404,22 @@ export default {
       }
     },
     async getRanking(collection, select){
+      const near = await connect(config)
+      // create wallet connection
+      const wallet = new WalletConnection(near)
       this.collection = collection || this.collection
       this.dataTableBool = false
       this.dataTable = []
       const url = "api/v1/ranking"
+
 
       let item = {
         horas_vol: 24,
         horas_floor: 24,
         top: 50,
         order: null,
-        collection: this.collection || '%'
+        collection: this.collection || '%',
+        owner: wallet.getAccountId() || ""
       }
 
       if (this.sort.volume.value == '24h') {
@@ -453,6 +458,7 @@ export default {
 
       this.axios.post(url, item)
         .then((response) => {
+          console.log("RANKING", response.data)
           for (var i = 0; i < response.data.length; i++) {
             let collection = {
               img: response.data[i].icon,
@@ -462,11 +468,12 @@ export default {
               price: parseFloat(response.data[i].floor_price).toFixed(2) + " N",
               change: parseFloat(response.data[i].porcentaje).toFixed(2),//"0.89",
               date: moment(response.data[i].fecha_creacion/1000000).format('DD / MM / YYYY'),
-              contract_id: response.data[i].nft_contract_id,
+              contract_id: response.data[i].nft_contract,
               vote_positivo: response.data[i].voto_positivo,
               vote_negativo: response.data[i].voto_negativo,
               positivo: 0,
               negativo: 0,
+              permission: response.data[i].permission_voto_nega,
               // confidence: "high",
               state_volume: true,
               state_price: true,

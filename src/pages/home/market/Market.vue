@@ -321,9 +321,10 @@ export default {
         })
     },
     async recentlyListed(){
-      const url = "api/v1/recentlylisted"
+      const url = "api/v1/recentlyadded"
       let item = {
-        top: 10
+        top: 10,
+        order: "fecha"
       }
       this.axios.post(url, item)
         .then((response) => {

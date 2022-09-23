@@ -30,8 +30,8 @@
     <!-- My NFTS -->
     <section v-show="dataControls[dataControls.findIndex(e=>e.key=='nfts')].active" id="container-nfts" class="card divcol gap2">
       <div class="grid" style="--gtc: repeat(auto-fit,minmax(min(100%,20.2225em),1fr));gap:3.5em">
-        <v-card v-for="(item,i) in dataNfts" :key="i" color="transparent" class="divcol" :class="{widthLimiter: widthLimiter, active: item.selected}">
-          <img :src="item.img" alt="nft images" style="--w:100%" @click="item.selected=!item.selected" class="pointer">
+        <v-card v-for="(item,i) in dataNfts" :key="i" color="transparent" @click="selected(item)" class="divcol" :class="{widthLimiter: widthLimiter, active: item.selected}">
+          <img :src="item.img || image" alt="nft images" style="--w:100%; --h:391px"  class="pointer">
 
           <v-sheet class="card" style="--p:1em">
             <h6>{{item.name}}</h6>
@@ -86,9 +86,9 @@
             <span>Select</span>
             <v-chip color="#26A17B" style="border-radius:.2vmax;height:1.861875em" class="bold">4/{{dataNfts.length}}</v-chip>
           </div> -->
-          <v-btn class="btn bold" style="--h:2.75em;--p:0 clamp(1.5em,2vw,2em);--bs:0 3px 4px 1px hsl(176, 60%, 40%, .7);--fs:1.1em"
-            @click="$refs.menu.modalNfts=true">
-            Transfer NFTS
+          <v-btn class="btn bold" :disabled="transferDis" style="--h:2.75em;--p:0 clamp(1.5em,2vw,2em);--bs:0 3px 4px 1px hsl(176, 60%, 40%, .7);--fs:1.1em"
+            @click="transferNFT()">
+            Transfer NFT
           </v-btn>
         </div>
       </aside>
@@ -312,10 +312,15 @@ export default {
         { key: "nfts", name: "My NFTS", active: true },
         { key: "bulk", name: "Bulk NFT listing", active: false },
       ],
+      nftTransfer: {},
+      image: require("@/assets/nfts/nft1.png"),
+      transferDis: true,
       widthLimiter: false,
       variableCarga: true,
+      index:0,
       seeMoreVisible: true,
       seeMoreDis: true,
+      dataNfts2: [],
       dataNfts: [
         //{
             //   img: require("@/assets/nfts/nft1.png"),
@@ -358,6 +363,7 @@ export default {
             //   selected: false,
             // }
       ],
+      seeMoreDis: true,
       dataControlsBulk: [
         { key: "unlisted", name: "Unlisted NFTS", active: true },
         { key: "listed", name: "Listed NFTS", active: false },
@@ -416,6 +422,29 @@ export default {
     window.onresize = () => this.Responsive()
   },
   methods: {
+    selected(item) {
+      item.selected=!item.selected
+      
+      if (this.nftTransfer.selected && this.nftTransfer.index !== item.index) {
+        this.dataNfts[this.nftTransfer.index].selected = false
+      }
+
+      if (item.selected === true) {
+        this.transferDis = false
+      } else {
+        this.transferDis = true
+      }
+      if (!item.selected && this.nftTransfer.index === item.index) {
+        this.nftTransfer = {}
+      } else {
+        this.nftTransfer = item
+      }
+      
+    },
+    transferNFT () {
+      this.$refs.menu.modalNfts=true
+      console.log(this.nftTransfer)
+    },
     Responsive() {
       if (window.innerWidth >= 880&&this.dataNfts.length<=3) {
         this.widthLimiter = true
@@ -429,27 +458,88 @@ export default {
 
       const url = "api/v1/ListNftOwner"
       let item = {
-        "owner": "alan777.near",//wallet.getAccountId(),
-        "limit": "4",
-        "index": "0"
+        "owner": "legendkiller.near",//wallet.getAccountId(),
+        "limit": "12",
+        "index": this.index
       }
 
       this.axios.post(url, item)
         .then((response) => {
           console.log("NFTS", response.data)
-          this.dataNfts = []
+          this.dataNfts2 = []
 
           for (var i = 0; i < response.data.length; i++) {
             let collection = {
+              index: this.index + i,
               img: response.data[i].media || require("@/assets/nfts/nft1.png"),
+              collection: response.data[i].collection,
               name: response.data[i].titulo,
               token_id: response.data[i].token_id,
               selected: false,
             }
-            this.dataNfts.push(collection)
+            this.dataNfts2.push(collection)
+            //this.dataNfts.push(collection)
           }
-          this.index = 0
+          this.dataNfts = this.dataNfts2
+          this.index = this.dataNfts.length
+          this.verifyMore()
 
+        }).catch((error) => {
+          console.log("ERRORRRR",error)
+        })
+    },
+    async seeMore(){
+      this.seeMoreDis = true
+      const near = await connect(config);
+      const wallet = new WalletConnection(near);
+
+      const url = "api/v1/ListNftOwner"
+      let item = {
+        "owner": "legendkiller.near",//wallet.getAccountId(),
+        "limit": "12",
+        "index": this.index
+      }
+      
+      this.axios.post(url, item)
+        .then((response) => {
+          this.dataNfts2 = []
+          console.log("SEEMORE", response.data)
+          for (var i = 0; i < response.data.length; i++) {
+            let collection = {
+              index: this.index + i,
+              img: response.data[i].media || require("@/assets/nfts/nft1.png"),
+              collection: response.data[i].collection,
+              name: response.data[i].titulo,
+              token_id: response.data[i].token_id,
+              selected: false,
+            }
+            this.dataNfts2.push(collection)
+          }
+          this.dataNfts = this.dataNfts.concat(this.dataNfts2)
+          this.index = this.dataNfts.length
+          this.seeMoreDis = false
+          this.verifyMore()
+        }).catch((error) => {
+          this.seeMoreDis = false
+          console.log("ERRORRRR",error)
+        })
+    },
+    async verifyMore(){
+      const near = await connect(config);
+      const wallet = new WalletConnection(near);
+
+      const url = "api/v1/ListNftOwner"
+      let item = {
+        "owner": "legendkiller.near",//wallet.getAccountId(),
+        "limit": "12",
+        "index": this.index
+      }
+      this.axios.post(url, item)
+        .then((response) => {
+          console.log("VERIFY", response.data)
+          if (response.data.length === 0) {
+            this.seeMoreVisible = false
+          }
         }).catch((error) => {
           console.log("ERRORRRR",error)
         })

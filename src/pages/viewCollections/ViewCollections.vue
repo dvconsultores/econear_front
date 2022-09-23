@@ -193,7 +193,7 @@ export default {
         { id: 2, name: "By low price", active: false },
       ],
       search: "",
-      limit: 20,
+      limit: 36,
       index: 0,
       dataList: [],
       dataList2: [],

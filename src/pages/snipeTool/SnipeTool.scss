@@ -42,7 +42,7 @@
         @include media(max,small) {padding-inline:.5em !important}
         border-radius: .5vmax;
         & span::first-letter {text-transform: uppercase !important}
-        &.active {background-color: $primary !important;border-radius: .5vmax}
+        &.active {background-color: rgba(11, 22, 34, 0.7) !important;border-radius: .5vmax}
       }
     }
   }
