@@ -333,6 +333,7 @@ export default {
       console.log("TOKEN_ID", this.token_id)
       let item = {
         "collection": this.contract_nft,
+        "tokenid": this.token_id || "%",
         "marketplace": "%",
         "tokenid": this.token_id || "%",
         "limit": this.limit,
@@ -389,6 +390,7 @@ export default {
       const url = "api/v1/listnft"
       let item = {
         "collection": this.contract_nft,
+        "tokenid": this.token_id || "%",
         "marketplace": "%",
         "limit": this.limit,
         "index": this.index,
@@ -428,6 +430,7 @@ export default {
       const url = "api/v1/listnft"
       let item = {
         "collection": this.contract_nft,
+        "tokenid": this.token_id || "%",
         "marketplace": "%",
         "limit": this.limit,
         "index": this.index,
