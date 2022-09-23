@@ -1,0 +1,236 @@
+@use "@/styles/app" as *;
+
+// // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // /
+/* // // hero // // */ 
+// // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // /
+#hero {
+  .v-card#sales {
+    border: .8px solid rgba(#707070, .1);
+    padding: 1em;
+    --br: .5vmax;
+    #containerSliderHero {
+      position: relative;
+      min-height: 5.625em;
+      @include media(max,small) {overflow: hidden !important}
+      &::-webkit-scrollbar {display: none !important}
+      #sliderHero {
+        gap: clamp(1em,2vw,2em);
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        @include media(max,small) {
+          gap: 3em;
+          animation: slider 20s linear infinite;
+          &.paused {animation-play-state: paused}
+          @keyframes slider {
+            0% {left: 150%}
+            100% {left: -200%}
+          }
+        }
+      }
+    }
+    @include media(max, 500px) {font-size: 12px}
+    @include media(max, 320px) {font-size: 10px}
+  }
+  .sectionDown {
+    @include media(max, 500px) {font-size: 12px}
+    @include media(max, 320px) {font-size: 10px}
+    .v-card {
+      aside {
+        position: relative;
+        &::before {
+          content: "";
+          @include absolute(auto,auto,0,0);
+          width: calc(100% - clamp(4em,4.7vw,4.75em) - clamp(.5em, 1vw, 1em) - 20px);
+          height: 1px;
+          background-color: #60D2CA;
+        }
+      }
+    }
+  }
+  h1 {
+    padding-top: 1em;
+    .mask {
+      position: relative;
+      color: transparent;
+      background: center no-repeat url(../../../assets/logos/hero-logo2.svg);
+      background-size: contain;
+      isolation: isolate;
+    }
+  }
+  #hero-btn {
+    @include media(max,small) {--h: 3em !important}
+  }
+  blockquote {
+    &::-webkit-scrollbar {display: none}
+    @include media(max, 1400px) {font-size: 14px}
+    @include media(max, 1200px) {font-size: 12px}
+    @include media(max, 1050px) {font-size: 10px}
+    @include media(max, 700px) {font-size: 9px}
+    @include media(max, 640px) {font-size: 8px}
+    @include media(max, 560px) {font-size: 7px}
+    // @include media(max, 500px) {font-size: 6px}
+    // @include media(max, 430px) {font-size: 5px}
+    // @include media(max, 350px) {font-size: 4px}
+    margin-top: 2em;
+    // margin-bottom: clamp(2em, 6vw, 6em);
+    min-height: 24.375em;
+    display: inline-grid;
+    align-items: flex-start;
+    justify-items: center;
+    position: relative;
+    @include media(max, small) {
+      place-items: center;
+      grid-auto-flow: column;
+      gap: 2em;
+    }
+    &::before {
+      content: "";
+      @include absolute(0,auto,0,-3.5em);
+      width: 100%;
+      height: 1px;
+      background-color: #1C2541;
+    }
+    .wrapperCards {
+      @include media(min, small) {
+        position: absolute;
+        top: var(--top);
+        left: var(--left);
+        right: var(--right);
+      }
+      .hero-cards {
+        --border: .3vmax;
+        background-color: rgba(#707070, .1);
+        padding: clamp(1.5em, 2vw, 2em);
+        max-width: clamp(14em, 16vw, 16.261875em);
+        isolation: isolate;
+        position: relative;
+        border-radius: var(--border);
+        clip-path: var(--clip);
+        @include media(max, small) {
+          max-width: none;
+          width: 20em;
+          aspect-ratio: 1 / 1.3;
+        }
+        &::after {
+          content: "";
+          position: absolute;
+          inset: .8px;
+          top: 1px;
+          background-color: #122432;
+          z-index: -1;
+          border-radius: var(--border);
+          clip-path: var(--clip);
+        }
+        h3 {
+          font-size: 1.966875em !important;
+        }
+        .v-btn {
+          --bg: var(--primary);
+          --bs: 0px 0px 2.5px 1px #6FFFE9;
+          --p: 0 0.75em;
+          min-width: min(90%,7.875em);
+          height: 3em;
+          @include media(max, small) {margin-block: .5em !important}
+          span {
+            font-size: 0.8425em;
+            @include media(max,small) {font-size: 1em}
+          }
+        }
+      }
+    }
+  }
+  article {
+    background-color: rgba(#112131, .46);
+    padding: clamp(.5em, 2vw, 2em);
+    border-radius: $border-card;
+    @include media(max,1650px) {font-size: 14px};
+    @include media(max,1450px) {font-size: 12px};
+    @include media(max,1268px) {font-size: 15px};
+    .v-card {
+      --fb: 1 1 495px;
+      height: min-content !important;
+      min-height: min-content !important;
+      max-height: min-content !important;
+      background-color: #122432;
+      border: .8px solid rgba(#707070, .1);
+      box-shadow: 0 0 1.5px 1.5px $clr-btn !important;
+      .container-info {
+        padding-inline: clamp(1em, 2vw, 2em);
+        @include media(max,1268px) {
+          flex-direction: column;
+          padding-block: 2em;
+        };
+        h3 {
+          max-width: 11ch;
+          position: relative;
+          @include media(max,1268px) {
+            max-width: none;
+            padding-bottom: .5em;
+            text-align: center;
+            &::before {
+              --move: 1em;
+              content: "";
+              @include absolute(0,auto,0,0);
+              width: calc(100% + var(--move));
+              transform: translateX(calc(var(--move) * -.5));
+              height: 1px;
+              // border-bottom: 1px solid #FFFFFF;
+              background-color: #ffffff;
+            }
+          }
+        }
+        p {
+          @include media(min,1268px) {max-width: 25ch};
+          max-height: 12em;
+          position: relative;
+          &::before {
+            content: "";
+            @include absoluteCenter;
+            width: calc(100% + 2em);
+            transform: translateX(-1em);
+            height: 50%;
+            border-inline: 1px solid #FFFFFF;
+            @include media(max,1268px) {display: none !important}
+          }
+        }
+      }
+    }
+  }
+}
+
+.modalProject {
+  @include media(max, x-small) {font-size: 12px}
+  .labels {
+    &::before {
+      content: var(--tag);
+      color: #FFFFFF;
+      background-color: #000000;
+      padding: .2em .35em;
+      border-radius: .25vmax;
+      margin-right: .5em;
+    }
+  }
+  .v-input--checkbox {
+    i {color: var(--clr-inv) !important}
+  }
+  .container-checkbox {
+    margin-block: 1em;
+    @include media(max, small) {flex-direction: column}
+    aside {
+      @include media(max, small) {
+        max-width: 15.3125em;
+        width: 100%;
+        justify-content: space-between;
+      }
+      @include media(max, small) {max-width: none}
+      box-shadow: 0 2px 4px 1px var(--color);
+      padding-inline: 1em;
+      border-radius: 1vmax;
+      margin-block: .5em;
+    }
+  }
+  .v-input {
+    --bs: 0 2px 4px 1px var(--success);
+  }
+}

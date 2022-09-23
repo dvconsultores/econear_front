@@ -63,6 +63,11 @@ export default new Router({
           component: () => import('@/pages/newProjects/NewProjects'),
         },
         {
+          path: '/coming-soon',
+          name: 'comingSoon',
+          component: () => import('@/pages/home/comingSoon/Hero'),
+        },
+        {
           path: '/project-details/:id?',
           name: 'projectDetails',
           component: () => import('@/pages/projectDetails/ProjectDetails'),

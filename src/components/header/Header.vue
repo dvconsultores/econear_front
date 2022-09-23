@@ -247,7 +247,8 @@ export default {
         {
           list: [
             { title: "ECONEAR" },
-            { key: "wallet-submission", name: "Wallet Submission" },
+            //{ key: "wallet-submission", name: "Wallet Submission" },
+            { key: "coming-soon", name: "Wallet Submission" },
             { key: "vote", name: "Vote" },
             { key: "contact-us", name: "Contact Us" },
           ]
@@ -342,6 +343,7 @@ export default {
       if (item.key=='new-projects') {this.$router.push(item.key)}
       if (item.key=='upcoming-nft-drops') {this.$router.push(item.key)}
       // econear
+      if (item.key=='coming-soon') {this.$router.push(item.key)}
       if (item.key=='vote') {this.$router.push(item.key)}
       // other
       if (item.key=='marketplace-stats') {this.$router.push(item.key)}

@@ -429,7 +429,7 @@ export default {
 
       const url = "api/v1/ListNftOwner"
       let item = {
-        "owner": wallet.getAccountId(),
+        "owner": "alan777.near",//wallet.getAccountId(),
         "limit": "4",
         "index": "0"
       }
