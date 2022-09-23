@@ -38,7 +38,7 @@
         <div id="container-switch" class="acenter  gap1 card eliminarmobile">
           <span>Notifications</span>
           <div class="switch" :style="`--color:${notifications?'var(--success)':'var(--error)'}`"
-            :class="{active:notifications}" @click="notifications=!notifications, changeNotificacion()" />
+            :class="{active:notifications}" @click="changeNotificacion()" />
         </div>
       </div>
     </aside>
@@ -102,7 +102,7 @@ export default {
   data() {
     return {
       image: require('@/assets/nfts/nft1.png'),
-      notifications: false,
+      notifications: null,
       auxNoti: null,
       dataControls: {
         up: [
@@ -129,18 +129,23 @@ export default {
     }
   },
   async mounted() {
+    this.notifications = localStorage.getItem('notifications')
+    if (this.notifications === 'true') {
+      this.notifications = true
+    } else{
+      this.notifications = false
+    }
     this.recentlyListed()
     this.tracking()
   },
   methods: {
     async changeNotificacion() {
+      this.notifications = !this.notifications
+      localStorage.notifications = this.notifications
       if(this.notifications === true) {
         this.auxNoti = await Notification.requestPermission().then(function(result) {
-          console.log("noti",result);
            return result
         });
-
-        console.log("aux", this.auxNoti)
 
         if (this.auxNoti === 'denied' || this.auxNoti === 'default') {
           this.notifications = false
@@ -172,7 +177,6 @@ export default {
     },
     permisoNotificacion () {
       Notification.requestPermission().then(function(result) {
-        console.log("noti",result);
       });
     },
     tracking () {
@@ -193,12 +197,10 @@ export default {
       }
     },
     async recentlyListed(){
-      console.log("entro")
       const url = "api/v1/recentlylisted"
       this.axios.post(url)
         .then((response) => {
           this.dataTable = []
-          console.log("SNIPE",response.data)
           for (var i = 0; i < response.data.length; i++) {
             let collection = {
               img: response.data[i].icon,
@@ -217,7 +219,6 @@ export default {
               snipetool.forEach(item => {
                 if (dataTable.nft_contract === item.nft_contract && dataTable.marketplace === item.marketplace) {
                   if (dataTable.price < item.price) {
-                    console.log("ENTROOO", dataTable.name)
                     this.notificacion(dataTable.name, dataTable.img, dataTable.price, dataTable.marketplace)
                   } 
                 }
