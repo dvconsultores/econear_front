@@ -13,20 +13,22 @@
 
         <v-sheet class="divcol center align">
           <div class="divcol fill_w">
-            <label for="address">You're about to transfer 4 NFT</label>
+            <label for="address">You're about to transfer the NFT: <span class="font-weight-black">{{itemNft.name}} #{{itemNft.token_id}} </span></label>
             <v-text-field
               v-model="dataModalNfts.address"
               id="address"
               solo
-              placeholder="Enter Address"
+              placeholder="Enter Account ID"
               hide-details
+              :error="validateAccount"
+              @input="debounce()"
             ></v-text-field>
-            <span class="margin1top" style="--c:#041C4C">Make sure the receiver has enough near for storage!</span>
+            <span class="margin1top" style="--c:#041C4C">Enter a recipient address, then proceed to confirm your transaction.</span>
           </div>
 
           <div class="center gap2">
-            <v-btn class="btn" style="--bg:var(--error);--bs:0 3px 4px 1px hsla(176, 60%, 40%, .4)">Close</v-btn>
-            <v-btn class="btn" style="--bs:0 3px 4px 1px hsl(176, 60%, 40%, .7)">Transfer</v-btn>
+            <v-btn class="btn" style="--bg:var(--error);--bs:0 3px 4px 1px hsla(176, 60%, 40%, .4)" @click="modalNfts=false, itemNft={}">Close</v-btn>
+            <v-btn class="btn" style="--bs:0 3px 4px 1px hsl(176, 60%, 40%, .7)" :disabled="validateAccount" @click="transfer_nft()">Transfer</v-btn>
           </div>
         </v-sheet>
       </v-card>
@@ -119,6 +121,11 @@
 </template>
 
 <script>
+import * as nearAPI from 'near-api-js'
+import { CONFIG } from '@/services/api'
+
+const { connect, keyStores, WalletConnection, Contract, utils } = nearAPI;
+
 export default {
   name: "modalBulkNftManagement",
   i18n: require("./i18n"),
@@ -131,9 +138,46 @@ export default {
       modalListNfts: false,
       modalUpdate: false,
       modalDelisting: false,
+      itemNft: {},
+      validateAccount: false,
     }
   },
   methods: {
+    debounce () {
+      clearTimeout(this.timer)
+      this.timer = setTimeout(this.validateNear, 600)
+    },
+    async validateNear() {
+      const near = await connect(CONFIG(new keyStores.BrowserLocalStorageKeyStore()));
+      const account = await near.account(this.dataModalNfts.address);
+      await account.state()
+          .then((response) => {
+              console.log("bien")
+              this.validateAccount = false
+          }).catch((error) => {
+              console.log("error")
+              this.validateAccount = true
+          })
+    },
+    async transfer_nft() {
+      console.log(this.itemNft)
+      const near = await connect(CONFIG(new keyStores.BrowserLocalStorageKeyStore()));
+      const wallet = new WalletConnection(near);
+
+      const contract = new Contract(wallet.account(), this.itemNft.collection, {
+        changeMethods: ["nft_transfer"],
+        sender: wallet.account(),
+      })
+      await contract.nft_transfer({
+        receiver_id: this.dataModalNfts.address,
+        token_id: this.itemNft.token_id,
+      },'300000000000000',
+      "1").then((response) => {
+        console.log(response);
+      }).catch(err => {
+        console.log(err)
+      })
+    },
   }
 };
 </script>

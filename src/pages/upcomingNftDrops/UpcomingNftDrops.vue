@@ -329,7 +329,8 @@ export default {
             aux = false
           })
         if (aux) {
-          setTimeout(this.refreshVote, 30000)
+          //setTimeout(this.refreshVote, 30000)
+          this.refreshVote()
         }
       }
     },

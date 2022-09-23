@@ -320,7 +320,8 @@ export default {
     }.bind(this), 1800000);
     if (localStorage.started === true || localStorage.started === 'true') {
       console.log("entro")
-      setTimeout(this.refreshForm, 30000)
+      //setTimeout(this.refreshForm, 30000)
+      this.refreshForm()
     }
     if (window.innerWidth <= 880) {
       const cont = document.querySelector("#containerSliderHero")

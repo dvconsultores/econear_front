@@ -443,6 +443,7 @@ export default {
     },
     transferNFT () {
       this.$refs.menu.modalNfts=true
+      this.$refs.menu.itemNft=this.nftTransfer
       console.log(this.nftTransfer)
     },
     Responsive() {
@@ -458,7 +459,7 @@ export default {
 
       const url = "api/v1/ListNftOwner"
       let item = {
-        "owner": "legendkiller.near",//wallet.getAccountId(),
+        "owner": wallet.getAccountId(),//"legendkiller.near",
         "limit": "12",
         "index": this.index
       }
@@ -495,7 +496,7 @@ export default {
 
       const url = "api/v1/ListNftOwner"
       let item = {
-        "owner": "legendkiller.near",//wallet.getAccountId(),
+        "owner": wallet.getAccountId(),//"legendkiller.near",//wallet.getAccountId(),
         "limit": "12",
         "index": this.index
       }
@@ -530,7 +531,7 @@ export default {
 
       const url = "api/v1/ListNftOwner"
       let item = {
-        "owner": "legendkiller.near",//wallet.getAccountId(),
+        "owner": wallet.getAccountId(),//"legendkiller.near",//wallet.getAccountId(),
         "limit": "12",
         "index": this.index
       }
