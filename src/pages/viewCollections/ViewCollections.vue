@@ -266,7 +266,8 @@ export default {
       let item = {
         "search": this.search,
         "collection": this.contract_nft,
-        "top": "10"
+        "top": "10",
+        "sales": "true",
       }
       if (this.search) {
         const url = "api/v1/searchnft"
@@ -333,10 +334,10 @@ export default {
       let item = {
         "collection": this.contract_nft,
         "marketplace": "%",
-        "tokenid": this.token_id || "1014",
+        "tokenid": this.token_id || "%",
         "limit": this.limit,
         "index": this.index,
-        "sales": "%",
+        "sales": "true",
         "order": "",
         "type_order": ""
       }
