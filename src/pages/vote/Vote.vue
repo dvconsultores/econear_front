@@ -11,75 +11,83 @@
     <section id="container-top" class="card jspace fwrap">
       <section class="card divcol gap2">
         <h4 class="p">The most Voted</h4>
-        <v-sheet class="container-wrapper">
-          <section class="container-content scrollx">
-            <v-card color="transparent" v-for="(item,i) in dataVoted" :key="i" class="space gap1">
-              <div class="divrow gap2">
-                <div class="center gap1">
-                  <span class="number">{{i+1}}</span>
-                  <img :src="item.img" alt="project images" style="--w:4.710625em">
-                </div>
-
-                <div class="divcol overflow" style="width:11.63375em">
-                  <span style="font-size:1.095625em" class="bold">{{item.name}}</span>
-                  <span style="font-size:0.97375em">{{item.desc}}</span>
-                </div>
+        <v-sheet class="container-wrapper " color="transparent">
+          <v-card color="transparent" v-for="(item,i) in dataVoted" :key="i" class="space gap1 scrollx">
+            <div class="divrow gap2">
+              <div class="center gap1">
+                <span class="number">{{i+1}}</span>
+                <img :src="item.img" alt="project images" style="--w:4.710625em">
               </div>
 
-              <div class="right space">
-                <div class="center">
-                  <v-btn icon>
-                    <img src="@/assets/icons/like.svg" alt="like button">
-                  </v-btn>
-                  <v-btn icon @click="$refs.menu.modalDislike = true">
-                    <img src="@/assets/icons/dislike.svg" alt="dislike button">
-                  </v-btn>
-                </div>
-
-                <div class="divcol">
-                  <span style="--c:var(--success)">{{item.voted}}</span>
-                  <span>Voted</span>
-                </div>
+              <div class="divcol overflow" style="width:11.63375em">
+                <span style="font-size:1.095625em" class="bold">{{item.name}}</span>
+                <span style="font-size:0.97375em">{{item.desc}}</span>
               </div>
-            </v-card>
-          </section>
+            </div>
+
+            <div class="right space">
+              <div class="center" style="gap:.5em">
+                <span>{{item.vote_positivo}}</span>
+                <div class="acenter">
+                  <v-btn :class="{clr_tertiary: item.positivo == 1}" icon @click="votar(item.desc, true)">
+                    <img src="@/assets/icons/like.svg" alt="like">
+                  </v-btn>
+                  <v-btn :class="{clr_tertiary: item.negativo == 1}" :disabled="!item.permission" icon @click="votar(item.desc, false)">
+                    <img src="@/assets/icons/dislike.svg" alt="dislike">
+                  </v-btn>
+                </div>
+                <span>{{item.vote_negativo}}</span>
+              </div>
+            </div>
+          </v-card>
         </v-sheet>
       </section>
 
       <section class="card divcol gap2">
         <h4 class="p">Recently Added</h4>
-        <v-sheet class="container-wrapper">
-          <section class="container-content scrollx">
-            <v-card color="transparent" v-for="(item,i) in dataAdded" :key="i" class="space gap1">
-              <div class="divrow gap2">
-                <div class="center gap1">
-                  <span class="number">{{i+1}}</span>
-                  <img :src="item.img" alt="project images" style="--w:4.710625em">
-                </div>
-
-                <div class="divcol overflow" style="width:11.63375em">
-                  <span style="font-size:1.095625em" class="bold">{{item.name}}</span>
-                  <span style="font-size:0.97375em">{{item.desc}}</span>
-                </div>
+        <v-sheet class="container-wrapper " color="transparent">
+          <v-card color="transparent" v-for="(item,i) in dataAdded" :key="i" class="space gap1 scrollx">
+            <div class="divrow gap2">
+              <div class="center gap1">
+                <span class="number">{{i+1}}</span>
+                <img :src="item.img" alt="project images" style="--w:4.710625em">
               </div>
 
-              <div class="right space">
-                <div class="center">
-                  <v-btn icon>
-                    <img src="@/assets/icons/like.svg" alt="like button">
-                  </v-btn>
-                  <v-btn icon @click="$refs.menu.modalDislike = true">
-                    <img src="@/assets/icons/dislike.svg" alt="dislike button">
-                  </v-btn>
-                </div>
-
-                <div class="divcol">
-                  <span style="--c:var(--success)">{{item.voted}}</span>
-                  <span>Voted</span>
-                </div>
+              <div class="divcol overflow" style="width:11.63375em">
+                <span style="font-size:1.095625em" class="bold">{{item.name}}</span>
+                <span style="font-size:0.97375em">{{item.desc}}</span>
               </div>
-            </v-card>
-          </section>
+            </div>
+
+            <div class="right space">
+              <div class="center" style="gap:.5em">
+                <span>{{item.vote_positivo}}</span>
+                <div class="acenter">
+                  <v-btn :class="{clr_tertiary: item.positivo == 1}" icon @click="votar(item.desc, true)">
+                    <img src="@/assets/icons/like.svg" alt="like">
+                  </v-btn>
+                  <v-btn :class="{clr_tertiary: item.negativo == 1}" :disabled="!item.permission" icon @click="votar(item.desc, false)">
+                    <img src="@/assets/icons/dislike.svg" alt="dislike">
+                  </v-btn>
+                </div>
+                <span>{{item.vote_negativo}}</span>
+              </div>
+            </div>
+              <!-- <div class="center">
+                <v-btn icon>
+                  <img src="@/assets/icons/like.svg" alt="like button">
+                </v-btn>
+                <v-btn icon @click="$refs.menu.modalDislike = true">
+                  <img src="@/assets/icons/dislike.svg" alt="dislike button">
+                </v-btn>
+              </div>
+
+              <div class="divcol">
+                <span style="--c:var(--success)">{{item.voted}}</span>
+                <span>Voted</span>
+              </div>
+            </div> -->
+          </v-card>
         </v-sheet>
       </section>
     </section>
@@ -156,7 +164,7 @@
 
 
       <!-- right -->
-      <section class="divcol gap2">
+      <!-- <section class="divcol gap2">
         <aside class="container-controls space gap2 wrap">
           <v-tabs>
             <v-tab v-for="(item,i) in dataControlsRight" :key="i">
@@ -221,13 +229,18 @@
             </v-btn>
           </v-btn-toggle>
         </v-sheet>
-      </section>
+      </section> -->
     </section>
   </section>
 </template>
 
 <script>
 import ModalVote from './ModalVote.vue'
+import * as nearAPI from 'near-api-js'
+import { CONFIG } from '@/services/api'
+
+const { connect, keyStores, WalletConnection, Contract, utils } = nearAPI;
+
 export default {
   name: "vote",
   i18n: require("./i18n"),
@@ -235,56 +248,56 @@ export default {
   data() {
     return {
       dataVoted: [
-        {
-          img: require("@/assets/nfts/nft1.png"),
-          name: "Nft Project Name",
-          desc: "Project description Lorem ipsum dolor sit amet",
-          like: false,
-          dislike: false,
-          voted: 3556,
-        },
-        {
-          img: require("@/assets/nfts/nft1.png"),
-          name: "Nft Project Name",
-          desc: "Project description Lorem ipsum dolor sit amet",
-          like: false,
-          dislike: false,
-          voted: 3556,
-        },
-        {
-          img: require("@/assets/nfts/nft1.png"),
-          name: "Nft Project Name",
-          desc: "Project description Lorem ipsum dolor sit amet",
-          like: false,
-          dislike: false,
-          voted: 3556,
-        }
+        // {
+        //   img: require("@/assets/nfts/nft1.png"),
+        //   name: "Nft Project Name",
+        //   desc: "Project description Lorem ipsum dolor sit amet",
+        //   like: true,
+        //   dislike: false,
+        //   voted: 2555,
+        // },
+        // {
+        //   img: require("@/assets/nfts/nft1.png"),
+        //   name: "Nft Project Name",
+        //   desc: "Project description Lorem ipsum dolor sit amet",
+        //   like: false,
+        //   dislike: false,
+        //   voted: 3556,
+        // },
+        // {
+        //   img: require("@/assets/nfts/nft1.png"),
+        //   name: "Nft Project Name",
+        //   desc: "Project description Lorem ipsum dolor sit amet",
+        //   like: false,
+        //   dislike: false,
+        //   voted: 3556,
+        // }
       ],
       dataAdded: [
-        {
-          img: require("@/assets/nfts/nft1.png"),
-          name: "Nft Project Name",
-          desc: "Project description Lorem ipsum dolor sit amet",
-          like: false,
-          dislike: false,
-          voted: 3556,
-        },
-        {
-          img: require("@/assets/nfts/nft1.png"),
-          name: "Nft Project Name",
-          desc: "Project description Lorem ipsum dolor sit amet",
-          like: false,
-          dislike: false,
-          voted: 3556,
-        },
-        {
-          img: require("@/assets/nfts/nft1.png"),
-          name: "Nft Project Name",
-          desc: "Project description Lorem ipsum dolor sit amet",
-          like: false,
-          dislike: false,
-          voted: 3556,
-        }
+        // {
+        //   img: require("@/assets/nfts/nft1.png"),
+        //   name: "Nft Project Name",
+        //   desc: "Project description Lorem ipsum dolor sit amet",
+        //   like: false,
+        //   dislike: false,
+        //   voted: 3556,
+        // },
+        // {
+        //   img: require("@/assets/nfts/nft1.png"),
+        //   name: "Nft Project Name",
+        //   desc: "Project description Lorem ipsum dolor sit amet",
+        //   like: false,
+        //   dislike: false,
+        //   voted: 3556,
+        // },
+        // {
+        //   img: require("@/assets/nfts/nft1.png"),
+        //   name: "Nft Project Name",
+        //   desc: "Project description Lorem ipsum dolor sit amet",
+        //   like: false,
+        //   dislike: false,
+        //   voted: 3556,
+        // }
       ],
       searchLeft: "",
       dataControlsLeft: [
@@ -344,16 +357,203 @@ export default {
       ],
     }
   },
-  mounted() {
-    const el = document.querySelectorAll(".container-wrapper")
-    el.forEach(e=>{
-      const el2 = document.querySelectorAll(".scrollx")
-      el2.forEach(e2=>{
-        e.style.setProperty("--h-slide", `${e2.getBoundingClientRect().height}px`)
-      })
-    })
+  async mounted() {
+    this.theMostVoted()
+    this.recentlyAdded()
   },
   methods: {
+    async votar (contract_id, vote) {
+      document.documentElement.style.cursor = "progress"
+      document.querySelectorAll("#vote #container-top .v-btn").forEach(item => item.style.pointerEvents = "none")
+      const CONTRACT_NAME = 'backend.monkeonnear.near'
+      // connect to NEAR
+      const near = await connect(CONFIG(new keyStores.BrowserLocalStorageKeyStore()));
+      // create wallet connection
+      const wallet = new WalletConnection(near)
+      if (wallet.isSignedIn()) {
+        const contract = new Contract(wallet.account(), CONTRACT_NAME, {
+          changeMethods: ['votar'],
+          sender: wallet.account()
+        })
+        let aux = null
+        await contract.votar({
+          collections: contract_id,
+          voto: vote,
+        })
+          .then((response) => {
+            this.refreshVote()
+            
+            console.log(response)
+            aux = true            
+          }).catch((error) => {
+            console.log(error)
+            aux = false
+          })
+        // if (aux) {
+        //   //setTimeout(this.refreshVote, 30000)
+          
+        // }
+      }
+    },
+    refreshVote() {
+      const url = "api/v1/refreshvotes"
+      this.axios.post(url)
+        .then((response) => {
+          console.log("bien refresh")
+          console.log(response)
+          this.theMostVoted()
+          this.recentlyAdded()
+          document.documentElement.style.cursor = "default"
+          document.querySelectorAll("#vote #container-top .v-btn").forEach(item => item.style.pointerEvents = "all")
+        }).catch((error) => {
+          console.log(error)
+        })
+    },
+    async theMostVoted(){
+      const near = await connect(CONFIG(new keyStores.BrowserLocalStorageKeyStore()));
+      // create wallet connection
+      const wallet = new WalletConnection(near)
+      const url = "api/v1/themostvoted"
+      let item = {
+        top: 10,
+        owner: wallet.getAccountId() || "%"
+      }
+      this.axios.post(url, item)
+        .then((response) => {
+          this.dataVoted = []
+          for (var i = 0; i < response.data.length; i++) {
+            let collection = {
+              img: response.data[i].icon,
+              name: response.data[i].name,
+              desc: response.data[i].collection,
+              like: false,
+              dislike: false,
+              vote_positivo: response.data[i].votos_positivos,
+              vote_negativo: response.data[i].votos_negativos,
+              positivo: 0,
+              negativo: 0,
+              permission: response.data[i].permission_voto_nega,
+              //voted: response.data[i].votos_positivos,
+            }
+            if (!collection.img) {
+              this.axios.get("https://api-v2-mainnet.paras.id/collections?creator_id=" + collection.desc).then(res => {
+                  // console.log(res.data.data.results)
+                let data = res.data.data.results
+                data.forEach(element => {
+                  if ((element.collection).toLowerCase() === collection.name.toLowerCase()) {
+                    collection.img = 'https://ipfs.fleek.co/ipfs/' + element.media
+                  }
+                });
+                collection.img = collection.img || require('@/assets/nfts/nft1.png')
+              })
+            }
+            this.dataVoted.push(collection)
+            this.getVotaciones()
+          }
+        }).catch((error) => {
+          console.log(error)
+        })
+    },
+    async recentlyAdded(){
+      const near = await connect(CONFIG(new keyStores.BrowserLocalStorageKeyStore()));
+      // create wallet connection
+      const wallet = new WalletConnection(near)
+      const url = "api/v1/recentlyadded"
+      let item = {
+        top: 10,
+        owner: wallet.getAccountId() || "%"
+      }
+      this.axios.post(url, item)
+        .then((response) => {
+          this.dataAdded = []
+          for (var i = 0; i < response.data.length; i++) {
+            let collection = {
+              img: response.data[i].icon,
+              name: response.data[i].name,
+              desc: response.data[i].nft_contract,
+              like: false,
+              dislike: false,
+              vote_positivo: response.data[i].votos_positivos,
+              vote_negativo: response.data[i].votos_negativos,
+              positivo: 0,
+              negativo: 0,
+              permission: response.data[i].permission_voto_nega,
+              //voted: response.data[i].votos_positivos,
+            }
+            if (!collection.img) {
+              this.axios.get("https://api-v2-mainnet.paras.id/collections?creator_id=" + collection.desc).then(res => {
+                  // console.log(res.data.data.results)
+                let data = res.data.data.results
+                data.forEach(element => {
+                  if ((element.collection).toLowerCase() === collection.name.toLowerCase()) {
+                    collection.img = 'https://ipfs.fleek.co/ipfs/' + element.media
+                  }
+                });
+                collection.img = collection.img || require('@/assets/nfts/nft1.png')
+              })
+            }
+            this.dataAdded.push(collection)
+            this.getVotacionesRecently()
+          }
+        }).catch((error) => {
+          console.log(error)
+        })
+    },
+    async getVotacionesRecently() {
+      const CONTRACT_NAME = 'backend.monkeonnear.near'
+      // connect to NEAR
+      const near = await connect(CONFIG(new keyStores.BrowserLocalStorageKeyStore()));
+      // create wallet connection
+      const wallet = new WalletConnection(near)
+      if (wallet.isSignedIn()) {
+        const contract = new Contract(wallet.account(), CONTRACT_NAME, {
+          viewMethods: ['get_voto_user'],
+          sender: wallet.account()
+        })
+        for (var i = 0; i < this.dataAdded.length; i++) {
+          await contract.get_voto_user({
+            collection: this.dataAdded[i].desc,
+            user_id: wallet.getAccountId(),
+          })
+            .then((response) => {
+              this.dataAdded[i].positivo = response.positivo
+              this.dataAdded[i].negativo = response.negativo
+            }).catch((error) => {
+              console.log(error)
+              this.dataAdded[i].positivo = 0
+              this.dataAdded[i].negativo = 0
+            })
+        }
+      }
+    },
+    async getVotaciones() {
+      const CONTRACT_NAME = 'backend.monkeonnear.near'
+      // connect to NEAR
+      const near = await connect(CONFIG(new keyStores.BrowserLocalStorageKeyStore()));
+      // create wallet connection
+      const wallet = new WalletConnection(near)
+      if (wallet.isSignedIn()) {
+        const contract = new Contract(wallet.account(), CONTRACT_NAME, {
+          viewMethods: ['get_voto_user'],
+          sender: wallet.account()
+        })
+        for (var i = 0; i < this.dataVoted.length; i++) {
+          await contract.get_voto_user({
+            collection: this.dataVoted[i].desc,
+            user_id: wallet.getAccountId(),
+          })
+            .then((response) => {
+              this.dataVoted[i].positivo = response.positivo
+              this.dataVoted[i].negativo = response.negativo
+            }).catch((error) => {
+              console.log(error)
+              this.dataVoted[i].positivo = 0
+              this.dataVoted[i].negativo = 0
+            })
+        }
+      }
+      this.dataTableBool = true
+    },
   }
 };
 </script>

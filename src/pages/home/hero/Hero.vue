@@ -13,7 +13,7 @@
               <span>{{i2+1}}</span>
               <img :src="item2.img || image" alt="Referencial Image" style="--w:clamp(3.5em,2vw,4.75em)">
               <div class="divcol">
-                <span class="h11_em">{{item2.name}}</span>
+                <span class="h11_em" :title="item2.name">{{item2.name}}</span>
                 <span class="h12_em">{{item2.user}}</span>
               </div>
             </div>
@@ -212,7 +212,7 @@ const config = {
   networkId: "mainnet",
   keyStore, 
   nodeUrl: "https://rpc.mainnet.near.org",
-  walletUrl: "https://wallet.mainnet.near.org",
+  walletUrl: "https://app.mynearwallet.com",
   helperUrl: "https://helper.mainnet.near.org",
   explorerUrl: "https://explorer.mainnet.near.org",
 };
@@ -312,14 +312,12 @@ export default {
   async mounted() {
     this.min_date = String(this.date.getFullYear()+ "-" + this.months[this.date.getMonth()] + "-" + this.date.getDate() + "T" + this.date.getHours() + ":" + this.date.getMinutes())
 
-    console.log("MINDATE",this.min_date)
     await this.priceNEAR()
     this.salesOfTheDay()
     this.interval = setInterval(function () {
         this.salesOfTheDay()
     }.bind(this), 1800000);
     if (localStorage.started === true || localStorage.started === 'true') {
-      console.log("entro")
       //setTimeout(this.refreshForm, 30000)
       this.refreshForm()
     }
@@ -345,11 +343,8 @@ export default {
       const url = "api/v1/refreshform"
       this.axios.post(url)
         .then((response) => {
-          console.log("bien refresh")
           localStorage.started = false
-          console.log(response)
         }).catch((error) => {
-          console.log(error)
         })
     },
     async submint(){
@@ -372,15 +367,12 @@ export default {
               "id_contract_project": this.item.contract_id,
             }
 
-            console.log("ITEMS",items)
-
             const CONTRACT_NAME = 'backend.monkeonnear.near'
             // connect to NEAR
             const near = await connect(config)
             // create wallet connection
             const wallet = new WalletConnection(near)
             if (wallet.isSignedIn()) {
-              console.log("entro")
               const contract = new Contract(wallet.account(), CONTRACT_NAME, {
                 changeMethods: ['addproject'],
                 sender: wallet.account()
@@ -393,7 +385,6 @@ export default {
               }, '300000000000000', // attached GAS (optional)
                 '1')
                 .then((response) => {
-                  console.log(response)
                 }).catch((error) => {
                   console.log(error)
                 })
@@ -425,7 +416,6 @@ export default {
       }
     },
     async buttonYes(){
-      console.log(this.item.datetime)
       this.check_error = false
       if (this.item.yes_mint === true) {
         this.item.no_mint = false
@@ -433,8 +423,6 @@ export default {
       }
     },
     async buttonNo(){
-      console.log(this.item.datetime)
-      console.log(this.item.no_mint)
       this.check_error = false
       if (this.item.no_mint === true) {
         this.item.yes_mint = false
@@ -445,7 +433,6 @@ export default {
     async priceNEAR(){
       axios.get("https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=near&order=market_cap_desc&per_page=100&page=1&sparkline=false")
         .then((response) => {
-          console.log(response.data[0])
           this.nearPrice = response.data[0]
         })
         .catch((e) => {
@@ -486,9 +473,7 @@ export default {
             // }
             this.dataSales.push(collection)
           }
-          console.log("DATA",this.dataSales)
         }).catch((error) => {
-          console.log("HOLA3")
           console.log(error)
         })
     },

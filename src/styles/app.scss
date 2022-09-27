@@ -10,6 +10,18 @@
 
 ///////////////////// global ///////////////////////
 
+//mi selector pro
+.selectJuan {
+  .v-list-item {
+    display: flex;
+    gap: 10px;
+    div {
+      color: #FFFFFF !important;
+      font-weight: 600;
+    }
+  }
+}
+
 // responsive tabs
 .tab-right {
   img {width: 1.3em !important}

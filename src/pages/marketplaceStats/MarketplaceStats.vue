@@ -333,7 +333,6 @@ export default {
     },
     ShowStats(item) {
       this.stats = true
-      console.log(item)
     }
   }
 };

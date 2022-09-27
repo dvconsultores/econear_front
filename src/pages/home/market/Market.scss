@@ -26,28 +26,12 @@
             height: 1px;
             background-color: #60D2CA;
           }
-          /*-- intento de hacer elipsis en los spans --//
-          -- funcion --//
-            isEllipsisActive() {
-              const span_Array = document.querySelectorAll(".spanEllipsis");
-
-              span_Array.forEach(e=>{
-                console.log(e.offsetWidth, e.scrollWidth, "aqui")
-                return (e.offsetWidth < e.scrollWidth);
-              })
-            }
-          //-- funcion --*/
-          
-          //-- estilos --//
-          // div:first-of-type > div.divcol {
-          //   span {
-          //     white-space: nowrap; 
-          //     overflow: hidden;
-          //     text-overflow: ellipsis;
-          //     max-width: 25ch;
-          //   }
-          // }
-          //-- estilos --//
+          div > div > span:first-of-type {
+            max-width: clamp(9.375em, 15vw, 17em);
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+          }
         }
       }
     }

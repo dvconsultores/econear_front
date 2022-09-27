@@ -27,6 +27,12 @@
             100% {left: -200%}
           }
         }
+        div > div > span:first-of-type {
+          max-width: 215px;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
       }
     }
     @include media(max, 500px) {font-size: 12px}

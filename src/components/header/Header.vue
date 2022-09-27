@@ -53,8 +53,7 @@
           </v-card>
         </v-menu>
 
-        <v-menu offset-y>
-          <!-- slot language if !user -->
+        <!-- <v-menu offset-y>
           <template v-slot:activator="{ on, attrs}">
             <button v-show="!user" class="acenter h11_em" v-on="on" v-bind="attrs">
               <span>{{languageText}}</span>
@@ -68,7 +67,7 @@
               <v-list-item-title class="h11_em">{{item.name}}</v-list-item-title>
             </v-list-item>
           </v-list>
-        </v-menu>
+        </v-menu> -->
       </aside>
 
       <aside class="right acenter eliminarmobile" style="gap:clamp(1em, 1.5vw, 1.5em)">
@@ -129,10 +128,10 @@
                   <span class="h11_em">NEAR</span>
                   <span class="h12_em" style="color:var(--success)">{{profile.near}} N</span>
                 </div>
-                <div class="space fill_w">
+                <!-- <div class="space fill_w">
                   <span class="h11_em">ECO</span>
                   <span class="h12_em" style="color:var(--success)">0 E</span>
-                </div>
+                </div> -->
               </v-list-item>
             </v-list>
 
@@ -177,7 +176,7 @@ const config = {
   networkId: "mainnet",
   keyStore, 
   nodeUrl: "https://rpc.mainnet.near.org",
-  walletUrl: "https://wallet.mainnet.near.org",
+  walletUrl: "https://app.mynearwallet.com",
   helperUrl: "https://helper.mainnet.near.org",
   explorerUrl: "https://explorer.mainnet.near.org",
 };
@@ -379,7 +378,6 @@ export default {
       //         this.$store.commit("Avatar", this.avatar)
       //       }
       //   }).catch((error) => {
-      //     console.log(error)
       //   })
       // }
     },
@@ -412,11 +410,8 @@ export default {
         let valueStorage = Math.pow(10, 19)
         let valueYocto = Math.pow(10, 24)
 
-        console.log(response)
-
         const storage = (response.storage_usage * valueStorage) / valueYocto 
         this.profile.near = ((response.amount / valueYocto) - storage).toFixed(2)
-        console.log(this.profile.near)
       }
     },
     async signOut () {

@@ -48,10 +48,41 @@
 
         <v-sheet class="divcol center align">
           <div class="divcol fill_w">
-            <span class="margin1top">Make sure the receiver has enough near for storage!</span>
-            <span>Royalty: 2.4 N</span>
-            <span>Marketplace Fee: 0.24 N</span>
-            <span>You'll receive 9.36 N</span>
+            <label for="address">Price for: <span class="font-weight-black">{{itemNft.name}} #{{itemNft.token_id}} </span></label>
+            <v-text-field
+              v-model="dataModalNfts.address"
+              type="number"
+              id="address"
+              solo
+              placeholder="Enter price"
+              hide-details
+              :error="validateAccount"
+            >
+            <template v-slot:append> 
+              <img src="@/assets/logos/near.svg" alt="Logo Near" style="filter:invert(69%); --w:1.5em">
+            </template>
+            </v-text-field>
+            <span class="margin1top" style="--c:#041C4C">Enter a recipient address, then proceed to confirm your transaction.</span>
+            <v-select
+              ref="address"
+              v-model="marketplaces.marketplace"
+              :items="marketplaces.items"
+              :item-value="marketplaces.items"
+              placeholder="Select..."
+              solo
+              hide-details
+              required
+              :menu-props="{offsetY:true, contentClass: 'selectJuan'}"
+            >
+            <template v-slot:selection="{item}">
+              <img :src="item.img" alt="Logo marketplace">
+              <div>{{item.name}}</div>
+            </template>
+            <template v-slot:item="{item}">
+              <img :src="item.img" alt="Logo marketplace">
+              <div>{{item.name}}</div>
+            </template>
+            </v-select>
           </div>
 
           <div class="center gap2">
@@ -131,6 +162,27 @@ export default {
   i18n: require("./i18n"),
   data() {
     return {
+      marketplaces: {
+        marketplace: [],
+        items: [
+          {
+            img: require("@/assets/logos/near.svg"),
+            name: "Paras"
+          },
+          {
+            img: require("@/assets/logos/near.svg"),
+            name: "Paras 1"
+          },
+          {
+            img: require("@/assets/logos/near.svg"),
+            name: "Paras 2"
+          },
+          {
+            img: require("@/assets/logos/near.svg"),
+            name: "Paras 3"
+          }
+        ]
+      },
       modalNfts: false,
       dataModalNfts: {
         address: "",
@@ -152,15 +204,12 @@ export default {
       const account = await near.account(this.dataModalNfts.address);
       await account.state()
           .then((response) => {
-              console.log("bien")
               this.validateAccount = false
           }).catch((error) => {
-              console.log("error")
               this.validateAccount = true
           })
     },
     async transfer_nft() {
-      console.log(this.itemNft)
       const near = await connect(CONFIG(new keyStores.BrowserLocalStorageKeyStore()));
       const wallet = new WalletConnection(near);
 
@@ -173,9 +222,7 @@ export default {
         token_id: this.itemNft.token_id,
       },'300000000000000',
       "1").then((response) => {
-        console.log(response);
       }).catch(err => {
-        console.log(err)
       })
     },
   }

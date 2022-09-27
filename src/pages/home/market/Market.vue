@@ -304,7 +304,6 @@ export default {
       this.axios.post(url, item)
         .then((response) => {
           this.dataBoard[1].list = []
-          console.log("SALES", response.data)
           for (var i = 0; i < response.data.length; i++) {
             let collection = {
               img: response.data[i].icon,
@@ -329,7 +328,6 @@ export default {
       this.axios.post(url, item)
         .then((response) => {
           this.dataBoard[2].list = []
-          console.log("LISTED", response.data)
           for (var i = 0; i < response.data.length; i++) {
             let collection = {
               img: response.data[i].icon,
@@ -350,8 +348,6 @@ export default {
       let item = {
         top: 10
       }
-      console.log("hola")
-      console.log(url)
       this.axios.post(url, item)
         .then((response) => {
           this.dataBoard[0].list = []
@@ -377,7 +373,6 @@ export default {
 
       this.axios.get(url)
         .then((response) => {
-          console.log("MCAP",response.data.est_market_capitalization)
           let est_market_cap = response.data.est_market_capitalization
           this.dataMarket[0].price = "$" + Number((est_market_cap.current_value * this.nearPrice.current_price).toFixed(2)).toLocaleString("en-US")
           this.dataMarket[0].value = Number(((est_market_cap.current_value * this.nearPrice.current_price) - (est_market_cap.value_24h_ago * this.nearPrice.current_price)).toFixed(2)).toLocaleString("en-US")
@@ -397,7 +392,6 @@ export default {
       this.axios.post(url)
         .then((response) => {
           this.volume24h = response.data[0]
-          console.log("VOLUMEN 23H", this.volume24h)
           this.dataMarket[3].price = parseFloat(this.volume24h.volumen24h).toFixed(2) + " N"
           this.dataMarket[3].value = (this.volume24h.volumen24h - this.volume24h.volumen48h).toFixed(2) + " N"
           this.dataMarket[3].percent = parseFloat(this.volume24h.porcentaje).toFixed(2)

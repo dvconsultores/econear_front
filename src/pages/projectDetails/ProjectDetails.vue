@@ -355,10 +355,8 @@ export default {
       let item = {
         "collection": this.contract_nft,
       }
-      console.log("DATA", this.contract_nft)
       this.axios.post(url, item)
         .then((response) => {
-          console.log("DATA1", response.data[0])
           if (response.data[0]) {
             this.dataInfo.supply = response.data[0].supply
             this.dataInfo.owners = response.data[0].owner_for_tokens
@@ -377,7 +375,6 @@ export default {
       this.axios.get("https://api-v2-mainnet.paras.id/collections?creator_id=" + this.contract_nft).then(res => {
           // console.log(res.data.data.results)
         let data = res.data.data.results
-        console.log("DATA", data)
         data.forEach(element => {
           if ((element.collection).toLowerCase() === this.dataInfo.name.toLowerCase()) {
             this.dataInfo.img = 'https://ipfs.fleek.co/ipfs/' + element.media

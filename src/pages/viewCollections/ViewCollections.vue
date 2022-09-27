@@ -147,7 +147,7 @@ const config = {
   networkId: "mainnet",
   keyStore, 
   nodeUrl: "https://rpc.mainnet.near.org",
-  walletUrl: "https://wallet.mainnet.near.org",
+  walletUrl: "https://app.mynearwallet.com",
   helperUrl: "https://helper.mainnet.near.org",
   explorerUrl: "https://explorer.mainnet.near.org",
 };
@@ -244,7 +244,6 @@ export default {
         price: item.price_yocto
       },'300000000000000',
       item.price_yocto).then((response) => {
-        console.log(response);
       }).catch(err => {
         console.log(err)
       })
@@ -262,7 +261,6 @@ export default {
       }
     },
     searchCollection() {
-      console.log(this.search)
       let item = {
         "search": this.search,
         "collection": this.contract_nft,
@@ -297,7 +295,6 @@ export default {
       this.axios.get("https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=near&order=market_cap_desc&per_page=100&page=1&sparkline=false")
         .then((response) => {
           this.nearPrice = response.data[0].current_price
-          console.log("PRECIOOO",this.nearPrice)
         })
         .catch((e) => {
           console.log(e)
@@ -309,7 +306,6 @@ export default {
       return Number(item.toFixed(2)).toLocaleString("en-US")
     },
     orderList (item) {
-      console.log(item)
       this.variableCarga = false
       if (item.id === 0) {
         this.dataControls[0].active = true
@@ -344,24 +340,19 @@ export default {
       }
 
       if (this.dataControls[0].active === true) {
-        console.log("entro aqui")
         item.order = ""
         item.type_order = ""
       }
       else if (this.dataControls[1].active === true) {
-        console.log("entro aqui2")
         item.order = "precio"
         item.type_order = "desc"
       }
       else if (this.dataControls[2].active === true) {
-        console.log("entro aqui3")
         item.order = "precio"
         item.type_order = "asc"
       }
-      console.log("COLLECION", item)
       this.axios.post(url, item)
         .then((response) => {
-          console.log("NFTS", response.data)
           this.dataList2 = []
           for (var i = 0; i < response.data.length; i++) {
             let collection = {
@@ -399,12 +390,10 @@ export default {
         "type_order": "asc"
       }
 
-      console.log("ENTRO")
       
       this.axios.post(url, item)
         .then((response) => {
           this.dataList2 = []
-          console.log("SEEMORE", response.data)
           for (var i = 0; i < response.data.length; i++) {
             let collection = {
               nft: response.data[i].media,//,
@@ -453,10 +442,8 @@ export default {
       let item = {
         "collection": this.contract_nft,
       }
-      console.log("DATA", this.contract_nft)
       this.axios.post(url, item)
         .then((response) => {
-          console.log("DATA1", response.data[0])
           if (response.data[0]) {
             this.dataInfo.supply = response.data[0].supply
             this.dataInfo.owners = response.data[0].owner_for_tokens
@@ -475,7 +462,6 @@ export default {
       this.axios.get("https://api-v2-mainnet.paras.id/collections?creator_id=" + this.contract_nft).then(res => {
           // console.log(res.data.data.results)
         let data = res.data.data.results
-        console.log("DATA", data)
         data.forEach(element => {
           if ((element.collection).toLowerCase() === this.dataInfo.name.toLowerCase()) {
             this.dataInfo.img = 'https://ipfs.fleek.co/ipfs/' + element.media

@@ -105,7 +105,7 @@ const config = {
   networkId: "mainnet",
   keyStore, 
   nodeUrl: "https://rpc.mainnet.near.org",
-  walletUrl: "https://wallet.mainnet.near.org",
+  walletUrl: "https://app.mynearwallet.com",
   helperUrl: "https://helper.mainnet.near.org",
   explorerUrl: "https://explorer.mainnet.near.org",
 };
@@ -275,7 +275,6 @@ export default {
       let timeNow = parseInt(new Date().getTime() / 1000)
 
       let time = timeEnd - timeNow
-      console.log("TIMe", time)
 
       var d = String(Math.floor(time / (3600*24)));
       var h = String(Math.floor(time % (3600*24) / 3600));
@@ -322,7 +321,6 @@ export default {
           voto: true
         })
           .then((response) => {
-            console.log(response)
             aux = true            
           }).catch((error) => {
             console.log(error)
@@ -336,11 +334,9 @@ export default {
     },
     refreshVote() {
       const url = "api/v1/refreshvotesupcoming"
-      console.log("refresh")
       this.axios.post(url)
         .then((response) => {
           console.log("bien refresh")
-          console.log(response)
           this.upcomingListed()
         }).catch((error) => {
           console.log(error)
@@ -391,8 +387,6 @@ export default {
      
       this.axios.post(url, item)
         .then(async (response) => {
-          
-          console.log("UPCOMING", response.data)
           for (var i = 0; i < response.data.length; i++) {
             let times = await this.getTime(response.data[i].fecha_lanzamiento)
             let timeEnd = response.data[i].fecha_lanzamiento

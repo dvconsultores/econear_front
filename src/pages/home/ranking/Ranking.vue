@@ -150,14 +150,14 @@
     </center>
 
 
-    <section id="container-footer" class="divcol gap1" style="padding-block:6em 7em">
+    <!-- <section id="container-footer" class="divcol gap1" style="padding-block:6em 7em">
       <h2 class="h6_em tcenter">Want to get Your Project Listed?</h2>
       <p class="divcol center tcenter">
         <span>Can't find your project? List your favorite project now!</span>
         <span>Get your community to vote for your project and gain exposure.</span>
       </p>
       <v-btn class="h10_em btn align" style="--p:1em 1.5em">Upload Collection</v-btn>
-    </section>
+    </section> -->
   </section>
 </template>
 
@@ -173,7 +173,7 @@ const config = {
   networkId: "mainnet",
   keyStore, 
   nodeUrl: "https://rpc.mainnet.near.org",
-  walletUrl: "https://wallet.mainnet.near.org",
+  walletUrl: "https://app.mynearwallet.com",
   helperUrl: "https://helper.mainnet.near.org",
   explorerUrl: "https://explorer.mainnet.near.org",
 };
@@ -323,17 +323,20 @@ export default {
     },
     refreshVote() {
       const url = "api/v1/refreshvotes"
-      console.log("refresh")
       this.axios.post(url)
         .then((response) => {
-          console.log("bien refresh")
-          console.log(response)
+          document.documentElement.style.cursor = "default"
+          document.querySelectorAll("#vote #container-top .v-btn").forEach(item => item.style.pointerEvents = "all")
           this.getRanking()
         }).catch((error) => {
           console.log(error)
+          document.documentElement.style.cursor = "default"
+          document.querySelectorAll("#vote #container-top .v-btn").forEach(item => item.style.pointerEvents = "all")
         })
     },
     async votar (contract_id, vote) {
+      document.documentElement.style.cursor = "progress"
+      document.querySelectorAll("#ranking #dataTable .v-btn").forEach(item => item.style.pointerEvents = "none")
       const CONTRACT_NAME = 'backend.monkeonnear.near'
       // connect to NEAR
       const near = await connect(config)
@@ -344,7 +347,6 @@ export default {
           changeMethods: ['votar'],
           sender: wallet.account()
         })
-        console.log(contract_id, vote)
         let aux = null
         await contract.votar({
           collections: contract_id,
@@ -360,11 +362,13 @@ export default {
         if (aux) {
           //setTimeout(this.refreshVote, 30000)
           this.refreshVote()
+        } else {
+          document.documentElement.style.cursor = "default"
+          document.querySelectorAll("#vote #container-top .v-btn").forEach(item => item.style.pointerEvents = "all")
         }
       }
     },
     searchCollection() {
-      console.log(this.search)
       let item = {
         search: this.search,
         top: 50
@@ -459,7 +463,6 @@ export default {
 
       this.axios.post(url, item)
         .then((response) => {
-          console.log("RANKING", response.data)
           for (var i = 0; i < response.data.length; i++) {
             let collection = {
               img: response.data[i].icon,
@@ -488,7 +491,6 @@ export default {
               collection.state_change = false
             }
             if (!collection.img) {
-              console.log("ENTRO IMG")
               this.axios.get("https://api-v2-mainnet.paras.id/collections?creator_id=" + collection.contract_id).then(res => {
                   // console.log(res.data.data.results)
                 let data = res.data.data.results

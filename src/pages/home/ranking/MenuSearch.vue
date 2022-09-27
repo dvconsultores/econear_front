@@ -32,7 +32,6 @@ export default {
   methods: {
     async getRanking(item) {
       // funcion para filrar datatable
-      console.log(item)
       this.$emit("getRanking", null, "hola")
     },
   }

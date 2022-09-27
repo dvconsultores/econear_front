@@ -12,7 +12,7 @@ function CONFIG(keyStores) {
       networkId: "mainnet",
       keyStore: keyStores, 
       nodeUrl: "https://rpc.mainnet.near.org",
-      walletUrl: "https://wallet.mainnet.near.org",
+      walletUrl: "https://app.mynearwallet.com",
       helperUrl: "https://helper.mainnet.near.org",
       explorerUrl: "https://explorer.mainnet.near.org",
     };
