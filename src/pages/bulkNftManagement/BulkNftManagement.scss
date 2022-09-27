@@ -153,6 +153,18 @@
       }
     }
   }
+  #lineaJuan {
+    .v-card > span {
+      position: relative;
+      &::after {
+        content: "";
+        @include absolute (0,auto,0,0);
+        background-color: var(--clr-line);
+        width: calc(100% - 2em);
+        height: 1px;
+      }
+    }
+  }
 }
 
 #modalNfts {

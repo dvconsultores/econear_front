@@ -107,7 +107,7 @@
         <div class="divcol gap2">
           <v-card v-for="(item,i) in dataBulk.unlisted" :key="i" class="card">
             <v-sheet color="transparent" class="fwrap acenter gap1" style="--fb: 1 1 12.5em" :class="{active: item.show}">
-              <div class="nfts" :class="{active: false}">
+              <div class="nfts" :title="item.name" :class="{active: false}">
                 <img :src="item.img || image" alt="nft images" style="--w:100%;--max-h: 10.468125em">
               </div>
               <v-sheet class="card">
@@ -144,8 +144,8 @@
             </v-sheet>
 
             <v-sheet v-show="item.show" color="transparent" class="grid" style="--gtc: repeat(auto-fit, minmax(min(100%,20.16375em),1fr));gap:2em">
-              <v-card v-for="(item2,i2) in item.dataNfts" :key="i2" class="divcol" :class="{widthLimiter: widthLimiter, active: item2.selected}" color="var(--primary)">
-                <img :src="item2.img" alt="nft images" style="--w:100%" @click="item2.selected=!item2.selected" class="pointer">
+              <v-card v-for="(item2,i2) in item.dataNfts" :key="i2" @click="selectedUnlisted(item, item2)" class="divcol" :class="{widthLimiter: widthLimiter, active: item2.selected}" color="var(--primary)">
+                <img :src="item2.img" alt="nft images" style="--w:100%" class="pointer">
                 <span class="bold">{{item2.name}}</span>
               </v-card>
             </v-sheet>
@@ -168,9 +168,9 @@
                   <span>Select</span>
                   <v-chip color="#26A17B" style="border-radius:.2vmax;height:1.861875em" class="bold">4/{{item.dataNfts.length}}</v-chip>
                 </div> -->
-                <v-btn class="btn bold" style="--h:2.75em;--p:0 2em;--bs:0 3px 4px 1px hsl(176, 60%, 40%, .7);--fs:1.1em"
-                  @click="$refs.menu.modalListNfts=true">
-                  List NFTS
+                <v-btn class="btn bold" :disabled="item.listDisabled" style="--h:2.75em;--p:0 2em;--bs:0 3px 4px 1px hsl(176, 60%, 40%, .7);--fs:1.1em"
+                  @click="listNft(item)">
+                  List NFT
                 </v-btn>
               </div>
             </aside>
@@ -207,8 +207,8 @@
       <template v-if="dataControlsBulk[dataControlsBulk.findIndex(e=>e.key=='listed')].active">
         <div class="divcol gap1">
           <v-card v-for="(item,i) in dataBulk.listed" :key="i" class="card">
-            <v-sheet color="transparent" class="fwrap acenter gap1" style="--fb: 1 1 12.5em" :class="{active: item.show}">
-              <div class="nfts" :class="{active: false}">
+            <v-sheet color="transparent"  class="fwrap acenter gap1" style="--fb: 1 1 12.5em" :class="{active: item.show}">
+              <div class="nfts" :title="item.name" :class="{active: false}">
                 <img :src="item.img || image" alt="nft images" style="--w:100%;--max-h: 10.468125em">
               </div>
               <v-sheet class="card">
@@ -244,10 +244,14 @@
               </v-btn>
             </v-sheet>
 
-            <v-sheet v-show="item.show" color="transparent" class="grid" style="--gtc: repeat(auto-fit, minmax(min(100%,20.16375em),1fr));gap:2em">
+            <v-sheet id="lineaJuan" v-show="item.show" color="transparent" class="grid" style="--gtc: repeat(auto-fit, minmax(min(100%,20.16375em),1fr));gap:2em">
               <v-card v-for="(item2,i2) in item.dataNfts" :key="i2" class="divcol" :class="{widthLimiter: widthLimiter, active: item2.selected}" color="var(--primary)">
                 <img :src="item2.img" alt="nft images" style="--w:100%" @click="item2.selected=!item2.selected" class="pointer">
                 <span class="bold">{{item2.name}}</span>
+                <div class="space">
+                  <span>Marketplace:</span>
+                  <span>{{item2.market_name}}</span>
+                </div>
               </v-card>
             </v-sheet>
             
@@ -481,11 +485,48 @@ export default {
       } else {
         this.nftTransfer = item
       }
+    },
+    selectedUnlisted(item, item2) {
+      item2.selected=!item2.selected
       
+      if (this.dataBulk.unlisted[item.index].itemListNft.selected && this.dataBulk.unlisted[item.index].itemListNft.index !== item2.index) {
+        this.dataBulk.unlisted[item.index].dataNfts[this.dataBulk.unlisted[item.index].itemListNft.index].selected = false
+      }
+
+      if (item2.selected === true) {
+        this.dataBulk.unlisted[item.index].listDisabled = false
+      } else {
+        this.dataBulk.unlisted[item.index].listDisabled = true
+      }
+      if (!item2.selected && this.dataBulk.unlisted[item.index].itemListNft.index === item2.index) {
+        this.dataBulk.unlisted[item.index].itemListNft = {}
+      } else {
+        this.dataBulk.unlisted[item.index].itemListNft = item2
+      }
     },
     transferNFT () {
       this.$refs.menu.modalNfts=true
       this.$refs.menu.itemNft=this.nftTransfer
+    },
+    listNft (item) {
+      // const near = await connect(config);
+      // const wallet = new WalletConnection(near);
+
+      const url = "api/v1/ListMarketplaceCollection"
+      let item2 = {
+        "collection": this.dataBulk.unlisted[item.index].collection
+      }
+
+      this.axios.post(url, item2)
+        .then((response) => {
+          console.log(response.data)
+          this.$refs.menu.marketplaces.items=response.data
+        }).catch((error) => {
+          console.log(error)
+        })
+
+      this.$refs.menu.modalListNfts=true
+      this.$refs.menu.itemListNft=this.dataBulk.unlisted[item.index].itemListNft
     },
     Responsive() {
       if (window.innerWidth >= 880&&this.dataNfts.length<=3) {
@@ -526,6 +567,7 @@ export default {
           this.verifyMore()
 
         }).catch((error) => {
+          console.log(error)
         })
     },
     async getListedNft(){
@@ -606,6 +648,8 @@ export default {
                 collection: response.data[i].collection,
                 name: response.data[i].titulo + " #" + response.data[i].token_id,
                 token_id: response.data[i].token_id,
+                marketplace: response.data[i].marketplace,
+                market_name: response.data[i].market_name,
                 selected: false,
               }
               this.dataBulk.listed[collection.index].dataNfts.push(nft)
@@ -623,7 +667,7 @@ export default {
 
       const url = "api/v1/bulklist"
       let item = {
-        "owner": "seseorang.near",//wallet.getAccountId(),
+        "owner": wallet.getAccountId(),//"seseorang.near",//wallet.getAccountId(),
         "limit": "50",
         "index": "0",
         "listed": false
@@ -645,7 +689,9 @@ export default {
               price: Number(response.data[i].floor_price).toFixed(2),
               total: Number(response.data[i].total_price).toFixed(2),
               show: false,
-              dataNfts: []
+              dataNfts: [],
+              itemListNft: {},
+              listDisabled: true,
             }
             if (!collection.img) {
               this.axios.get("https://api-v2-mainnet.paras.id/collections?creator_id=" + collection.collection).then(res => {
@@ -678,7 +724,7 @@ export default {
 
         const url = "api/v1/bulklistdetails"
         let item = {
-          "owner": "seseorang.near",
+          "owner": wallet.getAccountId(),//"seseorang.near",
           "collection": collection.collection,
           "limit": "12",
           "index": collection.pagination,
@@ -691,6 +737,7 @@ export default {
 
             for (var i = 0; i < response.data.length; i++) {
               let nft = {
+                index: collection.pagination + i,
                 img: response.data[i].media || require("@/assets/nfts/nft1.png"),
                 collection: response.data[i].collection,
                 name: response.data[i].titulo + " #" + response.data[i].token_id,
