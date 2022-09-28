@@ -2,10 +2,10 @@
   <v-app id="layout" class="relative">
     <Header ref="header" />
     <Alerts ref="alerts"></Alerts>
-    <v-main :class="wrapperSpace?'with':'without'" class="parent">
+    <v-main :class="$route.path !== '/contact'?'with':'without'" class="parent">
       <router-view></router-view>
     </v-main>
-    <Footer @SelectMore="(item) => {$refs.header.SelectItem_More(item)}" ref="footer" />
+    <Footer v-show="$route.path !== '/contact'" @SelectMore="(item) => {$refs.header.SelectItem_More(item)}" ref="footer" />
   </v-app>
 </template>
 

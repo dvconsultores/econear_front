@@ -224,7 +224,7 @@ export default {
         { key: "drops", name: "Drops", to: "/upcoming-nft-drops" },
         { key: "nfts", name: "NFTS", to: "" },
         { key: "snipe", name: "Snipe tool", to: "/snipe-tool" },
-        { key: "contact", name: "Contact us", to: "" },
+        { key: "contact", name: "Contact us", to: "/contact" },
       ],
       dataMore: [
         {

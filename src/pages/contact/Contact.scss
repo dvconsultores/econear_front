@@ -1,0 +1,25 @@
+@use "@/styles/app" as *;
+
+// // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // /
+/* // // contact // // */ 
+// // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // /
+#contact {
+  gap: 4em;
+  margin-block: 4em;
+  // > img {
+  //   --max-w: 20em;
+  // }
+  > article {
+    max-width: 60ch;
+    margin-inline: auto;
+    text-align: center;
+    h3 {
+      font-weight: 400;
+    }
+    p {
+      font-size: 1.5em;
+      font-weight: 300;
+      a {color: var(--secondary); font-size: 1.3em}
+    }
+  }
+}

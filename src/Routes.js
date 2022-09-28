@@ -117,6 +117,11 @@ export default new Router({
           name: 'mintCalendar',
           component: () => import('@/pages/mintCalendar/MintCalendar'),
         },
+        {
+          path: '/contact',
+          name: 'contact',
+          component: () => import('@/pages/contact/Contact'),
+        },
       ],
     },
     // path 3

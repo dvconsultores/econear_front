@@ -23,7 +23,7 @@
 
         <aside class="divcol gap2mobile" style="gap:8em">
           <div class="acenter gap2 fwrapmobile" style="--fb: 1 1 70px">
-            <a v-for="(item,i) in dataFooter" :key="i" :href="item.to" class="h11_em">
+            <a v-for="(item,i) in dataFooter" :key="i" @click="$router.push(item.to)" class="h11_em">
               {{item.name}}
             </a>
             <v-menu offset-y>
@@ -105,11 +105,11 @@ export default {
         { icon: require("@/assets/icons/telegram.svg"), to: "#" },
       ],
       dataFooter: [
-        { key: "home", name: "Home", to: "" },
-        { key: "drops", name: "Drops", to: "" },
+        { key: "home", name: "Home", to: "/" },
+        { key: "drops", name: "Drops", to: "/upcoming-nft-drops" },
         { key: "nfts", name: "NFTS", to: "" },
-        { key: "snipe", name: "Snipe tool", to: "" },
-        { key: "contact", name: "Contact us", to: "" },
+        { key: "snipe", name: "Snipe tool", to: "/snipe-tool" },
+        { key: "contact", name: "Contact us", to: "/contact" },
       ],
       dataMore: [
         {
