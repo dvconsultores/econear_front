@@ -52,7 +52,7 @@
 
         <aside class="space gap1 wrap_inv">
           <div class="acenter alignmobile">
-            <v-btn v-for="(item2,i) in item.redes" :key="i" icon :href="item2.url"
+            <v-btn v-for="(item2,i) in item.redes" :key="i" icon :href="item2.url" target="_blank"
               style="--p:0">
               <img class="aspect" :src="require(`@/assets/icons/${item2.name}.svg`)" alt="social icons"
                 style="--w:1.8em">
@@ -60,13 +60,13 @@
           </div>
 
           <div class="acenter alignmobile" style="gap:.5em">
-            <v-btn class="btn" style="--p:.3em;min-width:max-content;height:max-content;
+            <v-btn class="btn" @click="votar(item.type,true)" style="--p:.3em;min-width:max-content;height:max-content;
               --c:#000000;--bs:0 2px 3px 1px hsl(171, 100%, 72%, .4)">
-              <v-icon>mdi-arrow-up-bold</v-icon>
+              <v-icon>mdi-thumb-up</v-icon>
             </v-btn>
-            <v-btn class="btn" style="--p:.45em 1.5em;min-width:max-content;height:max-content;
+            <v-btn class="btn" @click="$router.push(`/view-collections/${item.type}`)" style="--p:.45em 1.5em;min-width:max-content;height:max-content;
               --c:#000000;--bs:0 2px 3px 1px hsl(171, 100%, 72%, .4)">
-              Lorem
+              View
             </v-btn>
           </div>
         </aside>
@@ -86,6 +86,18 @@
 
 <script>
 import moment from 'moment';
+import * as nearAPI from 'near-api-js'
+
+const { connect, keyStores, WalletConnection, Contract, utils } = nearAPI
+const keyStore = new keyStores.BrowserLocalStorageKeyStore()
+const config = {
+  networkId: "mainnet",
+  keyStore, 
+  nodeUrl: "https://rpc.mainnet.near.org",
+  walletUrl: "https://wallet.mainnet.near.org",
+  helperUrl: "https://helper.mainnet.near.org",
+  explorerUrl: "https://explorer.mainnet.near.org",
+};
 export default {
   name: "newProjects",
   i18n: require("./i18n"),
@@ -234,6 +246,49 @@ export default {
     this.getNewProjects()
   },
   methods: {
+    async votar (contract_id, vote) {
+      document.documentElement.style.cursor = "progress"
+      const CONTRACT_NAME = 'backend.monkeonnear.near'
+      // connect to NEAR
+      const near = await connect(config)
+      // create wallet connection
+      const wallet = new WalletConnection(near)
+      if (wallet.isSignedIn()) {
+        const contract = new Contract(wallet.account(), CONTRACT_NAME, {
+          changeMethods: ['votar'],
+          sender: wallet.account()
+        })
+        let aux = null
+        await contract.votar({
+          collections: contract_id,
+          voto: vote,
+        })
+          .then((response) => {
+            console.log(response)
+            aux = true            
+          }).catch((error) => {
+            console.log(error)
+            aux = false
+          })
+        if (aux) {
+          //setTimeout(this.refreshVote, 30000)
+          this.refreshVote()
+        } else {
+          document.documentElement.style.cursor = "default"
+        }
+      }
+    },
+    refreshVote() {
+      const url = "api/v1/refreshvotes"
+      this.axios.post(url)
+        .then((response) => {
+          document.documentElement.style.cursor = "default"
+          this.getNewProjects()
+        }).catch((error) => {
+          console.log(error)
+          document.documentElement.style.cursor = "default"
+        })
+    },
     orderList (item) {
       this.variableCarga = false
       if (item.id === 1) {
@@ -281,6 +336,7 @@ export default {
      
       this.axios.post(url, item)
         .then(async (response) => {
+          console.log("AQUII", response.data)
           for (var i = 0; i < response.data.length; i++) {
             if (response.data[i].fecha_lanzamiento === 0 || response.data[i].fecha_lanzamiento === "0" || !response.data[i].fecha_lanzamiento) {
               response.data[i].fecha_lanzamiento = parseInt(response.data[i].fecha_creacion)
@@ -301,7 +357,7 @@ export default {
               date: moment(response.data[i].fecha_lanzamiento / 1000000).format("Do MMM YYYY, h:mm A"),
               votes: response.data[i].voto,
               redes: [
-                { name: "twitter", url: "https://twitter.com/" + response.data[i].telegram },
+                { name: "twitter", url: "https://twitter.com/" + response.data[i].twiter },
                 { name: "discord", url: response.data[i].discord_server },
                 { name: "telegram", url: "https://t.me/" + response.data[i].telegram },
               ],

@@ -326,12 +326,10 @@ export default {
       this.axios.post(url)
         .then((response) => {
           document.documentElement.style.cursor = "default"
-          document.querySelectorAll("#vote #container-top .v-btn").forEach(item => item.style.pointerEvents = "all")
           this.getRanking()
         }).catch((error) => {
           console.log(error)
           document.documentElement.style.cursor = "default"
-          document.querySelectorAll("#vote #container-top .v-btn").forEach(item => item.style.pointerEvents = "all")
         })
     },
     async votar (contract_id, vote) {

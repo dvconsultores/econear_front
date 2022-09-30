@@ -248,7 +248,7 @@
             </v-list>
           </section>
 
-          <v-btn class="btn h10_em" style="--bs:0 3px 4px 2px hsl(176, 60%, 70%, .4);width:min(90%,417px);--br:.8vmax">
+          <v-btn class="btn h10_em" @click="signIn()" style="--bs:0 3px 4px 2px hsl(176, 60%, 70%, .4);width:min(90%,417px);--br:.8vmax">
             Add Account
           </v-btn>
         </v-sheet>
@@ -499,6 +499,23 @@ export default {
     };
   },
   methods: {
+    async signIn () {
+      console.log("holaa")
+      this.isSigned()
+      const near = await connect(config);
+      const wallet = new WalletConnection(near)
+      wallet.requestSignIn(
+        'backend.monkeonnear.near'
+      )
+    },
+    async isSigned () {
+      const near = await connect(config);
+      const wallet = new WalletConnection(near)
+      if (wallet.isSignedIn()) {
+        localStorage.setItem('logKey', null)
+        this.user = false
+      }
+    },
     async save_alert (contract_id, vote) {
       const CONTRACT_NAME = 'backend.monkeonnear.near'
       // connect to NEAR

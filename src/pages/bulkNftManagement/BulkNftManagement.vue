@@ -178,7 +178,7 @@
         </div>
 
         <aside class="footer-controls end">
-          <v-btn-toggle mandatory color="#60D2CA" class="align">
+          <!-- <v-btn-toggle mandatory color="#60D2CA" class="align">
             <v-btn color="transparent">
               <v-icon color="#707070">mdi-chevron-left</v-icon>
             </v-btn>
@@ -188,7 +188,7 @@
             <v-btn color="transparent">
               <v-icon color="#707070">mdi-chevron-right</v-icon>
             </v-btn>
-          </v-btn-toggle>
+          </v-btn-toggle> -->
 
           <!-- <div id="container-button" class="acenter" style="gap:1em">
             <div class="acenter" style="gap:.2em">
@@ -695,7 +695,7 @@ export default {
       const url = "api/v1/bulklist"
       let item = {
         "owner": wallet.getAccountId(),//"seseorang.near",
-        "limit": "50",
+        "limit": "200",
         "index": "0",
         "listed": true
       }
@@ -790,7 +790,7 @@ export default {
       const url = "api/v1/bulklist"
       let item = {
         "owner": wallet.getAccountId(),//"seseorang.near",//wallet.getAccountId(),
-        "limit": "50",
+        "limit": "200",
         "index": "0",
         "listed": false
       }

@@ -407,8 +407,60 @@ export default {
   },
   mounted() {
     this.getData()
+    this.get_projects()
   },
   methods: {
+    async get_projects(){
+      const near = await connect(config);
+      // create wallet connection
+      const wallet = new WalletConnection(near)
+      const url = "api/v1/yourprojectslist"
+      let item = {
+        "user_id": wallet.getAccountId(),
+      }
+
+      this.axios.post(url, item)
+        .then((response) => {
+          console.log("DATAMARKET",response.data)
+          this.dataTableProjects = []
+          for (var i = 0; i < response.data.length; i++) {
+            let collection = { 
+              img: require("@/assets/nfts/nft1.png"),
+              contract_id: response.data[i].id_contract,
+              name: response.data[i].project_name,
+              email: response.data[i].email,
+              discord_id: response.data[i].discord_id,
+              website: response.data[i].website,
+              twitter: "@" + response.data[i].twiter,
+              discord_server: response.data[i].discord_server,
+            }     
+            this.axios.get("https://api-v2-mainnet.paras.id/collections?creator_id=" + collection.contract_id).then(res => {
+                  // console.log(res.data.data.results)
+              let data = res.data.data.results
+              data.forEach(element => {
+                if ((element.collection).toLowerCase() === collection.name.toLowerCase()) {
+                  collection.img = 'https://ipfs.fleek.co/ipfs/' + element.media
+                }
+              });
+              collection.img = collection.img || require('@/assets/nfts/nft1.png')
+            })
+            this.dataTableProjects.push(collection)
+          }
+        }).catch((error) => {
+          console.log(error)
+          this.marketBool=true
+        })
+        // dataTableProjects: [
+        // {
+        //   img: require("@/assets/nfts/nft1.png"),
+        //   name: "Collection o Nft Name Lorem ipsum dolor sit",
+        //   email: "example@domain.com",
+        //   discord_id: "Username#321",
+        //   website: "www.loremimpsum.com",
+        //   twitter: "@loremipsum",
+        //   discord_server: "discord.gg/invitecode",
+        // },
+    },
     async getData () {
       // connect to NEAR
       const near = await connect(config);
