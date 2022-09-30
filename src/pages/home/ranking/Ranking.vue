@@ -173,7 +173,7 @@ const config = {
   networkId: "mainnet",
   keyStore, 
   nodeUrl: "https://rpc.mainnet.near.org",
-  walletUrl: "https://app.mynearwallet.com",
+  walletUrl: "https://wallet.mainnet.near.org",
   helperUrl: "https://helper.mainnet.near.org",
   explorerUrl: "https://explorer.mainnet.near.org",
 };
@@ -490,7 +490,7 @@ export default {
             if (response.data[i].porcentaje < 0) {
               collection.state_change = false
             }
-            if (!collection.img) {
+            //if (!collection.img) {
               this.axios.get("https://api-v2-mainnet.paras.id/collections?creator_id=" + collection.contract_id).then(res => {
                   // console.log(res.data.data.results)
                 let data = res.data.data.results
@@ -501,7 +501,7 @@ export default {
                 });
                 collection.img = collection.img || require('@/assets/nfts/nft1.png')
               })
-            }
+            //}
             this.dataTable.push(collection)
           }
           this.dataTableBool = true

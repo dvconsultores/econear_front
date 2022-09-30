@@ -100,9 +100,9 @@ export default {
   data() {
     return {
       dataRedes: [
-        { icon: require("@/assets/icons/twitter.svg"), to: "https://twitter.com/MonkeOnear" },
-        { icon: require("@/assets/icons/discord.svg"), to: "#" },
-        { icon: require("@/assets/icons/telegram.svg"), to: "#" },
+        { icon: require("@/assets/icons/twitter.svg"), to: "https://twitter.com/econear" },
+        // { icon: require("@/assets/icons/discord.svg"), to: "#" },
+        // { icon: require("@/assets/icons/telegram.svg"), to: "#" },
       ],
       dataFooter: [
         { key: "home", name: "Home", to: "/" },

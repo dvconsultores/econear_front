@@ -3,8 +3,14 @@
     <!-- <img src="@/assets/logos/econear.svg" alt="logo econnear"> -->
     <article class="center divcol">
       <h3>Contact us !</h3>
-      <p>You can contact us through our email <a href="#">econear.com</a> or on our official networks:</p>
-      <v-form ref="form" @submit.prevent="SendEmail()">
+      <p>You can contact us through our email <a href="#">contact@econear.in</a> or on our official networks:</p>
+
+      <div class="spacea gap2">
+        <v-btn v-for="(item,i) in dataSocial" :key="i" icon :href="item.link">
+          <img :src="require(`@/assets/icons/${item.social}.svg`)" :alt="`${item.social} button`" style="--w:2.625em">
+        </v-btn>
+      </div>
+      <v-form ref="form" style="margin-top:2em" @submit.prevent="SendEmail()">
         <v-text-field
           v-model="input"
           solo
@@ -21,11 +27,6 @@
           </template>
         </v-text-field>
       </v-form>
-      <div class="spacea gap2">
-        <v-btn v-for="(item,i) in dataSocial" :key="i" icon :href="item.link">
-          <img :src="require(`@/assets/icons/${item.social}.svg`)" :alt="`${item.social} button`" style="--w:2.625em">
-        </v-btn>
-      </div>
     </article>
   </section>
 </template>

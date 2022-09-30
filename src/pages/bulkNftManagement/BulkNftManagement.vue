@@ -4,7 +4,7 @@
     <aside class="divcol center gap1 tcenter">
       <h2 class="h5_em p">Bulk NFT Management</h2>
       <p class="h10_em" style="max-width:60ch">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut facilisis accumsan nisl, et blandit orci pellentesque
+        Manage multiple NFTs at the same time, more accurately.
       </p>
     </aside>
 
@@ -246,11 +246,15 @@
 
             <v-sheet id="lineaJuan" v-show="item.show" color="transparent" class="grid" style="--gtc: repeat(auto-fit, minmax(min(100%,20.16375em),1fr));gap:2em">
               <v-card v-for="(item2,i2) in item.dataNfts" :key="i2" class="divcol" :class="{widthLimiter: widthLimiter, active: item2.selected}" color="var(--primary)">
-                <img :src="item2.img" alt="nft images" style="--w:100%" @click="item2.selected=!item2.selected" class="pointer">
+                <img :src="item2.img" alt="nft images" style="--w:100%" @click="selectedListed(item, item2)" class="pointer">
                 <span class="bold">{{item2.name}}</span>
                 <div class="space">
                   <span>Marketplace:</span>
                   <span>{{item2.market_name}}</span>
+                </div>
+                <div class="space">
+                  <span>Price:</span>
+                  <span>{{parseFloat(item2.price).toFixed(2)}} NEAR</span>
                 </div>
               </v-card>
             </v-sheet>
@@ -274,12 +278,12 @@
                   <v-chip color="#26A17B" style="border-radius:.2vmax;height:1.861875em" class="bold">4/{{item.dataNfts.length}}</v-chip>
                 </div> -->
                 <div class="contents">
-                  <v-btn class="btn bold" style="--h:2.75em;--p:0 2em;--bs:0 3px 4px 1px hsl(176, 60%, 40%, .7);--fs:1.1em"
-                    @click="$refs.menu.modalUpdate=true">
+                  <v-btn class="btn bold" :disabled="item.listDisabled" style="--h:2.75em;--p:0 2em;--bs:0 3px 4px 1px hsl(176, 60%, 40%, .7);--fs:1.1em"
+                    @click="updateNft(item)">
                     Update NFTS
                   </v-btn>
-                  <v-btn class="btn bold" style="--h:2.75em;--p:0 2em;--bs:0 3px 4px 1px hsl(176, 60%, 40%, .4);--fs:1.1em;--bg:var(--error)"
-                    @click="$refs.menu.modalDelisting=true">
+                  <v-btn class="btn bold" :disabled="item.listDisabled" style="--h:2.75em;--p:0 2em;--bs:0 3px 4px 1px hsl(176, 60%, 40%, .4);--fs:1.1em;--bg:var(--error)"
+                    @click="delistingNft(item)">
                     Delisting
                   </v-btn>
                 </div>
@@ -295,14 +299,19 @@
 <script>
 import ModalBulkNftManagement from './ModalBulkNftManagement.vue'
 import * as nearAPI from 'near-api-js'
+import { CONFIG } from '@/services/api'
+import {Action, createTransaction, functionCall} from 'near-api-js/lib/transaction'
+import { base_decode } from 'near-api-js/lib/utils/serialize'
+import { PublicKey } from 'near-api-js/lib/utils'
 
-const { connect, keyStores, WalletConnection, Contract, utils } = nearAPI
+const { connect, transactions, keyStores, WalletConnection, Contract, utils } = nearAPI
 const keyStore = new keyStores.BrowserLocalStorageKeyStore()
+
 const config = {
   networkId: "mainnet",
   keyStore, 
   nodeUrl: "https://rpc.mainnet.near.org",
-  walletUrl: "https://app.mynearwallet.com",
+  walletUrl: "https://wallet.mainnet.near.org",
   helperUrl: "https://helper.mainnet.near.org",
   explorerUrl: "https://explorer.mainnet.near.org",
 };
@@ -433,7 +442,18 @@ export default {
     if (urlParams.get("transactionHashes") !== null) {
       // le das tu mensaje de exito
       this.refreshNft()
-      this.$store.dispatch('GenerateAlert', {key:'success', title: 'Success!', desc: 'Your NFT has been successfully transferred.'})
+      if (localStorage.tipohash === 'transfer') {
+        this.$store.dispatch('GenerateAlert', {key:'success', title: 'Success!', desc: 'Your NFT has been successfully transferred.'})
+      } else if (localStorage.tipohash === 'list') {
+        this.$store.dispatch('GenerateAlert', {key:'success', title: 'Success!', desc: 'Your NFT has been successfully listed.'})
+      } else if (localStorage.tipohash === 'revoke') {
+        this.$store.dispatch('GenerateAlert', {key:'success', title: 'Success!', desc: 'Your NFT has been successfully revoked.'})
+      } else if (localStorage.tipohash === 'update') {
+        this.$store.dispatch('GenerateAlert', {key:'success', title: 'Success!', desc: 'Your NFT has been successfully updated.'})
+      } else if (localStorage.tipohash === 'delete') {
+        this.$store.dispatch('GenerateAlert', {key:'success', title: 'Success!', desc: 'Your NFT has been successfully delisted.'})
+      }
+      localStorage.tipohash = null
       this.transactionHashes = urlParams.get("transactionHashes")
       history.replaceState(null, location.href.split("?")[0], '/#/bulk-nft-management');
       // this.$router.go(0)
@@ -470,6 +490,24 @@ export default {
     },
     selected(item) {
       item.selected=!item.selected
+
+      let aux = false
+
+      for (var i = 0; i < this.dataNfts.length; i++) {
+        if (this.dataNfts[i].selected) {
+          aux = true
+          break
+        }
+      }
+
+      if (aux) {
+        this.transferDis = false
+      } else {
+        this.transferDis = true
+      }
+    },
+    selectedOld(item) {
+      item.selected=!item.selected
       
       if (this.nftTransfer.selected && this.nftTransfer.index !== item.index) {
         this.dataNfts[this.nftTransfer.index].selected = false
@@ -504,7 +542,35 @@ export default {
         this.dataBulk.unlisted[item.index].itemListNft = item2
       }
     },
+    selectedListed(item, item2) {
+      item2.selected=!item2.selected
+      
+      if (this.dataBulk.listed[item.index].itemListNft.selected && this.dataBulk.listed[item.index].itemListNft.index !== item2.index) {
+        this.dataBulk.listed[item.index].dataNfts[this.dataBulk.listed[item.index].itemListNft.index].selected = false
+      }
+
+      if (item2.selected === true) {
+        this.dataBulk.listed[item.index].listDisabled = false
+      } else {
+        this.dataBulk.listed[item.index].listDisabled = true
+      }
+      if (!item2.selected && this.dataBulk.listed[item.index].itemListNft.index === item2.index) {
+        this.dataBulk.listed[item.index].itemListNft = {}
+      } else {
+        this.dataBulk.listed[item.index].itemListNft = item2
+      }
+    },
     transferNFT () {
+      var items = []
+      for (var i = 0; i < this.dataNfts.length; i++) {
+        if (this.dataNfts[i].selected) {
+          items.push(this.dataNfts[i])
+        }
+      }
+      this.$refs.menu.modalNfts=true
+      this.$refs.menu.itemsNfts=items
+    },
+    transferNFT_OLD () {
       this.$refs.menu.modalNfts=true
       this.$refs.menu.itemNft=this.nftTransfer
     },
@@ -528,6 +594,58 @@ export default {
       this.$refs.menu.modalListNfts=true
       this.$refs.menu.itemListNft=this.dataBulk.unlisted[item.index].itemListNft
     },
+    updateNft (item) {
+      // const near = await connect(config);
+      // const wallet = new WalletConnection(near);
+
+      this.$refs.menu.modalUpdate=true
+      this.$refs.menu.itemListNft=this.dataBulk.listed[item.index].itemListNft
+    },
+    async delistingNft(item) {
+      let itemNft = this.dataBulk.listed[item.index].itemListNft
+      let txs = [
+        {
+          receiverId: itemNft.collection,
+          functionCalls: [
+            {
+              methodName: "nft_revoke",
+              receiverId: itemNft.collection,
+              gas: "100000000000000",
+              args: {
+                token_id: itemNft.token_id,
+                account_id: itemNft.marketplace,
+              },
+              deposit: "1",
+            },
+          ],
+        },
+        {
+          receiverId: itemNft.marketplace,
+          functionCalls: [
+            {
+              methodName: "delete_market_data",
+              receiverId: itemNft.marketplace,
+              gas: "100000000000000",
+              args: {
+                token_id: itemNft.token_id,
+                nft_contract_id: itemNft.collection,
+              },
+              deposit: "1",
+            },
+          ],
+        }
+      ]
+      await this.batchTransaction(
+        txs
+      );
+    },
+    // delistingNft2 (item) {
+    //   // const near = await connect(config);
+    //   // const wallet = new WalletConnection(near);
+
+    //   this.$refs.menu.modalDelisting=true
+    //   this.$refs.menu.itemListNft=this.dataBulk.listed[item.index].itemListNft
+    // },
     Responsive() {
       if (window.innerWidth >= 880&&this.dataNfts.length<=3) {
         this.widthLimiter = true
@@ -576,7 +694,7 @@ export default {
 
       const url = "api/v1/bulklist"
       let item = {
-        "owner": "seseorang.near",//wallet.getAccountId(),
+        "owner": wallet.getAccountId(),//"seseorang.near",
         "limit": "50",
         "index": "0",
         "listed": true
@@ -598,7 +716,9 @@ export default {
               price: Number(response.data[i].floor_price).toFixed(2),
               total: Number(response.data[i].total_price).toFixed(2),
               show: false,
-              dataNfts: []
+              dataNfts: [],
+              itemListNft: {},
+              listDisabled: true,
             }
             if (!collection.img) {
               this.axios.get("https://api-v2-mainnet.paras.id/collections?creator_id=" + collection.collection).then(res => {
@@ -631,7 +751,7 @@ export default {
 
         const url = "api/v1/bulklistdetails"
         let item = {
-          "owner": "seseorang.near",
+          "owner": wallet.getAccountId(),//"seseorang.near",//"seseorang.near",
           "collection": collection.collection,
           "limit": "12",
           "index": collection.pagination,
@@ -644,6 +764,7 @@ export default {
 
             for (var i = 0; i < response.data.length; i++) {
               let nft = {
+                index: collection.pagination + i,
                 img: response.data[i].media || require("@/assets/nfts/nft1.png"),
                 collection: response.data[i].collection,
                 name: response.data[i].titulo + " #" + response.data[i].token_id,
@@ -651,6 +772,7 @@ export default {
                 marketplace: response.data[i].marketplace,
                 market_name: response.data[i].market_name,
                 selected: false,
+                price: response.data[i].price
               }
               this.dataBulk.listed[collection.index].dataNfts.push(nft)
             }
@@ -815,6 +937,80 @@ export default {
           console.log(error)
         })
     },
+    async createTransactionFn(
+      receiverId,
+      actions
+    ){
+      const near = await connect(CONFIG(new keyStores.BrowserLocalStorageKeyStore()));
+      const wallet = new WalletConnection(near);
+
+      if (!wallet || !near) {
+        throw new Error(`No active wallet or NEAR connection.`)
+      }
+
+      const localKey =
+        await near?.connection.signer.getPublicKey(
+          wallet?.account().accountId,
+          near.connection.networkId
+        )
+
+      const accessKey = await wallet
+        ?.account()
+        .accessKeyForTransaction(receiverId, actions, localKey)
+
+      if (!accessKey) {
+        throw new Error(
+          `Cannot find matching key for transaction sent to ${receiverId}`
+        )
+      }
+
+      const block = await near?.connection.provider.block({
+        finality: 'final',
+      })
+
+      if (!block) {
+        throw new Error(`Cannot find block for transaction sent to ${receiverId}`)
+      }
+
+      const blockHash = base_decode(block?.header?.hash)
+      //const blockHash = nearAPI.utils.serialize.base_decode(accessKey.block_hash);
+
+      const publicKey = PublicKey.from(accessKey.public_key)
+      //const nonce = accessKey.access_key.nonce + nonceOffset
+      const nonce = ++accessKey.access_key.nonce;
+
+      return createTransaction(
+        wallet?.account().accountId,
+        publicKey,
+        receiverId,
+        nonce,
+        actions,
+        blockHash
+      )
+    },
+
+    async batchTransaction(transactions, options) {
+
+      const near = await connect(CONFIG(new keyStores.BrowserLocalStorageKeyStore()));
+      const wallet = new WalletConnection(near);
+
+      const nearTransactions = await Promise.all(
+        transactions.map(async (tx) => {
+          return await this.createTransactionFn(
+            tx.receiverId,
+            tx.functionCalls.map((fc) => {
+              return functionCall(fc.methodName, fc.args, fc.gas, fc.deposit)
+            })
+          )
+        })
+      )
+
+      wallet.requestSignTransactions({
+        transactions: nearTransactions,
+        callbackUrl: options?.callbackUrl,
+        meta: options?.meta,
+      })
+    }
   }
 };
 </script>

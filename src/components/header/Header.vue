@@ -39,15 +39,15 @@
             <aside class="divcol center">
               <span>Join us on:</span>
               <div class="acenter" style="gap:.5em">
-                <v-btn icon>
+                <v-btn icon href="https://twitter.com/econear" target="_blank">
                   <img src="@/assets/icons/twitter.svg" alt="twitter" style="--w:1.5625em">
                 </v-btn>
-                <v-btn icon>
+                <!-- <v-btn icon>
                   <img src="@/assets/icons/discord.svg" alt="discord" style="--w:1.5625em">
                 </v-btn>
                 <v-btn icon>
                   <img src="@/assets/icons/telegram.svg" alt="telegram" style="--w:1.5625em">
-                </v-btn>
+                </v-btn> -->
               </div>
             </aside>
           </v-card>
@@ -93,12 +93,12 @@
           Connect Wallet
         </v-btn>
 
-        <v-badge v-show="!user" overlap :content="messages" :value="messages" class="openNotifications"
+        <!-- <v-badge v-show="!user" overlap :content="messages" :value="messages" class="openNotifications"
           style="--bg:var(--error);--c:#FFFFFF;--b:1.5px solid var(--success);--t:translate(-30%, 30%)">
           <v-btn icon>
             <img src="@/assets/icons/bell-outline.svg" alt="notifications" style="width:clamp(24px, 1.7vw, 1.775em)">
           </v-btn>
-        </v-badge>
+        </v-badge> -->
 
         <v-btn v-show="!user" class="btn avatarBtn openAccount"
           style="--p: clamp(1em, 1.5vw, 1.5em) .2em clamp(1em, 1.5vw, 1.5em) 0;--br:.2vmax;
@@ -176,7 +176,7 @@ const config = {
   networkId: "mainnet",
   keyStore, 
   nodeUrl: "https://rpc.mainnet.near.org",
-  walletUrl: "https://app.mynearwallet.com",
+  walletUrl: "https://wallet.mainnet.near.org",
   helperUrl: "https://helper.mainnet.near.org",
   explorerUrl: "https://explorer.mainnet.near.org",
 };
@@ -249,7 +249,7 @@ export default {
             { key: "wallet-submission", name: "Wallet Submission" },
             //{ key: "coming-soon", name: "Wallet Submission" },
             { key: "vote", name: "Vote" },
-            { key: "contact-us", name: "Contact Us" },
+            { key: "contact", name: "Contact Us" },
           ]
         },
         {
@@ -344,6 +344,7 @@ export default {
       // econear
       if (item.key=='wallet-submission') {this.$router.push('/coming-soon')}
       if (item.key=='vote') {this.$router.push("/"+item.key)}
+      if (item.key=='contact') {this.$router.push("/"+item.key)}
       // other
       //if (item.key=='marketplace-stats') {this.$router.push(item.key)}
       if (item.key=='marketplace-stats') {this.$router.push('/coming-soon')}
@@ -357,7 +358,8 @@ export default {
       if (item.key=='logout') {this.signOut()}
       if (item.key=='switch') {this.$refs.menu.modalSwitchAccount = true}
       if (item.key=='profile') {this.$router.push('/profile')}
-      if (item.key=='portafolio') {this.$router.push('/portafolio')}
+      //if (item.key=='portafolio') {this.$router.push('/portafolio')}
+      if (item.key=='portafolio') {this.$router.push('/coming-soon')}
       if (item.key=='settings') {this.$refs.menu.modalSettings = true}
     },
     async getData () {

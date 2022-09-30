@@ -370,6 +370,18 @@
 
 <script>
 import { i18n } from "@/plugins/i18n";
+import * as nearAPI from 'near-api-js'
+
+const { connect, keyStores, WalletConnection, Contract, utils } = nearAPI
+const keyStore = new keyStores.BrowserLocalStorageKeyStore()
+const config = {
+  networkId: "mainnet",
+  keyStore, 
+  nodeUrl: "https://rpc.mainnet.near.org",
+  walletUrl: "https://wallet.mainnet.near.org",
+  helperUrl: "https://helper.mainnet.near.org",
+  explorerUrl: "https://explorer.mainnet.near.org",
+};
 export default {
   name: "headerMenu",
   i18n: require("./i18n"),
@@ -487,6 +499,38 @@ export default {
     };
   },
   methods: {
+    async save_alert (contract_id, vote) {
+      const CONTRACT_NAME = 'backend.monkeonnear.near'
+      // connect to NEAR
+      const near = await connect(config)
+      // create wallet connection
+      const wallet = new WalletConnection(near)
+      if (wallet.isSignedIn()) {
+        const contract = new Contract(wallet.account(), CONTRACT_NAME, {
+          changeMethods: ['add_alert'],
+          sender: wallet.account()
+        })
+        let aux = null
+        await contract.add_alert({
+          collections: contract_id,
+          voto: vote,
+        })
+          .then((response) => {
+            console.log(response)
+            aux = true            
+          }).catch((error) => {
+            console.log(error)
+            aux = false
+          })
+        if (aux) {
+          //setTimeout(this.refreshVote, 30000)
+          this.refreshVote()
+        } else {
+          document.documentElement.style.cursor = "default"
+          document.querySelectorAll("#vote #container-top .v-btn").forEach(item => item.style.pointerEvents = "all")
+        }
+      }
+    },
     SelectItem_AvatarMenu(item) {
       this.$emit("SelectItem_AvatarMenu", item)
     },

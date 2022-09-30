@@ -13,7 +13,7 @@
         <img src="@/assets/logos/user.png" alt="avatar" style="--b:3px solid var(--success);--br:50%;--w:100%">
       </v-avatar>
       <h2 class="p bold">{{accountId}}</h2>
-      <div class="acenter spacea gap1">
+      <!-- <div class="acenter spacea gap1">
         <v-btn v-for="(item,i) in dataSocialRed" :key="i" icon :href="item.link" target="_blank" style="--p:2em">
           <img :src="require(`@/assets/icons/${item.social}.svg`)" alt="social red" style="--w:2.674375em">
         </v-btn>
@@ -23,10 +23,10 @@
           @click="switchInfo=!switchInfo">
           {{switchInfo?'Wallets':'Main info'}}
         </v-btn>
-      </center>
-      <p v-if="switchInfo==true" class="p" style="max-width:65ch">
+      </center> -->
+      <!-- <p v-if="switchInfo==true" class="p" style="max-width:65ch">
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc volutpat ligula orci, ac imperdiet tortor cursus vitae. Nunc fringilla lacus vel tempus ultrices. Nulla facilisi.
-      </p>
+      </p> -->
     </aside>
 
     <template v-if="switchInfo">
@@ -270,7 +270,7 @@ const config = {
   networkId: "mainnet",
   keyStore, 
   nodeUrl: "https://rpc.mainnet.near.org",
-  walletUrl: "https://app.mynearwallet.com",
+  walletUrl: "https://wallet.mainnet.near.org",
   helperUrl: "https://helper.mainnet.near.org",
   explorerUrl: "https://explorer.mainnet.near.org",
 };
