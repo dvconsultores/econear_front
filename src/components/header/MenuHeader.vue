@@ -319,7 +319,7 @@
       max-width="62.358125em"
     >
       <v-card color="var(--primary)" class="modalAlert">
-        <v-btn icon class="close" @click="modalAlert = false">
+        <v-btn icon class="close" :disabled="closeDis" @click="modalAlert = false">
           <img src="@/assets/icons/close.svg" alt="close" style="--w:0.921875em">
         </v-btn>
         <h3 class="h7_em tcenter p">Alert</h3>
@@ -327,11 +327,23 @@
 
         <v-sheet class="divcol" style="padding:2em 3em">
           <div class="divcol">
+            <label for="value">Contract ID</label>
+            <v-text-field
+              id="value"
+              v-model="dataAlert.contract"
+              solo
+              :error="validateAccount"
+              @input="debounce()"
+            ></v-text-field>
+          </div>
+          <div class="divcol">
             <label for="type">Alert Type</label>
             <v-select
               id="type"
               v-model="dataAlert.type.value"
               :items="dataAlert.type.items"
+              item-text="type"
+              item-value="id"
               solo
               :menu-props="{contentClass: 'menuAlert'}"
             ></v-select>
@@ -354,13 +366,21 @@
               id="frecuency"
               v-model="dataAlert.frecuency.value"
               :items="dataAlert.frecuency.items"
+              item-text="frecuency"
+              item-value="id"
               solo
               :menu-props="{contentClass: 'menuFrecuency'}"
             ></v-select>
           </div>
 
-          <v-btn class="btn h10_em" style="--bs:none;width:100%">
+          <v-btn class="btn h10_em" style="--bs:none;width:100%" :disabled="validateAccountDis" @click="create_alert()">
             Create Alert
+            <v-progress-circular
+              v-if="ResProgress"
+              :size="18"
+              :width="4"
+              indeterminate
+            ></v-progress-circular>
           </v-btn>
         </v-sheet>
       </v-card>
@@ -371,6 +391,7 @@
 <script>
 import { i18n } from "@/plugins/i18n";
 import * as nearAPI from 'near-api-js'
+import { CONFIG } from '@/services/api'
 
 const { connect, keyStores, WalletConnection, Contract, utils } = nearAPI
 const keyStore = new keyStores.BrowserLocalStorageKeyStore()
@@ -396,8 +417,12 @@ export default {
   // },
   data() {
     return {
+      validateAccount: false,
+      validateAccountDis: true,
       messages: 1,
       drawer: false,
+      ResProgress: false,
+      closeDis: false,
       modalLogin: false,
       modalRegister: false,
       modalSwitchAccount: false,
@@ -487,18 +512,71 @@ export default {
       ],
       dataAlert: {
         type: {
-          value: "Price rises above",
-          items: [ "Price rises above", "Price drops to", "Change is osver", "Change is under", "Volume is over", "Volume is down" ]
+          value: 1,
+          items: [ {id:1, type: "Price rises above"}, {id:2, type:"Price drops to"}, {id:3, type:"Change is osver"}, {id:4, type:"Change is under"}, {id:5, type:"Volume is over"}, {id:6, type: "Volume is down"} ]
         },
         value: 0,
+        contract: "", 
         frecuency: {
-          value: "Only Once",
-          items: [ "Only Once", "Once a day", "Always" ]
+          value: 1,
+          items: [ {id:1, frecuency:"Only Once"}, {id:2, frecuency:"Once a day"}, {id:3, frecuency:"Always"} ]
         }
       },
     };
   },
+  mounted () {
+
+  },
   methods: {
+    create_alert() {
+      this.closeDis = true
+      this.validateAccountDis = true
+      this.ResProgress = true
+      let item = {
+        collection: this.dataAlert.contract,
+        alert_type_id: null,
+        alert_type: null,
+        value: Number(this.dataAlert.value),
+        frecuency_id: null,
+        frecuency: null,
+      }
+      
+      let index = this.dataAlert.type.value
+      if (this.dataAlert.type.value === 1) {
+        item.alert_type_id = 1
+        item.alert_type = this.dataAlert.type.items[index-1].type
+      } else if (this.dataAlert.type.value === 2) {
+        item.alert_type_id = 2
+        item.alert_type = this.dataAlert.type.items[index-1].type
+      } else if (this.dataAlert.type.value === 3) {
+        item.alert_type_id = 3
+        item.alert_type = this.dataAlert.type.items[index-1].type
+      } else if (this.dataAlert.type.value === 4) {
+        item.alert_type_id = 4
+        item.alert_type = this.dataAlert.type.items[index-1].type
+      } else if (this.dataAlert.type.value === 5) {
+        item.alert_type_id = 5
+        item.alert_type = this.dataAlert.type.items[index-1].type
+      } else if (this.dataAlert.type.value === 6) {
+        item.alert_type_id = 6
+        item.alert_type = this.dataAlert.type.items[index-1].type
+      }
+      console.log(this.dataAlert.frecuency.value)
+      let index2 = this.dataAlert.frecuency.value
+      if (this.dataAlert.frecuency.value === 1) {
+        item.frecuency_id = 1
+        item.frecuency = this.dataAlert.frecuency.items[index2-1].frecuency
+      } else if (this.dataAlert.frecuency.value === 2) {
+        item.frecuency_id = 2
+        item.frecuency = this.dataAlert.frecuency.items[index2-1].frecuency
+      } else if (this.dataAlert.frecuency.value === 3) {
+        item.frecuency_id = 3
+        item.frecuency = this.dataAlert.frecuency.items[index2-1].frecuency
+      }
+
+      console.log(item)
+      this.save_alert(item)
+    },
     async signIn () {
       console.log("holaa")
       this.isSigned()
@@ -516,7 +594,23 @@ export default {
         this.user = false
       }
     },
-    async save_alert (contract_id, vote) {
+    debounce () {
+      clearTimeout(this.timer)
+      this.timer = setTimeout(this.validateNear, 600)
+    },
+    async validateNear() {
+      const near = await connect(CONFIG(new keyStores.BrowserLocalStorageKeyStore()));
+      const account = await near.account(this.dataAlert.contract);
+      await account.state()
+          .then((response) => {
+              this.validateAccount = false
+              this.validateAccountDis = false
+          }).catch((error) => {
+              this.validateAccount = true
+              this.validateAccountDis = true
+          })
+    },
+    async save_alert (items) {
       const CONTRACT_NAME = 'backend.monkeonnear.near'
       // connect to NEAR
       const near = await connect(config)
@@ -527,25 +621,27 @@ export default {
           changeMethods: ['add_alert'],
           sender: wallet.account()
         })
-        let aux = null
         await contract.add_alert({
-          collections: contract_id,
-          voto: vote,
+          items: items,
         })
           .then((response) => {
             console.log(response)
-            aux = true            
+            this.validateAccountDis = false
+            this.ResProgress = false
+            this.closeDis = false
+            this.modalAlert = false
+            this.dataAlert.contract = ""
+            this.dataAlert.value = 0
+            this.$store.dispatch('GenerateAlert', {key:'success', title: 'Success!', desc: 'Alert created successfully.'})
           }).catch((error) => {
             console.log(error)
-            aux = false
+            this.modalAlert = false
+            this.validateAccountDis = false
+            this.ResProgress = false
+            this.closeDis = false
+            //this.modalAlert = false
+            this.$store.dispatch('GenerateAlert', {key:'error', title: 'Error!', desc: 'Something happened.'})
           })
-        if (aux) {
-          //setTimeout(this.refreshVote, 30000)
-          this.refreshVote()
-        } else {
-          document.documentElement.style.cursor = "default"
-          document.querySelectorAll("#vote #container-top .v-btn").forEach(item => item.style.pointerEvents = "all")
-        }
       }
     },
     SelectItem_AvatarMenu(item) {

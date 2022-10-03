@@ -48,6 +48,7 @@
       <v-data-table
         class="dataTable card"
         :headers="headersTableProjects"
+        :search="searchProjects"
         :items="dataTableProjects"
         hide-default-footer
         mobile-breakpoint="-1"
@@ -73,7 +74,7 @@
       </v-data-table>
 
 
-      <aside class="space gap2 wrap" style="font-size:16px">
+      <!-- <aside class="space gap2 wrap" style="font-size:16px">
         <h2 class="h9_em p bold">Watchlist</h2>
 
         <v-text-field
@@ -88,7 +89,7 @@
       </aside>
 
       <!-- tabla watchlist  -->
-      <v-data-table
+      <!-- <v-data-table
         class="dataTable card"
         :headers="headersTableWatchlist"
         :items="dataTableWatchlist"
@@ -113,7 +114,7 @@
             <span style="max-width:18ch" class="bold">{{item.name}}</span>
           </div>
         </template>
-      </v-data-table>
+      </v-data-table> -->
 
 
       <aside class="space gap2 wrap" style="font-size:16px">
@@ -263,7 +264,7 @@ import * as nearAPI from 'near-api-js'
 
 // const theme = localStorage.getItem("theme");
 
-const { connect, keyStores, WalletConnection } = nearAPI
+const { connect, keyStores, WalletConnection, Contract } = nearAPI
 
 const keyStore = new keyStores.BrowserLocalStorageKeyStore()
 const config = {
@@ -408,6 +409,7 @@ export default {
   mounted() {
     this.getData()
     this.get_projects()
+    this.get_alert()
   },
   methods: {
     async get_projects(){
@@ -460,6 +462,29 @@ export default {
         //   twitter: "@loremipsum",
         //   discord_server: "discord.gg/invitecode",
         // },
+    },
+    async get_alert () {
+      const CONTRACT_NAME = 'backend.monkeonnear.near'
+      // connect to NEAR
+      const near = await connect(config)
+      // create wallet connection
+      const wallet = new WalletConnection(near)
+      if (wallet.isSignedIn()) {
+        const contract = new Contract(wallet.account(), CONTRACT_NAME, {
+          viewMethods: ['get_alert'],
+          sender: wallet.account()
+        })
+        await contract.get_alert({
+          account_id: wallet.getAccountId(),
+        })
+          .then((response) => {
+            console.log("RESPO",response)
+                 
+          }).catch((error) => {
+            console.log("ERR",error)
+           
+          })
+      }
     },
     async getData () {
       // connect to NEAR
