@@ -124,7 +124,7 @@
           v-model="searchAlerts"
           hide-details
           solo
-          label="Search your alerts / NFT Projects name"
+          label="Search your alerts"
           append-icon="mdi-magnify"
           style="max-width:30.061875em;--bg:hsl(210, 48%, 13%, .46);--c:#FFFFFF;--p:0 1.5em"
           class="customeFilter"
@@ -135,6 +135,7 @@
       <v-data-table
         class="dataTable card"
         :headers="headersTableAlerts"
+        :search="searchAlerts"
         :items="dataTableAlerts"
         hide-default-footer
         mobile-breakpoint="-1"
@@ -151,11 +152,22 @@
           {{dataTableAlerts.indexOf(item) + 1}}
         </template>
 
-        <template v-slot:[`item.name`]="{ item }">
+        <template v-slot:[`item.contract`]="{ item }">
           <div class="acenter gap1">
-            <img :src="item.img" alt="nft image" style="--w:4.710625em">
-            <span style="max-width:18ch" class="bold">{{item.name}}</span>
+            <!-- <img :src="item.img" alt="nft image" style="--w:4.710625em"> -->
+            <span style="max-width:18ch" class="bold">{{item.contract}}</span>
           </div>
+        </template>
+        <template v-slot:item.actions="{ item }">
+          <center class="start">
+            <v-icon 
+              :disabled="deleteDis"
+              color="pink"
+              @click="deleteAlert(item)"
+            >
+              mdi-delete
+            </v-icon>
+          </center>
         </template>
       </v-data-table>
     </template>
@@ -281,6 +293,7 @@ export default {
   components: { ModalEdit },
   data() {
     return {
+      deleteDis: false,
       accountId: null,
       switchInfo: true,
       dataSocialRed: [
@@ -298,7 +311,7 @@ export default {
         { value:"discord_id", text:"Discord ID", alig:"center", sortable:false },
         { value:"website", text:"Website", alig:"center", sortable:false },
         { value:"twitter", text:"Twitter Account", alig:"center", sortable:false },
-        { value:"discord_server", text:"Discord Server", alig:"center", sortable:false },
+        { value:"discord_server", text:"Discord Server", alig:"center", sortable:false }
       ],
       dataTableProjects: [
         {
@@ -355,32 +368,20 @@ export default {
       searchAlerts: "",
       headersTableAlerts: [
         { value:"number", text:"#", alig:"center" },
-        { value:"name", text:"Project Name", alig:"center", sortable:false },
-        { value:"email", text:"Email", alig:"center", sortable:false },
-        { value:"discord_id", text:"Discord ID", alig:"center", sortable:false },
-        { value:"website", text:"Website", alig:"center", sortable:false },
-        { value:"twitter", text:"Twitter Account", alig:"center", sortable:false },
-        { value:"discord_server", text:"Discord Server", alig:"center", sortable:false },
+        { value:"contract", text:"Contract ID", alig:"center", sortable:false },
+        { value:"type", text:"Alert Type", alig:"center", sortable:false },
+        { value:"value", text:"Value", alig:"center", sortable:false },
+        { value:"frecuency", text:"Frecuency", alig:"center", sortable:false },
+        { value:"actions", text:"Actions", alig:"center", sortable:false },
       ],
       dataTableAlerts: [
-        {
-          img: require("@/assets/nfts/nft1.png"),
-          name: "Collection o Nft Name Lorem ipsum dolor sit",
-          email: "example@domain.com",
-          discord_id: "Username#321",
-          website: "www.loremimpsum.com",
-          twitter: "@loremipsum",
-          discord_server: "discord.gg/invitecode",
-        },
-        {
-          img: require("@/assets/nfts/nft2.png"),
-          name: "Collection o Nft Name Lorem ipsum dolor sit",
-          email: "example@domain.com",
-          discord_id: "Username#321",
-          website: "www.loremimpsum.com",
-          twitter: "@loremipsum",
-          discord_server: "discord.gg/invitecode",
-        },
+        // {
+        //   img: require("@/assets/nfts/nft1.png"),
+        //   contract: "Collection o Nft Name Lorem ipsum dolor sit",
+        //   type: "example@domain.com",
+        //   value: "Username#321",
+        //   frecuency: "www.loremimpsum.com",
+        // }
       ],
       // wallets
       searchWallets: "",
@@ -423,7 +424,6 @@ export default {
 
       this.axios.post(url, item)
         .then((response) => {
-          console.log("DATAMARKET",response.data)
           this.dataTableProjects = []
           for (var i = 0; i < response.data.length; i++) {
             let collection = { 
@@ -464,6 +464,7 @@ export default {
         // },
     },
     async get_alert () {
+      this.dataTableAlerts = []
       const CONTRACT_NAME = 'backend.monkeonnear.near'
       // connect to NEAR
       const near = await connect(config)
@@ -478,11 +479,49 @@ export default {
           account_id: wallet.getAccountId(),
         })
           .then((response) => {
-            console.log("RESPO",response)
-                 
+            for (var i = 0; i < response.length; i++) {
+              for (var j = 0; j < response[i].alerts.length; j++) {
+                let item = {
+                  contract: response[i].alerts[j].collection,
+                  type: response[i].alerts[j].alert_type,
+                  type_id: response[i].alerts[j].alert_type_id,
+                  value: response[i].alerts[j].value,
+                  frecuency: response[i].alerts[j].frecuency,
+                  frecuency_id: response[i].alerts[j].frecuency_id
+                }
+                this.dataTableAlerts.push(item)
+              }
+            }
           }).catch((error) => {
             console.log("ERR",error)
            
+          })
+      }
+    },
+    async deleteAlert (item) {
+      this.deleteDis = true
+      const CONTRACT_NAME = 'backend.monkeonnear.near'
+      // connect to NEAR
+      const near = await connect(config)
+      // create wallet connection
+      const wallet = new WalletConnection(near)
+      if (wallet.isSignedIn()) {
+        const contract = new Contract(wallet.account(), CONTRACT_NAME, {
+          changeMethods: ['delete_alert'],
+          sender: wallet.account()
+        })
+        await contract.delete_alert({
+          collection: item.contract,
+          alert_type_id: item.type_id
+        })
+          .then((response) => {
+            this.$store.dispatch('GenerateAlert', {key:'success', title: 'Success!', desc: 'Alert removed successfully.'})
+            this.get_alert()
+            this.deleteDis = false
+          }).catch((error) => {
+            console.log("ERR",error)
+            this.deleteDis = false
+            this.$store.dispatch('GenerateAlert', {key:'error', title: 'Error!', desc: 'Something happened.'})
           })
       }
     },

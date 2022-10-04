@@ -28,7 +28,6 @@
         @click:event="showEvent"
         @click:more="console('more')"
         @click:date="console('date')"
-        @change="updateRange"
         locale="en"
       ></v-calendar>
     </section>
@@ -36,21 +35,22 @@
     <aside id="container-legend" class="start gap2">
       <div class="center">
         <div class="marker" style="--color: var(--success)" />
-        <span>Upcoming</span>
+        <span>Upcoming (Drops)</span>
       </div>
       <div class="center">
         <div class="marker" style="--color: var(--warning)" />
-        <span>New</span>
+        <span>New Projects</span>
       </div>
-      <div class="center">
+      <!-- <div class="center">
         <div class="marker" style="--color: var(--error)" />
         <span>Drops</span>
-      </div>
+      </div> -->
     </aside>
   </section>
 </template>
 
 <script>
+import moment from 'moment';
 import ModalCalendar from './ModalCalendar.vue'
 export default {
   name: "calendar",
@@ -59,6 +59,7 @@ export default {
   data() {
     return {
       focus: '',
+      dataNftDrops: [],
       type: 'month',
       selectedEvent: {},
       selectedElement: null,
@@ -68,8 +69,10 @@ export default {
       names: ['Meeting', 'Holiday', 'PTO', 'Travel', 'Event', 'Birthday', 'Conference', 'Party'],
     }
   },
-  mounted () {
+  async mounted () {
     this.$refs.calendar.checkChange()
+    await this.upcomingListed()
+    this.getNewProjects()
   },
   methods: {
     console(key) {
@@ -85,6 +88,8 @@ export default {
       const open = () => {
         this.selectedEvent = event
         this.selectedElement = nativeEvent.target
+        console.log("ITEMM", event)
+        this.$refs.modalcalendar.dataModalCalendar = event
         requestAnimationFrame(() => requestAnimationFrame(() => this.$refs.modalcalendar.modalCalendar = true))
       }
 
@@ -97,7 +102,145 @@ export default {
 
       nativeEvent.stopPropagation()
     },
-    updateRange ({ start, end }) {
+    async getNewProjects(){
+      const url = "api/v1/newprojectslisted"
+      let item = {
+        top: "100",
+        order: "fecha"
+      }
+     
+      this.axios.post(url, item)
+        .then(async (response) => {
+          for (var i = 0; i < response.data.length; i++) {
+            if (response.data[i].fecha_lanzamiento === 0 || response.data[i].fecha_lanzamiento === "0" || !response.data[i].fecha_lanzamiento) {
+              response.data[i].fecha_lanzamiento = parseInt(response.data[i].fecha_creacion)
+            }
+            // console.log("Lanzamiento: ",response.data[i].fecha_lanzamiento)
+            // console.log("FECHA",moment(response.data[i].fecha_lanzamiento / 1000000).format("Do MMM YYYY, h:mm A"))
+            let collection = {
+              img: response.data[i].icon || require("@/assets/images/whitelist-image.jpg"),
+              name: response.data[i].name,
+              fecha_lanzamiento: response.data[i].fecha_lanzamiento,
+              type: response.data[i].nft_contract,
+              desc: response.data[i].descripcion,
+              website: response.data[i].website,
+              price: parseFloat(response.data[i].price).toFixed(2) + " NEAR",
+              supply: response.data[i].total_supply,
+              // price: "9 NEAR","01 FEB 2022 17:00:00"
+              // supply: "3333",
+              date: moment(response.data[i].fecha_lanzamiento / 1000000).format("Do MMM YYYY, h:mm A"),
+              votes: response.data[i].voto,
+              redes: [
+                { name: "twitter", url: "https://twitter.com/" + response.data[i].twiter },
+                { name: "discord", url: response.data[i].discord_server },
+                { name: "telegram", url: "https://t.me/" + response.data[i].telegram },
+              ],
+            }
+            //console.log(collection)
+            //console.log(moment(collection.fecha_lanzamiento / 1000000).format("YYYY-MM-DD HH:mm"),)
+            this.events.push({
+              img: collection.img,
+              name: collection.name,
+              type: collection.type,
+              supply: collection.supply,
+              desc: collection.desc,
+              price: collection.price,
+              hour: collection.date,
+              votes: collection.votes,
+              redes: collection.redes,
+              start: moment(collection.fecha_lanzamiento / 1000000).format("YYYY-MM-DD HH:mm"),
+              end: moment(collection.fecha_lanzamiento / 1000000).format("YYYY-MM-DD HH:mm"),
+              color: this.colors[5],
+              timed: true,
+            })
+          }
+        }).catch((error) => {
+          console.log(error)
+        })
+    },
+    async upcomingListed(){
+      this.dataNftDrops = []
+      const url = "api/v1/upcominglisted"
+      let item = {
+        top: "100",
+        order: "fecha"
+      }
+     
+      this.axios.post(url, item)
+        .then(async (response) => {
+          for (var i = 0; i < response.data.length; i++) {
+            let times = await this.getTime(response.data[i].fecha_lanzamiento)
+            let timeEnd = response.data[i].fecha_lanzamiento
+            let collection = {
+              img: require("@/assets/images/whitelist-image.jpg"),
+              name: response.data[i].project_name,
+              fecha_lanzamiento: response.data[i].fecha_lanzamiento,
+              type: response.data[i].collection,
+              desc: response.data[i].descripcion,
+              hour: moment.unix(timeEnd).format("Do MMM YYYY, h:mm A"),
+              votes: response.data[i].voto,
+              cronometer: [ {time: times.days}, {time: times.hours}, {time: times.minutes}, {time: times.seconds} ],
+              redes: [
+                { name: "twitter", url: "https://twitter.com/" + response.data[i].telegram },
+                { name: "discord", url: response.data[i].discord_server },
+                { name: "telegram", url: "https://t.me/" + response.data[i].telegram },
+              ],
+            }
+
+            this.events.push({
+              img: collection.img,
+              name: collection.name,
+              type: collection.type,
+              fecha_lanzamiento: collection.fecha_lanzamiento,
+              desc: collection.desc,
+              hour: collection.hour,
+              votes: collection.votes,
+              cronometer: collection.cronometer,
+              redes: collection.redes,
+              start: moment.unix(timeEnd).format("YYYY-MM-DD HH:mm"),
+              end: moment.unix(timeEnd).format("YYYY-MM-DD HH:mm"),
+              color: this.colors[3],
+              timed: true,
+            })
+            console.log(this.events)
+          }
+        }).catch((error) => {
+          console.log(error)
+        })
+    },
+    async getTime (timeEnd) {
+      let timeNow = parseInt(new Date().getTime() / 1000)
+
+      let time = timeEnd - timeNow
+
+      var d = String(Math.floor(time / (3600*24)));
+      var h = String(Math.floor(time % (3600*24) / 3600));
+      var m = String(Math.floor(time % 3600 / 60));
+      var s = String(Math.floor(time % 60));
+
+      if (d.length === 1) {
+        d = "0" + d
+      }
+      if (h.length === 1) {
+        h = "0" + h
+      }
+      if (m.length === 1) {
+        m = "0" + m
+      }
+      if (s.length === 1) {
+        s = "0" + s
+      }
+
+      let item = {
+        days: d,
+        hours: h,
+        minutes: m,
+        seconds: s
+      }
+
+      return item
+    },
+    updateRange2 ({ start, end }) {
       const events = []
 
       const min = new Date(`${start.date}T00:00:00`)
@@ -122,6 +265,7 @@ export default {
       }
 
       this.events = events
+      console.log(this.events)
     },
     rnd (a, b) {
       return Math.floor((b - a + 1) * Math.random()) + a

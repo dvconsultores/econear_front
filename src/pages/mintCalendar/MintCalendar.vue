@@ -12,7 +12,7 @@
     <section class="divcol">
       <div class="acenter gap1 margin2bottom">
         <h3 class="h9_em p bold">Date:</h3>
-        <v-chip class="h9_em bold" style="padding:.8em" color="hsl(210, 50%, 8%)">Tue, Aug 2nd, 2022</v-chip>
+        <v-chip class="h9_em bold" style="padding:.8em" color="hsl(210, 50%, 8%)">{{date}}</v-chip>
       </div>
 
       <section class="section-down divcol gap2">
@@ -28,7 +28,7 @@
               </div>
               <p id="desc" class="p light tspace">{{item.desc}}</p>
               <div class="divcol light" style="gap:.2em">
-                <div class="space h11_em">
+                <!-- <div class="space h11_em">
                   <span class="bold">Presale</span>
                   <span style="color:var(--success)">{{item.presale}} NEAR</span>
                 </div>
@@ -41,10 +41,10 @@
                 <div class="space h11_em">
                   <span class="bold">Supply</span>
                   <span>{{item.supply}}</span>
-                </div>
+                </div> -->
                 
                 <div class="space h11_em">
-                  <span class="bold">Hour</span>
+                  <span class="bold">Date</span>
                   <span>{{item.hour}}</span>
                 </div>
                 
@@ -77,7 +77,7 @@
             </div>
           </v-card>
         </aside>
-
+<!-- 
         <v-btn-toggle mandatory color="#60D2CA" class="align">
           <v-btn color="transparent">
             <v-icon color="#707070">mdi-chevron-left</v-icon>
@@ -88,13 +88,14 @@
           <v-btn color="transparent">
             <v-icon color="#707070">mdi-chevron-right</v-icon>
           </v-btn>
-        </v-btn-toggle>
+        </v-btn-toggle> -->
       </section>
     </section>
   </section>
 </template>
 
 <script>
+import moment from 'moment';
 import Calendar from './Calendar.vue'
 export default {
   name: "mintCalendar",
@@ -102,45 +103,144 @@ export default {
   components: { Calendar },
   data() {
     return {
+      date: null,
       dataProjects: [
-        {
-          img: require("@/assets/images/whitelist-image.jpg"),
-          name: "Discord Server Project Name",
-          type: "Utility",
-          desc: "The first ever community voting tool and wallet management tool that comes with built-in data analysis system to find the best project on NEAR PROTOCOL",
-          presale: 9,
-          sale: 22,
-          supply: 300,
-          hour: "17:00:00 UTC",
-          votes: "6,917",
-          cronometer: [ {time: '02'}, {time: '11'}, {time: '31'}, {time: '42'} ],
-          redes: [
-            { name: "twitter", url: "#" },
-            { name: "discord", url: "#" },
-            { name: "telegram", url: "#" },
-          ],
-        },
-        {
-          img: require("@/assets/images/whitelist-image.jpg"),
-          name: "Discord Server Project Name",
-          type: "Utility",
-          desc: "The first ever community voting tool and wallet management tool that comes with built-in data analysis system to find the best project on NEAR PROTOCOL",
-          presale: 9,
-          sale: 22,
-          supply: 300,
-          hour: "17:00:00 UTC",
-          votes: "6,917",
-          cronometer: [ {time: '02'}, {time: '11'}, {time: '31'}, {time: '42'} ],
-          redes: [
-            { name: "twitter", url: "#" },
-            { name: "discord", url: "#" },
-            { name: "telegram", url: "#" },
-          ],
-        },
+        // {
+        //   img: require("@/assets/images/whitelist-image.jpg"),
+        //   name: "Discord Server Project Name",
+        //   type: "Utility",
+        //   desc: "The first ever community voting tool and wallet management tool that comes with built-in data analysis system to find the best project on NEAR PROTOCOL",
+        //   hour: "17:00:00 UTC",
+        //   votes: "6,917",
+        //   cronometer: [ {time: '02'}, {time: '11'}, {time: '31'}, {time: '42'} ],
+        //   redes: [
+        //     { name: "twitter", url: "#" },
+        //     { name: "discord", url: "#" },
+        //     { name: "telegram", url: "#" },
+        //   ],
+        // },
+        // {
+        //   img: require("@/assets/images/whitelist-image.jpg"),
+        //   name: "Discord Server Project Name",
+        //   type: "Utility",
+        //   desc: "The first ever community voting tool and wallet management tool that comes with built-in data analysis system to find the best project on NEAR PROTOCOL",
+        //   presale: 9,
+        //   sale: 22,
+        //   supply: 300,
+        //   hour: "17:00:00 UTC",
+        //   votes: "6,917",
+        //   cronometer: [ {time: '02'}, {time: '11'}, {time: '31'}, {time: '42'} ],
+        //   redes: [
+        //     { name: "twitter", url: "#" },
+        //     { name: "discord", url: "#" },
+        //     { name: "telegram", url: "#" },
+        //   ],
+        // },
       ]
     }
   },
+  mounted(){
+    this.upcomingListed()
+    this.date = new Date().toDateString();
+  },
   methods: {
+    async upcomingListed(){
+      this.dataProjects = []
+      const url = "api/v1/upcominglisted"
+      let item = {
+        top: "36",
+        order: "fecha"
+      }
+     
+      this.axios.post(url, item)
+        .then(async (response) => {
+          for (var i = 0; i < response.data.length; i++) {
+            let times = await this.getTime(response.data[i].fecha_lanzamiento)
+            let timeEnd = response.data[i].fecha_lanzamiento
+            let collection = {
+              img: require("@/assets/images/whitelist-image.jpg"),
+              name: response.data[i].project_name,
+              fecha_lanzamiento: response.data[i].fecha_lanzamiento,
+              type: response.data[i].collection,
+              desc: response.data[i].descripcion,
+              hour: moment.unix(timeEnd).format("Do MMM YYYY, h:mm A"),
+              votes: response.data[i].voto,
+              cronometer: [ {time: times.days}, {time: times.hours}, {time: times.minutes}, {time: times.seconds} ],
+              redes: [
+                { name: "twitter", url: "https://twitter.com/" + response.data[i].telegram },
+                { name: "discord", url: response.data[i].discord_server },
+                { name: "telegram", url: "https://t.me/" + response.data[i].telegram },
+              ],
+            }
+            this.dataProjects.push(collection)
+            this.interval = setInterval(function () {
+              this.updateTime()
+            }.bind(this), 1000);
+          }
+        }).catch((error) => {
+          console.log(error)
+        })
+    },
+    async updateTime () {
+      let timeNow = await parseInt(new Date().getTime() / 1000)
+      for (var i = 0; i < this.dataProjects.length; i++) {
+        let time = this.dataProjects[i].fecha_lanzamiento - timeNow
+
+        var d = String(Math.floor(time / (3600*24)));
+        var h = String(Math.floor(time % (3600*24) / 3600));
+        var m = String(Math.floor(time % 3600 / 60));
+        var s = String(Math.floor(time % 60));
+
+        if (d.length === 1) {
+          d = "0" + d
+        }
+        if (h.length === 1) {
+          h = "0" + h
+        }
+        if (m.length === 1) {
+          m = "0" + m
+        }
+        if (s.length === 1) {
+          s = "0" + s
+        }
+
+        let cronometer = [ {time: d}, {time: h}, {time: m}, {time: s} ]
+
+        this.dataProjects[i].cronometer = cronometer
+      }
+    },
+    async getTime (timeEnd) {
+      let timeNow = parseInt(new Date().getTime() / 1000)
+
+      let time = timeEnd - timeNow
+
+      var d = String(Math.floor(time / (3600*24)));
+      var h = String(Math.floor(time % (3600*24) / 3600));
+      var m = String(Math.floor(time % 3600 / 60));
+      var s = String(Math.floor(time % 60));
+
+      if (d.length === 1) {
+        d = "0" + d
+      }
+      if (h.length === 1) {
+        h = "0" + h
+      }
+      if (m.length === 1) {
+        m = "0" + m
+      }
+      if (s.length === 1) {
+        s = "0" + s
+      }
+
+      let item = {
+        days: d,
+        hours: h,
+        minutes: m,
+        seconds: s
+      }
+
+      return item
+    },
   }
 };
 </script>

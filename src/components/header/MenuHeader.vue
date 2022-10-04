@@ -317,6 +317,7 @@
     <v-dialog
       v-model="modalAlert"
       max-width="62.358125em"
+      persistent
     >
       <v-card color="var(--primary)" class="modalAlert">
         <v-btn icon class="close" :disabled="closeDis" @click="modalAlert = false">

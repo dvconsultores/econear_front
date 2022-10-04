@@ -431,12 +431,15 @@ export default {
       }
     },
     async priceNEAR(){
+      console.log("ENTRO")
       axios.get("https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=near&order=market_cap_desc&per_page=100&page=1&sparkline=false")
         .then((response) => {
+          console.log("NEARPRICE", response)
           this.nearPrice = response.data[0]
         })
         .catch((e) => {
           console.log(e)
+          console.log("NEARPRICE", e)
         })
     },
     async salesOfTheDay(){
@@ -446,6 +449,7 @@ export default {
       }
       this.axios.post(url, item)
         .then((response) => {
+          console.log("SALES", response.data)
           this.dataSales = []
           for (var i = 0; i < response.data.length; i++) {
             let collection = {
@@ -472,6 +476,7 @@ export default {
             //   })
             // }
             this.dataSales.push(collection)
+            console.log(this.dataSales)
           }
         }).catch((error) => {
           console.log(error)

@@ -10,7 +10,11 @@
           <img :src="require(`@/assets/icons/${item.social}.svg`)" :alt="`${item.social} button`" style="--w:2.625em">
         </v-btn>
       </div>
-      <v-form ref="form" style="margin-top:2em" @submit.prevent="SendEmail()">
+
+      <div class="spacea gap2" style="margin-top:2em">
+        <p>Get info on the latest Econear features, updates, and more sent straight to your inbox.</p>
+      </div>
+      <v-form ref="form" @submit.prevent="SendEmail()">
         <v-text-field
           v-model="input"
           solo

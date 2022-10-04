@@ -191,7 +191,7 @@ export default {
       image: require('@/assets/nfts/nft1.png'),
       search: "",
       searchTable: "",
-      tab: 2,
+      tab: 0,
       dataControls: [
         { key: 'collection', id: 1, name: "All Time Best", active: false },
         { key: 'floor', id: 2, name: "Floor Price", active: false },

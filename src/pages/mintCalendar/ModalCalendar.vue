@@ -19,23 +19,23 @@
           </div>
           <p id="desc" class="p light tspace">{{dataModalCalendar.desc}}</p>
           <div class="divcol light" style="gap:.2em">
-            <div class="space h11_em">
-              <span class="bold">Presale</span>
-              <span style="color:var(--success)">{{dataModalCalendar.presale}} NEAR</span>
+            <div v-if="dataModalCalendar.supply" class="space h11_em">
+              <span class="bold">Price</span>
+              <span style="color:var(--success)">{{dataModalCalendar.price}}</span>
             </div>
             
-            <div class="space h11_em">
+            <!-- <div class="space h11_em">
               <span class="bold">Public Sale</span>
               <span style="color:var(--success)">{{dataModalCalendar.sale}} NEAR</span>
-            </div>
+            </div> -->
 
-            <div class="space h11_em">
+            <div v-if="dataModalCalendar.supply" class="space h11_em">
               <span class="bold">Supply</span>
               <span>{{dataModalCalendar.supply}}</span>
             </div>
             
-            <div class="space h11_em">
-              <span class="bold">Hour</span>
+            <div v-if="dataModalCalendar.hour" class="space h11_em">
+              <span class="bold">Date</span>
               <span>{{dataModalCalendar.hour}}</span>
             </div>
             
@@ -46,7 +46,7 @@
           </div>
 
           <aside>
-            <div class="cronometer center">
+            <div v-if="dataModalCalendar.cronometer" class="cronometer center">
               <div class="grid" style="--gtc:repeat(4,1fr);gap:12px 0;place-items:center">
                 <span v-for="(item,i) in dataModalCalendar.cronometer" :key="i" style="color:var(--success)">
                   {{item.time}}
@@ -79,25 +79,58 @@ export default {
     return {
       modalCalendar: false,
       dataModalCalendar: {
-        img: require("@/assets/images/whitelist-image.jpg"),
-        name: "Discord Server Project Name",
-        type: "Utility",
-        desc: "The first ever community voting tool and wallet management tool that comes with built-in data analysis system to find the best project on NEAR PROTOCOL",
-        presale: 9,
-        sale: 22,
-        supply: 300,
-        hour: "17:00:00 UTC",
-        votes: "6,917",
-        cronometer: [ {time: '02'}, {time: '11'}, {time: '31'}, {time: '42'} ],
-        redes: [
-          { name: "twitter", url: "#" },
-          { name: "discord", url: "#" },
-          { name: "telegram", url: "#" },
-        ],
+      //   img: require("@/assets/images/whitelist-image.jpg"),
+      //   name: "Discord Server Project Name",
+      //   type: "Utility",
+      //   desc: "The first ever community voting tool and wallet management tool that comes with built-in data analysis system to find the best project on NEAR PROTOCOL",
+      //   presale: 9,
+      //   sale: 22,
+      //   supply: 300,
+      //   hour: "17:00:00 UTC",
+      //   votes: "6,917",
+      //   cronometer: [ {time: '02'}, {time: '11'}, {time: '31'}, {time: '42'} ],
+      //   redes: [
+      //     { name: "twitter", url: "#" },
+      //     { name: "discord", url: "#" },
+      //     { name: "telegram", url: "#" },
+      //   ],
       }
     }
   },
+  mounted() {
+    this.interval = setInterval(function () {
+      this.updateTime()
+    }.bind(this), 1000);
+  },
   methods: {
+    async updateTime () {
+      let timeNow = await parseInt(new Date().getTime() / 1000)
+      if (this.dataModalCalendar.cronometer) {
+        let time = this.dataModalCalendar.fecha_lanzamiento - timeNow
+
+        var d = String(Math.floor(time / (3600*24)));
+        var h = String(Math.floor(time % (3600*24) / 3600));
+        var m = String(Math.floor(time % 3600 / 60));
+        var s = String(Math.floor(time % 60));
+
+        if (d.length === 1) {
+          d = "0" + d
+        }
+        if (h.length === 1) {
+          h = "0" + h
+        }
+        if (m.length === 1) {
+          m = "0" + m
+        }
+        if (s.length === 1) {
+          s = "0" + s
+        }
+
+        let cronometer = [ {time: d}, {time: h}, {time: m}, {time: s} ]
+
+        this.dataModalCalendar.cronometer = cronometer
+      }
+    },
   }
 };
 </script>
