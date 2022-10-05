@@ -4,11 +4,11 @@
 
     <section class="divcol gap2" style="margin-block:8em">
       <aside class="container-controls space gap2 wrap">
-        <v-tabs>
+        <!-- <v-tabs>
           <v-tab v-for="(item,i) in dataControls" :key="i" @click="dataControls.forEach(e=>{e.active=false});item.active=true">
             <h6 class="p">{{item.name}}</h6>
           </v-tab>
-        </v-tabs>
+        </v-tabs> -->
         
         <v-text-field
           v-model="search"

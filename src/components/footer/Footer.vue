@@ -167,7 +167,20 @@ export default {
   },
   methods: {
     SendEmail() {
-      alert('send')
+      if (this.input !== '' && this.input !== null) {
+        const url = "api/v1/tosubscribe"
+        let item = {
+          email: this.input
+        }
+        this.axios.post(url, item)
+          .then((response) => {
+            this.$store.dispatch('GenerateAlert', {key:'success', title: 'Success!', desc: 'Successful subscription.'})
+            this.input= ''
+          }).catch((error) => {
+            console.log("ERR",error)
+            this.$store.dispatch('GenerateAlert', {key:'error', title: 'Error!', desc: 'Something happened.'})
+          })
+      }
     },
   }
 }

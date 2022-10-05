@@ -221,25 +221,27 @@ export default {
       // themeButton: true,
       dataHeader: [
         { key: "home", name: "Home", to: "/" },
-        { key: "drops", name: "Drops", to: "/upcoming-nft-drops" },
-        { key: "nfts", name: "NFTS", to: "" },
         { key: "snipe", name: "Snipe tool", to: "/snipe-tool" },
-        { key: "contact", name: "Contact us", to: "/contact" },
+        { key: "portfolio", name: "Portfolio tracker", to: "/portafolio" },
+        { key: "drops", name: "Upcoming projects", to: "/upcoming-nft-drops" },
+        //{ key: "bulk-nft-management", name: "Bulk actions", to: "/bulk-nft-management" },
+        //{ key: "contact", name: "Contact us", to: "/contact" },
       ],
+      //Home - Snipe tool - Portfolio tracker - Upcoming projects - Bulk actions - More.
       dataMore: [
-        {
-          list: [
-            { title: "Account" },
-            { key: "login", name: "Login" },
-            { key: "whitelist", name: "Whitelist" },
-            //{ key: "register", name: "Register" },
-          ]
-        },
+        // {
+        //   list: [
+        //     { title: "Account" },
+        //     { key: "login", name: "Login" },
+        //     { key: "whitelist", name: "Whitelist" },
+        //     //{ key: "register", name: "Register" },
+        //   ]
+        // },
         {
           list: [
             { title: "NFTS" },
             { key: "compare-projects", name: "Compare Projectss" },
-            { key: "upcoming-nft-drops", name: "Upcoming Projects (Drops)" },
+            //{ key: "upcoming-nft-drops", name: "Upcoming Projects (Drops)" },
             { key: "new-projects", name: "New Projects" },
           ]
         },
@@ -249,7 +251,6 @@ export default {
             { key: "wallet-submission", name: "Wallet Submission" },
             //{ key: "coming-soon", name: "Wallet Submission" },
             { key: "vote", name: "Vote" },
-            { key: "contact", name: "Contact Us" },
           ]
         },
         {
@@ -265,10 +266,12 @@ export default {
         {
           list: [
             { title: "Services" },
-            { key: "advertising", name: "Advertising" },
-            { key: "ama-hosting", name: "AMA Hosting" },
-            { key: "twitter-space", name: "Twitter Space" },
-            { key: "giveaways", name: "Giveaways" },
+            { key: "support", name: "Support" },
+            { key: "contact", name: "Contact Us" },
+            // { key: "advertising", name: "Advertising" },
+            // { key: "ama-hosting", name: "AMA Hosting" },
+            // { key: "twitter-space", name: "Twitter Space" },
+            // { key: "giveaways", name: "Giveaways" },
           ]
         }
       ],
@@ -283,7 +286,7 @@ export default {
         {
           list: [
             { key: "profile", name: "My Profile" },
-            { key: "portafolio", name: "My Portfolio" },
+            //{ key: "portafolio", name: "My Portfolio" },
             { key: "settings", name: "Settings" },
           ]
         },

@@ -32,7 +32,7 @@
       ></v-calendar>
     </section>
     
-    <aside id="container-legend" class="start gap2">
+    <!-- <aside id="container-legend" class="start gap2">
       <div class="center">
         <div class="marker" style="--color: var(--success)" />
         <span>Upcoming (Drops)</span>
@@ -41,11 +41,11 @@
         <div class="marker" style="--color: var(--warning)" />
         <span>New Projects</span>
       </div>
-      <!-- <div class="center">
+      <div class="center">
         <div class="marker" style="--color: var(--error)" />
         <span>Drops</span>
-      </div> -->
-    </aside>
+      </div>
+    </aside> -->
   </section>
 </template>
 
@@ -72,7 +72,7 @@ export default {
   async mounted () {
     this.$refs.calendar.checkChange()
     await this.upcomingListed()
-    this.getNewProjects()
+    //this.getNewProjects()
   },
   methods: {
     console(key) {
