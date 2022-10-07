@@ -8,17 +8,21 @@ export default new Vuex.Store({
   namespace: true,
   state: {
     baseURL: process.env.BASE_URL,
+  
     // theme: "dark",
     // overlay: { opacity: 0.2, color: "white" },
-    // user: {
-    //   perfil: require("@/assets/icons/avatar.png"),
-    //   initials: 'JD',
-    //   fullName: 'John Doe',
-    //   email: 'john.doe@doe.com',
-    //   wallet: 'detextre4.testnet',
-    // },
+    dataUser: {
+      avatar: require("@/assets/logos/user-empty.png"),
+      initials: '',
+      fullName: '',
+      email: '',
+      wallet: '',
+    },
   },
   mutations: {
+    setAvatar(state, avatar) {
+      state.dataUser.avatar = avatar
+    }
     // Avatar (state, avatar) {state.user.perfil = avatar},
     // CambiarTheme(state, theme) {state.theme = theme},
     // OverlayMethod(state, theme) {

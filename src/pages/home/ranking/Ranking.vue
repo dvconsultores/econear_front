@@ -212,6 +212,7 @@ export default {
         { value: "number", text: "#", align: "center", sortable: false },
         { value: "name", text: "Collection NFT", align: "center", sortable: false },
         { value: "supply", text: "Supply", align: "center", sortable: false },
+        { value: "owners", text: "Owners", align: "center", sortable: false },
         { value: "volume", text: "Volume", align: "center", sortable: false },
         { value: "price", text: "Floor Price", align: "center", sortable: false },
         { value: "change", text: "Change 24h", align: "center", sortable: false },
@@ -461,10 +462,12 @@ export default {
 
       this.axios.post(url, item)
         .then((response) => {
+          console.log("RANKING",response.data)
           for (var i = 0; i < response.data.length; i++) {
             let collection = {
               img: response.data[i].icon,
               name: response.data[i].name,
+              owners: response.data[i].owner_for_tokens,
               supply: response.data[i].supply,
               volume: parseFloat(response.data[i].volumen1).toFixed(2) + " N",
               price: parseFloat(response.data[i].floor_price).toFixed(2) + " N",

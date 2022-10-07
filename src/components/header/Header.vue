@@ -1,6 +1,6 @@
 <template>
   <section id="header">
-    <MenuHeader ref="menu" :AccountId="accountId" :DataLogout="dataLogout" :User="user"
+    <MenuHeader ref="menu" :AccountId="accountId" :DataLogout="dataLogout" :User="user" :DataSwitchAccount="dataSwitch"
       @SelectItem_AvatarMenu="(item) => SelectItem_AvatarMenu(item)" @SignIn="signIn()"></MenuHeader>
     <v-app-bar id="headerApp" :height="heightApp" absolute color="transparent">
       <aside class="left acenter">
@@ -104,7 +104,7 @@
           style="--p: clamp(1em, 1.5vw, 1.5em) .2em clamp(1em, 1.5vw, 1.5em) 0;--br:.2vmax;
           --bs: 0 2px 8px 3px #6FFFE9;">
           <v-avatar style="box-shadow:0px 0px 8px 3px #6FFFE9" width="clamp(55px, 4.6vw, 4.6em)" height="clamp(55px, 4.6vw, 4.6em)">
-            <img src="@/assets/logos/user-empty.png" alt="Avatar" style="--w:100%">
+            <img :src="this.avatar" alt="Avatar" style="--w:100%">
           </v-avatar>
           <div id="container-account" class="divcol" style="gap:.2em">
             <span class="h11_em">Disconnect Wallet</span>
@@ -282,6 +282,7 @@ export default {
         {key: "PR", name: "Portuguese", active: false},
       ],
       avatarMenu: false,
+      dataSwitch: [],
       dataLogout: [
         {
           list: [
@@ -299,7 +300,13 @@ export default {
       ]
     };
   },
+  computed: {
+    avatar() {
+      return this.$store.state.dataUser.avatar
+    },
+  },
   mounted() {
+
     this.responsive();
     window.onresize = () => this.responsive();
     // document.getElementById("headerApp").style.background = "transparent";
@@ -315,6 +322,62 @@ export default {
     }
   },
   methods: {
+    async get_accounts() {
+      let accounts = localStorage.getItem('switch-accounts')
+      if (accounts[0]) {
+        this.dataSwitch = []
+        accounts = JSON.parse(accounts)
+        let account_connect = JSON.parse(localStorage.getItem('undefined_wallet_auth_key'))
+        for (var i = 0; i < accounts.length; i++) {
+          let item = {
+            index: i,
+            img: require("@/assets/logos/user-empty.png"),
+            name: accounts[i].accountId,
+            allKeys: accounts[i].allKeys,
+            amount: "0 N",
+            select: false,
+          }
+          if (item.name === account_connect.accountId) {
+            item.select = true
+          }
+          let balance = await this.getBalanceAccounts(item.name)
+          item.amount = (balance || 0) + " N" 
+
+          let img = await this.getImgAccount(item.name)
+          item.img = img || require("@/assets/logos/user-empty.png")
+          this.dataSwitch.push(item)
+        }
+        this.$refs.menu.modalSwitchAccount = true
+      }
+    },
+    async getImgAccount(nearId) {
+      const url = "api/v1/yourperfil"
+      let item = {
+        wallet: nearId
+      }
+      const result = this.axios.post(url, item)
+        .then((response) => {
+          if (response.data[0]) {
+            return response.data[0].img
+          }
+          return null
+        }).catch((error) => {
+          console.log(error)
+          return null
+        })
+      return result
+    },
+    async getBalanceAccounts (nearId) {
+      const near = await connect(config);
+      const account = await near.account(nearId);
+      const response = await account.state();
+      let valueStorage = Math.pow(10, 19)
+      let valueYocto = Math.pow(10, 24)
+
+      const storage = (response.storage_usage * valueStorage) / valueYocto 
+      let balance = ((response.amount / valueYocto) - storage).toFixed(2)
+      return balance
+    },
     responsive() {
       if (window.innerWidth <= 880) {
         this.heightApp = "75px"
@@ -359,32 +422,31 @@ export default {
     SelectItem_AvatarMenu(item) {
       this.avatarMenu = false
       if (item.key=='logout') {this.signOut()}
-      if (item.key=='switch') {this.$refs.menu.modalSwitchAccount = true}
+      if (item.key=='switch') {this.get_accounts()}
       if (item.key=='profile') {this.$router.push('/profile')}
       //if (item.key=='portafolio') {this.$router.push('/portafolio')}
       if (item.key=='portafolio') {this.$router.push('/coming-soon')}
       if (item.key=='settings') {this.$refs.menu.modalSettings = true}
     },
-    async getData () {
-      this.account = {}
-      // connect to NEAR
+    async getData() {
+      const url = "api/v1/yourperfil"
       const near = await connect(config);
-      // create wallet connection
       const wallet = new WalletConnection(near)
-      this.accountId= wallet.getAccountId()
 
-      // if (wallet.isSignedIn()) {
-      //   const url = "api/v1/profile/?wallet=" + this.accountId
-      //   this.axios.defaults.headers.common.Authorization='token'
-      //   this.axios.get(url)
-      //     .then((response) => {
-      //       if (response.data[0]){
-      //         this.avatar = response.data[0].avatar
-      //         this.$store.commit("Avatar", this.avatar)
-      //       }
-      //   }).catch((error) => {
-      //   })
-      // }
+      if (wallet.isSignedIn()) {
+        this.accountId= wallet.getAccountId()
+        let item = {
+          wallet: wallet.getAccountId()
+        }
+        this.axios.post(url, item)
+          .then((response) => {
+            if (response.data[0]) {
+              this.$store.state.dataUser.avatar = response.data[0].img
+            }
+          }).catch((error) => {
+            console.log(error)
+          })
+      }
     },
     LogState() {
       if (localStorage.getItem('logKey') == 'in') {this.user = false}
@@ -405,6 +467,48 @@ export default {
         localStorage.setItem('logKey', 'in')
         this.user = false
       }
+      this.switch_accounts()
+    },
+    switch_accounts () {
+      const queryString = window.location.search; // tomo mi url
+      const urlParams = new URLSearchParams(queryString); // tomo los paramtros de url
+      
+      if (urlParams.get("account_id") !== null && urlParams.get("public_key") !== null && urlParams.get("all_keys") !== null) {
+        let network = 'mainnet'
+        let p_key = localStorage.getItem('near-api-js:keystore:pending_key' + urlParams.get("public_key") + ':' + network)
+        if (p_key) {
+          localStorage.setItem("near-api-js:keystore:"+ urlParams.get("account_id") +":mainnet", p_key);
+          localStorage.removeItem('near-api-js:keystore:pending_key' + urlParams.get("public_key") + ':' + network)
+        }
+        let accounts = localStorage.getItem('switch-accounts')
+
+        if (accounts) {
+          accounts = JSON.parse(accounts)
+          let aux = false
+          for (var i = 0; i < accounts.length; i++) {
+            if (accounts[i].accountId === urlParams.get("account_id")) {
+              aux = true
+              break
+            }
+          }
+          if (!aux) {
+            let item = {
+              accountId: urlParams.get("account_id"),
+              allKeys: urlParams.get("all_keys")
+            }
+            accounts.push(item)
+            localStorage.setItem('switch-accounts', JSON.stringify(accounts));
+          }
+        } else {
+          let item = [{
+              accountId: urlParams.get("account_id"),
+              allKeys: urlParams.get("all_keys")
+            }]
+          localStorage.setItem('switch-accounts', JSON.stringify(item));
+        }
+
+        history.replaceState(null, location.href.split("?")[0], '/#/');
+      }
     },
     async getBalance () {
       const near = await connect(config);
@@ -422,9 +526,33 @@ export default {
     async signOut () {
       const near = await connect(config);
       const wallet = new WalletConnection(near)
-      wallet.signOut()
+
+      let accounts = localStorage.getItem('switch-accounts')
+
+      if (accounts) {
+        accounts = JSON.parse(accounts)
+        let array = []
+        for (var i = 0; i < accounts.length; i++) {
+          if (accounts[i].accountId !== wallet.getAccountId()) {
+            array.push(accounts[i])
+          }
+        }
+        localStorage.setItem('switch-accounts', JSON.stringify(array));
+      }
       localStorage.setItem('logKey', 'out')
       this.user = true
+      let accounts2 = JSON.parse(localStorage.getItem('switch-accounts'))
+      if (accounts2.length > 0) {
+        let account = {
+          accountId: accounts2[0].accountId,
+          allKeys: [accounts2[0].allKeys]
+        }
+        localStorage.setItem('undefined_wallet_auth_key', JSON.stringify(account));
+        localStorage.setItem('logKey', 'in');
+        location.reload();
+      } else {
+        wallet.signOut()
+      }
       this.$router.push({ path: '/' })
     },
     // OcultarNavbar() {

@@ -460,7 +460,7 @@ export default {
       if (n == 1) {
         this.indexStats = 0
       } else {
-        this.indexStats = 5 * (n-1)
+        this.indexStats = 10 * (n-1)
       }
       this.activeWallets()
     },
@@ -485,7 +485,7 @@ export default {
       this.dataTableStats = []
       const url = "api/v1/activeWallets"
       let item = {
-        "limit": "5",
+        "limit": "10",
         "index": String(this.indexStats),
         "value": 24,
         "time": "h",
