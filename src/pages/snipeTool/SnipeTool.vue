@@ -188,7 +188,7 @@ export default {
         this.interval2 = setInterval(function () {
           // scroll down
           const dataTable = document.querySelector("#dataTable .v-data-table__wrapper");
-          dataTable.scrollTop += 20
+          dataTable.scrollTop += 10
         }, 100);
       } else {
         clearInterval(this.interval)
