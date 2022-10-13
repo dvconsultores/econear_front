@@ -19,7 +19,7 @@
       <div class="space contentsmobile">
         <v-card class="tracking-pause card acenter" style="max-width:max-content;--bg:hsl(212 47% 12% / .5);gap:1em;--p:.5em 1em">
           <v-btn v-for="(item,i) in dataControls.up" :key="i" text style="--ml:.5em" :class="{active: item.active}"
-              @click="dataControls.up.forEach(e=>{e.active=false});item.active=true, tracking()">
+              @click="dataControls.up.forEach(e=>{e.active=false});item.active=true; tracking()">
             <span>{{item.name}}</span><img :src="require(`@/assets/icons/${item.name}.svg`)"
             :style="item.name=='tracking'?'--w:1em':'--w:.7em'">
           </v-btn>
@@ -51,6 +51,7 @@
       :items="dataTable"
       hide-default-footer
       mobile-breakpoint="-1"
+      height="800px"
     >
       <template v-slot:[`item.nft`]="{ item }">
         <div class="center gap1">
@@ -189,6 +190,9 @@ export default {
             if (this.variable > 9) {
               this.variable = 0
             }
+          // scroll down
+          const dataTable = document.querySelector("#dataTable .v-data-table__wrapper");
+          dataTable.scrollTop += 50
         }.bind(this), 1000);
       } else {
         clearInterval(this.interval)
