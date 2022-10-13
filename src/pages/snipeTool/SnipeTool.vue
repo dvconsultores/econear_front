@@ -186,18 +186,13 @@ export default {
             this.recentlyListed()
         }.bind(this), 10000);
         this.interval2 = setInterval(function () {
-            this.variable = this.variable + 1
-            if (this.variable > 9) {
-              this.variable = 0
-            }
           // scroll down
           const dataTable = document.querySelector("#dataTable .v-data-table__wrapper");
-          dataTable.scrollTop += 50
-        }.bind(this), 1000);
+          dataTable.scrollTop += 20
+        }, 100);
       } else {
         clearInterval(this.interval)
         clearInterval(this.interval2)
-        this.variable = 0
       }
     },
     async recentlyListed(){
