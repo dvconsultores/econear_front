@@ -210,7 +210,7 @@ export default {
           this.formData.append("twitter_account", this.dataModalEdit.twitter || '');
 
           if (this.avatar_model) {
-            console.log(this.avatar_model)
+           
             this.formData.append("uploaded_file", this.avatar_model)
           }
 

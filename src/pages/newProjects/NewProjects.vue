@@ -336,7 +336,6 @@ export default {
      
       this.axios.post(url, item)
         .then(async (response) => {
-          console.log("AQUII", response.data)
           for (var i = 0; i < response.data.length; i++) {
             if (response.data[i].fecha_lanzamiento === 0 || response.data[i].fecha_lanzamiento === "0" || !response.data[i].fecha_lanzamiento) {
               response.data[i].fecha_lanzamiento = parseInt(response.data[i].fecha_creacion)

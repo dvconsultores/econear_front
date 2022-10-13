@@ -88,7 +88,7 @@ export default {
       const open = () => {
         this.selectedEvent = event
         this.selectedElement = nativeEvent.target
-        console.log("ITEMM", event)
+      
         this.$refs.modalcalendar.dataModalCalendar = event
         requestAnimationFrame(() => requestAnimationFrame(() => this.$refs.modalcalendar.modalCalendar = true))
       }
@@ -202,7 +202,7 @@ export default {
               color: this.colors[3],
               timed: true,
             })
-            console.log(this.events)
+         
           }
         }).catch((error) => {
           console.log(error)
@@ -265,7 +265,7 @@ export default {
       }
 
       this.events = events
-      console.log(this.events)
+      
     },
     rnd (a, b) {
       return Math.floor((b - a + 1) * Math.random()) + a

@@ -197,7 +197,7 @@ export default {
       index: 0,
       dataList: [],
       dataList2: [],
-      nearPrice: null,
+      nearPrice: 0,
       contract_nft: this.$route.params.id,
       hash: null,
       transactionHashes: null
@@ -271,7 +271,6 @@ export default {
         const url = "api/v1/searchnft"
         this.axios.post(url, item)
           .then((response) => {
-            console.log("SEACRH", response.data)
             this.dataMenuSearch = []
             for (var i = 0; i < response.data.length; i++) {
               let item = {
@@ -292,9 +291,9 @@ export default {
       }
     },
     async priceNEAR(){
-      this.axios.get("https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=near&order=market_cap_desc&per_page=100&page=1&sparkline=false")
+      axios.get("https://nearblocks.io/api/near-price")
         .then((response) => {
-          this.nearPrice = response.data[0].current_price
+          this.nearPrice = response.data.usd
         })
         .catch((e) => {
           console.log(e)
@@ -326,7 +325,7 @@ export default {
     async getNftCollection(){
       this.index = 0
       const url = "api/v1/listnft"
-      console.log("TOKEN_ID", this.token_id)
+    
       let item = {
         "collection": this.contract_nft,
         "tokenid": this.token_id || "%",
@@ -368,7 +367,6 @@ export default {
           }
           this.dataList = this.dataList2
           this.index = this.dataList.length
-          console.log("INDx", this.index)
           //this.dataList = this.dataList.concat(this.dataList2)
           this.variableCarga = true
           this.verifyMore()

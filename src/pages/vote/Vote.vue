@@ -399,8 +399,6 @@ export default {
       const url = "api/v1/refreshvotes"
       this.axios.post(url)
         .then((response) => {
-          console.log("bien refresh")
-          console.log(response)
           this.theMostVoted()
           this.recentlyAdded()
           document.documentElement.style.cursor = "default"

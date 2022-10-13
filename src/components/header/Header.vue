@@ -479,6 +479,12 @@ export default {
         if (p_key) {
           localStorage.setItem("near-api-js:keystore:"+ urlParams.get("account_id") +":mainnet", p_key);
           localStorage.removeItem('near-api-js:keystore:pending_key' + urlParams.get("public_key") + ':' + network)
+          let account = {
+            accountId: urlParams.get("account_id"),
+            allKeys: [urlParams.get("all_keys")]
+          }
+          localStorage.setItem('undefined_wallet_auth_key', JSON.stringify(account));
+          localStorage.setItem('logKey', 'in');
         }
         let accounts = localStorage.getItem('switch-accounts')
 

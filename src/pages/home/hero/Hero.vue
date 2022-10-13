@@ -246,7 +246,7 @@ export default {
       modal: false,
       menu2: false,
       item: {},
-      nearPrice: null,
+      nearPrice: 0,
       image: require('@/assets/nfts/nft1.png'),
       modalProject: false,
       dataCards: [
@@ -431,10 +431,17 @@ export default {
       }
     },
     async priceNEAR(){
-      console.log("ENTRO")
+      axios.get("https://nearblocks.io/api/near-price")
+        .then((response) => {
+          this.nearPrice = response.data.usd
+        })
+        .catch((e) => {
+          console.log(e)
+        })
+    },
+    async priceNEAR2(){
       axios.get("https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=near&order=market_cap_desc&per_page=100&page=1&sparkline=false")
         .then((response) => {
-          console.log("NEARPRICE", response)
           this.nearPrice = response.data[0]
         })
         .catch((e) => {
@@ -449,7 +456,6 @@ export default {
       }
       this.axios.post(url, item)
         .then((response) => {
-          console.log("SALES", response.data)
           this.dataSales = []
           for (var i = 0; i < response.data.length; i++) {
             let collection = {
@@ -458,7 +464,7 @@ export default {
               name: response.data[i].name + " #" + response.data[i].token_id,
               user: response.data[i].nft_contract_id,
               near: parseFloat(response.data[i].price).toFixed(1) + " N",
-              dollar: "$"+(response.data[i].price * this.nearPrice.current_price).toFixed(2),
+              dollar: "$"+(response.data[i].price * this.nearPrice).toFixed(2),
               state: true,
             }
             // if (!collection.img) {
@@ -476,7 +482,6 @@ export default {
             //   })
             // }
             this.dataSales.push(collection)
-            console.log(this.dataSales)
           }
         }).catch((error) => {
           console.log(error)

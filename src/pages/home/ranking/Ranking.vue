@@ -352,7 +352,6 @@ export default {
           voto: vote,
         })
           .then((response) => {
-            console.log(response)
             aux = true            
           }).catch((error) => {
             console.log(error)
@@ -383,19 +382,9 @@ export default {
                 name: response.data[i].name,
                 contract: response.data[i].nft_contract
               }
-              if (!item.img) {
-                console.log("ENTRO IMG")
-                this.axios.get("https://api-v2-mainnet.paras.id/collections?creator_id=" + item.contract).then(res => {
-                    // console.log(res.data.data.results)
-                  let data = res.data.data.results
-                  data.forEach(element => {
-                    if ((element.collection).toLowerCase() === item.name.toLowerCase()) {
-                      item.img = 'https://ipfs.fleek.co/ipfs/' + element.media
-                    }
-                  });
-                  item.img = item.img || require('@/assets/nfts/nft1.png')
-                })
-              }
+            // if (!item.img) {
+            //   item.img = "https://gateway.pinata.cloud/ipfs/QmQrkYjoExd597duR56n7j4DTEive6a2xe8fSs7RLANG7R/" + collection.contract_id + ".avif"
+            // }
               this.dataMenuSearch.push(item)
             }
             this.menuSearch = true
@@ -462,7 +451,6 @@ export default {
 
       this.axios.post(url, item)
         .then((response) => {
-          console.log("RANKING",response.data)
           for (var i = 0; i < response.data.length; i++) {
             let collection = {
               img: response.data[i].icon,
@@ -491,18 +479,9 @@ export default {
             if (response.data[i].porcentaje < 0) {
               collection.state_change = false
             }
-            //if (!collection.img) {
-              this.axios.get("https://api-v2-mainnet.paras.id/collections?creator_id=" + collection.contract_id).then(res => {
-                  // console.log(res.data.data.results)
-                let data = res.data.data.results
-                data.forEach(element => {
-                  if ((element.collection).toLowerCase() === collection.name.toLowerCase()) {
-                    collection.img = 'https://ipfs.fleek.co/ipfs/' + element.media
-                  }
-                });
-                collection.img = collection.img || require('@/assets/nfts/nft1.png')
-              })
-            //}
+            // if (!collection.img) {
+            //   collection.img = "https://gateway.pinata.cloud/ipfs/QmQrkYjoExd597duR56n7j4DTEive6a2xe8fSs7RLANG7R/" + collection.contract_id + ".avif"
+            // }
             this.dataTable.push(collection)
           }
           this.dataTableBool = true

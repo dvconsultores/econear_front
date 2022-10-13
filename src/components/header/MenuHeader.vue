@@ -582,7 +582,6 @@ export default {
         item.alert_type_id = 6
         item.alert_type = this.dataAlert.type.items[index-1].type
       }
-      console.log(this.dataAlert.frecuency.value)
       let index2 = this.dataAlert.frecuency.value
       if (this.dataAlert.frecuency.value === 1) {
         item.frecuency_id = 1
@@ -595,7 +594,6 @@ export default {
         item.frecuency = this.dataAlert.frecuency.items[index2-1].frecuency
       }
 
-      console.log(item)
       this.save_alert(item)
     },
     async signIn () {

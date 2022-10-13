@@ -314,24 +314,24 @@ export default {
         { value:"discord_server", text:"Discord Server", alig:"center", sortable:false }
       ],
       dataTableProjects: [
-        {
-          img: require("@/assets/nfts/nft1.png"),
-          name: "Collection o Nft Name Lorem ipsum dolor sit",
-          email: "example@domain.com",
-          discord_id: "Username#321",
-          website: "www.loremimpsum.com",
-          twitter: "@loremipsum",
-          discord_server: "discord.gg/invitecode",
-        },
-        {
-          img: require("@/assets/nfts/nft2.png"),
-          name: "Collection o Nft Name Lorem ipsum dolor sit",
-          email: "example@domain.com",
-          discord_id: "Username#321",
-          website: "www.loremimpsum.com",
-          twitter: "@loremipsum",
-          discord_server: "discord.gg/invitecode",
-        },
+        // {
+        //   img: require("@/assets/nfts/nft1.png"),
+        //   name: "Collection o Nft Name Lorem ipsum dolor sit",
+        //   email: "example@domain.com",
+        //   discord_id: "Username#321",
+        //   website: "www.loremimpsum.com",
+        //   twitter: "@loremipsum",
+        //   discord_server: "discord.gg/invitecode",
+        // },
+        // {
+        //   img: require("@/assets/nfts/nft2.png"),
+        //   name: "Collection o Nft Name Lorem ipsum dolor sit",
+        //   email: "example@domain.com",
+        //   discord_id: "Username#321",
+        //   website: "www.loremimpsum.com",
+        //   twitter: "@loremipsum",
+        //   discord_server: "discord.gg/invitecode",
+        // },
       ],
       // watchlist
       searchWatchlist: "",

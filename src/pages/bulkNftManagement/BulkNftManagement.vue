@@ -481,7 +481,6 @@ export default {
       this.showNFTListed(this.dataBulk.listed[item.index], false)
     },
     changeMenu(){
-      console.log(this.dataControlsBulk)
       if (this.dataControlsBulk[0].active === true) {
         this.getUnlistedNft()
       } else if (this.dataControlsBulk[1].active === true) {
@@ -585,7 +584,6 @@ export default {
 
       this.axios.post(url, item2)
         .then((response) => {
-          console.log(response.data)
           this.$refs.menu.marketplaces.items=response.data
         }).catch((error) => {
           console.log(error)
@@ -733,7 +731,6 @@ export default {
               })
             }
             this.dataBulk.listed.push(collection)
-            console.log(collection)
             //this.dataNfts.push(collection)
           }
         }).catch((error) => {
@@ -828,7 +825,6 @@ export default {
               })
             }
             this.dataBulk.unlisted.push(collection)
-            console.log("AQUI",collection)
             //this.dataNfts.push(collection)
           }
         }).catch((error) => {
@@ -931,7 +927,6 @@ export default {
       const url = "api/v1/RefrescarNft"
       this.axios.post(url)
         .then((response) => {
-          console.log("bien refresh")
           console.log(response)
         }).catch((error) => {
           console.log(error)

@@ -513,11 +513,9 @@ export default {
         item.wallet = this.searchStats
       }
 
-      console.log(item)
 
       this.axios.post(url, item)
         .then((response) => {
-          console.log("DATA",response.data)
           let data = response.data.response
           this.sizeStats = Math.ceil(response.data.rows_count / parseInt(item.limit))
           this.dataTableStats = []
