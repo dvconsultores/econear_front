@@ -308,7 +308,6 @@ export default {
       await contract.storage_balance_of({
         account_id: wallet.getAccountId(),
       }).then((response) => {
-        console.log(response)
         this.storageBalance = utils.format.formatNearAmount(response)
       }).catch(err => {
         console.log(err)
@@ -324,7 +323,6 @@ export default {
       })
       await contract.storage_minimum_balance()
       .then((response) => {
-        console.log("MINIMOOO",response)
         this.minimumStorage = utils.format.formatNearAmount(response)
       }).catch(err => {
         console.log(err)
@@ -341,7 +339,6 @@ export default {
       await contract.storage_balance_of({
         account_id: wallet.getAccountId(),
       }).then((response) => {
-        console.log(response)
         this.storageBalance = utils.format.formatNearAmount(response)
       }).catch(err => {
         console.log(err)
@@ -412,7 +409,6 @@ export default {
       })
     },
     async update_nft() {
-      console.log(this.itemListNft)
       if (this.priceNft) {
         const near = await connect(CONFIG(new keyStores.BrowserLocalStorageKeyStore()));
         const wallet = new WalletConnection(near);
@@ -434,7 +430,7 @@ export default {
         },'300000000000000',
         "350000000000000000000").then((response) => {
         //"340000000000000000000").then((response) => {
-          console.log(response)
+       
         }).catch(err => {
           console.log(err)
         })
@@ -467,7 +463,7 @@ export default {
           },'300000000000000',
           "350000000000000000000").then((response) => {
           //"340000000000000000000").then((response) => {
-            console.log(response)
+           
           }).catch(err => {
             console.log(err)
           })

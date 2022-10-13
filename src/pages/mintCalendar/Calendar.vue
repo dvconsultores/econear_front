@@ -32,7 +32,7 @@
       ></v-calendar>
     </section>
     
-    <aside id="container-legend" class="start gap2">
+    <!-- <aside id="container-legend" class="start gap2">
       <div class="center">
         <div class="marker" style="--color: var(--success)" />
         <span>Upcoming (Drops)</span>
@@ -41,11 +41,11 @@
         <div class="marker" style="--color: var(--warning)" />
         <span>New Projects</span>
       </div>
-      <!-- <div class="center">
+      <div class="center">
         <div class="marker" style="--color: var(--error)" />
         <span>Drops</span>
-      </div> -->
-    </aside>
+      </div>
+    </aside> -->
   </section>
 </template>
 
@@ -72,7 +72,7 @@ export default {
   async mounted () {
     this.$refs.calendar.checkChange()
     await this.upcomingListed()
-    this.getNewProjects()
+    //this.getNewProjects()
   },
   methods: {
     console(key) {
@@ -88,7 +88,7 @@ export default {
       const open = () => {
         this.selectedEvent = event
         this.selectedElement = nativeEvent.target
-        console.log("ITEMM", event)
+      
         this.$refs.modalcalendar.dataModalCalendar = event
         requestAnimationFrame(() => requestAnimationFrame(() => this.$refs.modalcalendar.modalCalendar = true))
       }
@@ -202,7 +202,7 @@ export default {
               color: this.colors[3],
               timed: true,
             })
-            console.log(this.events)
+         
           }
         }).catch((error) => {
           console.log(error)
@@ -265,7 +265,7 @@ export default {
       }
 
       this.events = events
-      console.log(this.events)
+      
     },
     rnd (a, b) {
       return Math.floor((b - a + 1) * Math.random()) + a

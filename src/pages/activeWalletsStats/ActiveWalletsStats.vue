@@ -193,13 +193,7 @@
     <!-- wallets by market -->
     <!-- <h3 class="h9_em margin2top">Active wallets by market</h3> -->
     
-    <aside class="container-controls space gap2 wrap">
-      <!-- <v-tabs>
-        <v-tab v-for="(item,i) in dataControlsMarket" :key="i" @click="dataControlsMarket.forEach(e=>{e.active=false});item.active=true">
-          <h6 class="p">{{item.name}}</h6>
-        </v-tab>
-      </v-tabs>
-       -->
+    <!-- <aside class="container-controls space gap2 wrap">
        <h3 class="h9_em margin2top">Active wallets by market</h3>
       <div class="acenter gap1 marginaleft">
         <v-text-field
@@ -225,9 +219,9 @@
         ></v-select>
       </div>
     </aside>
+ -->
 
-
-    <v-data-table
+    <!-- <v-data-table
       class="dataTable card"
       :headers="headersTableMarket"
       v-show="marketBool"
@@ -290,8 +284,6 @@
       
       <template v-slot:[`item.wallet`]="{ item }">
         <div class="walletDetails start gap1">
-          <!-- @click="$router.push('/wallet-details')" -->
-          <!-- <img class="aspect" :src="item.img" alt="nft" style="--w:4.710625em"> -->
           <span class="astart twrapa">{{item.wallet}}</span>
         </div>
       </template>
@@ -319,7 +311,6 @@
       <template v-slot:[`item.marketplace`]="{ item }">
         <div class="divcol center tcenter">
           <img :src="item.market_icon" alt="marketplace image" style="--w:2.535em">
-          <!-- :src="require(`@/assets/marketplace/${item.marketplace}.svg`)" -->
           <span>{{item.marketplace}}</span>
         </div>
       </template>
@@ -327,27 +318,21 @@
       <template v-slot:footer>
         <div class="fill_w center">
           <v-btn-toggle mandatory color="#60D2CA">
-            <!-- <v-btn color="transparent">
-              <v-icon color="#707070">mdi-chevron-left</v-icon>
-            </v-btn> -->
             <v-btn v-for="n in sizeMarket" :key="n" color="transparent" @click="fnPaginationMarket(n)">
               <span>{{n}}</span>
             </v-btn>
-            <!-- <v-btn color="transparent">
-              <v-icon color="#707070">mdi-chevron-right</v-icon>
-            </v-btn> -->
           </v-btn-toggle>
         </div>
       </template>
-    </v-data-table>
-    <center v-show="!marketBool" style="margin-block:8em">
+    </v-data-table> -->
+    <!-- <center v-show="!marketBool" style="margin-block:8em">
       <v-progress-circular
         :size="110"
         :width="10"
         indeterminate
         color="white"
       ></v-progress-circular>
-    </center>
+    </center> -->
   </section>
 </template>
 
@@ -475,7 +460,7 @@ export default {
       if (n == 1) {
         this.indexStats = 0
       } else {
-        this.indexStats = 5 * (n-1)
+        this.indexStats = 10 * (n-1)
       }
       this.activeWallets()
     },
@@ -500,7 +485,7 @@ export default {
       this.dataTableStats = []
       const url = "api/v1/activeWallets"
       let item = {
-        "limit": "5",
+        "limit": "10",
         "index": String(this.indexStats),
         "value": 24,
         "time": "h",
@@ -528,11 +513,9 @@ export default {
         item.wallet = this.searchStats
       }
 
-      console.log(item)
 
       this.axios.post(url, item)
         .then((response) => {
-          console.log("DATA",response.data)
           let data = response.data.response
           this.sizeStats = Math.ceil(response.data.rows_count / parseInt(item.limit))
           this.dataTableStats = []
@@ -567,65 +550,65 @@ export default {
           this.statsBool=true
         })
     },
-    async activeWalletsMarket(){
-      this.marketBool=false
-      const url = "api/v1/activewalletsmarket"
-      let item = {
-        "limit": "5",
-        "index": String(this.indexMarket),
-        "value": 24,
-        "time": "h",
-        "wallet": "%"
-      }
-      if (this.sort.market.value === "24h") {
-        item.time = "h"
-        item.value = 24
-      } else if (this.sort.market.value === "7d") {
-        item.time = "d"
-        item.value = 7
-      } else if (this.sort.market.value === "30d") {
-        item.time = "d"
-        item.value = 30
-      } else if (this.sort.market.value === "90d") {
-        item.time = "d"
-        item.value = 90
-      } else if (this.sort.market.value === "1Y") {
-        item.time = "d"
-        item.value = 365
-      }
-      if (this.searchMarket === '' || this.searchMarket === null) {
-        item.wallet = "%"
-      } else {
-        item.wallet = this.searchMarket
-      }
+    // async activeWalletsMarket(){
+    //   this.marketBool=false
+    //   const url = "api/v1/activewalletsmarket"
+    //   let item = {
+    //     "limit": "5",
+    //     "index": String(this.indexMarket),
+    //     "value": 24,
+    //     "time": "h",
+    //     "wallet": "%"
+    //   }
+    //   if (this.sort.market.value === "24h") {
+    //     item.time = "h"
+    //     item.value = 24
+    //   } else if (this.sort.market.value === "7d") {
+    //     item.time = "d"
+    //     item.value = 7
+    //   } else if (this.sort.market.value === "30d") {
+    //     item.time = "d"
+    //     item.value = 30
+    //   } else if (this.sort.market.value === "90d") {
+    //     item.time = "d"
+    //     item.value = 90
+    //   } else if (this.sort.market.value === "1Y") {
+    //     item.time = "d"
+    //     item.value = 365
+    //   }
+    //   if (this.searchMarket === '' || this.searchMarket === null) {
+    //     item.wallet = "%"
+    //   } else {
+    //     item.wallet = this.searchMarket
+    //   }
 
-      console.log(item)
+    //   console.log(item)
 
-      this.axios.post(url, item)
-        .then((response) => {
-          console.log("DATAMARKET",response.data)
-          let data = response.data.response
-          this.sizeMarket = Math.ceil(response.data.rows_count / parseInt(item.limit))
-          this.dataTableMarket = []
-          for (var i = 0; i < data.length; i++) {
-            let collection = { 
-              img: require('@/assets/nfts/nft1.png'),
-              wallet: data[i].wallet,
-              spend: parseFloat(data[i].total_gastado).toFixed(2),
-              bought: data[i].total_comprado,
-              purchase_wallet: data[i].mayor_compra[0].titulo + " #" + data[i].mayor_compra[0].token_id,
-              purchase_price: data[i].mayor_compra[0].precio,
-              market_icon: data[i].market_icon
-            }     
-            this.dataTableMarket.push(collection)
-          }
-          this.indexMarket = this.indexMarket + this.dataTableMarket.length
-          this.marketBool=true
-        }).catch((error) => {
-          console.log(error)
-          this.marketBool=true
-        })
-    },
+    //   this.axios.post(url, item)
+    //     .then((response) => {
+    //       console.log("DATAMARKET",response.data)
+    //       let data = response.data.response
+    //       this.sizeMarket = Math.ceil(response.data.rows_count / parseInt(item.limit))
+    //       this.dataTableMarket = []
+    //       for (var i = 0; i < data.length; i++) {
+    //         let collection = { 
+    //           img: require('@/assets/nfts/nft1.png'),
+    //           wallet: data[i].wallet,
+    //           spend: parseFloat(data[i].total_gastado).toFixed(2),
+    //           bought: data[i].total_comprado,
+    //           purchase_wallet: data[i].mayor_compra[0].titulo + " #" + data[i].mayor_compra[0].token_id,
+    //           purchase_price: data[i].mayor_compra[0].precio,
+    //           market_icon: data[i].market_icon
+    //         }     
+    //         this.dataTableMarket.push(collection)
+    //       }
+    //       this.indexMarket = this.indexMarket + this.dataTableMarket.length
+    //       this.marketBool=true
+    //     }).catch((error) => {
+    //       console.log(error)
+    //       this.marketBool=true
+    //     })
+    // },
   }
 };
 </script>

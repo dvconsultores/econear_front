@@ -10,7 +10,7 @@
 
     <aside class="container-profile divcol center gap1 tcenter">
       <v-avatar width="12.48875em" height="12.48875em">
-        <img src="@/assets/logos/user.png" alt="avatar" style="--b:3px solid var(--success);--br:50%;--w:100%">
+        <img :src="this.avatar" alt="avatar" style="--b:3px solid var(--success);--br:50%;--w:100%">
       </v-avatar>
       <h2 class="p bold">{{accountId}}</h2>
       <!-- <div class="acenter spacea gap1">
@@ -314,24 +314,24 @@ export default {
         { value:"discord_server", text:"Discord Server", alig:"center", sortable:false }
       ],
       dataTableProjects: [
-        {
-          img: require("@/assets/nfts/nft1.png"),
-          name: "Collection o Nft Name Lorem ipsum dolor sit",
-          email: "example@domain.com",
-          discord_id: "Username#321",
-          website: "www.loremimpsum.com",
-          twitter: "@loremipsum",
-          discord_server: "discord.gg/invitecode",
-        },
-        {
-          img: require("@/assets/nfts/nft2.png"),
-          name: "Collection o Nft Name Lorem ipsum dolor sit",
-          email: "example@domain.com",
-          discord_id: "Username#321",
-          website: "www.loremimpsum.com",
-          twitter: "@loremipsum",
-          discord_server: "discord.gg/invitecode",
-        },
+        // {
+        //   img: require("@/assets/nfts/nft1.png"),
+        //   name: "Collection o Nft Name Lorem ipsum dolor sit",
+        //   email: "example@domain.com",
+        //   discord_id: "Username#321",
+        //   website: "www.loremimpsum.com",
+        //   twitter: "@loremipsum",
+        //   discord_server: "discord.gg/invitecode",
+        // },
+        // {
+        //   img: require("@/assets/nfts/nft2.png"),
+        //   name: "Collection o Nft Name Lorem ipsum dolor sit",
+        //   email: "example@domain.com",
+        //   discord_id: "Username#321",
+        //   website: "www.loremimpsum.com",
+        //   twitter: "@loremipsum",
+        //   discord_server: "discord.gg/invitecode",
+        // },
       ],
       // watchlist
       searchWatchlist: "",
@@ -407,7 +407,13 @@ export default {
       ]
     }
   },
+  computed: {
+    avatar() {
+      return this.$store.state.dataUser.avatar
+    },
+  },
   mounted() {
+    this.avatar = this.$store.state.dataUser.avatar
     this.getData()
     this.get_projects()
     this.get_alert()

@@ -155,7 +155,7 @@
       // }
     }
     .container-accounts {
-      --size: clamp(4.5em, 5vw, 5em);
+      --size: clamp(4.3em, 4.3vw, 4.3em);
       max-width: 20em;
       width: calc(100% - (var(--size) + clamp(1em, 1.5vw, 1.5em)));
       margin-left: var(--size);
@@ -166,6 +166,8 @@
       .v-avatar {
         @include absolute(calc(var(--size) * -.9),0,auto,0);
         box-shadow: 0 0 4px 1px var(--success);
+        border: 1px solid grey;
+        border-radius:50%;
       }
     }
   }

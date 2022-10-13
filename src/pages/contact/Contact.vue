@@ -6,7 +6,7 @@
       <p>You can contact us through our email <a href="#">contact@econear.in</a> or on our official networks:</p>
 
       <div class="spacea gap2">
-        <v-btn v-for="(item,i) in dataSocial" :key="i" icon :href="item.link">
+        <v-btn v-for="(item,i) in dataSocial" :key="i" icon :href="item.link" target="_blank">
           <img :src="require(`@/assets/icons/${item.social}.svg`)" :alt="`${item.social} button`" style="--w:2.625em">
         </v-btn>
       </div>
@@ -42,7 +42,7 @@ export default {
   data() {
     return {
       dataSocial: [
-        { social: "twitter", link: "#" },
+        { social: "twitter", link: "https://twitter.com/econear" },
         { social: "discord", link: "#" },
       ],
       input: "",
@@ -56,7 +56,20 @@ export default {
   },
   methods: {
     SendEmail() {
-      if (this.$refs.form.validate()) {alert('send')}
+      if (this.$refs.form.validate()) {
+        const url = "api/v1/tosubscribe"
+        let item = {
+          email: this.input
+        }
+        this.axios.post(url, item)
+          .then((response) => {
+            this.$store.dispatch('GenerateAlert', {key:'success', title: 'Success!', desc: 'Successful subscription.'})
+            this.input= ''
+          }).catch((error) => {
+            console.log("ERR",error)
+            this.$store.dispatch('GenerateAlert', {key:'error', title: 'Error!', desc: 'Something happened.'})
+          })
+      }
     },
   }
 };

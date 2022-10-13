@@ -55,7 +55,7 @@
       <template v-slot:[`item.nft`]="{ item }">
         <div class="center gap1">
           <img class="aspect" :src="item.img || image" alt="nft" style="--w:4.710625em">
-          <div class="divcol tstart">
+          <div class="divcol tstart" style="width:170px">
             <span>{{item.name}}</span>
             <!-- <span>{{item.desc}}</span> -->
           </div>

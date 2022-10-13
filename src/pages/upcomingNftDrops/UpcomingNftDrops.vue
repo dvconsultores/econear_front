@@ -304,7 +304,6 @@ export default {
       return item
     },
     async votar (contract_id) {
-      console.log(contract_id)
       const CONTRACT_NAME = 'backend.monkeonnear.near'
       // connect to NEAR
       const near = await connect(config)
@@ -336,7 +335,6 @@ export default {
       const url = "api/v1/refreshvotesupcoming"
       this.axios.post(url)
         .then((response) => {
-          console.log("bien refresh")
           this.upcomingListed()
         }).catch((error) => {
           console.log(error)

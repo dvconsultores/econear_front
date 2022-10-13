@@ -88,7 +88,8 @@ export default {
   data() {
     return {
       dataMore: [],
-      nearPrice: null,
+      nearPrice: 0,
+      nearPrice2: 0,
       parasPrice: null,
       volume24h: null,
       volume7d: null,
@@ -220,6 +221,8 @@ export default {
   },
   async mounted() {
     await this.priceNEAR()
+    await this.priceNEAR2()
+    this.getImagenes()
     this.pricePARAS()
     this.highestVolGainerss()
     this.salesOfTheDay()
@@ -262,6 +265,25 @@ export default {
 
   },
   methods: {
+    async getImagenes(){
+      console.log("IMAGENES")
+      axios.get("https://gateway.pinata.cloud/ipfs/QmQrkYjoExd597duR56n7j4DTEive6a2xe8fSs7RLANG7R")
+        .then((response) => {
+          console.log("IPFS", response.data)
+        })
+        .catch((e) => {
+          console.log(e)
+        })
+    },
+    async priceNEAR2(){
+      axios.get("https://nearblocks.io/api/near-price")
+        .then((response) => {
+          this.nearPrice2 = response.data.usd
+        })
+        .catch((e) => {
+          console.log(e)
+        })
+    },
     async priceNEAR(){
       axios.get("https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=near&order=market_cap_desc&per_page=100&page=1&sparkline=false")
         .then((response) => {
@@ -310,7 +332,7 @@ export default {
               name: response.data[i].name + " #" + response.data[i].token_id,
               user: response.data[i].nft_contract_id,
               near: parseFloat(response.data[i].price).toFixed(1) + " N",
-              dollar: "$"+(response.data[i].price * this.nearPrice.current_price).toFixed(2),
+              dollar: "$"+(response.data[i].price * this.nearPrice2).toFixed(2),
               state: true,
             }
             this.dataBoard[1].list.push(collection)
@@ -334,7 +356,7 @@ export default {
               name: response.data[i].name,
               user: response.data[i].nft_contract,
               near: parseFloat(response.data[i].price).toFixed(1) + " N",
-              dollar: "$"+(response.data[i].price * this.nearPrice.current_price).toFixed(2),
+              dollar: "$"+(response.data[i].price * this.nearPrice2).toFixed(2),
               state: true,
             }
             this.dataBoard[2].list.push(collection)
@@ -374,8 +396,8 @@ export default {
       this.axios.get(url)
         .then((response) => {
           let est_market_cap = response.data.est_market_capitalization
-          this.dataMarket[0].price = "$" + Number((est_market_cap.current_value * this.nearPrice.current_price).toFixed(2)).toLocaleString("en-US")
-          this.dataMarket[0].value = Number(((est_market_cap.current_value * this.nearPrice.current_price) - (est_market_cap.value_24h_ago * this.nearPrice.current_price)).toFixed(2)).toLocaleString("en-US")
+          this.dataMarket[0].price = "$" + Number((est_market_cap.current_value * this.nearPrice2).toFixed(2)).toLocaleString("en-US")
+          this.dataMarket[0].value = Number(((est_market_cap.current_value * this.nearPrice2) - (est_market_cap.value_24h_ago * this.nearPrice2)).toFixed(2)).toLocaleString("en-US")
           this.dataMarket[0].percent = (((est_market_cap.current_value / est_market_cap.value_24h_ago) * 100) - 100).toFixed(2)
           if (this.dataMarket[0].percent > 0) {
             this.dataMarket[0].state = true

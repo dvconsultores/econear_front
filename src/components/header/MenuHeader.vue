@@ -232,7 +232,7 @@
             <v-list class="divcol gap1">
               <!-- <v-list-item v-for="(item,i) in dataSwitchAccount" :key="i" class="center gap1" :ripple="false"
                 @click="item.select?item.select=!item.select:dataSwitchAccount.forEach(e=>{e.select=false;item.select=true})"> -->
-              <v-list-item v-for="(item,i) in dataSwitchAccount" :key="i" class="center gap1">
+              <v-list-item v-for="(item,i) in DataSwitchAccount" :key="i" @click="selectAccount(item)" class="center gap1">
                 <aside class="container-accounts divcol">
                   <v-avatar size="var(--size)">
                     <img :src="item.img" alt="user" style="--w:100%">
@@ -242,6 +242,7 @@
                 </aside>
 
                 <v-checkbox
+                  disabled
                   v-model="item.select"
                 ></v-checkbox>
               </v-list-item>
@@ -411,6 +412,7 @@ export default {
     AccountId: String,
     DataLogout: Array,
     User: Boolean,
+    DataSwitchAccount: Array,
   },
   // created() {
   //   const theme = localStorage.getItem("theme");
@@ -504,12 +506,12 @@ export default {
         },
       ],
       dataSwitchAccount: [
-        {
-          img: require('@/assets/logos/user.png'),
-          name: "pedrogperez23.near",
-          amount: "456.67 N",
-          select: false,
-        },
+        // {
+        //   img: require("@/assets/logos/user-empty.png"),
+        //   name: "pedrogperez23.near",
+        //   amount: "456.67 N",
+        //   select: false,
+        // },
       ],
       dataAlert: {
         type: {
@@ -526,9 +528,27 @@ export default {
     };
   },
   mounted () {
-
+    //this.get_accounts()
   },
   methods: {
+    selectAccount(item,) {
+      if(item.select === false) {
+        item.select=!item.select
+      }
+      
+      for (var i = 0; i < this.DataSwitchAccount.length; i++) {
+        if (this.DataSwitchAccount[i].name !== item.name && this.DataSwitchAccount[i].select) {
+          this.DataSwitchAccount[i].select = false
+        }
+      }
+      let account = {
+        accountId: item.name,
+        allKeys: [item.allKeys]
+      }
+      localStorage.setItem('undefined_wallet_auth_key', JSON.stringify(account));
+      localStorage.setItem('logKey', 'in');
+      location.reload();
+    },
     create_alert() {
       this.closeDis = true
       this.validateAccountDis = true
@@ -562,7 +582,6 @@ export default {
         item.alert_type_id = 6
         item.alert_type = this.dataAlert.type.items[index-1].type
       }
-      console.log(this.dataAlert.frecuency.value)
       let index2 = this.dataAlert.frecuency.value
       if (this.dataAlert.frecuency.value === 1) {
         item.frecuency_id = 1
@@ -575,11 +594,9 @@ export default {
         item.frecuency = this.dataAlert.frecuency.items[index2-1].frecuency
       }
 
-      console.log(item)
       this.save_alert(item)
     },
     async signIn () {
-      console.log("holaa")
       this.isSigned()
       const near = await connect(config);
       const wallet = new WalletConnection(near)

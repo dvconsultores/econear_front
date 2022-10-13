@@ -26,8 +26,7 @@
             <a v-for="(item,i) in dataFooter" :key="i" @click="$router.push(item.to)" class="h11_em">
               {{item.name}}
             </a>
-            <v-menu offset-y>
-              <!-- slot more -->
+            <!-- <v-menu offset-y>
               <template v-slot:activator="{ on, attrs}">
                 <button class="h11_em" v-on="on" v-bind="attrs">
                   More<v-icon medium color="var(--success)">mdi-chevron-down</v-icon>
@@ -62,7 +61,7 @@
                   </div>
                 </aside>
               </v-card>
-            </v-menu>
+            </v-menu> -->
           </div>
 
           <v-text-field
@@ -106,10 +105,9 @@ export default {
       ],
       dataFooter: [
         { key: "home", name: "Home", to: "/" },
-        { key: "drops", name: "Drops", to: "/upcoming-nft-drops" },
-        { key: "nfts", name: "NFTS", to: "" },
         { key: "snipe", name: "Snipe tool", to: "/snipe-tool" },
-        { key: "contact", name: "Contact us", to: "/contact" },
+        { key: "portfolio", name: "Portfolio tracker", to: "/portafolio" },
+        { key: "drops", name: "Upcoming projects", to: "/upcoming-nft-drops" },
       ],
       dataMore: [
         {
@@ -167,7 +165,20 @@ export default {
   },
   methods: {
     SendEmail() {
-      alert('send')
+      if (this.input !== '' && this.input !== null) {
+        const url = "api/v1/tosubscribe"
+        let item = {
+          email: this.input
+        }
+        this.axios.post(url, item)
+          .then((response) => {
+            this.$store.dispatch('GenerateAlert', {key:'success', title: 'Success!', desc: 'Successful subscription.'})
+            this.input= ''
+          }).catch((error) => {
+            console.log("ERR",error)
+            this.$store.dispatch('GenerateAlert', {key:'error', title: 'Error!', desc: 'Something happened.'})
+          })
+      }
     },
   }
 }
