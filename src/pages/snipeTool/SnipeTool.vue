@@ -138,6 +138,12 @@ export default {
     }
     this.recentlyListed()
     this.tracking()
+
+    // scroll listener data table
+    document.querySelector("#dataTable .v-data-table__wrapper").addEventListener("scroll", (e) => this.scrolledTable(e))
+  },
+  beforeDestroy() {
+    document.querySelector("#dataTable .v-data-table__wrapper").removeEventListener("scroll", (e) => this.scrolledTable(e))
   },
   methods: {
     async changeNotificacion() {
@@ -179,6 +185,12 @@ export default {
     permisoNotificacion () {
       Notification.requestPermission().then(function(result) {
       });
+    },
+    scrolledTable(event) {
+      const container = event.target
+      if (container.scrollHeight - container.scrollTop === container.clientHeight) {
+        console.log("funcion para traer mas data aqui <----------------------------------------------------------------------------------------")
+      }
     },
     tracking () {
       if (this.dataControls.up[0].active === true) {
