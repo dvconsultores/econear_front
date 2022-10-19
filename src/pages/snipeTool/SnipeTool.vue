@@ -19,7 +19,7 @@
       <div class="space contentsmobile">
         <v-card class="tracking-pause card acenter" style="max-width:max-content;--bg:hsl(212 47% 12% / .5);gap:1em;--p:.5em 1em">
           <v-btn v-for="(item,i) in dataControls.up" :key="i" text style="--ml:.5em" :class="{active: item.active}"
-              @click="dataControls.up.forEach(e=>{e.active=false});item.active=true; tracking()">
+              @click="item.active ? undefined : dataControls.up.forEach(e=>{e.active=false; item.active=true}); tracking()">
             <span>{{item.name}}</span><img :src="require(`@/assets/icons/${item.name}.svg`)"
             :style="item.name=='tracking'?'--w:1em':'--w:.7em'">
           </v-btn>
@@ -51,7 +51,7 @@
       :items="dataTable"
       hide-default-footer
       mobile-breakpoint="-1"
-      height="800px"
+      height="calc(100vh - (54px + 2em))"
       disable-pagination
     >
       <template v-slot:[`item.nft`]="{ item }">
@@ -192,13 +192,11 @@ export default {
     },
     scrolledTable(event) {
       const container = event.target
-      console.log(Math.ceil(container.scrollHeight - container.scrollTop))
-      console.log(container.clientHeight)
-      if ((Math.ceil(container.scrollHeight - container.scrollTop)) <= container.clientHeight) {
+      if (Math.ceil(container.scrollHeight - container.scrollTop) <= container.clientHeight) {
         console.log("funcion para traer mas data aqui <----------------------------------------------------------------------------------------")
-        //his.dataTable = this.dataTable.concat(this.dataTable2.slice(this.dataTable.length, this.dataTable.length + 5))
+        // his.dataTable = this.dataTable.concat(this.dataTable2.slice(this.dataTable.length, this.dataTable.length + 5))
         clearTimeout(this.timer)
-        this.timer = setTimeout(this.addDataTable, 2000)
+        this.timer = setTimeout(this.addDataTable, 300)
       }
     },
     async addDataTable(){
@@ -229,18 +227,27 @@ export default {
         })
     },
     tracking () {
+      const dataTable = document.querySelector("#dataTable .v-data-table__wrapper");
+      document.querySelector(".tracking-pause").scrollIntoView(true)
       if (this.dataControls.up[0].active === true) {
-        this.interval = setInterval(function () {
-            this.recentlyListed()
-        }.bind(this), 10000);
-        this.interval2 = setInterval(function () {
-          // scroll down
-          const dataTable = document.querySelector("#dataTable .v-data-table__wrapper");
-          dataTable.scrollTop += 5
-        }, 100);
+        this.timeHidden = setTimeout(() => {
+          document.documentElement.style.overflow = "hidden"
+
+          // this.interval = setInterval(function () {
+          //     this.recentlyListed()
+          // }.bind(this), 10000);
+          this.interval2 = setInterval(function () {
+            // scroll down
+            if (Math.ceil(dataTable.scrollHeight - dataTable.scrollTop) >= dataTable.clientHeight) {
+              dataTable.scrollTop += 5
+            }
+          }, 100);
+        }, 500);
       } else {
-        clearInterval(this.interval)
+        document.documentElement.style.overflow = "initial"
+        // clearInterval(this.interval)
         clearInterval(this.interval2)
+        clearTimeout(this.timeHidden)
       }
     },
     async recentlyListed(){
