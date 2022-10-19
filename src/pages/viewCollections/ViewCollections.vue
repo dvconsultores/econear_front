@@ -291,7 +291,7 @@ export default {
       }
     },
     async priceNEAR(){
-      axios.get("https://nearblocks.io/api/near-price")
+      this.axios.get("https://nearblocks.io/api/near-price")
         .then((response) => {
           this.nearPrice = response.data.usd
         })
@@ -353,25 +353,28 @@ export default {
       this.axios.post(url, item)
         .then((response) => {
           this.dataList2 = []
-          for (var i = 0; i < response.data.length; i++) {
+          console.log("NFTS",response.data)
+          for (var i = 0; i < response.data.data.length; i++) {
             let collection = {
-              nft: response.data[i].media,//,
-              name: response.data[i].titulo + " #" + response.data[i].token_id,
-              token_id: response.data[i].token_id,
-              contract: response.data[i].collection,
-              marketplace: response.data[i].marketplace,
-              price: utils.format.formatNearAmount(response.data[i].precio),
-              price_yocto: response.data[i].precio,
+              nft: response.data.data[i].media,//,
+              name: response.data.data[i].titulo + " #" + response.data.data[i].token_id,
+              token_id: response.data.data[i].token_id,
+              contract: response.data.data[i].collection,
+              marketplace: response.data.data[i].marketplace,
+              price: utils.format.formatNearAmount(response.data.data[i].precio),
+              price_yocto: response.data.data[i].precio,
             }
             this.dataList2.push(collection)
           }
           this.dataList = this.dataList2
-          this.index = this.dataList.length
+          this.index = this.index + this.limit + response.data.excess + 1
+          
+          console.log(this.index)
           //this.dataList = this.dataList.concat(this.dataList2)
           this.variableCarga = true
           this.verifyMore()
         }).catch((error) => {
-          console.log("ERRORRRR",error)
+          console.log("ERRORRRR1",error)
         })
     },
     async seeMore(){
@@ -388,24 +391,25 @@ export default {
         "type_order": "asc"
       }
 
-      
       this.axios.post(url, item)
         .then((response) => {
+          console.log("seeNFTS",response.data)
           this.dataList2 = []
-          for (var i = 0; i < response.data.length; i++) {
+          for (var i = 0; i < response.data.data.length; i++) {
             let collection = {
-              nft: response.data[i].media,//,
-              name: response.data[i].titulo + " #" + response.data[i].token_id,
-              token_id: response.data[i].token_id,
-              contract: response.data[i].collection,
-              marketplace: response.data[i].marketplace,
-              price: utils.format.formatNearAmount(response.data[i].precio),
-              price_yocto: response.data[i].precio,
+              nft: response.data.data[i].media,//,
+              name: response.data.data[i].titulo + " #" + response.data.data[i].token_id,
+              token_id: response.data.data[i].token_id,
+              contract: response.data.data[i].collection,
+              marketplace: response.data.data[i].marketplace,
+              price: utils.format.formatNearAmount(response.data.data[i].precio),
+              price_yocto: response.data.data[i].precio,
             }
             this.dataList2.push(collection)
           }
           this.dataList = this.dataList.concat(this.dataList2)
-          this.index = this.dataList.length
+          this.index = this.index + this.limit + response.data.excess
+          console.log(this.index)
           this.seeMoreDis = false
           this.verifyMore()
         }).catch((error) => {
@@ -449,9 +453,9 @@ export default {
             this.dataInfo.name = response.data[0].name
             this.dataInfo.img = response.data[0].icon
           }
-          if (!this.dataInfo.img) {
-            this.getImgCollection()
-          }
+          // if (!this.dataInfo.img) {
+          //   this.getImgCollection()
+          // }
         }).catch((error) => {
           console.log("ERRORRRR",error)
         })

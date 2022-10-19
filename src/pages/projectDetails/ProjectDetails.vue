@@ -138,14 +138,14 @@ export default {
         ]
       },
       dataBuy: [
-        { img: require('@/assets/images/paras.png'), name: "Paras" },
-        { img: require('@/assets/nfts/nft1.png'), name: "Whinto Swap" },
-        { img: require('@/assets/nfts/nft1.png'), name: "Whinto Swap" },
-        { img: require('@/assets/nfts/nft1.png'), name: "Whinto Swap" },
-        { img: require('@/assets/nfts/nft1.png'), name: "Paras" },
-        { img: require('@/assets/nfts/nft1.png'), name: "Whinto Swap" },
-        { img: require('@/assets/nfts/nft1.png'), name: "Whinto Swap" },
-        { img: require('@/assets/nfts/nft1.png'), name: "Whinto Swap" },
+        // { img: require('@/assets/images/paras.png'), name: "Paras" },
+        // { img: require('@/assets/nfts/nft1.png'), name: "Whinto Swap" },
+        // { img: require('@/assets/nfts/nft1.png'), name: "Whinto Swap" },
+        // { img: require('@/assets/nfts/nft1.png'), name: "Whinto Swap" },
+        // { img: require('@/assets/nfts/nft1.png'), name: "Paras" },
+        // { img: require('@/assets/nfts/nft1.png'), name: "Whinto Swap" },
+        // { img: require('@/assets/nfts/nft1.png'), name: "Whinto Swap" },
+        // { img: require('@/assets/nfts/nft1.png'), name: "Whinto Swap" },
       ],
       dataControls: [
         { key: "overview", name: "Overview", active: true },
@@ -337,6 +337,7 @@ export default {
   },
   mounted() {
     this.getDataCollection()
+    this.getDataBuyOn()
     this.Responsive()
     window.onresize = () => this.Responsive()
   },
@@ -364,8 +365,27 @@ export default {
             this.dataInfo.name = response.data[0].name
             this.dataInfo.img = response.data[0].icon
           }
-          if (!this.dataInfo.img) {
-            this.getImgCollection()
+          // if (!this.dataInfo.img) {
+          //   this.getImgCollection()
+          // }
+        }).catch((error) => {
+          console.log("ERRORRRR",error)
+        })
+    },
+    async getDataBuyOn(){
+      const url = "api/v1/buyonmarketplace"
+      let item = {
+        "collection": this.contract_nft,
+      }
+      this.axios.post(url, item)
+        .then((response) => {
+          for (var i = 0; i < response.data.length; i++) {
+            let collection = {
+              img: response.data[i].market_icon,
+              name: response.data[i].market_name,
+              marketplace: response.data[i].marketplace,
+            }
+            this.dataBuy.push(collection)
           }
         }).catch((error) => {
           console.log("ERRORRRR",error)

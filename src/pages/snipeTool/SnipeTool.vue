@@ -52,6 +52,7 @@
       hide-default-footer
       mobile-breakpoint="-1"
       height="800px"
+      disable-pagination
     >
       <template v-slot:[`item.nft`]="{ item }">
         <div class="center gap1">
@@ -126,6 +127,9 @@ export default {
         { value: "buy", text: "Buy", align: "center", sortable: false },
       ],
       dataTable: [],
+      dataTable2: [],
+      indexData: 0,
+      limitData: 5,
       variable: null,
     }
   },
@@ -188,9 +192,41 @@ export default {
     },
     scrolledTable(event) {
       const container = event.target
-      if (container.scrollHeight - container.scrollTop === container.clientHeight) {
+      console.log(Math.ceil(container.scrollHeight - container.scrollTop))
+      console.log(container.clientHeight)
+      if ((Math.ceil(container.scrollHeight - container.scrollTop)) <= container.clientHeight) {
         console.log("funcion para traer mas data aqui <----------------------------------------------------------------------------------------")
+        //his.dataTable = this.dataTable.concat(this.dataTable2.slice(this.dataTable.length, this.dataTable.length + 5))
+        clearTimeout(this.timer)
+        this.timer = setTimeout(this.addDataTable, 2000)
       }
+    },
+    async addDataTable(){
+      const url = "api/v1/recentlylisted"
+      let item = {
+        "limit": 5,
+        "index": this.indexData
+      }
+      this.axios.post(url, item)
+        .then((response) => {
+          this.dataTable2 = []
+          for (var i = 0; i < response.data.length; i++) {
+            let collection = {
+              img: response.data[i].icon,
+              name: response.data[i].name,
+              nft_contract: response.data[i].nft_contract,
+              supply: response.data[i].total_supply,
+              price: parseFloat(response.data[i].price).toFixed(1) + " N",
+              marketplace: response.data[i].marketplace,
+              state_price: true,
+            }
+            this.dataTable2.push(collection)
+          }
+          this.dataTable = this.dataTable.concat(this.dataTable2)
+          this.indexData = this.indexData + 5
+        }).catch((error) => {
+          console.log(error)
+        })
     },
     tracking () {
       if (this.dataControls.up[0].active === true) {
@@ -209,9 +245,14 @@ export default {
     },
     async recentlyListed(){
       const url = "api/v1/recentlylisted"
-      this.axios.post(url)
+      let item = {
+        "limit": 10,
+        "index": this.indexData
+      }
+      this.axios.post(url, item)
         .then((response) => {
           this.dataTable = []
+          this.dataTable2 = []
           for (var i = 0; i < response.data.length; i++) {
             let collection = {
               img: response.data[i].icon,
@@ -222,8 +263,10 @@ export default {
               marketplace: response.data[i].marketplace,
               state_price: true,
             }
-            this.dataTable.push(collection)
+            this.dataTable2.push(collection)
           }
+          this.dataTable = this.dataTable2
+          this.indexData = 10
           if (this.notifications === true) {
             const snipetool = JSON.parse(localStorage.getItem('snipetool'))
             this.dataTable.forEach(dataTable => {

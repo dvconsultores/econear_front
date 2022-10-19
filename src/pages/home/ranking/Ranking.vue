@@ -308,6 +308,7 @@ export default {
     }
   },
   async mounted() {
+    this.getImages()
     this.getRanking()
 
     this.interval = setInterval(function () {
@@ -315,6 +316,15 @@ export default {
     }.bind(this), 1800000);
   },
   methods: {
+    getImages () {
+      let url = "https://gateway.pinata.cloud/ipfs/QmQrkYjoExd597duR56n7j4DTEive6a2xe8fSs7RLANG7R/"
+      this.axios.get(url)
+        .then((response) => {
+          console.log("IMAGENES", response.data)
+        }).catch((error) => {
+          console.log(error)
+        })
+    },
     inputSearch () {
       if (this.search == '' || this.search == null) {
         this.getRanking('%')

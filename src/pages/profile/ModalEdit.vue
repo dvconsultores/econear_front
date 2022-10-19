@@ -208,6 +208,7 @@ export default {
           this.formData.append("discord_server", this.dataModalEdit.discord_server || '');
           this.formData.append("web_site", this.dataModalEdit.website || '');
           this.formData.append("twitter_account", this.dataModalEdit.twitter || '');
+          this.formData.append("bio", this.dataModalEdit.bio || '');
 
           if (this.avatar_model) {
            
