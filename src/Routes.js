@@ -73,6 +73,11 @@ export default new Router({
           component: () => import('@/pages/projectDetails/ProjectDetails'),
         },
         {
+          path: '/project-details2/:id?',
+          name: 'projectDetails2',
+          component: () => import('@/pages/projectDetails/ProjectDetails2'),
+        },
+        {
           path: '/view-collections/:id?',
           name: 'viewCollections',
           component: () => import('@/pages/viewCollections/ViewCollections'),
@@ -81,6 +86,11 @@ export default new Router({
           path: '/marketplace-stats',
           name: 'marketplaceStats',
           component: () => import('@/pages/marketplaceStats/MarketplaceStats'),
+        },
+        {
+          path: '/marketplace-stats2',
+          name: 'marketplaceStats',
+          component: () => import('@/pages/marketplaceStats/MarketplaceStats2'),
         },
         {
           path: '/bulk-nft-management',

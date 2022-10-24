@@ -330,10 +330,9 @@ export default {
         "collection": this.contract_nft,
         "tokenid": this.token_id || "%",
         "marketplace": "%",
-        "tokenid": this.token_id || "%",
         "limit": this.limit,
         "index": this.index,
-        "sales": "true",
+        "sales": true,
         "order": "",
         "type_order": ""
       }
@@ -353,7 +352,6 @@ export default {
       this.axios.post(url, item)
         .then((response) => {
           this.dataList2 = []
-          console.log("NFTS",response.data)
           for (var i = 0; i < response.data.data.length; i++) {
             let collection = {
               nft: response.data.data[i].media,//,
@@ -386,7 +384,7 @@ export default {
         "marketplace": "%",
         "limit": this.limit,
         "index": this.index,
-        "sales": "true",
+        "sales": true,
         "order": "precio",
         "type_order": "asc"
       }
@@ -425,7 +423,7 @@ export default {
         "marketplace": "%",
         "limit": this.limit,
         "index": this.index,
-        "sales": "true",
+        "sales": true,
         "order": "precio",
         "type_order": "asc"
       }

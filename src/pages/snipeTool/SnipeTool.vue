@@ -230,6 +230,8 @@ export default {
       const dataTable = document.querySelector("#dataTable .v-data-table__wrapper");
       document.querySelector(".tracking-pause").scrollIntoView(true)
       if (this.dataControls.up[0].active === true) {
+        clearInterval(this.interval2)
+        clearTimeout(this.timeHidden)
         this.timeHidden = setTimeout(() => {
           document.documentElement.style.overflow = "hidden"
 

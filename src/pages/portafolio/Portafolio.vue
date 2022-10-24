@@ -64,15 +64,12 @@
           </v-tab>
         </v-tabs>
 
-        <v-tabs class="tab-right triple">
-          <v-tab>
+        <v-tabs class="tab-right doble" >
+          <v-tab @click="changeCoin('near')">
             <img class="flr" src="@/assets/logos/near.png" alt="near" style="--w:19.2px">
           </v-tab>
-          <v-tab style="color:#FFFFFF;font-size:1em">
+          <v-tab style="color:#FFFFFF;font-size:1em" @click="changeCoin('dolar')">
             $
-          </v-tab>
-          <v-tab style="color:#FFFFFF">
-            %
           </v-tab>
         </v-tabs>
       </div>
@@ -105,6 +102,14 @@
           {{item.token_id}}
         </span>
       </template>
+      <template v-slot:[`item.price`]="{ item }">
+        <span v-show="seeCoin == 1">
+          {{item.price}}
+        </span>
+        <span v-show="seeCoin == 2">
+          {{item.price_usd}}
+        </span>
+      </template>
       <template v-slot:[`item.market_icon`]="{ item }">
         <img v-if="item.market_icon" :title="item.market_name" :src="item.market_icon" alt="market">
         <span v-else>
@@ -135,7 +140,8 @@
 
           <div class="space h11_em">
             <span>Price</span>
-            <span>{{item.price}}</span>
+            <span v-show="seeCoin == 1">{{item.price}}</span>
+            <span v-show="seeCoin == 2">{{item.price_usd}}</span>
           </div>
 
           <!-- <div class="space h11_em">
@@ -293,13 +299,33 @@ export default {
         //   rarity: "common",
         // }
       ],
-      index: 0
+      index: 0,
+      nearPrice: 0,
+      seeCoin: 1
     }
   },
-  mounted() {
+  async mounted() {
+    await this.priceNEAR()
     this.getNftCollection()
+    
   },
   methods: {
+    changeCoin(item) {
+      if (item === 'near') {
+        this.seeCoin = 1
+      } else {
+        this.seeCoin = 2
+      }
+    },
+    async priceNEAR(){
+      this.axios.get("https://nearblocks.io/api/near-price")
+        .then((response) => {
+          this.nearPrice = response.data.usd
+        })
+        .catch((e) => {
+          console.log(e)
+        })
+    },
     async getNftCollection(){
       const near = await connect(config);
       const wallet = new WalletConnection(near);
@@ -333,9 +359,13 @@ export default {
             }
             if (collection.price_yocto) {
               collection.price = utils.format.formatNearAmount(collection.price_yocto) + " N"
+              collection.price_usd = utils.format.formatNearAmount(collection.price_yocto) * this.nearPrice + " $"
             } else {
               collection.price = "-"
+              collection.price_usd = "-"
             }
+
+            console.log(collection)
             
             this.dataTable2.push(collection)
             //this.dataNfts.push(collection)
