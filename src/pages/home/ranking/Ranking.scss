@@ -4,7 +4,9 @@
 /* // // ranking // // */ 
 // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // /
 #ranking {
-  font-size: 16px !important;
+  * {
+    @include media(max, 1500px) {font-size: clamp(10px, 2vw, 11px) !important}
+  }
   .container-controls {
     .v-input {
       .v-input__append-inner {border-left: 1px solid #FFFFFF}

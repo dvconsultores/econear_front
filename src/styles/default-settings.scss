@@ -128,6 +128,7 @@ img:not(.not_html, .not) {
   --bs: initial;
   --f: none;
   --t: none;
+  --of: initial;
   width: var(--w);
   max-width: var(--max-w);
   min-width: var(--min-w);
@@ -140,6 +141,7 @@ img:not(.not_html, .not) {
   border-radius: var(--br);
   box-shadow: var(--bs);
   transform: var(--t);
+  object-fit: var(--of);
   filter: var(--f);
 }
 

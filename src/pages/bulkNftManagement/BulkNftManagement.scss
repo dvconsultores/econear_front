@@ -31,7 +31,8 @@
     position: relative;
     @include media(max, 1300px) {padding-top:var(--distance)}
     #container-button {
-      @include absolute(auto,0,auto,48px);
+      margin-left: auto;
+      // @include absolute(auto,0,auto,48px);
       //@include media(max, 1300px) {@include absolute(auto,calc((var(--distance) / 2) * -1),auto,0)}
     }
     &#listed {
@@ -51,6 +52,7 @@
   #container-nfts {
     .v-card {
       position: relative;
+      max-width: 449px !important;
       &.active::after {
         content: "";
         @include absolute(0,0);
