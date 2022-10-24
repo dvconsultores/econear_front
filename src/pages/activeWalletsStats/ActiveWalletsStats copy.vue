@@ -108,14 +108,14 @@
         </center>
       </template>
       
-      <template v-slot:[`header.toal`]>
+      <!-- <template v-slot:[`header.toal`]>
         <center class="center">
           <span>Total Sales</span>
           <img src="@/assets/icons/sort.svg" alt="sortable icon" style="--w: 0.5em;margin-left:.3em">
         </center>
-      </template>
+      </template> -->
       
-      <template v-slot:[`header.sold`]>
+      <!-- <template v-slot:[`header.sold`]>
         <center class="center">
           <span># NFTs Sold</span>
           <img src="@/assets/icons/sort.svg" alt="sortable icon" style="--w: 0.5em;margin-left:.3em">
@@ -127,7 +127,7 @@
           <span>Highest Sale</span>
           <img src="@/assets/icons/sort.svg" alt="sortable icon" style="--w: 0.5em;margin-left:.3em">
         </center>
-      </template>
+      </template> -->
       
       <template v-slot:[`item.number`]="{ item }">
         <span>{{dataTableStats.indexOf(item)+1}}</span>
@@ -368,35 +368,35 @@ export default {
         { value: "spend", text: "Total Spend", align: "center", sortable: false },
         { value: "bought", text: "# NFT Bought", align: "center", sortable: false },
         { value: "purchase", text: "Highest Purchase", align: "start", sortable: false },
-        { value: "total", text: "Total Sales", align: "center", sortable: false },
-        { value: "sold", text: "# NFTs Sold", align: "center", sortable: false },
-        { value: "sale", text: "Highest Sale", align: "center", sortable: false },
+        // { value: "total", text: "Total Sales", align: "center", sortable: false },
+        // { value: "sold", text: "# NFTs Sold", align: "center", sortable: false },
+        // { value: "sale", text: "Highest Sale", align: "center", sortable: false },
       ],
       dataTableStats: [
-        { 
-          img: require('@/assets/nfts/nft1.png'),
-          wallet: "Collection o Nft Name",
-          spend: 12.0001,
-          bought: "1,203",
-          purchase_wallet: "MonkeONear #123",
-          purchase_price: "129,504.46",
-          total: "129,504.46",
-          sold: 220,
-          sale_wallet: "MonkeONear #3",
-          sale_price: "9,729,504.46",
-        },
-        { 
-          img: require('@/assets/nfts/nft1.png'),
-          wallet: "Collection o Nft Name",
-          spend: 12.0001,
-          bought: "1,203",
-          purchase_wallet: "MonkeONear #123",
-          purchase_price: "129,504.46",
-          total: "129,504.46",
-          sold: 220,
-          sale_wallet: "MonkeONear #3",
-          sale_price: "9,729,504.46",
-        },
+        // { 
+        //   img: require('@/assets/nfts/nft1.png'),
+        //   wallet: "Collection o Nft Name",
+        //   spend: 12.0001,
+        //   bought: "1,203",
+        //   purchase_wallet: "MonkeONear #123",
+        //   purchase_price: "129,504.46",
+        //   total: "129,504.46",
+        //   sold: 220,
+        //   sale_wallet: "MonkeONear #3",
+        //   sale_price: "9,729,504.46",
+        // },
+        // { 
+        //   img: require('@/assets/nfts/nft1.png'),
+        //   wallet: "Collection o Nft Name",
+        //   spend: 12.0001,
+        //   bought: "1,203",
+        //   purchase_wallet: "MonkeONear #123",
+        //   purchase_price: "129,504.46",
+        //   total: "129,504.46",
+        //   sold: 220,
+        //   sale_wallet: "MonkeONear #3",
+        //   sale_price: "9,729,504.46",
+        // },
       ],
       dataControlsMarket: [
         { key: "all", name: "All Time Best", active: true },
@@ -445,15 +445,15 @@ export default {
       searchMarket:null,
       sizeStats: 0,
       sizeMarket: 0,
-      marketBool: true,
-      statsBool: true,
+      marketBool: false,
+      statsBool: false,
       indexStats: 0,
       indexMarket: 0
     }
   },
   async mounted() {
-    //this.activeWallets()
-    // this.activeWalletsMarket()
+    this.activeWallets()
+    this.activeWalletsMarket()
   },
   methods: {
     fnPaginationStats(n) {
