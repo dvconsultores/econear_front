@@ -657,7 +657,7 @@ export default {
 
       const url = "api/v1/ListNftOwner"
       let item = {
-        "owner": wallet.getAccountId(),//"legendkiller.near",
+        "owner": "jochando.near",//wallet.getAccountId(),
         "limit": "20",
         "index": this.index
       }
@@ -692,7 +692,7 @@ export default {
 
       const url = "api/v1/bulklist"
       let item = {
-        "owner": wallet.getAccountId(),//"seseorang.near",
+        "owner": "jochando.near",//wallet.getAccountId(),//"seseorang.near",
         "limit": "200",
         "index": "0",
         "listed": true
@@ -748,7 +748,7 @@ export default {
 
         const url = "api/v1/bulklistdetails"
         let item = {
-          "owner": wallet.getAccountId(),//"seseorang.near",//"seseorang.near",
+          "owner": "jochando.near",//wallet.getAccountId(),//"seseorang.near",//"seseorang.near",
           "collection": collection.collection,
           "limit": "12",
           "index": collection.pagination,
@@ -786,7 +786,7 @@ export default {
 
       const url = "api/v1/bulklist"
       let item = {
-        "owner": wallet.getAccountId(),//"seseorang.near",//wallet.getAccountId(),
+        "owner": "jochando.near",//wallet.getAccountId(),//"seseorang.near",//wallet.getAccountId(),
         "limit": "200",
         "index": "0",
         "listed": false
@@ -842,7 +842,7 @@ export default {
 
         const url = "api/v1/bulklistdetails"
         let item = {
-          "owner": wallet.getAccountId(),//"seseorang.near",
+          "owner": "jochando.near",//wallet.getAccountId(),//"seseorang.near",
           "collection": collection.collection,
           "limit": "12",
           "index": collection.pagination,
@@ -878,7 +878,7 @@ export default {
 
       const url = "api/v1/ListNftOwner"
       let item = {
-        "owner": wallet.getAccountId(),//"legendkiller.near",//wallet.getAccountId(),
+        "owner": "jochando.near",//wallet.getAccountId(),//"legendkiller.near",//wallet.getAccountId(),
         "limit": "20",
         "index": this.index
       }
@@ -911,7 +911,7 @@ export default {
 
       const url = "api/v1/ListNftOwner"
       let item = {
-        "owner": wallet.getAccountId(),//"legendkiller.near",//wallet.getAccountId(),
+        "owner": "jochando.near",//wallet.getAccountId(),//"legendkiller.near",//wallet.getAccountId(),
         "limit": "20",
         "index": this.index
       }
