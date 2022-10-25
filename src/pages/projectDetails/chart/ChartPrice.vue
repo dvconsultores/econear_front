@@ -2,49 +2,49 @@
   <section id="linechart" class="charts doble card" style="--p:clamp(1.5em,2vw,2em)">
     <div class="toolbar wrap not_margin">
       <div class="divcol">
-        <h3 class="h9_em">Price ($NEAR)</h3>
+        <h3 class="h9_em">Price (NEAR)</h3>
 
         <div class="space gap2">
           <aside class="divcol">
             <div class="legend acenter">
               <div class="marker" style="--color: #6A25D2" />
               <span>Floor price</span>
-              <img src="@/assets/icons/info-gray.svg" alt="info">
+              <!-- <img src="@/assets/icons/info-gray.svg" alt="info"> -->
             </div>
 
             <div class="values acenter gap1">
               <h6 class="p bold">{{dataPrice.floor.value}} N</h6>
-              <span class="percent" :style="`--c:${dataPrice.floor.percent.includes('+')?'var(--success)':'var(--error)'}`">
+              <!-- <span class="percent" :style="`--c:${dataPrice.floor.percent.includes('+')?'var(--success)':'var(--error)'}`">
                 {{dataPrice.floor.percent}}%
-              </span>
+              </span> -->
             </div>
           </aside>
-          
+
           <aside class="divcol">
             <div class="legend acenter">
               <div class="marker" style="--color: #F7931E" />
               <span>Average price</span>
-              <img src="@/assets/icons/info-gray.svg" alt="info">
+              <!-- <img src="@/assets/icons/info-gray.svg" alt="info"> -->
             </div>
 
 
             <div class="values acenter gap1">
               <h6 class="p bold">{{dataPrice.average.value}} N</h6>
-              <span class="percent" :style="`--c:${dataPrice.average.percent.includes('+')?'var(--success)':'var(--error)'}`">
+              <!-- <span class="percent" :style="`--c:${dataPrice.average.percent.includes('+')?'var(--success)':'var(--error)'}`">
                 {{dataPrice.average.percent}}%
-              </span>
+              </span> -->
             </div>
           </aside>
         </div>
       </div>
 
       <v-btn-toggle mandatory color="#60D2CA">
-        <v-btn v-for="(item,i) in dataControlsChart" :key="i" color="transparent" @click="updateData(item.key)">
+        <v-btn v-for="(item,i) in dataControlsChart" :key="i" color="transparent" @click="updateDate(item)">
           <span>{{item.name}}</span>
         </v-btn>
-        <v-btn color="transparent">
+        <!-- <v-btn color="transparent">
           <v-icon color="#FFFFFF">mdi-calendar</v-icon>
-        </v-btn>
+        </v-btn> -->
       </v-btn-toggle>
     </div>
 
@@ -63,6 +63,7 @@
 </template>
 
 <script>
+import moment from 'moment';
 // autogenerate series functioin for style test
 function generateDayWiseTimeSeries(baseval, count, yrange) {
   var i = 0;
@@ -76,6 +77,7 @@ function generateDayWiseTimeSeries(baseval, count, yrange) {
     baseval += 86400000;
     i++;
   }
+  console.log("SERIESSSSSSS", series)
   return series;
 }
 // autogenerate series functioin for style test
@@ -88,13 +90,16 @@ export default {
   },
   data() {
     return {
+      contFloor: 0,
+      contAverage: 0,
+      contract_nft: this.$route.params.id,
       dataPrice: {
         floor: {
-          value: 175,
+          value: null,
           percent: "-3.22"
         },
         average: {
-          value: 182,
+          value: null,
           percent: "-20.22"
         },
       },
@@ -104,25 +109,26 @@ export default {
         { key: "30d", name: "30d" },
         { key: "90d", name: "90d" },
         { key: "1y", name: "1Y" },
-        { key: "all", name: "ALL" },
+        // { key: "all", name: "ALL" },
       ],
+      itemDate: { key: "24h", name: "24h" },
       selection: '24h',
       // series
       chartSeries: [
-        {
-          name: '',
-          data: generateDayWiseTimeSeries(new Date('11 Feb 2017 GMT').getTime(), 20, {
-            min: 10,
-            max: 60
-          })
-        },
-        {
-          name: '',
-          data: generateDayWiseTimeSeries(new Date('11 Feb 2017 GMT').getTime(), 20, {
-            min: 10,
-            max: 20
-          })
-        },
+        // {
+        //   name: '',
+        //   data: generateDayWiseTimeSeries(new Date('11 Feb 2017 GMT').getTime(), 20, {
+        //     min: 10,
+        //     max: 20
+        //   })
+        // },
+        // {
+        //   name: '',
+        //   data: generateDayWiseTimeSeries(new Date('11 Feb 2017 GMT').getTime(), 20, {
+        //     min: 10,
+        //     max: 20
+        //   })
+        // },
       ],
       // options
       chartOptions: {
@@ -175,10 +181,76 @@ export default {
       },
     };
   },
+  mounted() {
+    this.getGrafica()
+  },
   methods: {
+    updateDate(item) {
+      this.itemDate = item
+      this.getGrafica()
+    },
+    getGrafica() {
+      var seriesFloor = [];
+      var seriesAverage = [];
+      const url = "api/v1/stastpricecollection"
+      let item = {
+        "collection": this.contract_nft,
+        "value": "h",
+        "time": 24
+      }
+
+      if (this.itemDate.key === "24h") {
+        item.value = "h"
+        item.time = 24
+      } else if (this.itemDate.key === "7d") {
+        item.value = "d"
+        item.time = 7
+      } else if (this.itemDate.key === "30d") {
+        item.value = "d"
+        item.time = 30
+      } else if (this.itemDate.key === "90d") {
+        item.value = "d"
+        item.time = 90
+      } else if (this.itemDate.key === "1y") {
+        item.value = "d"
+        item.time = 365
+      }
+      var contFloor = 0
+      var contAverage = 0
+      this.axios.post(url, item)
+        .then((response) => {
+          for (var i = 0; i < response.data.length; i++) {
+            let x = moment(response.data[i].fecha).unix() * 1000
+            let yFloor = Number(response.data[i].floor_price).toFixed(2)
+            let yAverage = Number(response.data[i].average_price).toFixed(2)
+            contFloor = Number(contFloor) + Number(yFloor)
+            contAverage = Number(contAverage) + Number(yAverage)
+            seriesFloor.push([x, yFloor]);
+            seriesAverage.push([x, yAverage]);
+          }
+
+          this.dataPrice.floor.value = (contFloor / response.data.length).toFixed(2)
+          this.dataPrice.average.value = (contAverage / response.data.length).toFixed(2)
+
+          this.chartSeries = [
+            {
+              name: 'Floor price',
+              data: seriesFloor
+            },
+            {
+              name: 'Average price',
+              data: seriesAverage
+            },
+          ]
+        }).catch((error) => {
+          console.log("ERRORRRR",error)
+        })
+      // console.log("SERIESSSSSSS", series)
+      // return series;
+    },
     updateData: function(timeline) {
       this.selection = timeline
-      
+
       switch (timeline) {
         case '24h':
           this.$refs.chart.zoomX(

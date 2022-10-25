@@ -337,16 +337,28 @@
 </template>
 
 <script>
+import * as nearAPI from 'near-api-js'
+const { connect, transactions, keyStores, WalletConnection, Contract, utils } = nearAPI
+const keyStore = new keyStores.BrowserLocalStorageKeyStore()
+
+const config = {
+  networkId: "mainnet",
+  keyStore, 
+  nodeUrl: "https://rpc.mainnet.near.org",
+  walletUrl: "https://wallet.mainnet.near.org",
+  helperUrl: "https://helper.mainnet.near.org",
+  explorerUrl: "https://explorer.mainnet.near.org",
+};
 export default {
   name: "activeWalletsStats",
   i18n: require("./i18n"),
   data() {
     return {
       dataInfo: [
-        { key: "seller", wallet: "loremipsu.near" },
-        { key: "buyer", wallet: "234rt5..67i8.near" },
-        { key: "sale", wallet: "24t5..67i8.near", near: "1,238,798.98" },
-        { key: "rank", wallet: "pedrog..z23.near", number: "3,970,890" },
+        { key: "seller", wallet: null },
+        { key: "buyer", wallet: null },
+        { key: "sale", wallet: null, near: null },
+        { key: "rank", wallet: null, number: null },
       ],
       dataControlsStats: [
         { key: "all", name: "All Time Best", active: true },
@@ -452,10 +464,32 @@ export default {
     }
   },
   async mounted() {
-    //this.activeWallets()
+    this.activeWalletHeader()
+    this.activeWallets()
     // this.activeWalletsMarket()
   },
   methods: {
+    async activeWalletHeader(){
+      const near = await connect(config);
+      const wallet = new WalletConnection(near);
+
+      const url = "api/v1/activewalleheader"
+      let item = {
+        "wallet": wallet.getAccountId(),
+      }
+
+      this.axios.post(url, item)
+        .then((response) => {
+          this.dataInfo = [
+            { key: "seller", wallet: response.data[0].largest_seller[0].wallet },
+            { key: "buyer", wallet: response.data[0].largest_buyer[0].wallet.substring(0,17) },
+            { key: "sale", wallet: response.data[0].highest_sale[0].wallet, near: response.data[0].highest_sale[0].price },
+            { key: "rank", wallet: response.data[0].your_rankinfo[0].wallet, number: response.data[0].your_rankinfo[0].ranking },
+          ]
+        }).catch((error) => {
+          console.log(error)
+        })
+    },
     fnPaginationStats(n) {
       if (n == 1) {
         this.indexStats = 0
@@ -513,9 +547,9 @@ export default {
         item.wallet = this.searchStats
       }
 
-
       this.axios.post(url, item)
         .then((response) => {
+          console.log("aqui2",response.data)
           let data = response.data.response
           this.sizeStats = Math.ceil(response.data.rows_count / parseInt(item.limit))
           this.dataTableStats = []
@@ -527,9 +561,19 @@ export default {
               bought: data[i].total_comprado,
               purchase_wallet: data[i].mayor_compra[0].titulo + " #" + data[i].mayor_compra[0].token_id,
               purchase_price: data[i].mayor_compra[0].precio,
+              sold: data[i].total_vendido,
+              total: data[i].total_ganado,
             }     
+            if (collection.sold > 0) {
+              collection.sale_wallet = data[i].mayor_venta[0].titulo + " #" + data[i].mayor_venta[0].token_id
+              collection.sale_price = data[i].mayor_venta[0].precio
+            } else {
+              collection.sale_wallet = "-"
+              collection.sale_price = "-"
+            }
             this.dataTableStats.push(collection)
           }
+          console.log(this.dataTableStats)
           this.indexStats = this.indexStats + this.dataTableStats.length
           this.statsBool=true
         //   dataTableStats: [

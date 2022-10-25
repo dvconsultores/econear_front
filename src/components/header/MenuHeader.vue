@@ -516,7 +516,7 @@ export default {
       dataAlert: {
         type: {
           value: 1,
-          items: [ {id:1, type: "Price rises above"}, {id:2, type:"Price drops to"}, {id:3, type:"Change is osver"}, {id:4, type:"Change is under"}, {id:5, type:"Volume is over"}, {id:6, type: "Volume is down"} ]
+          items: [ {id:1, type: "Price rises above"}, {id:2, type:"Price drops to"}, {id:3, type:"Volume rises above"}, {id:4, type: "Volume drops to"} ]//{id:3, type:"Change is osver"}, {id:4, type:"Change is under"} ]
         },
         value: 0,
         contract: "", 

@@ -11,6 +11,7 @@
         </v-tabs> -->
         
         <v-text-field
+          id="search"
           v-model="search"
           hide-details
           solo
@@ -18,11 +19,12 @@
           append-icon="mdi-magnify"
           style="--bg:hsl(210, 48%, 13%, .46);--c:#FFFFFF;--p:0 1.5em;--w:100%;--label:#FFFFFF;max-width:30.061875em"
           class="customeFilter"
+          v-on:input="search2()"
         ></v-text-field>
       </aside>
 
       <section class="card grid" style="--p:2em;gap:1em;--gtc: repeat(auto-fit,minmax(min(100%,16.124375em),1fr))">
-        <v-card v-for="(item,i) in marketplace" :key="i" class="card" style="--p:1em;display:flex;gap:1em;" @click="ShowStats(item)">
+        <v-card v-for="(item,i) in marketplace" :key="i" class="card filterItems" style="--p:1em;display:flex;gap:1em;" @click="ShowStats(item)">
           <img :src="item.img" alt="markets" style="--w:4.710625em">
           <span class="h9_em">{{item.name}}</span>
         </v-card>
@@ -229,6 +231,21 @@ export default {
     window.onresize = () => this.Responsive()
   },
   methods: {
+    async search2() {
+      //await this.get_market()
+      const search = document.getElementById('search')
+      const filterItems = document.querySelectorAll('.filterItems')
+
+      search.addEventListener('keyup',e=>{
+        filterItems.forEach(item=>{
+          item.textContent.toLowerCase().includes(e.target.value.toLowerCase())
+          ?item.style.display='block':item.style.display='none'
+          if (e.key=='Escape') {e.target.value = ''}
+          // // to delete at empty text field
+          // if (e.target.value == '') {item.style.display='none'}
+        })
+      })
+    },
     Responsive() {
       if (window.innerWidth >= 880) {
         this.chartHeight = "422.76px"

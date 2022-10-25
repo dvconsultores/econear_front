@@ -657,7 +657,7 @@ export default {
 
       const url = "api/v1/ListNftOwner"
       let item = {
-        "owner": "jochando.near",//wallet.getAccountId(),
+        "owner": wallet.getAccountId(),
         "limit": "20",
         "index": this.index
       }
@@ -692,7 +692,7 @@ export default {
 
       const url = "api/v1/bulklist"
       let item = {
-        "owner": "jochando.near",//wallet.getAccountId(),//"seseorang.near",
+        "owner": wallet.getAccountId(),//"seseorang.near",
         "limit": "200",
         "index": "0",
         "listed": true
@@ -748,7 +748,7 @@ export default {
 
         const url = "api/v1/bulklistdetails"
         let item = {
-          "owner": "jochando.near",//wallet.getAccountId(),//"seseorang.near",//"seseorang.near",
+          "owner": wallet.getAccountId(),//"seseorang.near",//"seseorang.near",
           "collection": collection.collection,
           "limit": "12",
           "index": collection.pagination,
@@ -786,7 +786,7 @@ export default {
 
       const url = "api/v1/bulklist"
       let item = {
-        "owner": "jochando.near",//wallet.getAccountId(),//"seseorang.near",//wallet.getAccountId(),
+        "owner": wallet.getAccountId(),//"seseorang.near",//wallet.getAccountId(),
         "limit": "200",
         "index": "0",
         "listed": false
@@ -812,18 +812,6 @@ export default {
               itemListNft: {},
               listDisabled: true,
             }
-            if (!collection.img) {
-              this.axios.get("https://api-v2-mainnet.paras.id/collections?creator_id=" + collection.collection).then(res => {
-                  // console.log(res.data.data.results)
-                let data = res.data.data.results
-                data.forEach(element => {
-                  if ((element.collection).toLowerCase() === collection.name.toLowerCase()) {
-                    collection.img = 'https://ipfs.fleek.co/ipfs/' + element.media
-                  }
-                });
-                collection.img = collection.img || require('@/assets/nfts/nft1.png')
-              })
-            }
             this.dataBulk.unlisted.push(collection)
             //this.dataNfts.push(collection)
           }
@@ -842,7 +830,7 @@ export default {
 
         const url = "api/v1/bulklistdetails"
         let item = {
-          "owner": "jochando.near",//wallet.getAccountId(),//"seseorang.near",
+          "owner": wallet.getAccountId(),//"seseorang.near",
           "collection": collection.collection,
           "limit": "12",
           "index": collection.pagination,
@@ -878,7 +866,7 @@ export default {
 
       const url = "api/v1/ListNftOwner"
       let item = {
-        "owner": "jochando.near",//wallet.getAccountId(),//"legendkiller.near",//wallet.getAccountId(),
+        "owner": wallet.getAccountId(),//"legendkiller.near",//wallet.getAccountId(),
         "limit": "20",
         "index": this.index
       }
@@ -911,7 +899,7 @@ export default {
 
       const url = "api/v1/ListNftOwner"
       let item = {
-        "owner": "jochando.near",//wallet.getAccountId(),//"legendkiller.near",//wallet.getAccountId(),
+        "owner": wallet.getAccountId(),//"legendkiller.near",//wallet.getAccountId(),
         "limit": "20",
         "index": this.index
       }

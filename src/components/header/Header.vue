@@ -169,7 +169,7 @@ import * as nearAPI from 'near-api-js'
 
 // const theme = localStorage.getItem("theme");
 
-const { connect, keyStores, WalletConnection } = nearAPI
+const { connect, keyStores, WalletConnection, Contract } = nearAPI
 
 const keyStore = new keyStores.BrowserLocalStorageKeyStore()
 const config = {
@@ -212,6 +212,9 @@ export default {
   // },
   data() {
     return {
+      image: require('@/assets/nfts/nft1.png'),
+      dataTableAlerts: [],
+      intervals: [],
       profile: {},
       heightApp: "100px",
       model: 1,
@@ -306,7 +309,7 @@ export default {
     },
   },
   mounted() {
-
+    this.get_alert()
     this.responsive();
     window.onresize = () => this.responsive();
     // document.getElementById("headerApp").style.background = "transparent";
@@ -322,6 +325,109 @@ export default {
     }
   },
   methods: {
+     async get_alert () {
+      this.dataTableAlerts = []
+      const CONTRACT_NAME = 'backend.monkeonnear.near'
+      // connect to NEAR
+      const near = await connect(config)
+      // create wallet connection
+      const wallet = new WalletConnection(near)
+      if (wallet.isSignedIn()) {
+        const contract = new Contract(wallet.account(), CONTRACT_NAME, {
+          viewMethods: ['get_alert'],
+          sender: wallet.account()
+        })
+        await contract.get_alert({
+          account_id: wallet.getAccountId(),
+        })
+          .then((response) => {
+            for (var i = 0; i < response.length; i++) {
+              for (var j = 0; j < response[i].alerts.length; j++) {
+                let item = {
+                  contract: response[i].alerts[j].collection,
+                  type: response[i].alerts[j].alert_type,
+                  type_id: response[i].alerts[j].alert_type_id,
+                  value: response[i].alerts[j].value,
+                  frecuency: response[i].alerts[j].frecuency,
+                  frecuency_id: response[i].alerts[j].frecuency_id
+                }
+                this.dataTableAlerts.push(item)
+              }
+            }
+            this.startIntervals()
+          }).catch((error) => {
+            console.log("ERR",error)
+          })
+      }
+    },
+    alertNotificacion() {
+      for (var i = 0; i < this.dataTableAlerts.length; i++) {  
+        const alerta = this.dataTableAlerts[i]
+        console.log("alerta",alerta)
+        if (alerta.type_id === 1 || alerta.type_id === 2) {
+          const url = "api/v1/alertprice"
+          let item = {
+            collection: alerta.contract
+          }
+          
+          this.axios.post(url, item)
+          .then((response) => {
+            console.log("Repsonse", response.data[0])
+            if (alerta.type_id === 1 && response.data[0].price > alerta.value ) {
+              console.log("Notificacion 1")
+            } else if (alerta.type_id === 2 && response.data[0].price < alerta.value ) {
+              console.log("Notificacion 2")
+            }
+          }).catch((error) => {
+            console.log(error)
+          })
+        } else if (alerta.type_id === 3 || alerta.type_id === 4) {
+          const url = "api/v1/alertvolumen"
+          let item = {
+            collection: alerta.contract
+          }
+          
+          this.axios.post(url, item)
+          .then((response) => {
+            console.log("Repsonse volumen", response.data[0])
+            if (alerta.type_id === 3 && response.data[0].volumen > alerta.value ) {
+              console.log("Notificacion 3")
+              console.log(alerta.contract)
+              //this.notificacion(alerta.contract)
+            } else if (alerta.type_id === 4 && response.data[0].volumen < alerta.value ) {
+              console.log("Notificacion 4")
+            }
+          }).catch((error) => {
+            console.log(error)
+          })
+        } 
+      }
+    },
+    notificacion(name, img) {
+      if (Notification) {
+        if (Notification.permission !== "granted") {
+          Notification.requestPermission()
+        }
+        var title = "ECONEAR"
+        var extra = {          
+          icon: img || this.image,
+          //icon: "http://xitrus.es/imgs/logo_claro.png",
+          body: "NFT: " + name
+        }
+        var noti = new Notification( title, extra)
+        noti.onclick = {
+        // Al hacer click
+        }
+        noti.onclose = {
+        // Al cerrar
+        }
+        setTimeout( function() { noti.close() }, 20000)
+      }
+    },
+    async startIntervals() {
+      this.interval = setInterval(this.alertNotificacion, 60000)
+    },
+    
     async get_accounts() {
       let accounts = localStorage.getItem('switch-accounts')
       if (accounts[0]) {
