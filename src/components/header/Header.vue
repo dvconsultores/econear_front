@@ -198,7 +198,7 @@ const config = {
 // }
 
 export default {
-  name: "header",
+  name: "Header",
   components: { MenuHeader },
   i18n: require("./i18n"),
   // created() {
