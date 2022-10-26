@@ -44,9 +44,10 @@
         @include media(max, small) {display: none}
       }
     }
-    & > div.grid {
-      --gtc: repeat(2, max-content);
-      @include media(max, small) {--gtc: auto;--gaf: column;gap:1.5em}
+    .container-btns {
+      display: flex !important;
+      // --gtc: repeat(2, max-content);
+      // @include media(max, small) {--gtc: auto;--gaf: column;gap:1.5em}
       .v-btn {
         @include media(max, small) {--p:1.9em}
         img {

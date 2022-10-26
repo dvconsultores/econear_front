@@ -51,7 +51,7 @@
             <span class="h9_em">{{dataStats.name}}</span>
           </div>
 
-          <div class="grid">
+          <div class="container-btns">
             <v-btn v-for="(item,i) in dataStats.dataSocialRed" :key="i" icon :href="item.link" target="_blank">
               <img :src="require(`@/assets/icons/${item.social}.svg`)" :alt="`${item.social} icon`">
             </v-btn>
