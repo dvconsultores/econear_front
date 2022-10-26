@@ -306,8 +306,6 @@ export default {
   },
   async mounted() {
     await this.priceNEAR()
-    this.getBalance()
-    this.getBalances()
     this.getNftCollection()
     
   },
@@ -323,7 +321,7 @@ export default {
 
         const storage = (response.storage_usage * valueStorage) / valueYocto 
         this.dataProfit[0].crypto = ((response.amount / valueYocto) - storage).toFixed(2)
-        this.dataProfit[0].dollar = this.dataProfit[0].crypto * this.nearPrice
+        this.dataProfit[0].dollar = (this.dataProfit[0].crypto * this.nearPrice).toFixed(2)
       }
     },
     changeCoin(item) {
@@ -337,9 +335,13 @@ export default {
       this.axios.get("https://nearblocks.io/api/near-price")
         .then((response) => {
           this.nearPrice = response.data.usd
+          this.getBalance()
+          this.getBalances()
         })
         .catch((e) => {
           console.log(e)
+          this.getBalance()
+          this.getBalances()
         })
     },
     async getBalances(){
