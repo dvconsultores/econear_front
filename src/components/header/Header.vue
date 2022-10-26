@@ -41,11 +41,11 @@
               <div class="acenter" style="gap:.5em">
                 <v-btn icon href="https://twitter.com/econear" target="_blank">
                   <img src="@/assets/icons/twitter.svg" alt="twitter" style="--w:1.5625em">
-                </v-btn>
-                <!-- <v-btn icon>
+                </v-btn> 
+                <v-btn icon href="https://discord.com/invite/monkeonear" target="_blank">
                   <img src="@/assets/icons/discord.svg" alt="discord" style="--w:1.5625em">
                 </v-btn>
-                <v-btn icon>
+                <!-- <v-btn icon>
                   <img src="@/assets/icons/telegram.svg" alt="telegram" style="--w:1.5625em">
                 </v-btn> -->
               </div>
@@ -73,12 +73,12 @@
       <aside class="right acenter eliminarmobile" style="gap:clamp(1em, 1.5vw, 1.5em)">
         <v-menu offset-y>
           <!-- slot language if user -->
-          <template v-slot:activator="{ on, attrs}">
+          <!-- <template v-slot:activator="{ on, attrs}">
             <button v-show="user" class="center h11_em" v-on="on" v-bind="attrs">
               <span>{{languageText}}</span>
               <v-icon color="var(--success)" size="1.3em">mdi-chevron-down</v-icon>
             </button>
-          </template>
+          </template> -->
 
           <!-- <v-list class="menu_list">
             <v-list-item v-for="(item, i) in dataLanguage" :key="i" :class="{active:item.active}"
@@ -517,6 +517,7 @@ export default {
       if (item.key=='wallet-submission') {this.$router.push('/coming-soon')}
       if (item.key=='vote') {this.$router.push("/"+item.key)}
       if (item.key=='contact') {this.$router.push("/"+item.key)}
+      if (item.key=='support') {window.open('https://discord.com/invite/monkeonear', '_blank')}
       // other
       if (item.key=='marketplace-stats') {this.$router.push(item.key)}
       //if (item.key=='marketplace-stats') {this.$router.push('/coming-soon')}

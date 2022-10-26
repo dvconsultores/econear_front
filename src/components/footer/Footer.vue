@@ -100,7 +100,7 @@ export default {
     return {
       dataRedes: [
         { icon: require("@/assets/icons/twitter.svg"), to: "https://twitter.com/econear" },
-        // { icon: require("@/assets/icons/discord.svg"), to: "#" },
+        { icon: require("@/assets/icons/discord.svg"), to: "https://discord.com/invite/monkeonear" },
         // { icon: require("@/assets/icons/telegram.svg"), to: "#" },
       ],
       dataFooter: [
