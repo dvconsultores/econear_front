@@ -318,11 +318,11 @@ export default {
     this.getData()
     this.getBalance()
     this.LogState();
-    if (localStorage.language) {
-      const index = this.dataLanguage.findIndex(e=>e.key==localStorage.language)
-      this.dataLanguage[index].active = true
-      this.languageText = localStorage.language
-    }
+    // if (localStorage.language) {
+    //   const index = this.dataLanguage.findIndex(e=>e.key==localStorage.language)
+    //   this.dataLanguage[index].active = true
+    //   this.languageText = localStorage.language
+    // }
   },
   methods: {
      async get_alert () {
