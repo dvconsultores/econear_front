@@ -198,7 +198,7 @@ const config = {
 // }
 
 export default {
-  name: "Header",
+  name: "header",
   components: { MenuHeader },
   i18n: require("./i18n"),
   // created() {
@@ -225,7 +225,7 @@ export default {
       dataHeader: [
         { key: "home", name: "Home", to: "/" },
         { key: "snipe", name: "Snipe tool", to: "/snipe-tool" },
-        { key: "portfolio", name: "Portfolio tracker", to: "/portafolio" },
+        // { key: "portfolio", name: "Portfolio tracker", to: "/portafolio" },
         { key: "drops", name: "Upcoming projects", to: "/upcoming-nft-drops" },
         //{ key: "bulk-nft-management", name: "Bulk actions", to: "/bulk-nft-management" },
         //{ key: "contact", name: "Contact us", to: "/contact" },
@@ -309,6 +309,7 @@ export default {
     },
   },
   mounted() {
+    this.verifyHeader()
     this.get_alert()
     this.responsive();
     window.onresize = () => this.responsive();
@@ -318,13 +319,102 @@ export default {
     this.getData()
     this.getBalance()
     this.LogState();
-    // if (localStorage.language) {
-    //   const index = this.dataLanguage.findIndex(e=>e.key==localStorage.language)
-    //   this.dataLanguage[index].active = true
-    //   this.languageText = localStorage.language
-    // }
+    if (localStorage.language) {
+      const index = this.dataLanguage.findIndex(e=>e.key==localStorage.language)
+      this.dataLanguage[index].active = true
+      this.languageText = localStorage.language
+    }
   },
   methods: {
+    async verifyHeader() {
+      // connect to NEAR
+      const near = await connect(config)
+      // create wallet connection
+      const wallet = new WalletConnection(near)
+      if (wallet.isSignedIn()) {
+        this.dataHeader = [
+          { key: "home", name: "Home", to: "/" },
+          { key: "snipe", name: "Snipe tool", to: "/snipe-tool" },
+          { key: "portfolio", name: "Portfolio tracker", to: "/portafolio" },
+          { key: "drops", name: "Upcoming projects", to: "/upcoming-nft-drops" },
+        ]
+
+
+        this.dataMore = [
+          {
+            list: [
+              { title: "NFTS" },
+              { key: "compare-projects", name: "Compare Projectss" },
+              { key: "new-projects", name: "New Projects" },
+            ]
+          },
+          {
+            list: [
+              { title: "ECONEAR" },
+              { key: "wallet-submission", name: "Wallet Submission" },
+              { key: "vote", name: "Vote" },
+            ]
+          },
+          {
+            list: [
+              { title: "Others" },
+              { key: "marketplace-stats", name: "Marketplace Stats" },
+              { key: "alert", name: "Alert" },
+              { key: "bulk-nft-management", name: "Bulk NFT Management" },
+              { key: "active-wallets-stats", name: "Active Wallets Stats" },
+              { key: "mint-calendar", name: "Mint Calendar" },
+            ]
+          },
+          {
+            list: [
+              { title: "Services" },
+              { key: "support", name: "Support" },
+              { key: "contact", name: "Contact Us" }
+            ]
+          }
+        ]
+      } else {
+        this.dataHeader = [
+          { key: "home", name: "Home", to: "/" },
+          { key: "snipe", name: "Snipe tool", to: "/snipe-tool" },
+          { key: "drops", name: "Upcoming projects", to: "/upcoming-nft-drops" },
+        ]
+
+        this.dataMore = [
+          {
+            list: [
+              { title: "NFTS" },
+              { key: "compare-projects", name: "Compare Projectss" },
+              { key: "new-projects", name: "New Projects" },
+            ]
+          },
+          {
+            list: [
+              { title: "ECONEAR" },
+              { key: "wallet-submission", name: "Wallet Submission" },
+              { key: "vote", name: "Vote" },
+            ]
+          },
+          {
+            list: [
+              { title: "Others" },
+              { key: "marketplace-stats", name: "Marketplace Stats" },
+              // { key: "alert", name: "Alert" },
+              // { key: "bulk-nft-management", name: "Bulk NFT Management" },
+              // { key: "active-wallets-stats", name: "Active Wallets Stats" },
+              { key: "mint-calendar", name: "Mint Calendar" },
+            ]
+          },
+          {
+            list: [
+              { title: "Services" },
+              { key: "support", name: "Support" },
+              { key: "contact", name: "Contact Us" }
+            ]
+          }
+        ]
+      }
+    },
      async get_alert () {
       this.dataTableAlerts = []
       const CONTRACT_NAME = 'backend.monkeonnear.near'
@@ -363,7 +453,6 @@ export default {
     alertNotificacion() {
       for (var i = 0; i < this.dataTableAlerts.length; i++) {  
         const alerta = this.dataTableAlerts[i]
-        console.log("alerta",alerta)
         if (alerta.type_id === 1 || alerta.type_id === 2) {
           const url = "api/v1/alertprice"
           let item = {

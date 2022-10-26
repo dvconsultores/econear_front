@@ -643,7 +643,6 @@ export default {
           items: items,
         })
           .then((response) => {
-            console.log(response)
             this.validateAccountDis = false
             this.ResProgress = false
             this.closeDis = false

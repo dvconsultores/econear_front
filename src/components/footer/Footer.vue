@@ -26,7 +26,7 @@
             <a v-for="(item,i) in dataFooter" :key="i" @click="$router.push(item.to)" class="h11_em">
               {{item.name}}
             </a>
-            <!-- <v-menu offset-y>
+            <v-menu offset-y>
               <template v-slot:activator="{ on, attrs}">
                 <button class="h11_em" v-on="on" v-bind="attrs">
                   More<v-icon medium color="var(--success)">mdi-chevron-down</v-icon>
@@ -49,19 +49,19 @@
                 <aside class="divcol center">
                   <span>Join us on:</span>
                   <div class="acenter" style="gap:.5em">
-                    <v-btn icon>
+                    <v-btn icon href="https://twitter.com/econear" target="_blank">
                       <img src="@/assets/icons/twitter.svg" alt="twitter" style="--w:1.5625em">
-                    </v-btn>
-                    <v-btn icon>
+                    </v-btn> 
+                    <v-btn icon href="https://discord.com/invite/monkeonear" target="_blank">
                       <img src="@/assets/icons/discord.svg" alt="discord" style="--w:1.5625em">
                     </v-btn>
-                    <v-btn icon>
+                    <!-- <v-btn icon>
                       <img src="@/assets/icons/telegram.svg" alt="telegram" style="--w:1.5625em">
-                    </v-btn>
+                    </v-btn> -->
                   </div>
                 </aside>
               </v-card>
-            </v-menu> -->
+            </v-menu>
           </div>
 
           <v-text-field
@@ -95,6 +95,22 @@
 </template>
 
 <script>
+import * as nearAPI from 'near-api-js'
+
+// const theme = localStorage.getItem("theme");
+
+const { connect, keyStores, WalletConnection, Contract } = nearAPI
+
+const keyStore = new keyStores.BrowserLocalStorageKeyStore()
+const config = {
+  networkId: "mainnet",
+  keyStore, 
+  nodeUrl: "https://rpc.mainnet.near.org",
+  walletUrl: "https://wallet.mainnet.near.org",
+  helperUrl: "https://helper.mainnet.near.org",
+  explorerUrl: "https://explorer.mainnet.near.org",
+};
+
 export default {
   data() {
     return {
@@ -106,53 +122,53 @@ export default {
       dataFooter: [
         { key: "home", name: "Home", to: "/" },
         { key: "snipe", name: "Snipe tool", to: "/snipe-tool" },
-        { key: "portfolio", name: "Portfolio tracker", to: "/portafolio" },
+        // { key: "portfolio", name: "Portfolio tracker", to: "/portafolio" },
         { key: "drops", name: "Upcoming projects", to: "/upcoming-nft-drops" },
       ],
       dataMore: [
-        {
-          list: [
-            { title: "Account" },
-            { key: "login", name: "Login" },
-            { key: "whitelist", name: "Whitelist" },
-            { key: "register", name: "Register" },
-          ]
-        },
-        {
-          list: [
-            { title: "NFTS" },
-            { key: "compare-projects", name: "Compare Projectss" },
-            { key: "upcoming-projects", name: "Upcoming Projects (Drops)" },
-            { key: "new-projects", name: "New Projects" },
-          ]
-        },
-        {
-          list: [
-            { title: "ECONEAR" },
-            { key: "wallet-submission", name: "Wallet Submission" },
-            { key: "vote", name: "Vote" },
-            { key: "contact-us", name: "Contact Us" },
-          ]
-        },
-        {
-          list: [
-            { title: "Others" },
-            { key: "marketplace-stats", name: "Marketplace Stats" },
-            { key: "alert", name: "Alert" },
-            { key: "bulk-nft-management", name: "Bulk NFT Management" },
-            { key: "active-wallets-stats", name: "Active Wallets Stats" },
-            { key: "mint-calendar", name: "Mint Calendar" },
-          ]
-        },
-        {
-          list: [
-            { title: "Services" },
-            { key: "advertising", name: "Advertising" },
-            { key: "ama-hosting", name: "AMA Hosting" },
-            { key: "twitter-space", name: "Twitter Space" },
-            { key: "giveaways", name: "Giveaways" },
-          ]
-        }
+        // {
+        //   list: [
+        //     { title: "Account" },
+        //     { key: "login", name: "Login" },
+        //     { key: "whitelist", name: "Whitelist" },
+        //     { key: "register", name: "Register" },
+        //   ]
+        // },
+        // {
+        //   list: [
+        //     { title: "NFTS" },
+        //     { key: "compare-projects", name: "Compare Projectss" },
+        //     { key: "upcoming-projects", name: "Upcoming Projects (Drops)" },
+        //     { key: "new-projects", name: "New Projects" },
+        //   ]
+        // },
+        // {
+        //   list: [
+        //     { title: "ECONEAR" },
+        //     { key: "wallet-submission", name: "Wallet Submission" },
+        //     { key: "vote", name: "Vote" },
+        //     { key: "contact-us", name: "Contact Us" },
+        //   ]
+        // },
+        // {
+        //   list: [
+        //     { title: "Others" },
+        //     { key: "marketplace-stats", name: "Marketplace Stats" },
+        //     { key: "alert", name: "Alert" },
+        //     { key: "bulk-nft-management", name: "Bulk NFT Management" },
+        //     { key: "active-wallets-stats", name: "Active Wallets Stats" },
+        //     { key: "mint-calendar", name: "Mint Calendar" },
+        //   ]
+        // },
+        // {
+        //   list: [
+        //     { title: "Services" },
+        //     { key: "advertising", name: "Advertising" },
+        //     { key: "ama-hosting", name: "AMA Hosting" },
+        //     { key: "twitter-space", name: "Twitter Space" },
+        //     { key: "giveaways", name: "Giveaways" },
+        //   ]
+        // }
       ],
       input: "",
       rules: {
@@ -163,7 +179,99 @@ export default {
       },
     }
   },
-  methods: {
+  mounted(){
+    this.verifyHeader()
+  },
+   methods: {
+    async verifyHeader() {
+      // connect to NEAR
+      const near = await connect(config)
+      // create wallet connection
+      const wallet = new WalletConnection(near)
+      if (wallet.isSignedIn()) {
+        this.dataFooter = [
+          { key: "home", name: "Home", to: "/" },
+          { key: "snipe", name: "Snipe tool", to: "/snipe-tool" },
+          { key: "portfolio", name: "Portfolio tracker", to: "/portafolio" },
+          { key: "drops", name: "Upcoming projects", to: "/upcoming-nft-drops" },
+        ]
+
+
+        this.dataMore = [
+          {
+            list: [
+              { title: "NFTS" },
+              { key: "compare-projects", name: "Compare Projectss" },
+              { key: "new-projects", name: "New Projects" },
+            ]
+          },
+          {
+            list: [
+              { title: "ECONEAR" },
+              { key: "wallet-submission", name: "Wallet Submission" },
+              { key: "vote", name: "Vote" },
+            ]
+          },
+          {
+            list: [
+              { title: "Others" },
+              { key: "marketplace-stats", name: "Marketplace Stats" },
+              { key: "alert", name: "Alert" },
+              { key: "bulk-nft-management", name: "Bulk NFT Management" },
+              { key: "active-wallets-stats", name: "Active Wallets Stats" },
+              { key: "mint-calendar", name: "Mint Calendar" },
+            ]
+          },
+          {
+            list: [
+              { title: "Services" },
+              { key: "support", name: "Support" },
+              { key: "contact", name: "Contact Us" }
+            ]
+          }
+        ]
+      } else {
+        this.dataFooter = [
+          { key: "home", name: "Home", to: "/" },
+          { key: "snipe", name: "Snipe tool", to: "/snipe-tool" },
+          { key: "drops", name: "Upcoming projects", to: "/upcoming-nft-drops" },
+        ]
+
+        this.dataMore = [
+          {
+            list: [
+              { title: "NFTS" },
+              { key: "compare-projects", name: "Compare Projectss" },
+              { key: "new-projects", name: "New Projects" },
+            ]
+          },
+          {
+            list: [
+              { title: "ECONEAR" },
+              { key: "wallet-submission", name: "Wallet Submission" },
+              { key: "vote", name: "Vote" },
+            ]
+          },
+          {
+            list: [
+              { title: "Others" },
+              { key: "marketplace-stats", name: "Marketplace Stats" },
+              // { key: "alert", name: "Alert" },
+              // { key: "bulk-nft-management", name: "Bulk NFT Management" },
+              // { key: "active-wallets-stats", name: "Active Wallets Stats" },
+              { key: "mint-calendar", name: "Mint Calendar" },
+            ]
+          },
+          {
+            list: [
+              { title: "Services" },
+              { key: "support", name: "Support" },
+              { key: "contact", name: "Contact Us" }
+            ]
+          }
+        ]
+      }
+    },
     SendEmail() {
       if (this.input !== '' && this.input !== null) {
         const url = "api/v1/tosubscribe"
