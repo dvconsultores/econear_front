@@ -1,6 +1,6 @@
 <template>
   <section id="ranking" class="divcol gap2">
-    <h2 class="h7_em p">All Time Best</h2>
+    <!-- <h2 class="h7_em p">All Time Best</h2> -->
 
     <aside class="container-controls space gap2 fwrap_inv" style="--fb: 1 1 200px">
       <v-tabs v-model="tab">
@@ -308,7 +308,7 @@ export default {
     }
   },
   async mounted() {
-    this.getImages()
+    //this.getImages()
     this.getRanking()
 
     this.interval = setInterval(function () {

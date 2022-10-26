@@ -80,12 +80,12 @@
             </button>
           </template>
 
-          <v-list class="menu_list">
+          <!-- <v-list class="menu_list">
             <v-list-item v-for="(item, i) in dataLanguage" :key="i" :class="{active:item.active}"
               @click="CambiarLanguage(item.key);dataLanguage.forEach(e=>{e.active=false});item.active=true;languageText=item.key">
               <v-list-item-title class="h11_em">{{item.name}}</v-list-item-title>
             </v-list-item>
-          </v-list>
+          </v-list> -->
         </v-menu>
 
         <v-btn v-show="user" class="btn h11_em" @click="signIn()"

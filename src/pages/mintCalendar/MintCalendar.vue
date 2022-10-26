@@ -67,7 +67,7 @@
                 </div>
                 
                 <div id="container-footer" class="gap1 center">
-                  <v-btn v-for="(item2,i) in item.redes" :key="i" icon :href="item2.url"
+                  <v-btn v-for="(item2,i) in item.redes" :key="i" icon :href="item2.url" target="_blank"
                     style="--p:0">
                     <img class="aspect" :src="require(`@/assets/icons/${item2.name}.svg`)" alt="social icons"
                       style="--w:1.8em">
