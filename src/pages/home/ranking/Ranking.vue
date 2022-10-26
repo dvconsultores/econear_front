@@ -308,7 +308,6 @@ export default {
     }
   },
   async mounted() {
-    //this.getImages()
     this.getRanking()
 
     this.interval = setInterval(function () {
@@ -316,15 +315,7 @@ export default {
     }.bind(this), 1800000);
   },
   methods: {
-    getImages () {
-      let url = "https://gateway.pinata.cloud/ipfs/QmQrkYjoExd597duR56n7j4DTEive6a2xe8fSs7RLANG7R/"
-      this.axios.get(url)
-        .then((response) => {
-          console.log("IMAGENES", response.data)
-        }).catch((error) => {
-          console.log(error)
-        })
-    },
+
     inputSearch () {
       if (this.search == '' || this.search == null) {
         this.getRanking('%')
@@ -392,9 +383,7 @@ export default {
                 name: response.data[i].name,
                 contract: response.data[i].nft_contract
               }
-            // if (!item.img) {
-            //   item.img = "https://gateway.pinata.cloud/ipfs/QmQrkYjoExd597duR56n7j4DTEive6a2xe8fSs7RLANG7R/" + collection.contract_id + ".avif"
-            // }
+         
               this.dataMenuSearch.push(item)
             }
             this.menuSearch = true
@@ -489,9 +478,6 @@ export default {
             if (response.data[i].porcentaje < 0) {
               collection.state_change = false
             }
-            // if (!collection.img) {
-            //   collection.img = "https://gateway.pinata.cloud/ipfs/QmQrkYjoExd597duR56n7j4DTEive6a2xe8fSs7RLANG7R/" + collection.contract_id + ".avif"
-            // }
             this.dataTable.push(collection)
           }
           this.dataTableBool = true

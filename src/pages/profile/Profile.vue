@@ -442,16 +442,6 @@ export default {
               twitter: "@" + response.data[i].twiter,
               discord_server: response.data[i].discord_server,
             }     
-            this.axios.get("https://api-v2-mainnet.paras.id/collections?creator_id=" + collection.contract_id).then(res => {
-                  // console.log(res.data.data.results)
-              let data = res.data.data.results
-              data.forEach(element => {
-                if ((element.collection).toLowerCase() === collection.name.toLowerCase()) {
-                  collection.img = 'https://ipfs.fleek.co/ipfs/' + element.media
-                }
-              });
-              collection.img = collection.img || require('@/assets/nfts/nft1.png')
-            })
             this.dataTableProjects.push(collection)
           }
         }).catch((error) => {

@@ -222,7 +222,6 @@ export default {
   async mounted() {
     await this.priceNEAR()
     await this.priceNEAR2()
-    this.getImagenes()
     this.pricePARAS()
     this.highestVolGainerss()
     this.salesOfTheDay()
@@ -265,16 +264,6 @@ export default {
 
   },
   methods: {
-    async getImagenes(){
-      console.log("IMAGENES")
-      axios.get("https://gateway.pinata.cloud/ipfs/QmQrkYjoExd597duR56n7j4DTEive6a2xe8fSs7RLANG7R")
-        .then((response) => {
-          console.log("IPFS", response.data)
-        })
-        .catch((e) => {
-          console.log(e)
-        })
-    },
     async priceNEAR2(){
       axios.get("https://nearblocks.io/api/near-price")
         .then((response) => {

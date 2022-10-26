@@ -707,7 +707,7 @@ export default {
               index: i,
               pagination: 0,
               indice: Math.ceil(response.data[i].nft / 12),
-              img: response.data[i].icon,
+              img: response.data[i].icon || require('@/assets/nfts/nft1.png'),
               nfts: response.data[i].nft,
               name: response.data[i].name,
               collection: response.data[i].collection,
@@ -718,18 +718,7 @@ export default {
               itemListNft: {},
               listDisabled: true,
             }
-            if (!collection.img) {
-              this.axios.get("https://api-v2-mainnet.paras.id/collections?creator_id=" + collection.collection).then(res => {
-                  // console.log(res.data.data.results)
-                let data = res.data.data.results
-                data.forEach(element => {
-                  if ((element.collection).toLowerCase() === collection.name.toLowerCase()) {
-                    collection.img = 'https://ipfs.fleek.co/ipfs/' + element.media
-                  }
-                });
-                collection.img = collection.img || require('@/assets/nfts/nft1.png')
-              })
-            }
+  
             this.dataBulk.listed.push(collection)
             //this.dataNfts.push(collection)
           }

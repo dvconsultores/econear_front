@@ -459,7 +459,7 @@ export default {
           this.dataSales = []
           for (var i = 0; i < response.data.length; i++) {
             let collection = {
-              img: response.data[i].icon,
+              img: response.data[i].icon || require('@/assets/nfts/nft1.png'),
               contract_id: response.data[i].nft_contract_id,
               name: response.data[i].name + " #" + response.data[i].token_id,
               user: response.data[i].nft_contract_id,
@@ -467,20 +467,7 @@ export default {
               dollar: "$"+(response.data[i].price * this.nearPrice).toFixed(2),
               state: true,
             }
-            // if (!collection.img) {
-            //   console.log("ENTRO IMG")
-            //   this.axios.get("https://api-v2-mainnet.paras.id/collections?creator_id=" + collection.contract_id).then(res => {
-            //       // console.log(res.data.data.results)
-            //     let data = res.data.data.results
-            //     data.forEach(element => {
-            //       if ((element.collection).toLowerCase() === collection.name.toLowerCase()) {
-            //         collection.img = 'https://ipfs.fleek.co/ipfs/' + element.media
-            //       }
-            //     });
-            //     console.log("COLLE", collection.img)
-            //     collection.img = collection.img || require('@/assets/nfts/nft1.png')
-            //   })
-            // }
+     
             this.dataSales.push(collection)
           }
         }).catch((error) => {

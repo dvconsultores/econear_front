@@ -421,7 +421,7 @@ export default {
           this.dataVoted = []
           for (var i = 0; i < response.data.length; i++) {
             let collection = {
-              img: response.data[i].icon,
+              img: response.data[i].icon || require('@/assets/nfts/nft1.png'),
               name: response.data[i].name,
               desc: response.data[i].collection,
               like: false,
@@ -433,18 +433,7 @@ export default {
               permission: response.data[i].permission_voto_nega,
               //voted: response.data[i].votos_positivos,
             }
-            if (!collection.img) {
-              this.axios.get("https://api-v2-mainnet.paras.id/collections?creator_id=" + collection.desc).then(res => {
-                  // console.log(res.data.data.results)
-                let data = res.data.data.results
-                data.forEach(element => {
-                  if ((element.collection).toLowerCase() === collection.name.toLowerCase()) {
-                    collection.img = 'https://ipfs.fleek.co/ipfs/' + element.media
-                  }
-                });
-                collection.img = collection.img || require('@/assets/nfts/nft1.png')
-              })
-            }
+         
             this.dataVoted.push(collection)
             this.getVotaciones()
           }
@@ -466,7 +455,7 @@ export default {
           this.dataAdded = []
           for (var i = 0; i < response.data.length; i++) {
             let collection = {
-              img: response.data[i].icon,
+              img: response.data[i].icon || require('@/assets/nfts/nft1.png'),
               name: response.data[i].name,
               desc: response.data[i].nft_contract,
               like: false,
@@ -478,18 +467,7 @@ export default {
               permission: response.data[i].permission_voto_nega,
               //voted: response.data[i].votos_positivos,
             }
-            if (!collection.img) {
-              this.axios.get("https://api-v2-mainnet.paras.id/collections?creator_id=" + collection.desc).then(res => {
-                  // console.log(res.data.data.results)
-                let data = res.data.data.results
-                data.forEach(element => {
-                  if ((element.collection).toLowerCase() === collection.name.toLowerCase()) {
-                    collection.img = 'https://ipfs.fleek.co/ipfs/' + element.media
-                  }
-                });
-                collection.img = collection.img || require('@/assets/nfts/nft1.png')
-              })
-            }
+        
             this.dataAdded.push(collection)
             this.getVotacionesRecently()
           }

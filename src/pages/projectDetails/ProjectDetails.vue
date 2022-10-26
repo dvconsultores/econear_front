@@ -958,9 +958,7 @@ export default {
             this.dataInfo.name = response.data[0].name
             this.dataInfo.img = response.data[0].icon
           }
-          // if (!this.dataInfo.img) {
-          //   this.getImgCollection()
-          // }
+     
         }).catch((error) => {
           console.log("ERRORRRR",error)
         })
@@ -998,18 +996,7 @@ export default {
           console.log("ERRORRRR",error)
         })
     },
-    getImgCollection() {
-      this.axios.get("https://api-v2-mainnet.paras.id/collections?creator_id=" + this.contract_nft).then(res => {
-          // console.log(res.data.data.results)
-        let data = res.data.data.results
-        data.forEach(element => {
-          if ((element.collection).toLowerCase() === this.dataInfo.name.toLowerCase()) {
-            this.dataInfo.img = 'https://ipfs.fleek.co/ipfs/' + element.media
-          }
-        });
-        this.dataInfo.img = this.dataInfo.img || require('@/assets/nfts/nft1.png')
-      })
-    },
+
   }
 };
 </script>
