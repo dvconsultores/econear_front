@@ -24,14 +24,14 @@
                 <h3 class="h7_em p bold">{{item.crypto}}</h3>
               </div>
 
-              <v-chip class="btn h11_em" :style="`--b:none;--bs:none;--bg:hsl(210, 48%, 9%);--p:1em .8em;
+              <!-- <v-chip class="btn h11_em" :style="`--b:none;--bs:none;--bg:hsl(210, 48%, 9%);--p:1em .8em;
                 --c:${item.state_percent?'var(--success)':'var(--error)'}`">
                 {{item.state_percent?'+':'-'}}{{item.percent}}%
-              </v-chip>
+              </v-chip> -->
             </div>
             <span class="h11_em">$ <span class="light">{{item.dollar}}</span></span>
           </aside>
-
+<!-- 
           <aside class="divcol" style="gap:.2em">
             <span>
               24h change
@@ -46,7 +46,7 @@
                 {{item.state_profit?'+':'-'}}{{item.profit}}
               </span>
             </span>
-          </aside>
+          </aside> -->
         </v-sheet>
       </v-card>
     </section>
@@ -200,8 +200,8 @@ export default {
       dataProfit: [
         {
           token: "near",
-          crypto: "46,529",
-          dollar: "232,245.65",
+          crypto: null,
+          dollar: null,
           percent: 12.8,
           state_percent: true,
           change: "28,747",
@@ -209,21 +209,21 @@ export default {
           profit: "28,747",
           state_profit: true,
         },
-        {
-          token: "ethereum",
-          crypto: "36,379",
-          dollar: "32,245.65",
-          percent: 1.8,
-          state_percent: false,
-          change: "8,747",
-          state_change: false,
-          profit: "28,747",
-          state_profit: true,
-        },
+        // {
+        //   token: "ethereum",
+        //   crypto: "36,379",
+        //   dollar: "32,245.65",
+        //   percent: 1.8,
+        //   state_percent: false,
+        //   change: "8,747",
+        //   state_change: false,
+        //   profit: "28,747",
+        //   state_profit: true,
+        // },
         {
           token: "usdt",
-          crypto: "46,529",
-          dollar: "232,245.65",
+          crypto: null,
+          dollar: null,
           percent: 12.8,
           state_percent: true,
           change: "28,747",
@@ -233,8 +233,8 @@ export default {
         },
         {
           token: "usdc",
-          crypto: "46,529",
-          dollar: "232,245.65",
+          crypto: null,
+          dollar: null,
           percent: 12.8,
           state_percent: true,
           change: "28,747",
@@ -244,8 +244,8 @@ export default {
         },
         {
           token: "dai",
-          crypto: "46,529",
-          dollar: "232,245.65",
+          crypto: null,
+          dollar: null,
           percent: 12.8,
           state_percent: true,
           change: "28,747",
@@ -306,10 +306,26 @@ export default {
   },
   async mounted() {
     await this.priceNEAR()
+    this.getBalance()
+    this.getBalances()
     this.getNftCollection()
     
   },
   methods: {
+    async getBalance () {
+      const near = await connect(config);
+      const wallet = new WalletConnection(near)
+      if (wallet.isSignedIn()) {
+        const account = await near.account(wallet.getAccountId());
+        const response = await account.state();
+        let valueStorage = Math.pow(10, 19)
+        let valueYocto = Math.pow(10, 24)
+
+        const storage = (response.storage_usage * valueStorage) / valueYocto 
+        this.dataProfit[0].crypto = ((response.amount / valueYocto) - storage).toFixed(2)
+        this.dataProfit[0].dollar = this.dataProfit[0].crypto * this.nearPrice
+      }
+    },
     changeCoin(item) {
       if (item === 'near') {
         this.seeCoin = 1
@@ -324,6 +340,29 @@ export default {
         })
         .catch((e) => {
           console.log(e)
+        })
+    },
+    async getBalances(){
+      const near = await connect(config);
+      const wallet = new WalletConnection(near);
+
+      const url = "api/v1/YourBalance"
+      let item = {
+        "user_id": wallet.getAccountId(),
+      }
+
+      this.axios.post(url, item)
+        .then((response) => {
+          this.dataProfit[1].crypto = Number(response.data.saldo_usdt).toFixed(2)
+          this.dataProfit[1].dollar = (this.dataProfit[1].crypto * this.nearPrice).toFixed(2)
+
+          this.dataProfit[2].crypto = Number(response.data.saldo_usdc).toFixed(2)
+          this.dataProfit[2].dollar = (this.dataProfit[2].crypto * this.nearPrice).toFixed(2)
+
+          this.dataProfit[3].crypto = Number(response.data.saldo_dai).toFixed(2)
+          this.dataProfit[3].dollar = (this.dataProfit[3].crypto * this.nearPrice).toFixed(2)
+        }).catch((error) => {
+          console.log(error)
         })
     },
     async getNftCollection(){

@@ -58,7 +58,7 @@
             </div>
             
             <div id="container-footer" class="gap1 center">
-              <v-btn v-for="(item,i) in dataModalCalendar.redes" :key="i" icon :href="item.url"
+              <v-btn v-for="(item,i) in dataModalCalendar.redes" :key="i" icon :href="item.url" target="_blank"
                 style="--p:0">
                 <img class="aspect" :src="require(`@/assets/icons/${item.name}.svg`)" alt="social icons"
                   style="--w:1.8em">

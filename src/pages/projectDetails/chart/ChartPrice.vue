@@ -219,6 +219,7 @@ export default {
       var contAverage = 0
       this.axios.post(url, item)
         .then((response) => {
+          console.log("Grafic", response.data)
           for (var i = 0; i < response.data.length; i++) {
             let x = moment(response.data[i].fecha).unix() * 1000
             let yFloor = Number(response.data[i].floor_price).toFixed(2)
