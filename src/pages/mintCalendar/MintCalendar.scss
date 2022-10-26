@@ -20,9 +20,19 @@
   .section-down {
     background-color: hsl(212 47% 12% / .5);
     padding: clamp(1em,3vw,3em);
+    place-items: center;
+    &:has(:only-child) {place-items: initial}
     .v-card {
-      width: 24.6875em;
-      @include media(max,897px) {width: 100%}
+      width: min(100%, 24.6875em);
+      // @include media(max,897px) {width: 100%}
+      div.divcol.center:has(h6, span) {
+        overflow: hidden;
+        h6 + span {
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+        }
+      }
       h6 {font-size: 1.25em}
       span:not([class*="v-btn"]) {font-size: 1.095625em}
       #type {font-size: 0.97375em;color:var(--success)}

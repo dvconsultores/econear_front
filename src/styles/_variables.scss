@@ -18,7 +18,7 @@
   /* // // sizes // // */
   --margin-global: clamp(2em, 9vw, 9em);
   @include media(max, small) {--margin-global: clamp(1em, 5vw, 4em)}
-  --parent: 2000px;
+  --parent: 1600px;
   --subparent: 1900px;
   /* // // rem // // */
   --step--7: clamp(0.31rem, calc(0.39rem + -0.10vw), 0.37rem);

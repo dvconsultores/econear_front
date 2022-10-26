@@ -8,8 +8,8 @@
     </aside>
 
     <aside class="container-controls divcol gap1 gap2mobile">
-      <div id="container-trackmobile" class="contents order2mobile spacemobile alignmobile">        
-        <div id="container-switch" class="acenter  gap1 card vermobile">
+      <div id="container-trackmobile" class="contents order2mobile spacemobile alignmobile">
+        <div id="container-switch" class="acenter gap1 card vermobile">
           <span>Notifications</span>
           <div class="switch" :style="`--color:${notifications?'var(--success)':'var(--error)'}`"
             :class="{active:notifications}" @click="notifications=!notifications" />

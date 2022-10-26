@@ -40,9 +40,9 @@
     background-color: rgba(#112131, .46);
     padding: clamp(.5em, 2vw, 2em);
     border-radius: $border-card;
-    @include media(max,1650px) {font-size: 14px};
+    font-size: 14px;
     @include media(max,1450px) {font-size: 12px};
-    @include media(max,1268px) {font-size: 15px};
+    @include media(max,1268px) {font-size: clamp(11px, 1.5vw, 15px)};
     .v-card {
       --fb: 1 1 495px;
       height: min-content !important;

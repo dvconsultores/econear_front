@@ -8,8 +8,8 @@
     @include media(min, 2500px) {font-size: 19px}
     @include media(max, 1220px) {font-size: 14px}
     @include media(max, 1100px) {font-size: 12px}
-    @include media(max, 1025px) {font-size: 11px}
-    @include media(max, 991px) {font-size: 9px}
+    // @include media(max, 1025px) {font-size: 11px}
+    // @include media(max, 991px) {font-size: 9px}
     @include media(max, small) {font-size: 16px}
     @include media(max, 410px) {font-size: 14px}
     @include media(max, 340px) {

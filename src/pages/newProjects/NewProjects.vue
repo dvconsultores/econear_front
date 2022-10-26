@@ -24,7 +24,7 @@
           <img :src="item.img" alt="NFT Image" style="--w: 4.5em">
           <div class="divcol">
             <h6 class="h11_em p">{{item.name}}</h6>
-            <span style="color:var(--success)" class="h11_em">{{item.type}}</span>
+            <span style="color:var(--success)" class="h11_em" :title="item.type">{{item.type}}</span>
           </div>
         </div>
         <p class="h11_em p light">{{item.desc}}</p>

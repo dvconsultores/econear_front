@@ -69,6 +69,7 @@
   }
   blockquote {
     &::-webkit-scrollbar {display: none}
+    font-size: 15px;
     @include media(max, 1400px) {font-size: 14px}
     @include media(max, 1200px) {font-size: 12px}
     @include media(max, 1050px) {font-size: 10px}

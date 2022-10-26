@@ -40,7 +40,7 @@
           label="Search your projects"
           append-icon="mdi-magnify"
           style="max-width:30.061875em;--bg:hsl(210, 48%, 13%, .46);--c:#FFFFFF;--p:0 1.5em"
-          class="customeFilter"
+          class="customeFilter search"
         ></v-text-field>
       </aside>
 
@@ -84,7 +84,7 @@
           label="Search your watchlist"
           append-icon="mdi-magnify"
           style="max-width:30.061875em;--bg:hsl(210, 48%, 13%, .46);--c:#FFFFFF;--p:0 1.5em"
-          class="customeFilter"
+          class="customeFilter search"
         ></v-text-field>
       </aside>
 
@@ -184,7 +184,7 @@
             label="Search your projects"
             append-icon="mdi-magnify"
             style="max-width:30.061875em;--bg:hsl(210, 48%, 13%, .46);--c:#FFFFFF;--p:0 1.5em"
-            class="customeFilter"
+            class="customeFilter search"
           ></v-text-field>
         </div>
 

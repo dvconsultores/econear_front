@@ -32,21 +32,21 @@
 
 //responsive filters
 .customeFilter {
-  @include media(max,small) {font-size: clamp(10px, 1.5vw, 12px)}
+  font-size: clamp(10px, 1.5vw, 16px);
   .v-input__slot {
     min-height: 3em !important;
     height: 3em !important;
     .v-select__selections {font-size: 1em}
-    .v-input__icon {
-      font-size: 1.3em;
-      i {font-size: 1.5em}
-    }
+    .v-icon {font-size: 1.5em !important}
+  }
+  &.search {
+    .v-input__append-inner {border-left: 1px solid #FFFFFF}
   }
 }
 
 // responsive item group
 .v-item-group {
-  @include media(max,small) {font-size: clamp(10px, 1.5vw, 12px)}
+  font-size: clamp(10px, 1.5vw, 16px);
   // @include media(max,x-small) {font-size: clamp(8px, 1vw, 10px)}
   .v-btn {
     border: none !important;
@@ -58,6 +58,9 @@
 
 //- data tables -//
 .v-data-table__wrapper {
+  span, td {
+    font-size: 1em !important;
+  }
   &::-webkit-scrollbar {display: none}
 }
 

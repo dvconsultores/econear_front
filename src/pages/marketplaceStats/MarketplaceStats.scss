@@ -91,9 +91,11 @@
   .infodown {
     --fb: 1 1 20em;
     gap: 1em;
+    justify-content: space-around;
     .v-card {
       --p: clamp(1em,2vw,2em);
       // max-width: 24.6875em;
+      margin: initial !important;
       @include media(min,small) {max-width: 24.6875em}
       .v-sheet {
         padding: 1em;

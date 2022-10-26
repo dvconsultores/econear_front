@@ -19,9 +19,17 @@
   .section-down {
     background-color: hsl(212 47% 12% / .5);
     padding: clamp(.5em, 2vw, 2em);
+    place-items: center;
+    &:has(:only-child) {place-items: initial}
     .v-card {
-      width: 24.6875em;
-      @include media(max,897px) {width: 100%}
+      width: min(100%, 24.6875em);
+      // @include media(max,897px) {width: 100%}
+      div:has(img, h6, span) {overflow: hidden}
+      h6 + span {
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+      }
       aside {
         position: relative;
         margin-top: 3em;

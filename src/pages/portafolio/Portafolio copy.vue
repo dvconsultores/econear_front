@@ -9,7 +9,7 @@
         label="Search for wallets"
         append-icon="mdi-magnify"
         style="--bg:hsl(210, 48%, 10%);--c:#FFFFFF;--p:0 1.5em;--w:100%;--label:#FFFFFF"
-        class="customeFilter"
+        class="customeFilter search"
       ></v-text-field> -->
     </aside>
 

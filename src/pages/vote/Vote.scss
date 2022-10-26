@@ -63,6 +63,7 @@
   .container-wrapper{
     isolation: isolate;
     position: relative;
+    @include media(max, 400px) {font-size: 8px}
     --p:2em;
     .v-card {
       position: relative;
@@ -84,8 +85,9 @@
       gap: clamp(3em, 5vw, 5em);
       // margin-left: auto;
       .v-btn {
-        --p: 1.4em;
-        img {--w: 1.8em}
+        --p: 0.5625em;
+        width: max-content;
+        img {--w: 1.5em}
       }
     }
   }

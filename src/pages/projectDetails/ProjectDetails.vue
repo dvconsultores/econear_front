@@ -260,7 +260,7 @@
             label="Search NFT by #"
             append-icon="mdi-magnify"
             style="--bg:hsl(210, 48%, 10%);--c:#FFFFFF;--p:0 1.5em;--label:#FFFFFF;max-width:30.061875em;--b: .8px solid hsl(0, 0%, 44%, .1)"
-            class="customeFilter"
+            class="customeFilter search"
           ></v-text-field>
         </div>
 

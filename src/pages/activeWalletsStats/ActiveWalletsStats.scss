@@ -28,11 +28,14 @@
   .infodown {
     --fb: 1 1 20em;
     gap: 1em;
+    justify-content: space-evenly;
     .v-card {
+      margin: initial !important;
       max-width: max-content;
       --p: clamp(1em,2vw,2em);
       @include media(min,small) {max-width: 24.6875em}
       .v-sheet {
+        width: 100%;
         padding: 1em;
         position: relative;
         &::before {
@@ -92,7 +95,7 @@
 }
 
 .selectGreen {
-  @include media(max,small) {font-size: clamp(10px, 1.5vw, 12px)}
+  font-size: clamp(10px, 1.5vw, 16px);
   .v-list {
     background-color: #1F6C64 !important;
   }

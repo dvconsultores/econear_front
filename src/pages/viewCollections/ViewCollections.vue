@@ -87,7 +87,7 @@
         label="Search for NFT's"
         append-icon="mdi-magnify"
         style="max-width:30.061875em;--bg:hsl(210, 48%, 13%, .46);--c:#FFFFFF;--p:0 1.5em"
-        class="customeFilter openRankingSearch"
+        class="customeFilter search openRankingSearch"
         autocomplete="off"
         @click:append="searchCollection()"
         @keydown.enter.prevent="searchCollection()"
