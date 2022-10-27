@@ -629,11 +629,16 @@ export default {
       this.$refs.menu.itemListNfts = items
     },
     updateNft (item) {
-      // const near = await connect(config);
-      // const wallet = new WalletConnection(near);
+      var items = []
 
+      for (var i = 0; i < this.dataBulk.listed[item.index].dataNfts.length; i++) {
+        if (this.dataBulk.listed[item.index].dataNfts[i].selected) {
+          items.push(this.dataBulk.listed[item.index].dataNfts[i])
+        }
+      }
+      console.log("AQIU",items)
       this.$refs.menu.modalUpdate=true
-      this.$refs.menu.itemListNft=this.dataBulk.listed[item.index].itemListNft
+      this.$refs.menu.itemListNfts = items
     },
     async delistingNft(item) {
       let txs = []

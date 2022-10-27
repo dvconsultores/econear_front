@@ -60,15 +60,15 @@
               <img v-if="item.key=='volume'||item.key=='price'" src="@/assets/logos/near.svg" alt="near" style="--w:.8em">
               {{item.price}}
             </span>
-            <span class="percent" :style="`color:${item.percent.includes('+')?'var(--success)':'var(--error)'}`">
+            <!-- <span class="percent" :style="`color:${item.percent.includes('+')?'var(--success)':'var(--error)'}`">
               {{item.percent}}%
-            </span>
+            </span> -->
           </div>
 
-          <v-chip class="btn center" 
+          <!-- <v-chip class="btn center" 
             style="--bg:var(--primary);--c:var(--secondary);--bs:none;font-size:1.25em;--p:0;--w:min(199%, 3.5em);--h:2em">
             #{{item.number}}
-          </v-chip>
+          </v-chip> -->
         </v-sheet>
       </v-card>
     </section>
@@ -723,10 +723,10 @@ export default {
         owners: null,
         total_volume: null,
         down: [
-          { key: "market", price: "71,629", percent: "-0.12", number: 3 },
-          { key: "holders", price: "361", percent: "+12.78", number: 23 },
-          { key: "volume", price: "318", percent: "+73.26", number: 2 },
-          { key: "price", price: "175", percent: "-1.78", number: 3970 },
+          { key: "market", price: null, percent: "-0.12", number: null },
+          { key: "holders", price: null, percent: "+12.78", number: null },
+          { key: "volume", price: null, percent: "+73.26", number: null },
+          { key: "price", price: null, percent: "-1.78", number: null },
         ]
       },
       dataBuy: [
@@ -929,7 +929,7 @@ export default {
   },
   mounted() {
     this.getDataCollection()
-    //this.getDataPrice()
+    this.projectsDetailsHeader()
     this.getDataBuyOn()
     this.Responsive()
     window.onresize = () => this.Responsive()
@@ -952,8 +952,8 @@ export default {
       this.axios.post(url, item)
         .then((response) => {
           if (response.data[0]) {
-            this.dataInfo.supply = response.data[0].supply
-            this.dataInfo.owners = response.data[0].owner_for_tokens
+            this.dataInfo.supply = Number(response.data[0].supply).toLocaleString("en-US")
+            this.dataInfo.owners = Number(response.data[0].owner_for_tokens).toLocaleString("en-US")
             this.dataInfo.total_volume = Number(parseFloat(response.data[0].total_volumen).toFixed(2)).toLocaleString("en-US")
             this.dataInfo.name = response.data[0].name
             this.dataInfo.img = response.data[0].icon
@@ -982,16 +982,20 @@ export default {
           console.log("ERRORRRR",error)
         })
     },
-    async getDataPrice(){
-      const url = "api/v1/stastpricecollection"
+    async projectsDetailsHeader(){
+      const url = "api/v1/ProjectsDetailsHeader"
       let item = {
         "collection": this.contract_nft,
-        "value": "h",
-        "time": 24
       }
       this.axios.post(url, item)
         .then((response) => {
-          console.log("GRAFIC", response.data)
+          let data = response.data[0]
+          this.dataInfo.down = [
+            { key: "market", price: Number(data.market_cap).toLocaleString("en-US"), percent: "-0.12", number: null },
+            { key: "holders", price: Number(data.holders).toLocaleString("en-US"), percent: "+12.78", number: null },
+            { key: "volume", price: Number(data.volumen24h).toLocaleString("en-US"), percent: "+73.26", number: null },
+            { key: "price", price: Number(data.floor_price).toLocaleString("en-US"), percent: "-1.78", number: null },
+          ]
         }).catch((error) => {
           console.log("ERRORRRR",error)
         })

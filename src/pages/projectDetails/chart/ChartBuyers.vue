@@ -8,42 +8,42 @@
           <aside class="divcol">
             <div class="legend acenter">
               <div class="marker" style="--color: #6A25D2" />
-              <span>Floor price</span>
-              <img src="@/assets/icons/info-gray.svg" alt="info">
+              <span>Buyers</span>
+              <!-- <img src="@/assets/icons/info-gray.svg" alt="info"> -->
             </div>
 
             <div class="values acenter gap1">
-              <h6 class="p bold">{{dataBuyers.sellers.value}} N</h6>
-              <span class="percent" :style="`--c:${dataBuyers.sellers.percent.includes('+')?'var(--success)':'var(--error)'}`">
-                {{dataBuyers.sellers.percent}}%
-              </span>
+              <h6 class="p bold">{{dataBuyers.buyers.value}} N</h6>
+              <!-- <span class="percent" :style="`--c:${dataBuyers.buyers.percent.includes('+')?'var(--success)':'var(--error)'}`">
+                {{dataBuyers.buyers.percent}}%
+              </span> -->
             </div>
           </aside>
 
           <aside class="divcol">
             <div class="legend acenter">
               <div class="marker" style="--color: #6FFFE9" />
-              <span>Whales</span>
-              <img src="@/assets/icons/info-gray.svg" alt="info">
+              <span>Sellers</span>
+              <!-- <img src="@/assets/icons/info-gray.svg" alt="info"> -->
             </div>
 
             <div class="values acenter gap1">
-              <h6 class="p bold">{{dataBuyers.buyers.value}} N</h6>
-              <span class="percent" :style="`--c:${dataBuyers.buyers.percent.includes('+')?'var(--success)':'var(--error)'}`">
-                {{dataBuyers.buyers.percent}}%
-              </span>
+              <h6 class="p bold">{{dataBuyers.sellers.value}} N</h6>
+              <!-- <span class="percent" :style="`--c:${dataBuyers.sellers.percent.includes('+')?'var(--success)':'var(--error)'}`">
+                {{dataBuyers.sellers.percent}}%
+              </span> -->
             </div>
           </aside>
         </div>
       </div>
 
       <v-btn-toggle mandatory color="#60D2CA">
-        <v-btn v-for="(item,i) in dataControlsChart" :key="i" color="transparent" @click="updateData(item.key)">
+        <v-btn v-for="(item,i) in dataControlsChart" :key="i" color="transparent" @click="updateDate(item)">
           <span>{{item.name}}</span>
         </v-btn>
-        <v-btn color="transparent">
+        <!-- <v-btn color="transparent">
           <v-icon color="#FFFFFF">mdi-calendar</v-icon>
-        </v-btn>
+        </v-btn> -->
       </v-btn-toggle>
     </div>
 
@@ -62,6 +62,7 @@
 </template>
 
 <script>
+import moment from 'moment';
 // autogenerate series functioin for style test
 function generateDayWiseTimeSeries(baseval, count, yrange) {
   var i = 0;
@@ -87,6 +88,7 @@ export default {
   },
   data() {
     return {
+      contract_nft: this.$route.params.id,
       dataBuyers: {
         sellers: {
           value: 14,
@@ -102,26 +104,26 @@ export default {
         { key: "7d", name: "7d" },
         { key: "30d", name: "30d" },
         { key: "90d", name: "90d" },
-        { key: "1y", name: "1Y" },
-        { key: "all", name: "ALL" },
+        { key: "1y", name: "1Y" }
       ],
+      itemDate: { key: "24h", name: "24h" },
       selection: '24h',
       // series
       chartSeries: [
-        {
-          name: '',
-          data: generateDayWiseTimeSeries(new Date('11 Feb 2017 GMT').getTime(), 20, {
-            min: 10,
-            max: 60
-          })
-        },
-        {
-          name: '',
-          data: generateDayWiseTimeSeries(new Date('11 Feb 2017 GMT').getTime(), 20, {
-            min: 10,
-            max: 20
-          })
-        },
+        // {
+        //   name: '',
+        //   data: generateDayWiseTimeSeries(new Date('11 Feb 2017 GMT').getTime(), 20, {
+        //     min: 10,
+        //     max: 60
+        //   })
+        // },
+        // {
+        //   name: '',
+        //   data: generateDayWiseTimeSeries(new Date('11 Feb 2017 GMT').getTime(), 20, {
+        //     min: 10,
+        //     max: 20
+        //   })
+        // },
       ],
       // options
       chartOptions: {
@@ -175,7 +177,74 @@ export default {
       },
     };
   },
+  mounted() {
+    this.getGrafica()
+  },
   methods: {
+    updateDate(item) {
+      this.itemDate = item
+      this.getGrafica()
+    },
+    getGrafica() {
+      var seriesBuyers = [];
+      var seriesSellers = [];
+      const url = "api/v1/stastbuyerstraderscollection"
+      let item = {
+        "collection": this.contract_nft,
+        "value": "h",
+        "time": 24
+      }
+
+      if (this.itemDate.key === "24h") {
+        item.value = "h"
+        item.time = 24
+      } else if (this.itemDate.key === "7d") {
+        item.value = "d"
+        item.time = 7
+      } else if (this.itemDate.key === "30d") {
+        item.value = "d"
+        item.time = 30
+      } else if (this.itemDate.key === "90d") {
+        item.value = "d"
+        item.time = 90
+      } else if (this.itemDate.key === "1y") {
+        item.value = "d"
+        item.time = 365
+      }
+      var contBuyers = 0
+      var contSellers = 0
+      this.axios.post(url, item)
+        .then((response) => {
+          for (var i = 0; i < response.data.length; i++) {
+            let x = (moment(response.data[i].fecha).unix() * 1000)
+      
+            let yBuyers = Number(response.data[i].buyers)
+            let ySellers = Number(response.data[i].sellers)
+            contBuyers = Number(contBuyers) + Number(yBuyers)
+            contSellers = Number(contSellers) + Number(ySellers)
+            seriesBuyers.push([x, yBuyers]);
+            seriesSellers.push([x, ySellers]);
+          }
+
+          this.dataBuyers.buyers.value = (contBuyers / response.data.length).toFixed(2)
+          this.dataBuyers.sellers.value = (contSellers / response.data.length).toFixed(2)
+
+          this.chartSeries = [
+            {
+              name: 'Buyers',
+              data: seriesBuyers
+            },
+            {
+              name: 'Sellers',
+              data: seriesSellers
+            },
+          ]
+        }).catch((error) => {
+          console.log("ERRORRRR",error)
+        })
+      // console.log("SERIESSSSSSS", series)
+      // return series;
+    },
     updateData: function(timeline) {
       this.selection = timeline
       

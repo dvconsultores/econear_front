@@ -121,7 +121,10 @@
 
         <v-sheet class="divcol center align">
           <div class="divcol fill_w">
-            <label for="address">Price for: <span class="font-weight-black">{{itemListNft.name}} </span></label>
+            <label for="address">Price for:</label>
+            <div v-for="(item,i) in itemListNfts" :key="i" class="divcol fill_w">
+              <span class="font-weight-black">{{item.name}}</span>
+            </div>
             <v-text-field
               v-model="priceNft"
               type="number"
@@ -136,7 +139,10 @@
               <img src="@/assets/logos/near.svg" alt="Logo Near" style="filter:invert(69%); --w:1.5em">
             </template>
             </v-text-field>
-            <span>Marketplace: {{itemListNft.market_name}}</span>
+            <div v-for="(item,i) in itemListNfts" :key="i" class="divcol fill_w">
+              <span v-if="i==0">Marketplace: {{item.market_name}}</span>
+            </div>
+           
           </div>
 
           <div class="center gap2">
@@ -418,32 +424,78 @@ export default {
         const near = await connect(CONFIG(new keyStores.BrowserLocalStorageKeyStore()));
         const wallet = new WalletConnection(near);
 
-        const contract = new Contract(wallet.account(), this.itemListNft.collection, {
-          changeMethods: ["nft_approve"],
-          sender: wallet.account(),
-        })
+        await this.storageMini(this.itemListNfts[0].marketplace)
+   
         let msgs = {
           price: String(utils.format.parseNearAmount(this.priceNft)),
           market_type: "sale",
           ft_token_id: "near"
         }
+        let txs = []
+        for (var i = 0; i < this.itemListNfts.length; i++) {
+          console.log(this.minimumStorage)
+          console.log(this.minimumStorage)
+          txs.push(
+            {
+              receiverId: this.itemListNfts[i].marketplace,
+              functionCalls: [
+                {
+                  methodName: "storage_deposit",
+                  receiverId: this.itemListNfts[i].marketplace,
+                  gas: "200000000000000",
+                  args: {
+                    receiverId: wallet.getAccountId(),
+                  },
+                  deposit: utils.format.parseNearAmount(this.minimumStorage),
+                },
+              ],
+            },
+            {
+              receiverId: this.itemListNfts[i].collection,
+              functionCalls: [
+                {
+                  methodName: "nft_approve",
+                  receiverId: this.itemListNfts[i].collection,
+                  gas: "300000000000000",
+                  args: {
+                    token_id: String(this.itemListNfts[i].token_id),
+                    account_id: this.itemListNfts[i].marketplace,
+                    msg: JSON.stringify(msgs),
+                  },
+                  deposit: "350000000000000000000",
+                },
+              ],
+            }
+          )
+        }
+        
         localStorage.tipohash = 'update'
-        await contract.nft_approve({
-          token_id: String(this.itemListNft.token_id),
-          account_id: this.itemListNft.marketplace,
-          msg: JSON.stringify(msgs),
-        },'300000000000000',
-        "350000000000000000000").then((response) => {
-        //"340000000000000000000").then((response) => {
-       
-        }).catch(err => {
-          console.log(err)
-        })
+        await this.batchTransaction(
+          txs,
+          {
+            meta: "list",
+          },
+        );
       } else {
         if (!this.priceNft) {
           this.price_error = true
         }
       }
+    },
+    async storageMini(marketplace){
+      const near = await connect(CONFIG(new keyStores.BrowserLocalStorageKeyStore()));
+      const wallet = new WalletConnection(near);
+
+      const contract = new Contract(wallet.account(), marketplace, {
+        viewMethods: ["storage_minimum_balance"],
+        sender: wallet.account(),
+      })
+      await contract.storage_minimum_balance()
+      .then((response) => {
+        this.minimumStorage = utils.format.formatNearAmount(response)
+      }).catch(err => {
+        console.log(err)
+      })
     },
     async listar_nft() {
       console.log(this.itemListNfts)

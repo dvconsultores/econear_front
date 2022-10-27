@@ -400,7 +400,7 @@ export default {
             }
             if (collection.price_yocto) {
               collection.price = utils.format.formatNearAmount(collection.price_yocto) + " N"
-              collection.price_usd = utils.format.formatNearAmount(collection.price_yocto) * this.nearPrice + " $"
+              collection.price_usd = (utils.format.formatNearAmount(collection.price_yocto) * this.nearPrice).toFixed(2) + " $"
             } else {
               collection.price = "-"
               collection.price_usd = "-"
