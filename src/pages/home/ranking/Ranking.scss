@@ -4,7 +4,13 @@
 /* // // ranking // // */ 
 // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // /
 #ranking {
-  font-size: clamp(10px, 1.5vw, 16px);
+  font-size: 16px;
+  @include media(max, 1800px) {font-size: 14px}
+  @include media(max, 1500px) {font-size: 12px}
+  @include media(max, 1400px) {font-size: 10px}
+  @include media(max, 1360px) {font-size: 8px}
+  @include media(max, 1330px) {font-size: 6px}
+  @include media(max, small) {font-size: clamp(10px, 1.5vw, 16px)}
   #dataTable {
     table {border-spacing: 0 1em}
     td {color: #FFFFFF}
