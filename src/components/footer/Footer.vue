@@ -82,14 +82,14 @@
         </aside>
       </section>
 
-      <section class="fill_w space tcenter divcolmobile">
+      <!-- <section class="fill_w space tcenter divcolmobile">
         <span class="h11_em normal padd2left">&copy; 2022 Econear. All Rights Reserved.</span>
         <span class="h11_em acenter gap1">
           <a href="#" target="_blank">Cookie statement</a>
           <a href="#" target="_blank">Terms &amp; Conditions</a>
           <a href="#" target="_blank">Privacy Policy</a>
         </span>
-      </section>
+      </section> -->
     </v-row>
   </v-footer>
 </template>

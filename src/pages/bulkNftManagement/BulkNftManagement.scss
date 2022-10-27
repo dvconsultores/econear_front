@@ -92,7 +92,8 @@
           width: 2.08375em;
           aspect-ratio: 1 / 1;
           border-radius: .3vmax;
-          background-color: #FFFFFF;
+          background-color: var(--primary);
+          border: 6px solid var(--secondary);
         }
       }
       & > .v-sheet:first-of-type {
@@ -140,7 +141,8 @@
             width: 2.08375em;
             aspect-ratio: 1 / 1;
             border-radius: .3vmax;
-            background-color: #FFFFFF;
+            background-color: var(--primary);
+            border: 6px solid var(--secondary);
           }
           span {
             font-style: 1.25em;

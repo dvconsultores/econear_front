@@ -224,7 +224,7 @@ export default {
 
     
 
-    await this.priceNEAR()
+    this.priceNEAR()
     this.getNftCollection()
     this.getDataCollection()
   },

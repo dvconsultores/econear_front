@@ -53,7 +53,10 @@
 
         <v-sheet class="divcol center align">
           <div class="divcol fill_w">
-            <label for="address">Price for: <span class="font-weight-black">{{itemListNft.name}} </span></label>
+            <label for="address">Price for:</label>
+            <div v-for="(item,i) in itemListNfts" :key="i" class="divcol fill_w">
+              <span class="font-weight-black">{{item.name}}</span>
+            </div>
             <v-text-field
               v-model="priceNft"
               type="number"
@@ -207,6 +210,7 @@ export default {
       itemNft: {},
       itemsNfts: [],
       itemListNft: {},
+      itemListNfts: [],
       validateAccount: false,
       validateAccountDis: true,
       select_error: false,
@@ -262,6 +266,7 @@ export default {
       this.select_error = false
       this.price_error = false
       this.itemListNft = {}
+      this.itemListNfts = []
       this.storageBalance = 0,
       this.minimumStorage = 0
     },
@@ -441,32 +446,66 @@ export default {
       }
     },
     async listar_nft() {
+      console.log(this.itemListNfts)
       if (this.priceNft && this.marketplaces.marketplace.marketplace) {
         const near = await connect(CONFIG(new keyStores.BrowserLocalStorageKeyStore()));
         const wallet = new WalletConnection(near);
 
         if (this.storageBalance > this.minimumStorage) {
-          const contract = new Contract(wallet.account(), this.itemListNft.collection, {
-            changeMethods: ["nft_approve"],
-            sender: wallet.account(),
-          })
+          // const contract = new Contract(wallet.account(), this.itemListNft.collection, {
+          //   changeMethods: ["nft_approve"],
+          //   sender: wallet.account(),
+          // })
+          // let msgs2 = {
+          //   price: String(utils.format.parseNearAmount(this.priceNft)),
+          //   market_type: "sale",
+          //   ft_token_id: "near"
+          // }
+          // localStorage.tipohash = 'list'
+          // await contract.nft_approve({
+          //   token_id: String(this.itemListNft.token_id),
+          //   account_id: this.marketplaces.marketplace.marketplace,
+          //   msg: JSON.stringify(msgs),
+          // },'300000000000000',
+          // "350000000000000000000").then((response) => {
+          // //"340000000000000000000").then((response) => {
+           
+          // }).catch(err => {
+          //   console.log(err)
+          // })
+
           let msgs = {
             price: String(utils.format.parseNearAmount(this.priceNft)),
             market_type: "sale",
             ft_token_id: "near"
           }
-          localStorage.tipohash = 'list'
-          await contract.nft_approve({
-            token_id: String(this.itemListNft.token_id),
-            account_id: this.marketplaces.marketplace.marketplace,
-            msg: JSON.stringify(msgs),
-          },'300000000000000',
-          "350000000000000000000").then((response) => {
-          //"340000000000000000000").then((response) => {
-           
-          }).catch(err => {
-            console.log(err)
-          })
+          let txs = []
+          for (var i = 0; i < this.itemListNfts.length; i++) {
+            txs.push({
+              receiverId: this.itemListNfts[i].collection,
+              functionCalls: [
+                {
+                  methodName: "nft_approve",
+                  receiverId: this.itemListNfts[i].collection,
+                  gas: "300000000000000",
+                  args: {
+                    token_id: String(this.itemListNfts[i].token_id),
+                    account_id: this.marketplaces.marketplace.marketplace,
+                    msg: JSON.stringify(msgs),
+                  },
+                  deposit: "350000000000000000000",
+                },
+              ],
+            })
+          }
+          
+          localStorage.tipohash = 'transfer'
+          await this.batchTransaction(
+            txs,
+            {
+              meta: "list",
+            },
+          );
         } else {  
           let msgs = {
             price: String(utils.format.parseNearAmount(this.priceNft)),
@@ -487,24 +526,28 @@ export default {
                   deposit: utils.format.parseNearAmount(this.minimumStorage),
                 },
               ],
-            },
-            {
-              receiverId: this.itemListNft.collection,
+            }
+          ]
+          for (var i = 0; i < this.itemListNfts.length; i++) {
+            txs.push({
+              receiverId: this.itemListNfts[i].collection,
               functionCalls: [
                 {
                   methodName: "nft_approve",
-                  receiverId: this.itemListNft.collection,
-                  gas: "200000000000000",
+                  receiverId: this.itemListNfts[i].collection,
+                  gas: "300000000000000",
                   args: {
-                    token_id: String(this.itemListNft.token_id),
+                    token_id: String(this.itemListNfts[i].token_id),
                     account_id: this.marketplaces.marketplace.marketplace,
                     msg: JSON.stringify(msgs),
                   },
                   deposit: "350000000000000000000",
                 },
               ],
-            },
-          ]
+            })
+          }
+          
+          localStorage.tipohash = 'transfer'
           await this.batchTransaction(
             txs,
             {

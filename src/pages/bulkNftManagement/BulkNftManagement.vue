@@ -331,7 +331,7 @@ export default {
       widthLimiter: false,
       variableCarga: true,
       index:0,
-      seeMoreVisible: true,
+      seeMoreVisible: false,
       seeMoreDis: true,
       dataNfts2: [],
       dataNfts: [
@@ -525,39 +525,69 @@ export default {
     },
     selectedUnlisted(item, item2) {
       item2.selected=!item2.selected
-      
-      if (this.dataBulk.unlisted[item.index].itemListNft.selected && this.dataBulk.unlisted[item.index].itemListNft.index !== item2.index) {
-        this.dataBulk.unlisted[item.index].dataNfts[this.dataBulk.unlisted[item.index].itemListNft.index].selected = false
+
+      let aux = false
+
+      for (var i = 0; i < this.dataBulk.unlisted[item.index].dataNfts.length; i++) {
+        if (this.dataBulk.unlisted[item.index].dataNfts[i].selected) {
+          aux = true
+          break
+        }
       }
 
-      if (item2.selected === true) {
+      if (aux) {
         this.dataBulk.unlisted[item.index].listDisabled = false
       } else {
         this.dataBulk.unlisted[item.index].listDisabled = true
       }
-      if (!item2.selected && this.dataBulk.unlisted[item.index].itemListNft.index === item2.index) {
-        this.dataBulk.unlisted[item.index].itemListNft = {}
-      } else {
-        this.dataBulk.unlisted[item.index].itemListNft = item2
-      }
+      
+      // if (this.dataBulk.unlisted[item.index].itemListNft.selected && this.dataBulk.unlisted[item.index].itemListNft.index !== item2.index) {
+      //   this.dataBulk.unlisted[item.index].dataNfts[this.dataBulk.unlisted[item.index].itemListNft.index].selected = false
+      // }
+
+      // if (item2.selected === true) {
+      //   this.dataBulk.unlisted[item.index].listDisabled = false
+      // } else {
+      //   this.dataBulk.unlisted[item.index].listDisabled = true
+      // }
+      // if (!item2.selected && this.dataBulk.unlisted[item.index].itemListNft.index === item2.index) {
+      //   this.dataBulk.unlisted[item.index].itemListNft = {}
+      // } else {
+      //   this.dataBulk.unlisted[item.index].itemListNft = item2
+      // }
     },
     selectedListed(item, item2) {
       item2.selected=!item2.selected
-      
-      if (this.dataBulk.listed[item.index].itemListNft.selected && this.dataBulk.listed[item.index].itemListNft.index !== item2.index) {
-        this.dataBulk.listed[item.index].dataNfts[this.dataBulk.listed[item.index].itemListNft.index].selected = false
+
+      let aux = false
+
+      for (var i = 0; i < this.dataBulk.listed[item.index].dataNfts.length; i++) {
+        if (this.dataBulk.listed[item.index].dataNfts[i].selected) {
+          aux = true
+          break
+        }
       }
 
-      if (item2.selected === true) {
+      if (aux) {
         this.dataBulk.listed[item.index].listDisabled = false
       } else {
         this.dataBulk.listed[item.index].listDisabled = true
       }
-      if (!item2.selected && this.dataBulk.listed[item.index].itemListNft.index === item2.index) {
-        this.dataBulk.listed[item.index].itemListNft = {}
-      } else {
-        this.dataBulk.listed[item.index].itemListNft = item2
-      }
+      
+      // if (this.dataBulk.listed[item.index].itemListNft.selected && this.dataBulk.listed[item.index].itemListNft.index !== item2.index) {
+      //   this.dataBulk.listed[item.index].dataNfts[this.dataBulk.listed[item.index].itemListNft.index].selected = false
+      // }
+
+      // if (item2.selected === true) {
+      //   this.dataBulk.listed[item.index].listDisabled = false
+      // } else {
+      //   this.dataBulk.listed[item.index].listDisabled = true
+      // }
+      // if (!item2.selected && this.dataBulk.listed[item.index].itemListNft.index === item2.index) {
+      //   this.dataBulk.listed[item.index].itemListNft = {}
+      // } else {
+      //   this.dataBulk.listed[item.index].itemListNft = item2
+      // }
     },
     transferNFT () {
       var items = []
@@ -588,9 +618,15 @@ export default {
         }).catch((error) => {
           console.log(error)
         })
-
+      var items = []
+      for (var i = 0; i < this.dataBulk.unlisted[item.index].dataNfts.length; i++) {
+        if (this.dataBulk.unlisted[item.index].dataNfts[i].selected) {
+          items.push(this.dataBulk.unlisted[item.index].dataNfts[i])
+        }
+      }
+      console.log(items)
       this.$refs.menu.modalListNfts=true
-      this.$refs.menu.itemListNft=this.dataBulk.unlisted[item.index].itemListNft
+      this.$refs.menu.itemListNfts = items
     },
     updateNft (item) {
       // const near = await connect(config);
@@ -600,39 +636,41 @@ export default {
       this.$refs.menu.itemListNft=this.dataBulk.listed[item.index].itemListNft
     },
     async delistingNft(item) {
-      let itemNft = this.dataBulk.listed[item.index].itemListNft
-      let txs = [
-        {
-          receiverId: itemNft.collection,
+      let txs = []
+      for (var i = 0; i < this.dataBulk.listed[item.index].dataNfts.length; i++) {
+        txs.push(
+          {
+          receiverId: this.dataBulk.listed[item.index].dataNfts[i].collection,
           functionCalls: [
             {
               methodName: "nft_revoke",
-              receiverId: itemNft.collection,
+              receiverId: this.dataBulk.listed[item.index].dataNfts[i].collection,
               gas: "100000000000000",
               args: {
-                token_id: itemNft.token_id,
-                account_id: itemNft.marketplace,
+                token_id: this.dataBulk.listed[item.index].dataNfts[i].token_id,
+                account_id: this.dataBulk.listed[item.index].dataNfts[i].marketplace,
               },
               deposit: "1",
             },
           ],
         },
         {
-          receiverId: itemNft.marketplace,
+          receiverId: this.dataBulk.listed[item.index].dataNfts[i].marketplace,
           functionCalls: [
             {
               methodName: "delete_market_data",
-              receiverId: itemNft.marketplace,
+              receiverId: this.dataBulk.listed[item.index].dataNfts[i].marketplace,
               gas: "100000000000000",
               args: {
-                token_id: itemNft.token_id,
-                nft_contract_id: itemNft.collection,
+                token_id: this.dataBulk.listed[item.index].dataNfts[i].token_id,
+                nft_contract_id: this.dataBulk.listed[item.index].dataNfts[i].collection,
               },
               deposit: "1",
             },
           ],
         }
-      ]
+        )
+      }
       await this.batchTransaction(
         txs
       );
@@ -702,6 +740,8 @@ export default {
         .then((response) => {
           this.dataBulk.listed = []
 
+          console.log("AQUIIII",response.data)
+
           for (var i = 0; i < response.data.length; i++) {
             let collection = {
               index: i,
@@ -746,6 +786,7 @@ export default {
 
         this.axios.post(url, item)
           .then((response) => {
+            console.log("NFTS", response.data)
             this.dataBulk.listed[collection.index].dataNfts = []
 
             for (var i = 0; i < response.data.length; i++) {
@@ -896,6 +937,8 @@ export default {
         .then((response) => {
           if (response.data.length === 0) {
             this.seeMoreVisible = false
+          } else {
+            this.seeMoreVisible = true
           }
         }).catch((error) => {
         })
