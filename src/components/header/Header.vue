@@ -431,6 +431,7 @@ export default {
           account_id: wallet.getAccountId(),
         })
           .then((response) => {
+            this.dataTableAlerts = []
             for (var i = 0; i < response.length; i++) {
               for (var j = 0; j < response[i].alerts.length; j++) {
                 let item = {
@@ -462,11 +463,15 @@ export default {
           this.axios.post(url, item)
           .then((response) => {
             if (alerta.type_id === 1 && response.data[0].price > alerta.value ) {
-         
               this.notificacion(response.data[0].collection, response.data[0].icon, "Price rose above " + Number(alerta.value).toFixed(2) + " to " + Number(response.data[0].price).toFixed(2))
+              if (alerta.frecuency_id === 1) {
+                this.deleteAlert(alerta)
+              }
             } else if (alerta.type_id === 2 && response.data[0].price < alerta.value ) {
-             
               this.notificacion(response.data[0].collection, response.data[0].icon, "Price dropped from "  + Number(alerta.value).toFixed(2) + " to " + Number(response.data[0].price).toFixed(2))
+              if (alerta.frecuency_id === 1) {
+                this.deleteAlert(alerta)
+              }
             }
           }).catch((error) => {
             console.log(error)
@@ -481,8 +486,14 @@ export default {
           .then((response) => {
             if (alerta.type_id === 3 && response.data[0].volumen > alerta.value ) {
               this.notificacion(response.data[0].collection, response.data[0].icon, "Volumen rose above " + Number(alerta.value).toFixed(2) + " to " + Number(response.data[0].volumen).toFixed(2))
+              if (alerta.frecuency_id === 1) {
+                this.deleteAlert(alerta)
+              }
             } else if (alerta.type_id === 4 && response.data[0].volumen < alerta.value ) {
               this.notificacion(response.data[0].collection, response.data[0].icon, "Volumen dropped from " + Number(alerta.value).toFixed(2) + " to " + Number(response.data[0].volumen).toFixed(2))
+              if (alerta.frecuency_id === 1) {
+                this.deleteAlert(alerta)
+              }
             }
           }).catch((error) => {
             console.log(error)
@@ -512,9 +523,32 @@ export default {
       }
     },
     async startIntervals() {
+      clearInterval(this.interval)
       this.interval = setInterval(this.alertNotificacion, 60000)
     },
-    
+    async deleteAlert (item) {
+      const CONTRACT_NAME = 'backend.monkeonnear.near'
+      // connect to NEAR
+      const near = await connect(config)
+      // create wallet connection
+      const wallet = new WalletConnection(near)
+      if (wallet.isSignedIn()) {
+        const contract = new Contract(wallet.account(), CONTRACT_NAME, {
+          changeMethods: ['delete_alert'],
+          sender: wallet.account()
+        })
+        await contract.delete_alert({
+          collection: item.contract,
+          alert_type_id: item.type_id
+        })
+          .then((response) => {
+            this.get_alert()
+       
+          }).catch((error) => {
+            console.log("ERR",error)
+         })
+      }
+    },
     async get_accounts() {
       let accounts = localStorage.getItem('switch-accounts')
       if (accounts[0]) {
