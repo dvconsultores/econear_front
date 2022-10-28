@@ -2,7 +2,7 @@
   <section id="linechart" class="charts doble card" style="--p:clamp(1.5em,2vw,2em)">
     <div class="toolbar wrap not_margin">
       <div class="divcol">
-        <h3 class="h9_em">Price (NEAR)</h3>
+        <h3 class="h9_em">Price (NEAR) (24H)</h3>
 
         <div class="space gap2">
           <aside class="divcol">
@@ -38,14 +38,11 @@
         </div>
       </div>
 
-      <v-btn-toggle mandatory color="#60D2CA">
+      <!-- <v-btn-toggle mandatory color="#60D2CA">
         <v-btn v-for="(item,i) in dataControlsChart" :key="i" color="transparent" @click="updateDate(item)">
           <span>{{item.name}}</span>
         </v-btn>
-        <!-- <v-btn color="transparent">
-          <v-icon color="#FFFFFF">mdi-calendar</v-icon>
-        </v-btn> -->
-      </v-btn-toggle>
+      </v-btn-toggle> -->
     </div>
 
     <apexchart

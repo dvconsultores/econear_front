@@ -174,7 +174,7 @@ export default {
         var extra = {          
           icon: img || this.image,
           //icon: "http://xitrus.es/imgs/logo_claro.png",
-          body: "NFT: " + name + " salio a un precio de " + price + " en " + marketplace
+          body: "NFT: " + name + " was published at a price of " + price + " on " + marketplace
         }
         var noti = new Notification( title, extra)
         noti.onclick = {
@@ -193,7 +193,7 @@ export default {
     scrolledTable(event) {
       const container = event.target
       if (Math.ceil(container.scrollHeight - container.scrollTop) <= container.clientHeight) {
-        console.log("funcion para traer mas data aqui <----------------------------------------------------------------------------------------")
+        // console.log("funcion para traer mas data aqui <----------------------------------------------------------------------------------------")
         // his.dataTable = this.dataTable.concat(this.dataTable2.slice(this.dataTable.length, this.dataTable.length + 5))
         clearTimeout(this.timer)
         this.timer = setTimeout(this.addDataTable, 300)
@@ -276,18 +276,18 @@ export default {
           }
           this.dataTable = this.dataTable2
           this.indexData = 10
-          if (this.notifications === true) {
-            const snipetool = JSON.parse(localStorage.getItem('snipetool'))
-            this.dataTable.forEach(dataTable => {
-              snipetool.forEach(item => {
-                if (dataTable.nft_contract === item.nft_contract && dataTable.marketplace === item.marketplace) {
-                  if (dataTable.price < item.price) {
-                    this.notificacion(dataTable.name, dataTable.img, dataTable.price, dataTable.marketplace)
-                  } 
-                }
-              })
-            })
-          }
+          // if (this.notifications === true) {
+          //   const snipetool = JSON.parse(localStorage.getItem('snipetool'))
+          //   this.dataTable.forEach(dataTable => {
+          //     snipetool.forEach(item => {
+          //       if (dataTable.nft_contract === item.nft_contract && dataTable.marketplace === item.marketplace) {
+          //         if (dataTable.price < item.price) {
+          //           this.notificacion(dataTable.name, dataTable.img, dataTable.price, dataTable.marketplace)
+          //         } 
+          //       }
+          //     })
+          //   })
+          // }
 
           localStorage.snipetool = JSON.stringify(this.dataTable)
         }).catch((error) => {

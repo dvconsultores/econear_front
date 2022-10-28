@@ -251,7 +251,7 @@ export default {
         {
           list: [
             { title: "ECONEAR" },
-            { key: "wallet-submission", name: "Wallet Submission" },
+            // { key: "wallet-submission", name: "Wallet Submission" },
             //{ key: "coming-soon", name: "Wallet Submission" },
             { key: "vote", name: "Vote" },
           ]
@@ -351,7 +351,7 @@ export default {
           {
             list: [
               { title: "ECONEAR" },
-              { key: "wallet-submission", name: "Wallet Submission" },
+              // { key: "wallet-submission", name: "Wallet Submission" },
               { key: "vote", name: "Vote" },
             ]
           },
@@ -391,7 +391,7 @@ export default {
           {
             list: [
               { title: "ECONEAR" },
-              { key: "wallet-submission", name: "Wallet Submission" },
+              // { key: "wallet-submission", name: "Wallet Submission" },
               { key: "vote", name: "Vote" },
             ]
           },

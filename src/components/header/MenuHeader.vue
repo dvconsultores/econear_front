@@ -455,7 +455,7 @@ export default {
               { key: "upcoming-projects", name: "Upcoming Projects (Drops)" },
               { key: "new-projects", name: "New Projects" },
               { title: "ECONEAR" },
-              { key: "wallet-submission", name: "Wallet Submission" },
+              // { key: "wallet-submission", name: "Wallet Submission" },
               { key: "vote", name: "Vote" },
               { key: "contact-us", name: "Contact Us" },
               { title: "Others" },
