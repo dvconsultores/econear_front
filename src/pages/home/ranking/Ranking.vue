@@ -459,7 +459,7 @@ export default {
               volume: parseFloat(response.data[i].volumen1).toFixed(2) + " N",
               price: parseFloat(response.data[i].floor_price).toFixed(2) + " N",
               change: parseFloat(response.data[i].porcentaje).toFixed(2),//"0.89",
-              date: moment(response.data[i].fecha_creacion/1000000).format('DD / MM / YYYY'),
+              date: moment(response.data[i].fecha_creacion/1000000).format('YY / MM / DD'),
               contract_id: response.data[i].nft_contract,
               vote_positivo: response.data[i].voto_positivo,
               vote_negativo: response.data[i].voto_negativo,

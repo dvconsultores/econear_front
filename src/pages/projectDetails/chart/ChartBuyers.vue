@@ -216,7 +216,6 @@ export default {
       console.log(item)
       this.axios.post(url, item)
         .then((response) => {
-          console.log("GRAFIC", response.data)
           for (var i = 0; i < response.data.length; i++) {
             let x = (moment(response.data[i].fecha).unix() * 1000)
       

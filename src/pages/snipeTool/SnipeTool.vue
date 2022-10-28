@@ -145,6 +145,13 @@ export default {
 
     // scroll listener data table
     document.querySelector("#dataTable .v-data-table__wrapper").addEventListener("scroll", (e) => this.scrolledTable(e))
+
+    if (this.notifications === true) {
+      clearInterval(this.intervalCompare)
+      this.intervalCompare = setInterval(this.compareCollections, 10000);
+    } else {
+      clearInterval(this.intervalCompare)
+    }
   },
   beforeDestroy() {
     document.querySelector("#dataTable .v-data-table__wrapper").removeEventListener("scroll", (e) => this.scrolledTable(e))
@@ -163,6 +170,13 @@ export default {
         } else {
           // this.notificacion()
         }
+      }
+
+      if (this.notifications === true) {
+        clearInterval(this.intervalCompare)
+        this.intervalCompare = setInterval(this.compareCollections, 10000);
+      } else {
+        clearInterval(this.intervalCompare)
       }
     },
     notificacion(name, img, price, marketplace) {
@@ -221,6 +235,9 @@ export default {
             this.dataTable2.push(collection)
           }
           this.dataTable = this.dataTable.concat(this.dataTable2)
+
+          //localStorage.snipetool = JSON.stringify(this.dataTable)
+          
           this.indexData = this.indexData + 5
         }).catch((error) => {
           console.log(error)
@@ -245,12 +262,52 @@ export default {
             }
           }, 100);
         }, 500);
+        
       } else {
         document.documentElement.style.overflow = "initial"
         // clearInterval(this.interval)
         clearInterval(this.interval2)
         clearTimeout(this.timeHidden)
       }
+    },
+    compareCollections() {
+      const url = "api/v1/recentlylisted"
+      let item = {
+        "limit": this.dataTable.length,
+        "index": 0
+      }
+      console.log(item)
+      this.axios.post(url, item)
+        .then((response) => {
+          console.log(response.data)
+          let dataTable2 = []
+          for (var i = 0; i < response.data.length; i++) {
+            let collection = {
+              img: response.data[i].icon,
+              name: response.data[i].name,
+              nft_contract: response.data[i].nft_contract,
+              supply: response.data[i].total_supply,
+              price: parseFloat(response.data[i].price).toFixed(1) + " N",
+              marketplace: response.data[i].marketplace,
+              state_price: true,
+            }
+            dataTable2.push(collection)
+          }
+          
+          if (this.notifications === true) {
+            this.dataTable.forEach(dataTable => {
+              dataTable2.forEach(item => {
+                if (dataTable.nft_contract === item.nft_contract && dataTable.marketplace === item.marketplace) {
+                  if (dataTable.price < item.price) {
+                    this.notificacion(dataTable.name, dataTable.img, dataTable.price, dataTable.marketplace)
+                  } 
+                }
+              })
+            })
+          }
+        }).catch((error) => {
+          console.log(error)
+        })
     },
     async recentlyListed(){
       const url = "api/v1/recentlylisted"
@@ -276,20 +333,9 @@ export default {
           }
           this.dataTable = this.dataTable2
           this.indexData = 10
-          // if (this.notifications === true) {
-          //   const snipetool = JSON.parse(localStorage.getItem('snipetool'))
-          //   this.dataTable.forEach(dataTable => {
-          //     snipetool.forEach(item => {
-          //       if (dataTable.nft_contract === item.nft_contract && dataTable.marketplace === item.marketplace) {
-          //         if (dataTable.price < item.price) {
-          //           this.notificacion(dataTable.name, dataTable.img, dataTable.price, dataTable.marketplace)
-          //         } 
-          //       }
-          //     })
-          //   })
-          // }
+       
 
-          localStorage.snipetool = JSON.stringify(this.dataTable)
+          //localStorage.snipetool = JSON.stringify(this.dataTable)
         }).catch((error) => {
           console.log(error)
         })

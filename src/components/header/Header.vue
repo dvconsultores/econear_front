@@ -42,7 +42,7 @@
                 <v-btn icon href="https://twitter.com/econear" target="_blank">
                   <img src="@/assets/icons/twitter.svg" alt="twitter" style="--w:1.5625em">
                 </v-btn> 
-                <v-btn icon href="https://discord.com/invite/monkeonear" target="_blank">
+                <v-btn icon href="https://discord.gg/EpMDUY5ueZ" target="_blank">
                   <img src="@/assets/icons/discord.svg" alt="discord" style="--w:1.5625em">
                 </v-btn>
                 <!-- <v-btn icon>
@@ -461,11 +461,12 @@ export default {
           
           this.axios.post(url, item)
           .then((response) => {
-            console.log("Repsonse", response.data[0])
             if (alerta.type_id === 1 && response.data[0].price > alerta.value ) {
-              console.log("Notificacion 1")
+         
+              this.notificacion(response.data[0].collection, response.data[0].icon, "Price rose above " + Number(alerta.value).toFixed(2) + " to " + Number(response.data[0].price).toFixed(2))
             } else if (alerta.type_id === 2 && response.data[0].price < alerta.value ) {
-              console.log("Notificacion 2")
+             
+              this.notificacion(response.data[0].collection, response.data[0].icon, "Price dropped from "  + Number(alerta.value).toFixed(2) + " to " + Number(response.data[0].price).toFixed(2))
             }
           }).catch((error) => {
             console.log(error)
@@ -478,13 +479,10 @@ export default {
           
           this.axios.post(url, item)
           .then((response) => {
-            console.log("Repsonse volumen", response.data[0])
             if (alerta.type_id === 3 && response.data[0].volumen > alerta.value ) {
-              console.log("Notificacion 3")
-              console.log(alerta.contract)
-              //this.notificacion(alerta.contract)
+              this.notificacion(response.data[0].collection, response.data[0].icon, "Volumen rose above " + Number(alerta.value).toFixed(2) + " to " + Number(response.data[0].volumen).toFixed(2))
             } else if (alerta.type_id === 4 && response.data[0].volumen < alerta.value ) {
-              console.log("Notificacion 4")
+              this.notificacion(response.data[0].collection, response.data[0].icon, "Volumen dropped from " + Number(alerta.value).toFixed(2) + " to " + Number(response.data[0].volumen).toFixed(2))
             }
           }).catch((error) => {
             console.log(error)
@@ -492,7 +490,7 @@ export default {
         } 
       }
     },
-    notificacion(name, img) {
+    notificacion(name, img, msg) {
       if (Notification) {
         if (Notification.permission !== "granted") {
           Notification.requestPermission()
@@ -501,7 +499,7 @@ export default {
         var extra = {          
           icon: img || this.image,
           //icon: "http://xitrus.es/imgs/logo_claro.png",
-          body: "NFT: " + name
+          body: "NFT: " + name + ", " + msg
         }
         var noti = new Notification( title, extra)
         noti.onclick = {
@@ -606,7 +604,7 @@ export default {
       if (item.key=='wallet-submission') {this.$router.push('/coming-soon')}
       if (item.key=='vote') {this.$router.push("/"+item.key)}
       if (item.key=='contact') {this.$router.push("/"+item.key)}
-      if (item.key=='support') {window.open('https://discord.com/invite/monkeonear', '_blank')}
+      if (item.key=='support') {window.open('https://discord.gg/EpMDUY5ueZ', '_blank')}
       // other
       if (item.key=='marketplace-stats') {this.$router.push(item.key)}
       //if (item.key=='marketplace-stats') {this.$router.push('/coming-soon')}

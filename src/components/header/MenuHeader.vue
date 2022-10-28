@@ -522,7 +522,7 @@ export default {
         contract: "", 
         frecuency: {
           value: 1,
-          items: [ {id:1, frecuency:"Only Once"}, {id:2, frecuency:"Once a day"}, {id:3, frecuency:"Always"} ]
+          items: [ {id:1, frecuency:"Only Once"},  {id:3, frecuency:"Always"} ] //{id:2, frecuency:"Once a day"},
         }
       },
     };
