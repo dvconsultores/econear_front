@@ -11,6 +11,13 @@ import App from './App.vue'
 import vuetify from './plugins/vuetify'
 
 
+if (!String.prototype.limitString) {
+  String.prototype.limitString = function(limit) {
+    if (this.length > limit) return `${this.substring(0, limit)}...`
+    return this
+  }
+}
+
 Vue.use(VueAxios,axios);
 axios.defaults.baseURL='https://www.econear.in:3070/'
 
