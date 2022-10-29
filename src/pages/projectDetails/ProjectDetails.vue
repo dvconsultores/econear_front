@@ -54,7 +54,7 @@
           <div class="divcol">
             <div class="infotext bold acenter" style="gap:.7em">
               <span>{{item.key=='market'?'Market Cap':item.key=='holders'?'Holders':item.key=='volume'?'Volume (24H)':item.key=='price'?'Floor price':null}}</span>
-              <img src="@/assets/icons/info.svg" alt="info" style="--w:.9em">
+              <!-- <img src="@/assets/icons/info.svg" alt="info" style="--w:.9em"> -->
             </div>
             <span class="number bold acenter" style="gap:.7em">
               <img v-if="item.key=='volume'||item.key=='price'" src="@/assets/logos/near.svg" alt="near" style="--w:.8em">
@@ -76,7 +76,7 @@
     <h3 class="h9_em p">Buy On:</h3>
 
     <section class="card grid" style="--p:clamp(1em,2vw,2em);gap:1em;--gtc: repeat(auto-fit,minmax(min(100%,16.124375em),1fr))">
-      <v-card v-for="(item,i) in dataBuy" :key="i" class="card" style="--p:1em;display:flex;gap:1em;">
+      <v-card v-for="(item,i) in dataBuy" :key="i" class="card" style="--p:1em;display:flex;gap:1em;" @click="$router.push('/view-collections/' + contract_nft)">
         <img :src="item.img" alt="markets" style="--w:4.710625em">
         <span class="h9_em">{{item.name}}</span>
       </v-card>
@@ -92,7 +92,7 @@
 
     <!-- overview section -->
     <template v-if="dataControls[dataControls.findIndex(e=>e.key=='overview')].active">
-      <section class="container-potential card" style="--p:clamp(1em,2vw,2em)">
+      <!-- <section class="container-potential card" style="--p:clamp(1em,2vw,2em)">
         <h3 class="h9_em">BlueChip Potential</h3>
 
         <div class="fwrap gap2 space" style="--fb: 1 1 20em">
@@ -120,7 +120,7 @@
             </v-chip>
           </v-card>
         </div>
-      </section>
+      </section> -->
 
       <!-- chart market -->
       <ChartMarket ref="chartmarket" :Height="chartHeight"></ChartMarket>
@@ -137,15 +137,18 @@
       </section>
 
       <!-- chart holders -->
-      <ChartHolders ref="chartholders" :Height="chartHeight"></ChartHolders>
+      <!-- <ChartHolders ref="chartholders" :Height="chartHeight"></ChartHolders> -->
 
-      <section class="fwrap" style="--fb:1 1 45em; gap:2em">
-        <!-- chart holding amount -->
+
+      <!-- chart holding amount -->
+       <!-- chart holding period -->
+      <!-- <section class="fwrap" style="--fb:1 1 45em; gap:2em">
+        
         <ChartHoldingAmount ref="chartholdingamount" :Height="chartHeight"></ChartHoldingAmount>
 
-        <!-- chart holding period -->
+       
         <ChartHoldingPeriod ref="chartholdingperiod" :Height="chartHeight"></ChartHoldingPeriod>
-      </section>
+      </section> -->
 
 
         <!-- top sales  -->
@@ -157,8 +160,8 @@
             mandatory
             color="#60D2CA"
           >
-            <v-btn v-for="n in 4" :key="n" color="transparent">
-              <span>{{n==1?'24h':n==2?'7d':n==3?'30d':n==4?'ALL':null}}</span>
+            <v-btn v-for="n in 5" :key="n" color="transparent" @click="changeTopSales(n)">
+              <span>{{n==1?'24h':n==2?'7d':n==3?'30d':n==4?'90d':n==5?'1Y':n==6}}</span>
             </v-btn>
           </v-btn-toggle>
         </div>
@@ -185,15 +188,27 @@
           <template v-slot:[`item.name`]="{ item }">
             <div class="acenter gap1 tstart">
               <img :src="item.img" alt="nft image" style="--w:4.710625em">
-              <span style="max-width:18ch" class="bold">{{item.name}}</span>
+              <span style="max-width:18ch" :title="item.name" class="bold">{{verificar(item.name, 20)}}</span>
             </div>
+          </template>
+
+          <template v-slot:[`item.buyer`]="{ item }">
+            <span :title="item.buyer"> {{item.buyer.limitString(14)}}</span>
+          </template>
+
+          <template v-slot:[`item.seller`]="{ item }">
+            <span :title="item.seller"> {{item.seller.limitString(14)}}</span>
           </template>
           
           <template v-slot:[`item.price`]="{ item }">
             {{item.price}}N
           </template>
 
-          <template v-slot:[`item.history`]="{ item }">
+          <!-- <template v-slot:[`item.time`]="{ item }">
+            {{item.time}}
+          </template> -->
+
+          <!-- <template v-slot:[`item.time`]="{ item }">
             <v-sparkline
               :value="item.history"
               :line-width="3"
@@ -202,9 +217,9 @@
               :smooth="10"
               auto-draw
             ></v-sparkline>
-          </template>
+          </template> -->
 
-          <template v-slot:footer>
+          <!-- <template v-slot:footer>
             <div class="fill_w center">
               <v-btn-toggle mandatory color="#60D2CA">
                 <v-btn color="transparent">
@@ -218,29 +233,29 @@
                 </v-btn>
               </v-btn-toggle>
             </div>
-          </template>
+          </template> -->
         </v-data-table>
       </section>
     </template>
 
 
     <!-- social section -->
-    <template v-if="dataControls[dataControls.findIndex(e=>e.key=='social')].active">
+    <!-- <template v-if="dataControls[dataControls.findIndex(e=>e.key=='social')].active"> -->
       <!-- chart discord -->
-      <ChartDiscord ref="chartdiscord" :Height="chartHeight"></ChartDiscord>
+      <!-- <ChartDiscord ref="chartdiscord" :Height="chartHeight"></ChartDiscord> -->
 
       <!-- chart twitter -->
-      <ChartTwitter ref="charttwitter" :Height="chartHeight"></ChartTwitter>
-    </template>
+      <!-- <ChartTwitter ref="charttwitter" :Height="chartHeight"></ChartTwitter>
+    </template> -->
 
 
     <!-- nft section -->
     <template v-if="dataControls[dataControls.findIndex(e=>e.key=='nft')].active">
       <!-- chart rarity distribution -->
-      <ChartRarityDistribution ref="chartraritydistribution" :Height="chartHeight"></ChartRarityDistribution>
+      <!-- <ChartRarityDistribution ref="chartraritydistribution" :Height="chartHeight"></ChartRarityDistribution> -->
 
       <!-- chart rarity and price -->
-      <ChartRarityPrice ref="chartrarityprice" :Height="chartHeight"></ChartRarityPrice>
+      <!-- <ChartRarityPrice ref="chartrarityprice" :Height="chartHeight"></ChartRarityPrice> -->
 
       <!-- nfts -->
       <section id="container-nft" class="card divcol gap2" style="--p:clamp(1em,2vw,2em)">
@@ -248,21 +263,36 @@
           <div class="divcol">
             <h3 class="h9_em p">NFTs</h3>
             <div class="acenter" style="gap:.2em">
-              <span class="infotext bold">444</span>
-              <img src="@/assets/icons/info-gray.svg" alt="info icon" style="--w:.9em">
+              <span class="infotext bold">{{cantNfts}}</span>
+              <!-- <img src="@/assets/icons/info-gray.svg" alt="info icon" style="--w:.9em"> -->
             </div>
           </div>
 
           <v-text-field
-            v-model="searchNft"
+            v-model="search"
             hide-details
             solo
-            label="Search NFT by #"
+            label="Search for NFT's"
             append-icon="mdi-magnify"
             style="--bg:hsl(210, 48%, 10%);--c:#FFFFFF;--p:0 1.5em;--label:#FFFFFF;max-width:30.061875em;--b: .8px solid hsl(0, 0%, 44%, .1)"
-            class="customeFilter search"
+            class="customeFilter search openRankingSearch"
+            @click:append="searchCollection()"
+            @keydown.enter.prevent="searchCollection()"
+            @input="inputSearch()"
           ></v-text-field>
         </div>
+
+        <v-menu ref="menu" v-model="menuSearch" bottom offset-y activator=".openRankingSearch">
+          <v-list id="menuSearch" class="card scrolly" v-show="dataMenuSearch.length != 0">
+            <v-list-item v-for="(item,i) in dataMenuSearch" :key="i" @click="clickSearch(item)" v-show="dataMenuSearch.length != 0">
+              <img :src="item.img" alt="referencial image">
+              <div class="divcol">
+                <h6 class="p bold">{{item.name}}</h6>
+                <span>{{item.contract}}</span>
+              </div>
+            </v-list-item>
+          </v-list>
+        </v-menu>
 
         <div class="content grid" style="--gtc: repeat(auto-fit,minmax(min(100%,21.2225em),1fr));gap:3.5em">
           <v-card v-for="(item,i) in dataNfts" :key="i" color="transparent" class="divcol" :class="{widthLimiter: widthLimiter}">
@@ -272,17 +302,17 @@
               <h6>{{item.name}}</h6>
               <div class="divcol" style="gap:.2em">
                 <div class="space">
-                  <span>Last price:</span>
-                  <span>{{item.price}}N</span>
+                  <span>Token ID:</span>
+                  <span>{{item.token_id}}</span>
                 </div>
-                <div class="space">
+                <!-- <div class="space">
                   <span>Rarity rank:</span>
                   <v-chip class="btn center" id="rank"
                     style="--bg:#0D1A26;--c:var(--secondary);--bs:none;font-size:1.25em;--p:0;--w:min(199%, 2.75875em);--h:1.868125em">
                     #{{item.rank}}
                   </v-chip>
-                </div>
-                <div class="space">
+                </div> -->
+                <!-- <div class="space">
                   <span>Rarity:</span>
                   <v-chip style="border-radius: .3vmax" id="rarity"
                     :color="item.rarity=='rare'?'#26A17B':
@@ -291,25 +321,26 @@
                     item.rarity=='mystic'?'#6A25D2':null">
                     <span class="tfirst">{{item.rarity}}</span>
                   </v-chip>
-                </div>
+                </div> -->
               </div>
             </v-sheet>
           </v-card>
         </div>
+        <v-btn v-if="seeMoreVisible" text :disabled="seeMoreDis" @click="seeMore()" class="align" style="color:var(--success); font-size: 1.4025em; margin-block:3em">See more...</v-btn>
       </section>
     </template>
 
 
     <!-- leaderboard section -->
     <template v-if="dataControls[dataControls.findIndex(e=>e.key=='leaderboard')].active">
-      <section class="card" style="--p:clamp(1em,2vw,2em)">
+      <!-- <section class="card" style="--p:clamp(1em,2vw,2em)">
         <div class="acenter margin2bottom">
           <h3 class="h9_em p">Top Holders</h3>
           <img src="@/assets/icons/sort.svg" alt="sortable icon" style="--w: 0.810625em;margin-left:.3em">
-        </div>
+        </div> -->
 
         <!-- table top holders -->
-        <v-data-table
+        <!-- <v-data-table
           class="dataTable card"
           :headers="headersTableTopHolders"
           :items="dataTableTopHolders"
@@ -406,7 +437,7 @@
             </div>
           </template>
         </v-data-table>
-      </section>
+      </section> -->
 
 
       <section id="contaioner-buyer-seller" class="fwrap" style="gap: 2em 1em">
@@ -432,7 +463,7 @@
             <template v-slot:[`header.bought`]>
               <center class="center">
                 <span>Bought</span>
-                <img src="@/assets/icons/sort.svg" alt="sortable icon" style="--w: 0.5em;margin-left:.3em">
+                <!-- <img src="@/assets/icons/sort.svg" alt="sortable icon" style="--w: 0.5em;margin-left:.3em"> -->
               </center>
             </template>
             
@@ -440,16 +471,21 @@
               <span>Buy volume (N)</span>
               <img src="@/assets/icons/sort.svg" alt="sortable icon" style="--w: 0.5em;margin-left:.3em">
             </template>
+
             
             <template v-slot:[`item.number`]="{ item }">
               {{dataTableTopBuyers.indexOf(item) + 1}}
+            </template>
+
+            <template v-slot:[`item.address`]="{ item }">
+              <span :title="item.address">{{item.address.limitString(14)}}</span>
             </template>
             
             <template v-slot:[`item.near`]="{ item }">
               {{item.near}} N
             </template>
             
-            <template v-slot:footer>
+            <!-- <template v-slot:footer>
               <div class="fill_w center">
                 <v-btn-toggle mandatory color="#60D2CA">
                   <v-btn color="transparent">
@@ -463,7 +499,7 @@
                   </v-btn>
                 </v-btn-toggle>
               </div>
-            </template>
+            </template> -->
           </v-data-table>
         </section>
 
@@ -504,12 +540,16 @@
             <template v-slot:[`item.number`]="{ item }">
               {{dataTableTopSellers.indexOf(item) + 1}}
             </template>
+
+            <template v-slot:[`item.address`]="{ item }">
+              <span :title="item.address">{{item.address.limitString(14)}}</span>
+            </template>
             
             <template v-slot:[`item.near`]="{ item }">
               {{item.near}} N
             </template>
             
-            <template v-slot:footer>
+            <!-- <template v-slot:footer>
               <div class="fill_w center">
                 <v-btn-toggle mandatory color="#60D2CA">
                   <v-btn color="transparent">
@@ -523,16 +563,16 @@
                   </v-btn>
                 </v-btn-toggle>
               </div>
-            </template>
+            </template> -->
           </v-data-table>
         </section>
       </section>
 
 
-      <section class="card" style="--p:clamp(1em,2vw,2em)">
+      <!-- <section class="card" style="--p:clamp(1em,2vw,2em)">
         <h3 class="h9_em">Top Traders (24H)</h3>
 
-        <!-- table top traders -->
+     
         <v-data-table
           class="dataTable card"
           :headers="headersTableTopTraders"
@@ -616,7 +656,7 @@
             </div>
           </template>
         </v-data-table>
-      </section>
+      </section> -->
     </template>
 
 
@@ -626,11 +666,11 @@
         <div class="space wrap margin2bottom">
           <h3 class="h9_em p">Activity</h3>
 
-          <v-btn-toggle mandatory color="#60D2CA">
+          <!-- <v-btn-toggle mandatory color="#60D2CA">
             <v-btn v-for="n in 1" :key="n" color="transparent">
               <span>{{n==1?'ALL':null}}</span>
             </v-btn>
-          </v-btn-toggle>
+          </v-btn-toggle> -->
         </div>
 
         <!-- table activity -->
@@ -642,30 +682,42 @@
           mobile-breakpoint="-1"
           style="--bg:transparent;--b:none;--p:0"
         >
+        <template v-slot:[`item.number`]="{ item }">
+            {{dataTableActivity.indexOf(item) + 1}}
+          </template>
+
           <template v-slot:[`item.name`]="{ item }">
             <div class="acenter gap1 tstart">
               <img :src="item.img" alt="nft image" style="--w:4.710625em">
               <span style="max-width:18ch" class="bold">{{item.name}}</span>
-              <span class="bold">#{{item.number}}</span>
             </div>
           </template>
           
           <template v-slot:[`item.action`]="{ item }">
             <span :style="`color: ${item.action=='sale'?'var(--success)':null}`" class="tfirst">{{item.action}}</span>
           </template>
+
+          <template v-slot:[`item.from`]="{ item }">
+            <span :title="item.from"> {{item.from.limitString(14)}}</span>
+          </template>
+
+          <template v-slot:[`item.to`]="{ item }">
+            <span :title="item.to"> {{item.to.limitString(14)}}</span>
+          </template>
           
           <template v-slot:[`item.price`]="{ item }">
             <div class="divcol">
               <span>{{item.price}}{{item.price?' N':'---'}}</span>
-              <span style="--c:hsl(0, 0%, 100%, .35)">{{item.price_dollar?'$ ':'---'}}{{item.price_dollar}}</span>
+              <span v-if="item.price_dollar > 0" style="--c:hsl(0, 0%, 100%, .35)">{{(item.price_dollar + "$")}}</span>
+              <span v-else style="--c:hsl(0, 0%, 100%, .35)">{{'---'}}</span>
             </div>
           </template>
           
           <template v-slot:[`item.time`]="{ item }">
-            {{item.time}} ago
+            {{item.time}}
           </template>
           
-          <template v-slot:footer>
+          <!-- <template v-slot:footer>
             <div class="fill_w center">
               <v-btn-toggle mandatory color="#60D2CA">
                 <v-btn color="transparent">
@@ -679,7 +731,7 @@
                 </v-btn>
               </v-btn-toggle>
             </div>
-          </template>
+          </template> -->
         </v-data-table>
       </section>
     </template>
@@ -697,13 +749,17 @@ import ChartDiscord from './chart/ChartDiscord.vue'
 import ChartTwitter from './chart/ChartTwitter.vue'
 import ChartRarityDistribution from './chart/ChartRarityDistribution.vue'
 import ChartRarityPrice from './chart/ChartRarityPrice.vue'
+import moment from 'moment'
 export default {
   name: "details",
   i18n: require("./i18n"),
   components: { ChartMarket, ChartPrice, ChartSales, ChartBuyers, ChartHolders, ChartHoldingAmount, ChartHoldingPeriod, ChartDiscord, ChartTwitter, ChartRarityDistribution, ChartRarityPrice },
   data() {
     return {
+      seeMoreDis: false,
+      seeMoreVisible: false,
       contract_nft: this.$route.params.id,
+      token_id: null,
       chartHeight: "422.76px",
       dataSocialRed: [
         { social: "clip", link: "#" },
@@ -741,8 +797,8 @@ export default {
       ],
       dataControls: [
         { key: "overview", name: "Overview", active: true },
-        { key: "social", name: "Social", active: false },
-        { key: "nft", name: "NFT & rarity", active: false },
+        // { key: "social", name: "Social", active: false },
+        { key: "nft", name: "NFTs", active: false },
         { key: "leaderboard", name: "Leaderboard", active: false },
         { key: "activity", name: "Activity", active: false },
       ],
@@ -753,47 +809,42 @@ export default {
       headersTableTopSales: [
         { value:"number", text:"#", align:"center", sortable: false },
         { value:"name", text:"NFT", align:"center", sortable: false },
-        { value:"buyer", text:"Buyer", align:"center", sortable: false },
+        // { value:"collection", text:"Collection", align:"center", sortable: false },
         { value:"seller", text:"Seller", align:"center", sortable: false },
+        { value:"buyer", text:"Buyer", align:"center", sortable: false },
         { value:"price", text:"Price", align:"center", sortable: false },
         { value:"time", text:"Time", align:"center", sortable: false },
-        { value:"history", text:"History", align:"center", sortable: false },
       ],
+      auxTopSales: 1,
+      cantNfts: 0,
       dataTableTopSales: [
-        {
-          img: require("@/assets/nfts/nft1.png"),
-          name: "MonkeONear #232 Lorem ipsum dolor sit",
-          buyer: "tonystark.near",
-          seller: "justinsonbib.near",
-          price: "315",
-          time: "3 hours ago",
-          history: [ 200, 675, 410, 390, 310, 460, 250, 240 ],
-        },
-        {
-          img: require("@/assets/nfts/nft1.png"),
-          name: "MonkeONear #232 Lorem ipsum dolor sit",
-          buyer: "tonystark.near",
-          seller: "justinsonbib.near",
-          price: "315",
-          time: "3 hours ago",
-          history: [ 200, 675, 810, 190, 310, 460, 220, 140 ],
-        },
+        // {
+        //   img: require("@/assets/nfts/nft1.png"),
+        //   name: "MonkeONear #232 Lorem ipsum dolor sit",
+        //   buyer: "tonystark.near",
+        //   seller: "justinsonbib.near",
+        //   price: "315",
+        //   time: "3 hours ago",
+        //   history: [ 200, 675, 410, 390, 310, 460, 250, 240 ],
+        // },
+        // {
+        //   img: require("@/assets/nfts/nft1.png"),
+        //   name: "MonkeONear #232 Lorem ipsum dolor sit",
+        //   buyer: "tonystark.near",
+        //   seller: "justinsonbib.near",
+        //   price: "315",
+        //   time: "3 hours ago",
+        //   history: [ 200, 675, 810, 190, 310, 460, 220, 140 ],
+        // },
       ],
       dataNfts: [
         {
           img: require("@/assets/nfts/nft1.png"),
           name: "MonkeONear #312",
           price: "234",
-          rank: 3,
-          rarity: "common"
-        },
-        {
-          img: require("@/assets/nfts/nft2.png"),
-          name: "MonkeONear #312",
-          price: "234",
-          rank: 3,
-          rarity: "rare"
-        },
+          rank: null,
+          rarity: null
+        }
       ],
       widthLimiter: false,
       headersTableTopHolders: [
@@ -845,16 +896,16 @@ export default {
         { value:"buy", text:"Buy volume (N)", align:"center", sortable: false },
       ],
       dataTableTopBuyers: [
-        {
-          address: "thethirdeye.near",
-          bought: 37,
-          buy: 6475,
-        },
-        {
-          address: "thethirdeye.near",
-          bought: 37,
-          buy: 6475,
-        },
+        // {
+        //   address: "thethirdeye.near",
+        //   bought: 37,
+        //   buy: 6475,
+        // },
+        // {
+        //   address: "thethirdeye.near",
+        //   bought: 37,
+        //   buy: 6475,
+        // },
       ],
       headersTableTopSellers: [
         { value:"number", text:"#", align:"center", sortable: false },
@@ -863,16 +914,16 @@ export default {
         { value:"sell", text:"Sell volume (N)", align:"center", sortable: false },
       ],
       dataTableTopSellers: [
-        {
-          address: "thethirdeye.near",
-          sold: 37,
-          sell: 6475,
-        },
-        {
-          address: "thethirdeye.near",
-          sold: 37,
-          sell: 6475,
-        },
+        // {
+        //   address: "thethirdeye.near",
+        //   sold: 37,
+        //   sell: 6475,
+        // },
+        // {
+        //   address: "thethirdeye.near",
+        //   sold: 37,
+        //   sell: 6475,
+        // },
       ],
       headersTableTopTraders: [
         { value:"number", text:"#", align:"center", sortable: false },
@@ -896,6 +947,7 @@ export default {
         },
       ],
       headersTableActivity: [
+        { value:"number", text:"#", align:"center", sortable: false },
         { value:"name", text:"NFT", align:"center", sortable: false },
         { value:"action", text:"Action", align:"center", sortable: false },
         { value:"price", text:"Price", align:"center", sortable: false },
@@ -904,37 +956,326 @@ export default {
         { value:"time", text:"Time", align:"center", sortable: false },
       ],
       dataTableActivity: [
-        {
-          img: require("@/assets/nfts/nft1.png"),
-          name: "MonkeONear Gen 0",
-          number: 421,
-          action: "sale",
-          price: 174,
-          price_dollar: 1083,
-          from: "tonystark.near",
-          to: "justinsonbib.near",
-          time: "3 hours"
-        },
-        {
-          img: require("@/assets/nfts/nft2.png"),
-          name: "MonkeONear Gen 0",
-          number: 421,
-          action: "Transfer",
-          from: "tonystark.near",
-          to: "justinsonbib.near",
-          time: "5 hours"
-        },
+        // {
+        //   img: require("@/assets/nfts/nft1.png"),
+        //   name: "MonkeONear Gen 0",
+        //   number: 421,
+        //   action: "sale",
+        //   price: 174,
+        //   price_dollar: 1083,
+        //   from: "tonystark.near",
+        //   to: "justinsonbib.near",
+        //   time: "3 hours"
+        // },
+        // {
+        //   img: require("@/assets/nfts/nft2.png"),
+        //   name: "MonkeONear Gen 0",
+        //   number: 421,
+        //   action: "Transfer",
+        //   from: "tonystark.near",
+        //   to: "justinsonbib.near",
+        //   time: "5 hours"
+        // },
       ],
+      limit: 24,
+      index: 0,
+      nearPrice: 0,
+      menuSearch: false,
+      dataMenuSearch: [],
+      search: null,
     }
   },
   mounted() {
+    this.priceNEAR()
+    this.getNftCollection()
     this.getDataCollection()
     this.projectsDetailsHeader()
+    this.stastTopBuyers()
+    this.stastTopSellers()
     this.getDataBuyOn()
     this.Responsive()
     window.onresize = () => this.Responsive()
   },
   methods: {
+    clickSearch (item) {
+      this.token_id = item.token_id
+      this.getNftCollection()
+    },
+    searchCollection() {
+      let item = {
+        collection: this.contract_nft,
+        search: this.search,
+        limit: 10,
+        index: 0
+      }
+      if (this.search) {
+        const url = "api/v1/StastSearchNftCollection"
+        this.axios.post(url, item)
+          .then((response) => {
+            this.dataMenuSearch = []
+            for (var i = 0; i < response.data.length; i++) {
+              let item = {
+                img: response.data[i].media,
+                name: response.data[i].titulo,
+                contract: response.data[i].collection,
+                token_id: response.data[i].token_id
+              }
+         
+              this.dataMenuSearch.push(item)
+            }
+            this.menuSearch = true
+          }).catch((error) => {
+            console.log(error)
+          })
+      } else {
+        this.dataMenuSearch = []
+        this.menuSearch = false
+      }
+    },
+    inputSearch () {
+      if (this.search == '' || this.search == null) {
+        this.token_id = null
+        this.getNftCollection()
+        this.dataMenuSearch = []
+        this.menuSearch = false
+      }
+    },
+    async stastTopBuyers(){
+      const url = "api/v1/stasttopbuyerscollection"
+      let item = {
+        "collection": this.contract_nft,
+        "limit": 10,
+        "index": 0
+      }
+
+      this.axios.post(url, item)
+        .then((response) => {
+          this.dataTableTopBuyers = []
+          for (var i = 0; i < response.data.length; i++) {
+            let collection = {
+              address: response.data[i].buyer,
+              bought: response.data[i].bought,
+              buy: Number(response.data[i].volumen).toFixed(2)
+            }
+            this.dataTableTopBuyers.push(collection)
+          }
+        }).catch((error) => {
+          console.log(error)
+        })
+    },
+    async stastTopSellers(){
+      const url = "api/v1/stasttopsellerscollection"
+      let item = {
+        "collection": this.contract_nft,
+        "limit": 10,
+        "index": 0
+      }
+
+      this.axios.post(url, item)
+        .then((response) => {
+          this.dataTableTopSellers = []
+          for (var i = 0; i < response.data.length; i++) {
+            let collection = {
+              address: response.data[i].seller,
+              sold: response.data[i].sold,
+              sell: Number(response.data[i].volumen).toFixed(2)
+            }
+            this.dataTableTopSellers.push(collection)
+          }
+        }).catch((error) => {
+          console.log(error)
+        })
+    },
+    async priceNEAR(){
+      this.axios.get("https://nearblocks.io/api/near-price")
+        .then((response) => {
+          this.nearPrice = response.data.usd
+          this.stastActivityCollection()
+          this.stastTopSalesCollection()
+        })
+        .catch((e) => {
+          this.stastActivityCollection()
+          this.stastTopSalesCollection()
+        })
+    },
+    verificar(item, num) {
+      if (item.length > num) {
+        return item.substring(0, num) + "..."
+      }
+      return item
+    },
+    async stastActivityCollection(){
+      const url = "api/v1/stastactivitycollection"
+      let item = {
+        "collection": this.contract_nft,
+        "limit": 10,
+        "index": 0
+      }
+
+      this.axios.post(url, item)
+        .then((response) => {
+          this.dataTableActivity = []
+          for (var i = 0; i < response.data.length; i++) {
+            let collection = {
+              img: response.data[i].media,
+              name: response.data[i].titulo + " #" + response.data[i].token_id,
+              collection: response.data[i].collection,
+              from: response.data[i].owner_id,
+              to: response.data[i].new_owner_id,
+              price: response.data[i].price,
+              action: response.data[i].actions,
+              time: moment.unix(parseInt(response.data[i].fecha / 1000000000)).format("Do MMM YYYY, h:mm A"),
+            }
+            if (response.data[i].price) {
+              collection.price_dollar = Number(response.data[i].price) * this.nearPrice
+            }
+
+            if (collection.action === "TRANSFER") {
+              collection.action = "Transfer"
+            }
+
+            this.dataTableActivity.push(collection)
+          }
+        }).catch((error) => {
+          console.log(error)
+        })
+    },
+    changeTopSales(item) {
+      this.auxTopSales = item
+      this.stastTopSalesCollection()
+    },
+    async stastTopSalesCollection(){
+      const url = "api/v1/stasttopsalescollection"
+      let item = {
+        "collection": this.contract_nft,
+        "value": "h",
+        "time": 24,
+        "limit": 10,
+        "index": 0
+      }
+
+      if (this.auxTopSales === 1) {
+        item.value = "h"
+        item.time = 24
+      } else if (this.auxTopSales === 2) {
+        item.value = "d"
+        item.time = 7
+      } else if (this.auxTopSales === 3) {
+        item.value = "d"
+        item.time = 30
+      } else if (this.auxTopSales === 4) {
+        item.value = "d"
+        item.time = 90
+      } else if (this.auxTopSales === 5) {
+        item.value = "d"
+        item.time = 365
+      }
+
+
+      this.axios.post(url, item)
+        .then((response) => {
+          this.dataTableTopSales = []
+          for (var i = 0; i < response.data.length; i++) {
+            let collection = {
+              img: response.data[i].media,
+              name: response.data[i].titulo + " #" + response.data[i].token_id,
+              collection: response.data[i].collection,
+              buyer: response.data[i].buyer,
+              seller: response.data[i].seller,
+              price: response.data[i].pricenear,
+              time: moment.unix(parseInt(response.data[i].fecha / 1000000000)).format("Do MMM YYYY, h:mm A"),
+            }
+            this.dataTableTopSales.push(collection)
+          }
+        }).catch((error) => {
+          console.log(error)
+        })
+    },
+    async getNftCollection(){
+      this.index = 0
+      const url = "api/v1/StastNftCollection"
+    
+      let item = {
+        "collection": this.contract_nft,
+        "token_id": this.token_id || "%",
+        "limit": this.limit,
+        "index": this.index,
+      }
+
+      this.axios.post(url, item)
+        .then((response) => {
+          this.dataNfts = []
+          this.cantNfts = response.data.total_nfts
+          for (var i = 0; i < response.data.data.length; i++) {
+            let collection = {
+              img: response.data.data[i].media,//,
+              name: response.data.data[i].titulo,
+              token_id: response.data.data[i].token_id,
+              contract: response.data.data[i].collection
+            }
+            this.dataNfts.push(collection)
+          }
+          // this.dataList = this.dataList2
+          this.index = this.index + this.limit
+          
+          //this.dataList = this.dataList.concat(this.dataList2)
+          // this.variableCarga = true
+          this.verifyMore()
+        }).catch((error) => {
+          console.log(error)
+        })
+    },
+    async verifyMore(){
+      const url = "api/v1/StastNftCollection"
+      let item = {
+        "collection": this.contract_nft,
+        "token_id": this.token_id || "%",
+        "limit": this.limit,
+        "index": this.index,
+      }
+  
+      this.axios.post(url, item)
+        .then((response) => {
+          if (response.data.data.length === 0) {
+            this.seeMoreVisible = false
+          } else {
+            this.seeMoreVisible = true
+          }
+        }).catch((error) => {
+          console.log(error)
+        })
+    },
+    async seeMore(){
+      this.seeMoreDis = true
+      const url = "api/v1/StastNftCollection"
+      let item = {
+        "collection": this.contract_nft,
+        "token_id": this.token_id || "%",
+        "limit": this.limit,
+        "index": this.index,
+      }
+
+      this.axios.post(url, item)
+        .then((response) => {
+          let dataList2 = []
+          for (var i = 0; i < response.data.data.length; i++) {
+            let collection = {
+              img: response.data.data[i].media,//,
+              name: response.data.data[i].titulo,
+              token_id: response.data.data[i].token_id,
+              contract: response.data.data[i].collection
+            }
+            dataList2.push(collection)
+          }
+          this.dataNfts = this.dataNfts.concat(dataList2)
+          this.index = this.index + this.limit
+          this.seeMoreDis = false
+          this.verifyMore()
+        }).catch((error) => {
+          this.seeMoreDis = false
+          console.log(error)
+        })
+    },
     Responsive() {
       if (window.innerWidth >= 880) {
         if (this.dataNfts.length<=3) {this.widthLimiter = true}
@@ -960,7 +1301,7 @@ export default {
           }
      
         }).catch((error) => {
-          console.log("ERRORRRR",error)
+          console.log(error)
         })
     },
     async getDataBuyOn(){

@@ -52,7 +52,7 @@
                     <v-btn icon href="https://twitter.com/econear" target="_blank">
                       <img src="@/assets/icons/twitter.svg" alt="twitter" style="--w:1.5625em">
                     </v-btn> 
-                    <v-btn icon href="https://discord.com/invite/monkeonear" target="_blank">
+                    <v-btn icon href="https://discord.gg/EpMDUY5ueZ" target="_blank">
                       <img src="@/assets/icons/discord.svg" alt="discord" style="--w:1.5625em">
                     </v-btn>
                     <!-- <v-btn icon>
@@ -116,7 +116,7 @@ export default {
     return {
       dataRedes: [
         { icon: require("@/assets/icons/twitter.svg"), to: "https://twitter.com/econear" },
-        { icon: require("@/assets/icons/discord.svg"), to: "https://discord.com/invite/monkeonear" },
+        { icon: require("@/assets/icons/discord.svg"), to: "https://discord.gg/EpMDUY5ueZ" },
         // { icon: require("@/assets/icons/telegram.svg"), to: "#" },
       ],
       dataFooter: [
@@ -208,7 +208,7 @@ export default {
           {
             list: [
               { title: "ECONEAR" },
-              { key: "wallet-submission", name: "Wallet Submission" },
+              // { key: "wallet-submission", name: "Wallet Submission" },
               { key: "vote", name: "Vote" },
             ]
           },
@@ -248,7 +248,7 @@ export default {
           {
             list: [
               { title: "ECONEAR" },
-              { key: "wallet-submission", name: "Wallet Submission" },
+              // { key: "wallet-submission", name: "Wallet Submission" },
               { key: "vote", name: "Vote" },
             ]
           },

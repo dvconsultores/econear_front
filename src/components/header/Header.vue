@@ -42,7 +42,7 @@
                 <v-btn icon href="https://twitter.com/econear" target="_blank">
                   <img src="@/assets/icons/twitter.svg" alt="twitter" style="--w:1.5625em">
                 </v-btn> 
-                <v-btn icon href="https://discord.com/invite/monkeonear" target="_blank">
+                <v-btn icon href="https://discord.gg/EpMDUY5ueZ" target="_blank">
                   <img src="@/assets/icons/discord.svg" alt="discord" style="--w:1.5625em">
                 </v-btn>
                 <!-- <v-btn icon>
@@ -146,12 +146,12 @@
       
       <!-- mobile elements -->
       <aside class="center gap1 vermobile">
-        <v-badge overlap :content="messages" :value="messages" class="openNotificationsMobile"
+        <!-- <v-badge overlap :content="messages" :value="messages" class="openNotificationsMobile"
           style="--bg:var(--error);--c:#FFFFFF;--b:1.5px solid var(--success);--t:translate(-30%, 30%)">
           <v-btn icon>
             <img src="@/assets/icons/bell-outline.svg" alt="notifications" style="width:clamp(24px, 1.7vw, 1.775em)">
           </v-btn>
-        </v-badge>
+        </v-badge> -->
         
         <v-btn icon class="vermobile" @click.stop="$refs.menu.drawer=true" style="--p:1.6em;--br:3.5vmax/50%">
           <img src="@/assets/icons/toggle.svg" alt="toggle button"
@@ -251,7 +251,7 @@ export default {
         {
           list: [
             { title: "ECONEAR" },
-            { key: "wallet-submission", name: "Wallet Submission" },
+            // { key: "wallet-submission", name: "Wallet Submission" },
             //{ key: "coming-soon", name: "Wallet Submission" },
             { key: "vote", name: "Vote" },
           ]
@@ -351,7 +351,7 @@ export default {
           {
             list: [
               { title: "ECONEAR" },
-              { key: "wallet-submission", name: "Wallet Submission" },
+              // { key: "wallet-submission", name: "Wallet Submission" },
               { key: "vote", name: "Vote" },
             ]
           },
@@ -391,7 +391,7 @@ export default {
           {
             list: [
               { title: "ECONEAR" },
-              { key: "wallet-submission", name: "Wallet Submission" },
+              // { key: "wallet-submission", name: "Wallet Submission" },
               { key: "vote", name: "Vote" },
             ]
           },
@@ -431,6 +431,7 @@ export default {
           account_id: wallet.getAccountId(),
         })
           .then((response) => {
+            this.dataTableAlerts = []
             for (var i = 0; i < response.length; i++) {
               for (var j = 0; j < response[i].alerts.length; j++) {
                 let item = {
@@ -461,11 +462,16 @@ export default {
           
           this.axios.post(url, item)
           .then((response) => {
-            console.log("Repsonse", response.data[0])
             if (alerta.type_id === 1 && response.data[0].price > alerta.value ) {
-              console.log("Notificacion 1")
+              this.notificacion(response.data[0].collection, response.data[0].icon, "Price rose above " + Number(alerta.value).toFixed(2) + " to " + Number(response.data[0].price).toFixed(2))
+              if (alerta.frecuency_id === 1) {
+                this.deleteAlert(alerta)
+              }
             } else if (alerta.type_id === 2 && response.data[0].price < alerta.value ) {
-              console.log("Notificacion 2")
+              this.notificacion(response.data[0].collection, response.data[0].icon, "Price dropped from "  + Number(alerta.value).toFixed(2) + " to " + Number(response.data[0].price).toFixed(2))
+              if (alerta.frecuency_id === 1) {
+                this.deleteAlert(alerta)
+              }
             }
           }).catch((error) => {
             console.log(error)
@@ -478,13 +484,16 @@ export default {
           
           this.axios.post(url, item)
           .then((response) => {
-            console.log("Repsonse volumen", response.data[0])
             if (alerta.type_id === 3 && response.data[0].volumen > alerta.value ) {
-              console.log("Notificacion 3")
-              console.log(alerta.contract)
-              //this.notificacion(alerta.contract)
+              this.notificacion(response.data[0].collection, response.data[0].icon, "Volumen rose above " + Number(alerta.value).toFixed(2) + " to " + Number(response.data[0].volumen).toFixed(2))
+              if (alerta.frecuency_id === 1) {
+                this.deleteAlert(alerta)
+              }
             } else if (alerta.type_id === 4 && response.data[0].volumen < alerta.value ) {
-              console.log("Notificacion 4")
+              this.notificacion(response.data[0].collection, response.data[0].icon, "Volumen dropped from " + Number(alerta.value).toFixed(2) + " to " + Number(response.data[0].volumen).toFixed(2))
+              if (alerta.frecuency_id === 1) {
+                this.deleteAlert(alerta)
+              }
             }
           }).catch((error) => {
             console.log(error)
@@ -492,7 +501,7 @@ export default {
         } 
       }
     },
-    notificacion(name, img) {
+    notificacion(name, img, msg) {
       if (Notification) {
         if (Notification.permission !== "granted") {
           Notification.requestPermission()
@@ -501,7 +510,7 @@ export default {
         var extra = {          
           icon: img || this.image,
           //icon: "http://xitrus.es/imgs/logo_claro.png",
-          body: "NFT: " + name
+          body: "NFT: " + name + ", " + msg
         }
         var noti = new Notification( title, extra)
         noti.onclick = {
@@ -514,9 +523,32 @@ export default {
       }
     },
     async startIntervals() {
+      clearInterval(this.interval)
       this.interval = setInterval(this.alertNotificacion, 60000)
     },
-    
+    async deleteAlert (item) {
+      const CONTRACT_NAME = 'backend.monkeonnear.near'
+      // connect to NEAR
+      const near = await connect(config)
+      // create wallet connection
+      const wallet = new WalletConnection(near)
+      if (wallet.isSignedIn()) {
+        const contract = new Contract(wallet.account(), CONTRACT_NAME, {
+          changeMethods: ['delete_alert'],
+          sender: wallet.account()
+        })
+        await contract.delete_alert({
+          collection: item.contract,
+          alert_type_id: item.type_id
+        })
+          .then((response) => {
+            this.get_alert()
+       
+          }).catch((error) => {
+            console.log("ERR",error)
+         })
+      }
+    },
     async get_accounts() {
       let accounts = localStorage.getItem('switch-accounts')
       if (accounts[0]) {
@@ -599,14 +631,14 @@ export default {
       if (item.key=='whitelist') {this.$router.push("/"+item.key)}
       //if (item.key=='register') {this.$refs.menu.modalRegister = true}
       // nft
-      if (item.key=='compare-projects') {this.$router.push('/coming-soon')}
+      if (item.key=='compare-projects') {this.$router.push("/"+item.key)}
       if (item.key=='new-projects') {this.$router.push("/"+item.key)}
       if (item.key=='upcoming-nft-drops') {this.$router.push("/"+item.key)}
       // econear
       if (item.key=='wallet-submission') {this.$router.push('/coming-soon')}
       if (item.key=='vote') {this.$router.push("/"+item.key)}
       if (item.key=='contact') {this.$router.push("/"+item.key)}
-      if (item.key=='support') {window.open('https://discord.com/invite/monkeonear', '_blank')}
+      if (item.key=='support') {window.open('https://discord.gg/EpMDUY5ueZ', '_blank')}
       // other
       if (item.key=='marketplace-stats') {this.$router.push(item.key)}
       //if (item.key=='marketplace-stats') {this.$router.push('/coming-soon')}

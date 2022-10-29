@@ -157,7 +157,7 @@ export default {
   data() {
     return {
       seeMoreDis: false,
-      seeMoreVisible: true,
+      seeMoreVisible: false,
       token_id: null,
       menuSearch: false,
       dataMenuSearch: [],
@@ -359,11 +359,12 @@ export default {
               token_id: response.data.data[i].token_id,
               contract: response.data.data[i].collection,
               marketplace: response.data.data[i].marketplace,
-              price: utils.format.formatNearAmount(response.data.data[i].precio),
+              price: response.data.data[i].precio_near,
               price_yocto: response.data.data[i].precio,
             }
             this.dataList2.push(collection)
           }
+          
           this.dataList = this.dataList2
           this.index = this.index + this.limit + response.data.excess + 1
           
@@ -400,7 +401,7 @@ export default {
               token_id: response.data.data[i].token_id,
               contract: response.data.data[i].collection,
               marketplace: response.data.data[i].marketplace,
-              price: utils.format.formatNearAmount(response.data.data[i].precio),
+              price: precio_near,
               price_yocto: response.data.data[i].precio,
             }
             this.dataList2.push(collection)
@@ -430,8 +431,10 @@ export default {
       
       this.axios.post(url, item)
         .then((response) => {
-          if (response.data.length === 0) {
+          if (response.data.data.length === 0) {
             this.seeMoreVisible = false
+          } else {
+            this.seeMoreVisible = true
           }
         }).catch((error) => {
           console.log("ERRORRRR",error)

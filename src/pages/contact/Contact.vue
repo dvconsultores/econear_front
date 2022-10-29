@@ -43,7 +43,7 @@ export default {
     return {
       dataSocial: [
         { social: "twitter", link: "https://twitter.com/econear" },
-        { social: "discord", link: "https://discord.com/invite/monkeonear" },
+        { social: "discord", link: "https://discord.gg/EpMDUY5ueZ" },
       ],
       input: "",
       rules: {

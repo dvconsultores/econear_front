@@ -92,12 +92,12 @@
                     <v-list-item class="divcol">
                       <div class="spacea fill_w h10_em">
                         <span class="h11_em">NEAR</span>
-                        <span class="h12_em" style="color:var(--success)">478.5 N</span>
+                        <span class="h12_em" style="color:var(--success)">{{balanceNear}} N</span>
                       </div>
-                      <div class="spacea fill_w">
+                      <!-- <div class="spacea fill_w">
                         <span class="h11_em">ECO</span>
                         <span class="h12_em" style="color:var(--success)">234.72 E</span>
-                      </div>
+                      </div> -->
                     </v-list-item>
                   </v-list>
 
@@ -115,7 +115,7 @@
     </v-navigation-drawer>
 
     <!-- menu notifications -->
-    <v-menu offset-y :close-on-content-click="false" activator=".openNotifications">
+    <!-- <v-menu offset-y :close-on-content-click="false" activator=".openNotifications">
       <v-card class="menu_list notifications divcol">
         <h3 class="h9_em light">Notifications</h3>
         <v-list color="hsl(212 47% 12% / .7)" class="divcol gap1">
@@ -130,9 +130,9 @@
         <a class="tcenter">Ver Todas</a>
       </v-card>
     </v-menu>
-    
+     -->
     <!-- menu notifications mobile -->
-    <v-menu offset-y :close-on-content-click="false" activator=".openNotificationsMobile">
+    <!-- <v-menu offset-y :close-on-content-click="false" activator=".openNotificationsMobile">
       <v-card class="menu_list notifications divcol">
         <h3 class="h9_em light">Notifications</h3>
         <v-list color="hsl(212 47% 12% / .7)" class="divcol gap1">
@@ -146,7 +146,7 @@
         </v-list>
         <a class="tcenter">Ver Todas</a>
       </v-card>
-    </v-menu>
+    </v-menu> -->
 
     <!-- modal login -->
     <v-dialog
@@ -420,6 +420,7 @@ export default {
   // },
   data() {
     return {
+      balanceNear: 0,
       validateAccount: false,
       validateAccountDis: true,
       messages: 1,
@@ -435,10 +436,9 @@ export default {
       dataDrawer: {
         list: [
           { key: "home", name: "Home", to: "/" },
-          { key: "drops", name: "Drops", to: "/upcoming-nft-drops" },
-          { key: "nfts", name: "NFTS", to: "" },
           { key: "snipe", name: "Snipe tool", to: "/snipe-tool" },
-          { key: "contact", name: "Contact us", to: "/contact" },
+          { key: "portfolio", name: "Portfolio tracker", to: "/portafolio" },
+          { key: "drops", name: "Upcoming projects", to: "/upcoming-nft-drops" },
         ],
         expansion: [
           {
@@ -446,18 +446,13 @@ export default {
             active: false,
             name: "More",
             selection: [
-              { title: "Account" },
-              { key: "login", name: "Login" },
-              { key: "whitelist", name: "Whitelist" },
-              { key: "register", name: "Register" },
               { title: "NFTS" },
               { key: "compare-projects", name: "Compare Projectss" },
-              { key: "upcoming-projects", name: "Upcoming Projects (Drops)" },
+              //{ key: "upcoming-projects", name: "Upcoming Projects (Drops)" },
               { key: "new-projects", name: "New Projects" },
               { title: "ECONEAR" },
-              { key: "wallet-submission", name: "Wallet Submission" },
+              // { key: "wallet-submission", name: "Wallet Submission" },
               { key: "vote", name: "Vote" },
-              { key: "contact-us", name: "Contact Us" },
               { title: "Others" },
               { key: "marketplace-stats", name: "Marketplace Stats" },
               { key: "alert", name: "Alert" },
@@ -465,22 +460,20 @@ export default {
               { key: "active-wallets-stats", name: "Active Wallets Stats" },
               { key: "mint-calendar", name: "Mint Calendar" },
               { title: "Services" },
-              { key: "advertising", name: "Advertising" },
-              { key: "ama-hosting", name: "AMA Hosting" },
-              { key: "twitter-space", name: "Twitter Space" },
-              { key: "giveaways", name: "Giveaways" },
+              { key: "support", name: "Support" },
+              { key: "contact", name: "Contact Us" }
             ],
           },
-          {
-            key: "lang",
-            active: false,
-            name: "Language",
-            selection: [
-              {name: "English", key: "EN"},
-              {name: "Spanish", key: "ES"},
-              {name: "Portuguese", key: "PR"},
-            ],
-          },
+          // {
+          //   key: "lang",
+          //   active: false,
+          //   name: "Language",
+          //   selection: [
+          //     {name: "English", key: "EN"},
+          //     {name: "Spanish", key: "ES"},
+          //     {name: "Portuguese", key: "PR"},
+          //   ],
+          // },
           {
             key: "account",
             active: false,
@@ -522,15 +515,115 @@ export default {
         contract: "", 
         frecuency: {
           value: 1,
-          items: [ {id:1, frecuency:"Only Once"}, {id:2, frecuency:"Once a day"}, {id:3, frecuency:"Always"} ]
+          items: [ {id:1, frecuency:"Only Once"},  {id:3, frecuency:"Always"} ] //{id:2, frecuency:"Once a day"},
         }
       },
     };
   },
   mounted () {
+    this.verifyHeader()
+    this.getBalance ()
     //this.get_accounts()
   },
   methods: {
+    async getBalance () {
+      const near = await connect(config);
+      const wallet = new WalletConnection(near)
+      if (wallet.isSignedIn()) {
+        const account = await near.account(wallet.getAccountId());
+        const response = await account.state();
+        let valueStorage = Math.pow(10, 19)
+        let valueYocto = Math.pow(10, 24)
+
+        const storage = (response.storage_usage * valueStorage) / valueYocto 
+        this.balanceNear = ((response.amount / valueYocto) - storage).toFixed(2)
+      }
+    },
+    async verifyHeader() {
+      // connect to NEAR
+      const near = await connect(config)
+      // create wallet connection
+      const wallet = new WalletConnection(near)
+      if (wallet.isSignedIn()) {
+        this.dataDrawer = {
+        list: [
+          { key: "home", name: "Home", to: "/" },
+          { key: "snipe", name: "Snipe tool", to: "/snipe-tool" },
+          { key: "portfolio", name: "Portfolio tracker", to: "/portafolio" },
+          { key: "drops", name: "Upcoming projects", to: "/upcoming-nft-drops" },
+        ],
+        expansion: [
+          {
+            key: "more",
+            active: false,
+            name: "More",
+            selection: [
+              { title: "NFTS" },
+              { key: "compare-projects", name: "Compare Projectss" },
+              //{ key: "upcoming-projects", name: "Upcoming Projects (Drops)" },
+              { key: "new-projects", name: "New Projects" },
+              { title: "ECONEAR" },
+              // { key: "wallet-submission", name: "Wallet Submission" },
+              { key: "vote", name: "Vote" },
+              { title: "Others" },
+              { key: "marketplace-stats", name: "Marketplace Stats" },
+              { key: "alert", name: "Alert" },
+              { key: "bulk-nft-management", name: "Bulk NFT Management" },
+              { key: "active-wallets-stats", name: "Active Wallets Stats" },
+              { key: "mint-calendar", name: "Mint Calendar" },
+              { title: "Services" },
+              { key: "support", name: "Support" },
+              { key: "contact", name: "Contact Us" }
+            ],
+          },
+          {
+            key: "account",
+            active: false,
+            name: "Account",
+          }
+        ]
+      }
+      } else {
+       this.dataDrawer = {
+        list: [
+          { key: "home", name: "Home", to: "/" },
+          { key: "snipe", name: "Snipe tool", to: "/snipe-tool" },
+          //{ key: "portfolio", name: "Portfolio tracker", to: "/portafolio" },
+          { key: "drops", name: "Upcoming projects", to: "/upcoming-nft-drops" },
+        ],
+        expansion: [
+          {
+            key: "more",
+            active: false,
+            name: "More",
+            selection: [
+              { title: "NFTS" },
+              { key: "compare-projects", name: "Compare Projectss" },
+              //{ key: "upcoming-projects", name: "Upcoming Projects (Drops)" },
+              { key: "new-projects", name: "New Projects" },
+              { title: "ECONEAR" },
+              // { key: "wallet-submission", name: "Wallet Submission" },
+              { key: "vote", name: "Vote" },
+              { title: "Others" },
+              { key: "marketplace-stats", name: "Marketplace Stats" },
+              //{ key: "alert", name: "Alert" },
+              //{ key: "bulk-nft-management", name: "Bulk NFT Management" },
+              //{ key: "active-wallets-stats", name: "Active Wallets Stats" },
+              { key: "mint-calendar", name: "Mint Calendar" },
+              { title: "Services" },
+              { key: "support", name: "Support" },
+              { key: "contact", name: "Contact Us" }
+            ],
+          },
+          {
+            key: "account",
+            active: false,
+            name: "Account",
+          }
+        ]
+      }
+      }
+    },
     selectAccount(item,) {
       if(item.select === false) {
         item.select=!item.select

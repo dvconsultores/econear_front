@@ -3,7 +3,7 @@
     <!-- chart 1 -->
     <aside class="divcol">
       <div class="toolbar responsive_actions">
-        <v-btn v-for="(item,i) in dataControls" :key="i" @click="updateData(item.key)"
+        <v-btn v-for="(item,i) in dataControls" :key="i" @click="updateDate(item)"
           :class="{active: selection===item.key}">
           {{item.name}}
         </v-btn>
@@ -15,7 +15,7 @@
         type="area"
         ref="chart" 
         :options="chartOptions"
-        :series="chartSeries"
+        :series="chartSeries1"
       ></apexchart>
     </aside>
 
@@ -23,7 +23,7 @@
     <!-- chart 2 -->
     <aside class="divcol">
       <div class="toolbar responsive_actions">
-        <v-btn v-for="(item,i) in dataControls" :key="i" @click="updateData2(item.key)"
+        <v-btn v-for="(item,i) in dataControls" :key="i" @click="updateDate2(item)"
           :class="{active: selection2===item.key}">
           {{item.name}}
         </v-btn>
@@ -35,13 +35,14 @@
         type="area"
         ref="chart2" 
         :options="chartOptions"
-        :series="chartSeries"
+        :series="chartSeries2"
       ></apexchart>
     </aside>
   </section>
 </template>
 
 <script>
+import moment from 'moment';
 // autogenerate series functioin for style test
 function generateDayWiseTimeSeries(baseval, count, yrange) {
   var i = 0;
@@ -71,19 +72,16 @@ export default {
         { key: "30d", name: "30d" },
         { key: "60d", name: "60d" },
         { key: "90d", name: "90d" },
-        { key: "all", name: "ALL" },
+        { key: "1y", name: "1Y" },
       ],
+      itemDate: { key: "24h", name: "24h" },
+      itemDate2: { key: "24h", name: "24h" },
       selection: '24h',
       selection2: '24h',
       // series
-      chartSeries: [
-        {
-          name: "",
-          data: generateDayWiseTimeSeries(new Date('11 Feb 2017 GMT').getTime(), 20, {
-            min: 10,
-            max: 60
-          })
-        },
+      chartSeries1: [
+      ],
+      chartSeries2: [
       ],
       // options
       chartOptions: {
@@ -133,6 +131,9 @@ export default {
           type: "datetime",
         },
       },
+      collecion1: null,
+      collecion2: null,
+      controls: "Floor price"
     };
   },
   mounted() {
@@ -140,8 +141,439 @@ export default {
     window.onresize = () => this.Responsive()
   },
   methods: {
+    changeGrafic(item) {
+      this.controls = item.name
+
+      if (this.controls === "Floor price") {
+        this.getGraficaFloor(this.collecion1)
+        this.getGraficaFloor2(this.collecion2)
+      } else if (this.controls === "Volume") {
+        this.getGraficaVolume()
+        this.getGraficaVolume2()
+      } else if (this.controls === "Sales") {
+        this.getGraficaSales()
+        this.getGraficaSales2()
+      } else if (this.controls === "Liquidity") {
+        this.getGraficaLiquidity()
+        this.getGraficaLiquidity2()
+      }
+    },
+    updateDate(item) {
+      this.selection = item.key
+      this.itemDate = item
+
+      if (this.controls === "Floor price") {
+        this.getGraficaFloor(this.collecion1)
+      } else if (this.controls === "Volume") {
+        this.getGraficaVolume()
+      } else if (this.controls === "Sales") {
+        this.getGraficaSales()
+      } else if (this.controls === "Liquidity") {
+        this.getGraficaLiquidity()
+      }
+    },
+ 
+    getGraficaFloor(collection) {
+      this.collecion1 = collection
+      var seriesAverage = [];
+      const url = "api/v1/stastpricecollection"
+      let item = {
+        "collection": collection,
+        "value": "h",
+        "time": 24
+      }
+
+      if (this.itemDate.key === "24h") {
+        item.value = "h"
+        item.time = 24
+      } else if (this.itemDate.key === "7d") {
+        item.value = "d"
+        item.time = 7
+      } else if (this.itemDate.key === "30d") {
+        item.value = "d"
+        item.time = 30
+      } else if (this.itemDate.key === "60d") {
+        item.value = "d"
+        item.time = 60
+      } else if (this.itemDate.key === "90d") {
+        item.value = "d"
+        item.time = 90
+      } else if (this.itemDate.key === "1y") {
+        item.value = "d"
+        item.time = 365
+      }
+    
+      this.axios.post(url, item)
+        .then((response) => {
+          for (var i = 0; i < response.data.length; i++) {
+            let x = moment(response.data[i].fecha).unix() * 1000
+            let yAverage = Number(response.data[i].floor_price).toFixed(2)
+            seriesAverage.push([x, yAverage]);
+          }
+
+          this.chartSeries1 = [
+            {
+              name: 'Floor Price',
+              data: seriesAverage
+            },
+          ]
+        }).catch((error) => {
+          console.log(error)
+        })
+    },
+    getGraficaFloor2(collection) {
+      this.collecion2 = collection
+      var seriesAverage = [];
+      const url = "api/v1/stastpricecollection"
+      let item = {
+        "collection": collection,
+        "value": "h",
+        "time": 24
+      }
+
+      if (this.itemDate2.key === "24h") {
+        item.value = "h"
+        item.time = 24
+      } else if (this.itemDate2.key === "7d") {
+        item.value = "d"
+        item.time = 7
+      } else if (this.itemDate2.key === "30d") {
+        item.value = "d"
+        item.time = 30
+      } else if (this.itemDate2.key === "60d") {
+        item.value = "d"
+        item.time = 60
+      } else if (this.itemDate2.key === "90d") {
+        item.value = "d"
+        item.time = 90
+      } else if (this.itemDate2.key === "1y") {
+        item.value = "d"
+        item.time = 365
+      }
+    
+      this.axios.post(url, item)
+        .then((response) => {
+          for (var i = 0; i < response.data.length; i++) {
+            let x = moment(response.data[i].fecha).unix() * 1000
+            let yAverage = Number(response.data[i].floor_price).toFixed(2)
+            seriesAverage.push([x, yAverage]);
+          }
+          
+          this.chartSeries2 = [
+            {
+              name: 'Floor Price',
+              data: seriesAverage
+            },
+          ]
+        }).catch((error) => {
+          console.log(error)
+        })
+    },
+    getGraficaVolume() {
+      var seriesFloor = [];
+      var seriesAverage = [];
+      const url = "api/v1/stastmarketcapvolumencollection"
+      let item = {
+        "collection": this.collecion1,
+        "value": "h",
+        "time": 24
+      }
+
+      if (this.itemDate.key === "24h") {
+        item.value = "h"
+        item.time = 24
+      } else if (this.itemDate.key === "7d") {
+        item.value = "d"
+        item.time = 7
+      } else if (this.itemDate.key === "30d") {
+        item.value = "d"
+        item.time = 30
+      } else if (this.itemDate.key === "60d") {
+        item.value = "d"
+        item.time = 60
+      } else if (this.itemDate.key === "90d") {
+        item.value = "d"
+        item.time = 90
+      } else if (this.itemDate.key === "1y") {
+        item.value = "d"
+        item.time = 365
+      }
+    
+      this.axios.post(url, item)
+        .then((response) => {
+          for (var i = 0; i < response.data.length; i++) {
+            let x = moment(response.data[i].fecha).unix() * 1000
+            let yFloor = Number(response.data[i].market_cap).toFixed(2)
+            let yAverage = Number(response.data[i].volumen).toFixed(2)
+            seriesFloor.push([x, yFloor]);
+            seriesAverage.push([x, yAverage]);
+          }
+
+          this.chartSeries1 = [
+            {
+              name: 'Volume',
+              data: seriesAverage
+            },
+          ]
+        }).catch((error) => {
+          console.log(error)
+        })
+    },
+    getGraficaSales() {
+      var seriesAverage = [];
+      const url = "api/v1/StastSalesLiquidCollection"
+      let item = {
+        "collection": this.collecion1,
+        "value": "h",
+        "time": 24
+      }
+
+      if (this.itemDate.key === "24h") {
+        item.value = "h"
+        item.time = 24
+      } else if (this.itemDate.key === "7d") {
+        item.value = "d"
+        item.time = 7
+      } else if (this.itemDate.key === "30d") {
+        item.value = "d"
+        item.time = 30
+      } else if (this.itemDate.key === "60d") {
+        item.value = "d"
+        item.time = 60
+      } else if (this.itemDate.key === "90d") {
+        item.value = "d"
+        item.time = 90
+      } else if (this.itemDate.key === "1y") {
+        item.value = "d"
+        item.time = 365
+      }
+    
+      this.axios.post(url, item)
+        .then((response) => {
+          for (var i = 0; i < response.data.length; i++) {
+            let x = moment(response.data[i].fecha).unix() * 1000
+            let yAverage = Number(response.data[i].sales).toFixed(2)
+            seriesAverage.push([x, yAverage]);
+          }
+
+          this.chartSeries1 = [
+            {
+              name: 'Sales',
+              data: seriesAverage
+            },
+          ]
+        }).catch((error) => {
+          console.log(error)
+        })
+    },
+    getGraficaLiquidity() {
+      var seriesAverage = [];
+      const url = "api/v1/StastSalesLiquidCollection"
+      let item = {
+        "collection": this.collecion1,
+        "value": "h",
+        "time": 24
+      }
+
+      if (this.itemDate.key === "24h") {
+        item.value = "h"
+        item.time = 24
+      } else if (this.itemDate.key === "7d") {
+        item.value = "d"
+        item.time = 7
+      } else if (this.itemDate.key === "30d") {
+        item.value = "d"
+        item.time = 30
+      } else if (this.itemDate.key === "60d") {
+        item.value = "d"
+        item.time = 60
+      } else if (this.itemDate.key === "90d") {
+        item.value = "d"
+        item.time = 90
+      } else if (this.itemDate.key === "1y") {
+        item.value = "d"
+        item.time = 365
+      }
+    
+      this.axios.post(url, item)
+        .then((response) => {
+          for (var i = 0; i < response.data.length; i++) {
+            let x = moment(response.data[i].fecha).unix() * 1000
+            let yAverage = Number(response.data[i].liquidez).toFixed(2)
+            seriesAverage.push([x, yAverage]);
+          }
+
+          this.chartSeries1 = [
+            {
+              name: 'Liquidity',
+              data: seriesAverage
+            },
+          ]
+        }).catch((error) => {
+          console.log(error)
+        })
+    },
+    updateDate2(item) {
+      this.selection2 = item.key
+      this.itemDate2 = item
+      if (this.controls === "Floor price") {
+        this.getGraficaFloor2(this.collecion2)
+      } else if (this.controls === "Volume") {
+        this.getGraficaVolume2()
+      } else if (this.controls === "Sales") {
+        this.getGraficaSales2()
+      } else if (this.controls === "Liquidity") {
+        this.getGraficaLiquidity2()
+      }
+    },
+    getGraficaVolume2() {
+      var seriesFloor = [];
+      var seriesAverage = [];
+      const url = "api/v1/stastmarketcapvolumencollection"
+      let item = {
+        "collection": this.collecion2,
+        "value": "h",
+        "time": 24
+      }
+
+      if (this.itemDate2.key === "24h") {
+        item.value = "h"
+        item.time = 24
+      } else if (this.itemDate2.key === "7d") {
+        item.value = "d"
+        item.time = 7
+      } else if (this.itemDate2.key === "30d") {
+        item.value = "d"
+        item.time = 30
+      } else if (this.itemDate2.key === "60d") {
+        item.value = "d"
+        item.time = 60
+      } else if (this.itemDate2.key === "90d") {
+        item.value = "d"
+        item.time = 90
+      } else if (this.itemDate2.key === "1y") {
+        item.value = "d"
+        item.time = 365
+      }
+    
+      this.axios.post(url, item)
+        .then((response) => {
+          for (var i = 0; i < response.data.length; i++) {
+            let x = moment(response.data[i].fecha).unix() * 1000
+            let yFloor = Number(response.data[i].market_cap).toFixed(2)
+            let yAverage = Number(response.data[i].volumen).toFixed(2)
+            seriesFloor.push([x, yFloor]);
+            seriesAverage.push([x, yAverage]);
+          }
+
+          this.chartSeries2 = [
+            {
+              name: 'Volume',
+              data: seriesAverage
+            },
+          ]
+        }).catch((error) => {
+          console.log(error)
+        })
+    },
+    getGraficaSales2() {
+      var seriesAverage = [];
+      const url = "api/v1/StastSalesLiquidCollection"
+      let item = {
+        "collection": this.collecion2,
+        "value": "h",
+        "time": 24
+      }
+
+      if (this.itemDate2.key === "24h") {
+        item.value = "h"
+        item.time = 24
+      } else if (this.itemDate2.key === "7d") {
+        item.value = "d"
+        item.time = 7
+      } else if (this.itemDate2.key === "30d") {
+        item.value = "d"
+        item.time = 30
+      } else if (this.itemDate2.key === "60d") {
+        item.value = "d"
+        item.time = 60
+      } else if (this.itemDate2.key === "90d") {
+        item.value = "d"
+        item.time = 90
+      } else if (this.itemDate2.key === "1y") {
+        item.value = "d"
+        item.time = 365
+      }
+    
+      this.axios.post(url, item)
+        .then((response) => {
+          for (var i = 0; i < response.data.length; i++) {
+            let x = moment(response.data[i].fecha).unix() * 1000
+            let yAverage = Number(response.data[i].sales).toFixed(2)
+           
+            seriesAverage.push([x, yAverage]);
+          }
+
+          this.chartSeries2 = [
+            {
+              name: 'Sales',
+              data: seriesAverage
+            },
+          ]
+        }).catch((error) => {
+          console.log(error)
+        })
+    },
+    getGraficaLiquidity2() {
+      var seriesAverage = [];
+      const url = "api/v1/StastSalesLiquidCollection"
+      let item = {
+        "collection": this.collecion2,
+        "value": "h",
+        "time": 24
+      }
+
+      if (this.itemDate2.key === "24h") {
+        item.value = "h"
+        item.time = 24
+      } else if (this.itemDate2.key === "7d") {
+        item.value = "d"
+        item.time = 7
+      } else if (this.itemDate2.key === "30d") {
+        item.value = "d"
+        item.time = 30
+      } else if (this.itemDate2.key === "60d") {
+        item.value = "d"
+        item.time = 60
+      } else if (this.itemDate2.key === "90d") {
+        item.value = "d"
+        item.time = 90
+      } else if (this.itemDate2.key === "1y") {
+        item.value = "d"
+        item.time = 365
+      }
+    
+      this.axios.post(url, item)
+        .then((response) => {
+          for (var i = 0; i < response.data.length; i++) {
+            let x = moment(response.data[i].fecha).unix() * 1000
+            let yAverage = Number(response.data[i].liquidez).toFixed(2)
+           
+            seriesAverage.push([x, yAverage]);
+          }
+
+          this.chartSeries2 = [
+            {
+              name: 'Liquidity',
+              data: seriesAverage
+            },
+          ]
+        }).catch((error) => {
+          console.log(error)
+        })
+    },
     Responsive() {
-      if (window.innerWidth >= 880&&this.dataNfts.length<=3) {
+      if (window.innerWidth >= 880) {
         this.widthLimiter = true;
         this.chartHeight = "422.76px"
       } else {

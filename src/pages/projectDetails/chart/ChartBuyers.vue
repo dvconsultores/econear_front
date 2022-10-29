@@ -13,7 +13,7 @@
             </div>
 
             <div class="values acenter gap1">
-              <h6 class="p bold">{{dataBuyers.buyers.value}} N</h6>
+              <h6 class="p bold">{{dataBuyers.buyers.value}}</h6>
               <!-- <span class="percent" :style="`--c:${dataBuyers.buyers.percent.includes('+')?'var(--success)':'var(--error)'}`">
                 {{dataBuyers.buyers.percent}}%
               </span> -->
@@ -28,7 +28,7 @@
             </div>
 
             <div class="values acenter gap1">
-              <h6 class="p bold">{{dataBuyers.sellers.value}} N</h6>
+              <h6 class="p bold">{{dataBuyers.sellers.value}}</h6>
               <!-- <span class="percent" :style="`--c:${dataBuyers.sellers.percent.includes('+')?'var(--success)':'var(--error)'}`">
                 {{dataBuyers.sellers.percent}}%
               </span> -->
@@ -213,6 +213,7 @@ export default {
       }
       var contBuyers = 0
       var contSellers = 0
+      console.log(item)
       this.axios.post(url, item)
         .then((response) => {
           for (var i = 0; i < response.data.length; i++) {
@@ -240,7 +241,7 @@ export default {
             },
           ]
         }).catch((error) => {
-          console.log("ERRORRRR",error)
+          console.log(error)
         })
       // console.log("SERIESSSSSSS", series)
       // return series;

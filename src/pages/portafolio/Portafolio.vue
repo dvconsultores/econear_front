@@ -98,8 +98,8 @@
 
       <template v-slot:[`item.token_id`]="{ item }">
         <!-- <span :style="item.state_change?'color:#22B573':'color:var(--error)'"> -->
-        <span>
-          {{item.token_id}}
+        <span :title="item.token_id">
+          {{verificar(item.token_id, 14)}}
         </span>
       </template>
       <template v-slot:[`item.price`]="{ item }">
@@ -127,11 +127,11 @@
       <v-card v-for="(item,i) in dataTable" :key="i" class="divcol alignmobile" color="#112131" style="border-radius: .4vmax">
         <img class="h11_em" :src="item.img" alt="nft" style="--w:100%">
         <aside class="contenido divcol" style="gap:.2em">
-          <span class="Title tcenter h11_em">{{item.name}}</span>
+          <span :title="item.name" class="Title tcenter h11_em">{{verificar(item.name, 20)}}</span>
           <div class="space h11_em">
             <span>Token ID</span>
-            <span>
-              {{item.token_id}}
+            <span :title="item.token_id">
+              {{verificar(item.token_id, 14)}}
             </span>
             <!-- <span :style="item.state_change?'color:#22B573':'color:var(--error)'">
               {{item.state_change?'+':'-'}}{{item.change}}%
@@ -310,6 +310,12 @@ export default {
     
   },
   methods: {
+    verificar(item, num) {
+      if (item.length > num) {
+        return item.substring(0, num) + "..."
+      }
+      return item
+    },
     async getBalance () {
       const near = await connect(config);
       const wallet = new WalletConnection(near)

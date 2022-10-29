@@ -9,14 +9,14 @@
             <div class="legend acenter">
               <div class="marker" style="--color: #6FFFE9" />
               <span>Market Cap</span>
-              <img src="@/assets/icons/info-gray.svg" alt="info">
+              <!-- <img src="@/assets/icons/info-gray.svg" alt="info"> -->
             </div>
 
             <div class="values acenter gap1">
-              <h6 class="p bold">{{dataMarket.marketcap.value}} N</h6>
-              <span class="percent" :style="`--c:${dataMarket.marketcap.percent.includes('+')?'var(--success)':'var(--error)'}`">
+              <h6 class="p bold">{{dataMarket.marketcap.value}}</h6>
+              <!-- <span class="percent" :style="`--c:${dataMarket.marketcap.percent.includes('+')?'var(--success)':'var(--error)'}`">
                 {{dataMarket.marketcap.percent}}%
-              </span>
+              </span> -->
             </div>
           </aside>
 
@@ -24,26 +24,26 @@
             <div class="legend acenter">
               <div class="marker" style="--color: #F7931E" />
               <span>Volume</span>
-              <img src="@/assets/icons/info-gray.svg" alt="info">
+              <!-- <img src="@/assets/icons/info-gray.svg" alt="info"> -->
             </div>
 
             <div class="values acenter gap1">
-              <h6 class="p bold">{{dataMarket.volume.value}} N</h6>
-              <span class="percent" :style="`--c:${dataMarket.volume.percent.includes('+')?'var(--success)':'var(--error)'}`">
+              <h6 class="p bold">{{dataMarket.volume.value}}</h6>
+              <!-- <span class="percent" :style="`--c:${dataMarket.volume.percent.includes('+')?'var(--success)':'var(--error)'}`">
                 {{dataMarket.volume.percent}}%
-              </span>
+              </span> -->
             </div>
           </aside>
         </div>
       </div>
 
       <v-btn-toggle mandatory color="#60D2CA">
-        <v-btn v-for="(item,i) in dataControlsChart" :key="i" color="transparent" @click="updateData(item.key)">
+        <v-btn v-for="(item,i) in dataControlsChart" :key="i" color="transparent" @click="updateDate(item)">
           <span>{{item.name}}</span>
         </v-btn>
-        <v-btn color="transparent">
+        <!-- <v-btn color="transparent">
           <v-icon color="#FFFFFF">mdi-calendar</v-icon>
-        </v-btn>
+        </v-btn> -->
       </v-btn-toggle>
     </div>
 
@@ -62,6 +62,7 @@
 </template>
 
 <script>
+import moment from 'moment';
 // autogenerate series functioin for style test
 function generateDayWiseTimeSeries(baseval, count, yrange) {
   var i = 0;
@@ -87,6 +88,7 @@ export default {
   },
   data() {
     return {
+      contract_nft: this.$route.params.id,
       dataMarket: {
         marketcap: {
           value: "71,628",
@@ -103,27 +105,27 @@ export default {
         { key: "30d", name: "30d" },
         { key: "90d", name: "90d" },
         { key: "1y", name: "1Y" },
-        { key: "all", name: "ALL" },
       ],
+      itemDate: { key: "24h", name: "24h" },
       selection: '24h',
       // series
       chartSeries: [
-        {
-          name: '',
-          type: 'column',
-          data: generateDayWiseTimeSeries(new Date('11 Feb 2017 GMT').getTime(), 20, {
-            min: 10,
-            max: 60
-          })
-        },
-        {
-          name: '',
-          type: 'line',
-          data: generateDayWiseTimeSeries(new Date('11 Feb 2017 GMT').getTime(), 20, {
-            min: 10,
-            max: 20
-          })
-        },
+        // {
+        //   name: '',
+        //   type: 'column',
+        //   data: generateDayWiseTimeSeries(new Date('11 Feb 2017 GMT').getTime(), 20, {
+        //     min: 10,
+        //     max: 60
+        //   })
+        // },
+        // {
+        //   name: '',
+        //   type: 'line',
+        //   data: generateDayWiseTimeSeries(new Date('11 Feb 2017 GMT').getTime(), 20, {
+        //     min: 10,
+        //     max: 20
+        //   })
+        // },
       ],
       // options
       chartOptions: {
@@ -177,7 +179,75 @@ export default {
       },
     };
   },
+  mounted() {
+    this.getGrafica()
+  },
   methods: {
+    updateDate(item) {
+      this.itemDate = item
+      this.getGrafica()
+    },
+    getGrafica() {
+      var seriesFloor = [];
+      var seriesAverage = [];
+      const url = "api/v1/stastmarketcapvolumencollection"
+      let item = {
+        "collection": this.contract_nft,
+        "value": "h",
+        "time": 24
+      }
+
+      if (this.itemDate.key === "24h") {
+        item.value = "h"
+        item.time = 24
+      } else if (this.itemDate.key === "7d") {
+        item.value = "d"
+        item.time = 7
+      } else if (this.itemDate.key === "30d") {
+        item.value = "d"
+        item.time = 30
+      } else if (this.itemDate.key === "90d") {
+        item.value = "d"
+        item.time = 90
+      } else if (this.itemDate.key === "1y") {
+        item.value = "d"
+        item.time = 365
+      }
+      var contFloor = 0
+      var contAverage = 0
+      this.axios.post(url, item)
+        .then((response) => {
+          for (var i = 0; i < response.data.length; i++) {
+            let x = moment(response.data[i].fecha).unix() * 1000
+            let yFloor = Number(response.data[i].market_cap).toFixed(2)
+            let yAverage = Number(response.data[i].volumen).toFixed(2)
+            contFloor = Number(contFloor) + Number(yFloor)
+            contAverage = Number(contAverage) + Number(yAverage)
+            seriesFloor.push([x, yFloor]);
+            seriesAverage.push([x, yAverage]);
+          }
+
+          this.dataMarket.marketcap.value = (contFloor / response.data.length).toFixed(2)
+          this.dataMarket.volume.value = (contAverage / response.data.length).toFixed(2)
+
+          this.chartSeries = [
+            {
+              name: 'Market Cap',
+              type: 'column',
+              data: seriesFloor
+            },
+            {
+              name: 'Volume',
+              type: 'line',
+              data: seriesAverage
+            },
+          ]
+        }).catch((error) => {
+          console.log(error)
+        })
+      // console.log("SERIESSSSSSS", series)
+      // return series;
+    },
     updateData: function(timeline) {
       this.selection = timeline
       

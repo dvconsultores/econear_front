@@ -2,21 +2,21 @@
   <section id="linechart" class="charts doble card" style="--p:clamp(1.5em,2vw,2em)">
     <div class="toolbar wrap not_margin">
       <div class="divcol">
-        <h3 class="h9_em">Sales and liquidity</h3>
+        <h3 class="h9_em">Sales & Liquidity</h3>
 
         <div class="space gap2">
           <aside class="divcol">
             <div class="legend acenter">
               <div class="marker" style="--color: #6A25D2" />
               <span>Sales</span>
-              <img src="@/assets/icons/info-gray.svg" alt="info">
+              <!-- <img src="@/assets/icons/info-gray.svg" alt="info"> -->
             </div>
 
             <div class="values acenter gap1">
               <h6 class="p bold">{{dataSales.sales.value}}</h6>
-              <span class="percent" :style="`--c:${dataSales.sales.percent.includes('+')?'var(--success)':'var(--error)'}`">
+              <!-- <span class="percent" :style="`--c:${dataSales.sales.percent.includes('+')?'var(--success)':'var(--error)'}`">
                 {{dataSales.sales.percent}}%
-              </span>
+              </span> -->
             </div>
           </aside>
           
@@ -24,27 +24,27 @@
             <div class="legend acenter">
               <div class="marker" style="--color: #F7931E" />
               <span>Liquidity</span>
-              <img src="@/assets/icons/info-gray.svg" alt="info">
+              <!-- <img src="@/assets/icons/info-gray.svg" alt="info"> -->
             </div>
 
 
             <div class="values acenter gap1">
-              <h6 class="p bold">{{dataSales.liquidity.value}}%</h6>
-              <span class="percent" :style="`--c:${dataSales.liquidity.percent.includes('+')?'var(--success)':'var(--error)'}`">
+              <h6 class="p bold">{{dataSales.liquidity.value}}</h6>
+              <!-- <span class="percent" :style="`--c:${dataSales.liquidity.percent.includes('+')?'var(--success)':'var(--error)'}`">
                 {{dataSales.liquidity.percent}}%
-              </span>
+              </span> -->
             </div>
           </aside>
         </div>
       </div>
 
       <v-btn-toggle mandatory color="#60D2CA">
-        <v-btn v-for="(item,i) in dataControlsChart" :key="i" color="transparent" @click="updateData(item.key)">
+        <v-btn v-for="(item,i) in dataControlsChart" :key="i" color="transparent" @click="updateDate(item)">
           <span>{{item.name}}</span>
         </v-btn>
-        <v-btn color="transparent">
+        <!-- <v-btn color="transparent">
           <v-icon color="#FFFFFF">mdi-calendar</v-icon>
-        </v-btn>
+        </v-btn> -->
       </v-btn-toggle>
     </div>
 
@@ -63,6 +63,7 @@
 </template>
 
 <script>
+import moment from 'moment';
 // autogenerate series functioin for style test
 function generateDayWiseTimeSeries(baseval, count, yrange) {
   var i = 0;
@@ -88,6 +89,7 @@ export default {
   },
   data() {
     return {
+      contract_nft: this.$route.params.id,
       dataSales: {
         sales: {
           value: 16,
@@ -103,26 +105,26 @@ export default {
         { key: "7d", name: "7d" },
         { key: "30d", name: "30d" },
         { key: "90d", name: "90d" },
-        { key: "1y", name: "1Y" },
-        { key: "all", name: "ALL" },
+        { key: "1y", name: "1Y" }
       ],
+      itemDate: { key: "24h", name: "24h" },
       selection: '24h',
       // series
       chartSeries: [
-        {
-          name: '',
-          data: generateDayWiseTimeSeries(new Date('11 Feb 2017 GMT').getTime(), 20, {
-            min: 10,
-            max: 60
-          })
-        },
-        {
-          name: '',
-          data: generateDayWiseTimeSeries(new Date('11 Feb 2017 GMT').getTime(), 20, {
-            min: 10,
-            max: 20
-          })
-        },
+        // {
+        //   name: '',
+        //   data: generateDayWiseTimeSeries(new Date('11 Feb 2017 GMT').getTime(), 20, {
+        //     min: 10,
+        //     max: 60
+        //   })
+        // },
+        // {
+        //   name: '',
+        //   data: generateDayWiseTimeSeries(new Date('11 Feb 2017 GMT').getTime(), 20, {
+        //     min: 10,
+        //     max: 20
+        //   })
+        // },
       ],
       // options
       chartOptions: {
@@ -175,7 +177,76 @@ export default {
       },
     };
   },
+  mounted() {
+    this.getGrafica()
+  },
   methods: {
+    updateDate(item) {
+      this.itemDate = item
+      this.getGrafica()
+    },
+    getGrafica() {
+      var seriesBuyers = [];
+      var seriesSellers = [];
+      const url = "api/v1/StastSalesLiquidCollection"
+      let item = {
+        "collection": this.contract_nft,
+        "value": "h",
+        "time": 24
+      }
+
+      if (this.itemDate.key === "24h") {
+        item.value = "h"
+        item.time = 24
+      } else if (this.itemDate.key === "7d") {
+        item.value = "d"
+        item.time = 7
+      } else if (this.itemDate.key === "30d") {
+        item.value = "d"
+        item.time = 30
+      } else if (this.itemDate.key === "90d") {
+        item.value = "d"
+        item.time = 90
+      } else if (this.itemDate.key === "1y") {
+        item.value = "d"
+        item.time = 365
+      }
+      var contBuyers = 0
+      var contSellers = 0
+      console.log(item)
+      this.axios.post(url, item)
+        .then((response) => {
+          console.log("GRAFICS", response.data)
+          for (var i = 0; i < response.data.length; i++) {
+            let x = (moment(response.data[i].fecha).unix() * 1000)
+      
+            let yBuyers = Number(response.data[i].sales).toFixed(2)
+            let ySellers = Number(response.data[i].liquidez).toFixed(2)
+            contBuyers = Number(contBuyers) + Number(yBuyers)
+            contSellers = Number(contSellers) + Number(ySellers)
+            seriesBuyers.push([x, yBuyers]);
+            seriesSellers.push([x, ySellers]);
+          }
+
+          this.dataSales.sales.value = (contBuyers / response.data.length).toFixed(2)
+          this.dataSales.liquidity.value = (contSellers / response.data.length).toFixed(2)
+
+          this.chartSeries = [
+            {
+              name: 'Sales',
+              data: seriesBuyers
+            },
+            {
+              name: 'Liquidez',
+              data: seriesSellers
+            },
+          ]
+        }).catch((error) => {
+          console.log(error)
+        })
+      // console.log("SERIESSSSSSS", series)
+      // return series;
+    },
     updateData: function(timeline) {
       this.selection = timeline
       

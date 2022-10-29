@@ -3,7 +3,7 @@
     <aside class="divcol center gap1 tcenter">
       <h2 class="h5_em p bold">Compare Projects</h2>
       <p class="h10_em" style="max-width:60ch">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut facilisis accumsan nisl, et blandit orci pellentesque
+        Compare any NFT Collection here
       </p>
     </aside>
 
@@ -11,11 +11,14 @@
       <div class="aend gap1 fill_wmobile">
         <img :src="project1.img" alt="project 1" style="--w:var(--size)">
         <div class="divcol" style="width:calc(100% - var(--size))">
-          <h3 class="h10_em">Project Name 1</h3>
+          <h3 class="h10_em">{{project1.name}}</h3>
           <v-text-field
+            v-model="project_name1"
             solo
             hide-details
-            placeholder="projectname1"
+            placeholder="project name"
+            @input="debounce1()"
+            :error="validateAccount1"
           ></v-text-field>
         </div>
       </div>
@@ -25,40 +28,43 @@
       <div class="aend gap1 fill_wmobile">
         <img :src="project2.img" alt="project 2" style="--w:var(--size)">
         <div class="divcol" style="width:calc(100% - var(--size))">
-          <h3 class="h10_em">Project Name 2</h3>
+          <h3 class="h10_em">{{project2.name}}</h3>
           <v-text-field
+            v-model="project_name2"
             solo
             hide-details
-            placeholder="projectname2"
+            placeholder="project name"
+            @input="debounce2()"
+            :error="validateAccount2"
           ></v-text-field>
         </div>
       </div>
     </aside>
 
-    <v-btn id="compare-button" class="btn h10_em center align fill_wmobile" @click="showCompareInfo=true"
+    <v-btn id="compare-button" class="btn h10_em center align fill_wmobile" :disabled="validateDis" @click="compareFn()"
       style="--p:0 2em;--h:50px;width:13.5em;--bs:0 3px 4px 1px hsl(176, 60%, 40%, .7);--br:10px">
       Compare
-    </v-btn>
+    </v-btn>    
 
-    <template v-if="showCompareInfo">
-      <aside class="container-controls space gap2">
+    <template>
+      <aside v-show="showCompareInfo" class="container-controls space gap2">
         <v-tabs>
-          <v-tab v-for="(item,i) in dataControls" :key="i">
+          <v-tab v-for="(item,i) in dataControls" :key="i" @click="$refs.chart.changeGrafic(item)">
             <h6 class="p">{{item.name}}</h6>
           </v-tab>
         </v-tabs>
 
-        <v-tabs class="tab-right">
+        <!-- <v-tabs class="tab-right">
           <v-tab>
             <img class="flr" src="@/assets/logos/near.png" alt="near" style="--w:19.2px">
           </v-tab>
           <v-tab style="color:#FFFFFF">
             $
           </v-tab>
-        </v-tabs>
+        </v-tabs> -->
       </aside>
 
-      <section class="section-down divcol" style="gap:2em">
+      <section v-show="showCompareInfo" class="section-down divcol" style="gap:2em">
         <Chart ref="chart"></Chart>
         <h3 class="h9_em p">Market stats</h3>
 
@@ -128,7 +134,7 @@
           </template>
         </v-simple-table>
 
-        <h3 class="h9_em p">Socials</h3>
+        <!-- <h3 class="h9_em p">Socials</h3>
 
         <v-simple-table id="social" class="dataTableSimple">
           <template v-slot:default>
@@ -160,9 +166,9 @@
               </tr>
             </tbody>
           </template>
-        </v-simple-table>
+        </v-simple-table> -->
 
-        <h3 class="h9_em p">Additional Information</h3>
+        <!-- <h3 class="h9_em p">Additional Information</h3>
 
         <v-simple-table id="aditional" class="dataTableSimple">
           <template v-slot:default>
@@ -189,7 +195,6 @@
                 :key="item.compare"
               >
                 <td>{{ item.compare }}</td>
-                <!-- col 1 -->
                 <template v-if="item.key=='buy'">
                   <td class="tcenter">
                     <span class="center" style="gap:.8em">
@@ -204,12 +209,10 @@
                     </span>
                   </td>
                 </template>
-                <!-- col 2 -->
                 <template v-if="item.key=='royalties'">
                   <td class="tcenter">{{ item.project1 }}</td>
                   <td class="tcenter">{{ item.project2 }}</td>
                 </template>
-                <!-- col 3 -->
                 <template v-if="item.key=='watchlist'">
                   <td class="tcenter">
                     <center class="center">
@@ -222,7 +225,6 @@
                     </center>
                   </td>
                 </template>
-                <!-- col 4 -->
                 <template v-if="item.key=='alert'">
                   <td class="tcenter">
                     <center class="center">
@@ -235,17 +237,14 @@
                     </center>
                   </td>
                 </template>
-                <!-- col 5 -->
                 <template v-if="item.key=='category'">
                   <td class="tcenter">{{item.project1}}</td>
                   <td class="tcenter">{{item.project2}}</td>
                 </template>
-                <!-- col 6 -->
                 <template v-if="item.key=='contract'">
                   <td class="tcenter">{{item.project1}}</td>
                   <td class="tcenter">{{item.project2}}</td>
                 </template>
-                <!-- col 7 -->
                 <template v-if="item.key=='verification'">
                   <td class="tcenter">
                     <v-chip class="btn" :style="`--bs:none;--bg:transparent;
@@ -266,7 +265,6 @@
                     </v-chip>
                   </td>
                 </template>
-                <!-- col 8 -->
                 <template v-if="item.key=='about'">
                   <td class="tcenter">{{item.project1}}</td>
                   <td class="tcenter">{{item.project2}}</td>
@@ -274,13 +272,26 @@
               </tr>
             </tbody>
           </template>
-        </v-simple-table>
+        </v-simple-table> -->
       </section>
     </template>
   </section>
 </template>
 
 <script>
+import * as nearAPI from 'near-api-js'
+import { CONFIG } from '@/services/api'
+
+const { connect, keyStores, WalletConnection, Contract, utils } = nearAPI
+const keyStore = new keyStores.BrowserLocalStorageKeyStore()
+const config = {
+  networkId: "mainnet",
+  keyStore, 
+  nodeUrl: "https://rpc.mainnet.near.org",
+  walletUrl: "https://wallet.mainnet.near.org",
+  helperUrl: "https://helper.mainnet.near.org",
+  explorerUrl: "https://explorer.mainnet.near.org",
+};
 import Chart from './chart/Chart.vue'
 export default {
   name: "compareProjects",
@@ -288,99 +299,108 @@ export default {
   components: { Chart },
   data() {
     return {
+      validateDis: true,
+      validateDis1: true,
+      validateDis2: true,
+      validateAccount1: false,
+      validateAccount2: false,
+      project_name1: null,
+      project_name2: null,
       showCompareInfo: false,
       project1: {
-        
+        name: "Project Name 1",
         img: require('@/assets/nfts/nft1.png')
       },
       project2: {
-        img: require('@/assets/nfts/nft2.png')
+        name: "Project Name 2",
+        img: require('@/assets/nfts/nft1.png')
       },
       dataControls: [
         { name: "Floor price", active: false },
-        { name: "Holder", active: false },
         { name: "Volume", active: false },
+        { name: "Sales", active: false },
+        { name: "Liquidity", active: false },
       ],
       dataTableMarket: [
         {
           compare: 'Floor Price',
-          project1: 19,
-          project2: 19,
+          project1: null,
+          project2: null,
         },
-        {
-          key: "change",
-          compare: 'Price change (24h)',
-          project1: 2.62,
-          project2: 2.62,
-          state1: true,
-          state2: false,
-        },
+        // {
+        //   key: "change",
+        //   compare: 'Price change (24h)',
+        //   project1: 2.62,
+        //   project2: 2.62,
+        //   state1: true,
+        //   state2: false,
+        // },
         {
           compare: 'Market Cap',
-          project1: '57,000',
-          project2: '66,000',
+          project1: null,
+          project2: null,
         },
         {
           compare: 'Volume (24h)',
-          project1: 426,
-          project2: 426,
+          project1: null,
+          project2: null,
         },
         {
           compare: 'Holders',
-          project1: 456,
-          project2: 456,
+          project1: null,
+          project2: null,
         },
         {
           compare: 'Total listed',
-          project1: 172,
-          project2: 172,
+          project1: null,
+          project2: null,
         },
         {
           compare: 'Total upvotes',
-          project1: '16,378',
-          project2: '16,378',
+          project1: null,
+          project2: null,
         },
         {
           compare: 'Total downvotes',
-          project1: 1802,
-          project2: 1902,
+          project1: null,
+          project2: null,
         },
         {
           compare: 'Supply',
-          project1: 3000,
-          project2: 3000,
+          project1: null,
+          project2: null,
         },
-        {
-          compare: 'Average price (24h)',
-          project1: 21.6,
-          project2: 21.6,
-        },
+        // {
+        //   compare: 'Average price (24h)',
+        //   project1: 21.6,
+        //   project2: 21.6,
+        // },
         {
           compare: 'Lowest sale (24h)',
-          project1: 17.1,
-          project2: 17.1,
+          project1: null,
+          project2: null,
         },
         {
           compare: 'Highest sale (24h)',
-          project1: 27,
-          project2: 27,
+          project1: null,
+          project2: null,
         },
-        {
-          compare: 'Rank by volume (7d)',
-          project1: '9th rank',
-          project2: '9th rank',
-        },
-        {
-          compare: 'Rank by Marketcap',
-          project1: '11th rank',
-          project2: '12th rank',
-        },
-        {
-          key: "confidence",
-          compare: 'Confidence percentage',
-          project1: '89%',
-          project2: '89%',
-        },
+        // {
+        //   compare: 'Rank by volume (7d)',
+        //   project1: '9th rank',
+        //   project2: '9th rank',
+        // },
+        // {
+        //   compare: 'Rank by Marketcap',
+        //   project1: '11th rank',
+        //   project2: '12th rank',
+        // },
+        // {
+        //   key: "confidence",
+        //   compare: 'Confidence percentage',
+        //   project1: '89%',
+        //   project2: '89%',
+        // },
       ],
       dataTableSocials: [
         {
@@ -466,9 +486,230 @@ export default {
           project2: "The first meta town on NEAR.",
         },
       ],
+      auxDebounce: true,
     }
   },
   methods: {
+    compareFn() {
+      this.showCompareInfo=true
+      this.$refs.chart.getGraficaFloor(this.project_name1)
+      this.$refs.chart.getGraficaFloor2(this.project_name2)
+      this.resetData()
+      this.getDataCollection1(this.project_name1)
+      this.getDataCollection2(this.project_name2)
+    },
+    resetData() {
+      this.dataTableMarket = [
+        {
+          compare: 'Floor Price',
+          project1: null,
+          project2: null,
+        },
+        {
+          compare: 'Market Cap',
+          project1: null,
+          project2: null,
+        },
+        {
+          compare: 'Volume (24h)',
+          project1: null,
+          project2: null,
+        },
+        {
+          compare: 'Holders',
+          project1: null,
+          project2: null,
+        },
+        {
+          compare: 'Total listed',
+          project1: null,
+          project2: null,
+        },
+        {
+          compare: 'Total upvotes',
+          project1: null,
+          project2: null,
+        },
+        {
+          compare: 'Total downvotes',
+          project1: null,
+          project2: null,
+        },
+        {
+          compare: 'Supply',
+          project1: null,
+          project2: null,
+        },
+        {
+          compare: 'Lowest sale (24h)',
+          project1: null,
+          project2: null,
+        },
+        {
+          compare: 'Highest sale (24h)',
+          project1: null,
+          project2: null,
+        },
+      ]
+    },
+    getDataCollection1(collection) {
+      const url = "api/v1/compareprojects"
+      let item = {
+        "collection": collection
+      }
+    
+      this.axios.post(url, item)
+        .then((response) => {
+          let data = response.data[0]
+          this.dataTableMarket[0].project1 = Number(data.floor_price).toFixed(2)
+          this.dataTableMarket[1].project1 = Number(data.market_cap).toLocaleString("en-US")
+          this.dataTableMarket[2].project1 = Number(data.volumen24h).toFixed(2)
+          this.dataTableMarket[3].project1 = data.holders
+          this.dataTableMarket[4].project1 = data.total_listed
+          this.dataTableMarket[5].project1 = data.voto_positivo
+          this.dataTableMarket[6].project1 = data.voto_negativo
+          this.dataTableMarket[7].project1 = data.total_supply
+          this.dataTableMarket[8].project1 = Number(data.low_sales24h).toFixed(2)
+          this.dataTableMarket[9].project1 = Number(data.hig_sales24h).toFixed(2)
+        }).catch((error) => {
+          console.log(error)
+        })
+    },
+    getDataCollection2(collection) {
+      const url = "api/v1/compareprojects"
+      let item = {
+        "collection": collection
+      }
+    
+      this.axios.post(url, item)
+        .then((response) => {
+          let data = response.data[0]
+          this.dataTableMarket[0].project2 = Number(data.floor_price).toFixed(2)
+          this.dataTableMarket[1].project2 = Number(data.market_cap).toLocaleString("en-US")
+          this.dataTableMarket[2].project2 = Number(data.volumen24h).toFixed(2)
+          this.dataTableMarket[3].project2 = data.holders
+          this.dataTableMarket[4].project2 = data.total_listed
+          this.dataTableMarket[5].project2 = data.voto_positivo
+          this.dataTableMarket[6].project2 = data.voto_negativo
+          this.dataTableMarket[7].project2 = data.total_supply
+          this.dataTableMarket[8].project2 = Number(data.low_sales24h).toFixed(2)
+          this.dataTableMarket[9].project2 = Number(data.hig_sales24h).toFixed(2)
+        }).catch((error) => {
+          console.log(error)
+        })
+    },
+    debounce1() {
+      clearTimeout(this.timer1)
+      //this.auxDebounce = true
+      this.timer1 = setTimeout(this.validateNear, 500)
+    },
+    debounce2() {
+      clearTimeout(this.timer2)
+      //this.auxDebounce = false
+      this.timer2 = setTimeout(this.validateNear2, 500)
+    },
+    async validateNear() {
+      var item = this.project_name1
+  
+      const near = await connect(CONFIG(new keyStores.BrowserLocalStorageKeyStore()));
+      const account = await near.account(item);
+      await account.state()
+          .then((response) => {
+            this.getData(item)
+          }).catch((error) => {
+            this.validateDis1 = true
+            this.validateAccount1 = true
+            this.project1.name = "Project Name 1",
+            this.project1.img = require('@/assets/nfts/nft1.png')
+
+            if (this.validateDis1 === false && this.validateDis2 === false) {
+              this.validateDis = false
+            } else {
+              this.validateDis = true
+            }
+          })
+    },
+    async validateNear2() {
+      var item = this.project_name2
+  
+      const near = await connect(CONFIG(new keyStores.BrowserLocalStorageKeyStore()));
+      const account = await near.account(item);
+      await account.state()
+          .then((response) => {
+            this.getData2(item)
+          }).catch((error) => {
+            this.validateDis2 = true
+            this.project2.name = "Project Name 2",
+            this.project2.img = require('@/assets/nfts/nft1.png')
+            this.validateAccount2 = true
+
+            if (this.validateDis1 === false && this.validateDis2 === false) {
+              this.validateDis = false
+            } else {
+              this.validateDis = true
+            }
+          })
+    },
+    async getData(collection){
+      const url = "api/v1/collectiondetails"
+      let item = {
+        "collection": collection,
+      }
+      this.axios.post(url, item)
+        .then((response) => {
+          if (response.data[0]) {
+            if (response.data[0].name) {
+              this.project1.name = response.data[0].name
+              this.project1.img = response.data[0].icon
+              this.validateAccount1 = false
+              this.validateDis1 = false
+            } else {
+              this.project1.name = "Project Name 1",
+              this.project1.img = require('@/assets/nfts/nft1.png')
+              this.validateAccount1 = true
+              this.validateDis1 = true
+            }
+          }
+
+          if (this.validateDis1 === false && this.validateDis2 === false) {
+            this.validateDis = false
+          } else {
+            this.validateDis = true
+          }
+        }).catch((error) => {
+          console.log(error)
+        })
+    },
+    async getData2(collection){
+      const url = "api/v1/collectiondetails"
+      let item = {
+        "collection": collection,
+      }
+      this.axios.post(url, item)
+        .then((response) => {
+          if (response.data[0]) {
+            if (response.data[0].name) {
+              this.project2.name = response.data[0].name
+              this.project2.img = response.data[0].icon
+              this.validateAccount2 = false
+              this.validateDis2 = false
+            } else {
+              this.project2.name = "Project Name 2",
+              this.project2.img = require('@/assets/nfts/nft1.png')
+              this.validateAccount2 = true
+              this.validateDis2 = true
+            }
+          }
+
+          if (this.validateDis1 === false && this.validateDis2 === false) {
+            this.validateDis = false
+          } else {
+            this.validateDis = true
+          }
+        }).catch((error) => {
+          console.log(error)
+        })
+    },
   }
 };
 </script>
