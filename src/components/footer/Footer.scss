@@ -6,7 +6,6 @@
 .v-footer {
   transition: 0.5s $ease-return;
   background: var(--clr-gradient) !important;
-  padding: 3em calc(var(--margin-global) * 1.5);
   font-size: 16px;
   @include media(min, 2500px) {font-size: 19px}
   @include media(max, 1220px) {font-size: 14px}
@@ -14,6 +13,10 @@
   @include media(max, 922px) {font-size: 11px}
   @include media(max, small) {font-size: 14px}
   .row {
+    max-width: var(--parent) !important;
+    padding: 3em var(--margin-global) !important;
+    width: 100% !important;
+    margin-inline: auto !important;
     .v-text-field--solo {
       @include media(max, small) {--w: 100% !important}
     }

@@ -33,7 +33,10 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding-inline: var(--margin-global);
+      padding-inline: var(--margin-global) !important;
+      max-width: var(--parent) !important;
+      width: 100% !important;
+      margin-inline: auto !important;
       @include media(max, 410px) {padding-inline: 0 .5em !important}
       overflow: hidden;
       .avatarBtn {
