@@ -146,12 +146,12 @@
       
       <!-- mobile elements -->
       <aside class="center gap1 vermobile">
-        <v-badge overlap :content="messages" :value="messages" class="openNotificationsMobile"
+        <!-- <v-badge overlap :content="messages" :value="messages" class="openNotificationsMobile"
           style="--bg:var(--error);--c:#FFFFFF;--b:1.5px solid var(--success);--t:translate(-30%, 30%)">
           <v-btn icon>
             <img src="@/assets/icons/bell-outline.svg" alt="notifications" style="width:clamp(24px, 1.7vw, 1.775em)">
           </v-btn>
-        </v-badge>
+        </v-badge> -->
         
         <v-btn icon class="vermobile" @click.stop="$refs.menu.drawer=true" style="--p:1.6em;--br:3.5vmax/50%">
           <img src="@/assets/icons/toggle.svg" alt="toggle button"
