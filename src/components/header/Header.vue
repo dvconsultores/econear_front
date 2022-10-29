@@ -631,7 +631,7 @@ export default {
       if (item.key=='whitelist') {this.$router.push("/"+item.key)}
       //if (item.key=='register') {this.$refs.menu.modalRegister = true}
       // nft
-      if (item.key=='compare-projects') {this.$router.push('/coming-soon')}
+      if (item.key=='compare-projects') {this.$router.push("/"+item.key)}
       if (item.key=='new-projects') {this.$router.push("/"+item.key)}
       if (item.key=='upcoming-nft-drops') {this.$router.push("/"+item.key)}
       // econear

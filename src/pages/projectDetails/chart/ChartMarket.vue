@@ -237,7 +237,7 @@ export default {
               data: seriesFloor
             },
             {
-              name: 'Volumen',
+              name: 'Volume',
               type: 'line',
               data: seriesAverage
             },
