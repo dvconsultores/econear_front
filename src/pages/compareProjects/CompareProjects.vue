@@ -600,38 +600,27 @@ export default {
     },
     debounce1() {
       clearTimeout(this.timer1)
-      this.auxDebounce = true
-      this.timer1 = setTimeout(this.validateNear, 300)
+      //this.auxDebounce = true
+      this.timer1 = setTimeout(this.validateNear, 500)
     },
     debounce2() {
       clearTimeout(this.timer2)
-      this.auxDebounce = false
-      this.timer2 = setTimeout(this.validateNear, 300)
+      //this.auxDebounce = false
+      this.timer2 = setTimeout(this.validateNear2, 500)
     },
-    async validateNear(item) {
-      var item
-      if (this.auxDebounce) {
-        item = this.project_name1
-      } else if (this.auxDebounce === false) {
-        item = this.project_name2
-      }
+    async validateNear() {
+      var item = this.project_name1
+  
       const near = await connect(CONFIG(new keyStores.BrowserLocalStorageKeyStore()));
       const account = await near.account(item);
       await account.state()
           .then((response) => {
-            this.getDataCollection(item)
+            this.getData(item)
           }).catch((error) => {
-            if (this.auxDebounce) {
-              this.validateDis1 = true
-              this.validateAccount1 = true
-              this.project1.name = "Project Name 1",
-              this.project1.img = require('@/assets/nfts/nft1.png')
-            } else if (this.auxDebounce === false) {
-              this.validateDis2 = true
-              this.project2.name = "Project Name 2",
-              this.project2.img = require('@/assets/nfts/nft1.png')
-              this.validateAccount2 = true
-            }
+            this.validateDis1 = true
+            this.validateAccount1 = true
+            this.project1.name = "Project Name 1",
+            this.project1.img = require('@/assets/nfts/nft1.png')
 
             if (this.validateDis1 === false && this.validateDis2 === false) {
               this.validateDis = false
@@ -640,7 +629,28 @@ export default {
             }
           })
     },
-    async getDataCollection(collection){
+    async validateNear2() {
+      var item = this.project_name2
+  
+      const near = await connect(CONFIG(new keyStores.BrowserLocalStorageKeyStore()));
+      const account = await near.account(item);
+      await account.state()
+          .then((response) => {
+            this.getData2(item)
+          }).catch((error) => {
+            this.validateDis2 = true
+            this.project2.name = "Project Name 2",
+            this.project2.img = require('@/assets/nfts/nft1.png')
+            this.validateAccount2 = true
+
+            if (this.validateDis1 === false && this.validateDis2 === false) {
+              this.validateDis = false
+            } else {
+              this.validateDis = true
+            }
+          })
+    },
+    async getData(collection){
       const url = "api/v1/collectiondetails"
       let item = {
         "collection": collection,
@@ -648,31 +658,46 @@ export default {
       this.axios.post(url, item)
         .then((response) => {
           if (response.data[0]) {
-            if (this.auxDebounce) {
-              if (response.data[0].name) {
-                this.project1.name = response.data[0].name
-                this.project1.img = response.data[0].icon
-                this.validateAccount1 = false
-                this.validateDis1 = false
-              } else {
-                this.project1.name = "Project Name 1",
-                this.project1.img = require('@/assets/nfts/nft1.png')
-                this.validateAccount1 = true
-                this.validateDis1 = true
-              }
-              
-            } else if (this.auxDebounce === false) {
-              if (response.data[0].name) {
-                this.project2.name = response.data[0].name
-                this.project2.img = response.data[0].icon
-                this.validateAccount2 = false
-                this.validateDis2 = false
-              } else {
-                this.project2.name = "Project Name 2",
-                this.project2.img = require('@/assets/nfts/nft1.png')
-                this.validateAccount2 = true
-                this.validateDis2 = true
-              }
+            if (response.data[0].name) {
+              this.project1.name = response.data[0].name
+              this.project1.img = response.data[0].icon
+              this.validateAccount1 = false
+              this.validateDis1 = false
+            } else {
+              this.project1.name = "Project Name 1",
+              this.project1.img = require('@/assets/nfts/nft1.png')
+              this.validateAccount1 = true
+              this.validateDis1 = true
+            }
+          }
+
+          if (this.validateDis1 === false && this.validateDis2 === false) {
+            this.validateDis = false
+          } else {
+            this.validateDis = true
+          }
+        }).catch((error) => {
+          console.log(error)
+        })
+    },
+    async getData2(collection){
+      const url = "api/v1/collectiondetails"
+      let item = {
+        "collection": collection,
+      }
+      this.axios.post(url, item)
+        .then((response) => {
+          if (response.data[0]) {
+            if (response.data[0].name) {
+              this.project2.name = response.data[0].name
+              this.project2.img = response.data[0].icon
+              this.validateAccount2 = false
+              this.validateDis2 = false
+            } else {
+              this.project2.name = "Project Name 2",
+              this.project2.img = require('@/assets/nfts/nft1.png')
+              this.validateAccount2 = true
+              this.validateDis2 = true
             }
           }
 
