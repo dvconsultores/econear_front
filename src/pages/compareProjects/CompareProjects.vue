@@ -17,11 +17,26 @@
             solo
             hide-details
             placeholder="project name"
-            @input="debounce1()"
+            class="customeFilter search openRankingSearch"
             :error="validateAccount1"
+            @click:append="searchCollection()"
+            @keydown.enter.prevent="searchCollection()"
+            @input="inputSearch(), debounce1()"
           ></v-text-field>
         </div>
       </div>
+
+      <v-menu ref="menu" v-model="menuSearch" bottom offset-y activator=".openRankingSearch">
+        <v-list id="menuSearch" class="card scrolly" v-show="dataMenuSearch.length != 0">
+          <v-list-item v-for="(item,i) in dataMenuSearch" :key="i" @click="getData(item.contract)" v-show="dataMenuSearch.length != 0">
+            <img :src="item.img" alt="referencial image">
+            <div class="divcol">
+              <h6 class="p bold">{{item.name}}</h6>
+              <span>{{item.contract}}</span>
+            </div>
+          </v-list-item>
+        </v-list>
+      </v-menu>
 
       <span class="eliminarmobile">VS</span>
 
@@ -33,12 +48,26 @@
             v-model="project_name2"
             solo
             hide-details
+            class="customeFilter search openRankingSearch2"
             placeholder="project name"
-            @input="debounce2()"
             :error="validateAccount2"
+            @click:append="searchCollection2()"
+            @keydown.enter.prevent="searchCollection2()"
+            @input="inputSearch2(),debounce2()"
           ></v-text-field>
         </div>
       </div>
+      <v-menu ref="menu" v-model="menuSearch2" bottom offset-y activator=".openRankingSearch2">
+        <v-list id="menuSearch2" class="card scrolly" v-show="dataMenuSearch2.length != 0">
+          <v-list-item v-for="(item,i) in dataMenuSearch2" :key="i" @click="getData2(item.contract)" v-show="dataMenuSearch2.length != 0">
+            <img :src="item.img" alt="referencial image">
+            <div class="divcol">
+              <h6 class="p bold">{{item.name}}</h6>
+              <span>{{item.contract}}</span>
+            </div>
+          </v-list-item>
+        </v-list>
+      </v-menu>
     </aside>
 
     <v-btn id="compare-button" class="btn h10_em center align fill_wmobile" :disabled="validateDis" @click="compareFn()"
@@ -299,6 +328,10 @@ export default {
   components: { Chart },
   data() {
     return {
+      menuSearch: false,
+      dataMenuSearch: [],
+      menuSearch2: false,
+      dataMenuSearch2: [],
       validateDis: true,
       validateDis1: true,
       validateDis2: true,
@@ -490,13 +523,81 @@ export default {
     }
   },
   methods: {
+    inputSearch () {
+      if (this.project_name1 == '' || this.project_name1 == null) {
+        this.dataMenuSearch = []
+        this.menuSearch = false
+      }
+    },
+    inputSearch2 () {
+      if (this.project_name2 == '' || this.project_name2 == null) {
+        this.dataMenuSearch2 = []
+        this.menuSearch2 = false
+      }
+    },
+    searchCollection() {
+      let item = {
+        search: this.project_name1,
+        top: 50
+      }
+      if (this.project_name1) {
+        const url = "api/v1/buscarcollection"
+        this.axios.post(url, item)
+          .then((response) => {
+            this.dataMenuSearch = []
+            for (var i = 0; i < response.data.length; i++) {
+              let item = {
+                img: response.data[i].icon,
+                name: response.data[i].name,
+                contract: response.data[i].nft_contract
+              }
+         
+              this.dataMenuSearch.push(item)
+            }
+            this.menuSearch = true
+          }).catch((error) => {
+            console.log(error)
+          })
+      } else {
+        this.dataMenuSearch = []
+        this.menuSearch = false
+      }
+    },
+    searchCollection2() {
+      let item = {
+        search: this.project_name2,
+        top: 50
+      }
+      if (this.project_name2) {
+        const url = "api/v1/buscarcollection"
+        this.axios.post(url, item)
+          .then((response) => {
+            this.dataMenuSearch2 = []
+            for (var i = 0; i < response.data.length; i++) {
+              let item = {
+                img: response.data[i].icon,
+                name: response.data[i].name,
+                contract: response.data[i].nft_contract
+              }
+         
+              this.dataMenuSearch2.push(item)
+            }
+            this.menuSearch2 = true
+          }).catch((error) => {
+            console.log(error)
+          })
+      } else {
+        this.dataMenuSearch2 = []
+        this.menuSearch2 = false
+      }
+    },
     compareFn() {
       this.showCompareInfo=true
-      this.$refs.chart.getGraficaFloor(this.project_name1)
-      this.$refs.chart.getGraficaFloor2(this.project_name2)
+      this.$refs.chart.getGraficaFloor(this.project1.collection)
+      this.$refs.chart.getGraficaFloor2(this.project2.collection)
       this.resetData()
-      this.getDataCollection1(this.project_name1)
-      this.getDataCollection2(this.project_name2)
+      this.getDataCollection1(this.project1.collection)
+      this.getDataCollection2(this.project2.collection)
     },
     resetData() {
       this.dataTableMarket = [
@@ -601,12 +702,12 @@ export default {
     debounce1() {
       clearTimeout(this.timer1)
       //this.auxDebounce = true
-      this.timer1 = setTimeout(this.validateNear, 500)
+      this.timer1 = setTimeout(this.searchCollection, 500)
     },
     debounce2() {
       clearTimeout(this.timer2)
       //this.auxDebounce = false
-      this.timer2 = setTimeout(this.validateNear2, 500)
+      this.timer2 = setTimeout(this.searchCollection2, 500)
     },
     async validateNear() {
       var item = this.project_name1
@@ -661,6 +762,7 @@ export default {
             if (response.data[0].name) {
               this.project1.name = response.data[0].name
               this.project1.img = response.data[0].icon
+              this.project1.collection = collection
               this.validateAccount1 = false
               this.validateDis1 = false
             } else {
@@ -691,6 +793,7 @@ export default {
             if (response.data[0].name) {
               this.project2.name = response.data[0].name
               this.project2.img = response.data[0].icon
+              this.project2.collection = collection
               this.validateAccount2 = false
               this.validateDis2 = false
             } else {

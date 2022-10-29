@@ -14,7 +14,7 @@
         :height="chartHeight"
         type="area"
         ref="chart" 
-        :options="chartOptions"
+        :options="chartOptions1"
         :series="chartSeries1"
       ></apexchart>
     </aside>
@@ -34,7 +34,7 @@
         :height="chartHeight"
         type="area"
         ref="chart2" 
-        :options="chartOptions"
+        :options="chartOptions2"
         :series="chartSeries2"
       ></apexchart>
     </aside>
@@ -84,12 +84,59 @@ export default {
       chartSeries2: [
       ],
       // options
-      chartOptions: {
+      chartOptions1: {
       defaultLocale: 'en',
         grid: {
           show: false,
         },
-        colors: ["#60D2CA"],
+        colors: ["#92C5FC"],
+        chart: {
+          stacked: false,
+          toolbar: {
+            show: false,
+            autoSelected: "zoom",
+          },
+        },
+        stroke: {
+          curve: 'smooth',
+          lineCap: 'butt',
+          width: 1,
+        },
+        dataLabels: {
+          enabled: false,
+        },
+        markers: {
+          size: 0,
+          style: "hollow",
+          colors: ["#60D2CA"],
+          hover: {
+            size: 8,
+          },
+        },
+        tooltip: {
+          shared: true,
+          marker: {
+            show: false,
+          },
+          x: {
+            show: false
+          }
+        },
+        legend: {
+          show: false,
+          position: 'top',
+          horizontalAlign: "start",
+        },
+        xaxis: {
+          type: "datetime",
+        },
+      },
+      chartOptions2: {
+      defaultLocale: 'en',
+        grid: {
+          show: false,
+        },
+        colors: ["#FF0000"],
         chart: {
           stacked: false,
           toolbar: {
