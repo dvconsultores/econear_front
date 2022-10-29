@@ -82,6 +82,7 @@
         </aside>
       </section>
 
+      <a class="h11_em marginaleft" href="https://www.dvconsultores.com" target="_blank">Powered by GlobalDv</a>
       <!-- <section class="fill_w space tcenter divcolmobile">
         <span class="h11_em normal padd2left">&copy; 2022 Econear. All Rights Reserved.</span>
         <span class="h11_em acenter gap1">
