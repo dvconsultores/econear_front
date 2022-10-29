@@ -431,9 +431,9 @@ export default {
       }
     },
     async priceNEAR(){
-      axios.get("https://nearblocks.io/api/near-price")
+      this.axios.get("https://api.binance.com/api/v3/ticker/24hr?symbol=NEARUSDT")
         .then((response) => {
-          this.nearPrice = response.data.usd
+          this.nearPrice = response.data.lastPrice
         })
         .catch((e) => {
           console.log(e)

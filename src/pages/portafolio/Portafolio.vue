@@ -305,7 +305,7 @@ export default {
     }
   },
   async mounted() {
-    await this.priceNEAR()
+    this.priceNEAR()
     this.getNftCollection()
     
   },
@@ -338,9 +338,9 @@ export default {
       }
     },
     async priceNEAR(){
-      this.axios.get("https://nearblocks.io/api/near-price")
+      this.axios.get("https://api.binance.com/api/v3/ticker/24hr?symbol=NEARUSDT")
         .then((response) => {
-          this.nearPrice = response.data.usd
+          this.nearPrice = response.data.lastPrice
           this.getBalance()
           this.getBalances()
         })
@@ -350,6 +350,7 @@ export default {
           this.getBalances()
         })
     },
+
     async getBalances(){
       const near = await connect(config);
       const wallet = new WalletConnection(near);

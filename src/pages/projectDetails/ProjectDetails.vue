@@ -326,7 +326,7 @@
             </v-sheet>
           </v-card>
         </div>
-        <v-btn v-if="seeMoreVisible" text :disabled="seeMoreDis" @click="seeMore()" class="align" style="color:var(--success); font-size: 1.4025em; margin-block:3em">See more...</v-btn>
+        <v-btn v-if="seeMoreVisible" text :disabled="seeMoreDis" @click="seeMore()" class="align" style="color:var(--success); font-size: 1.4025em; margin-block:3em">Load more...</v-btn>
       </section>
     </template>
 
@@ -1087,9 +1087,9 @@ export default {
         })
     },
     async priceNEAR(){
-      this.axios.get("https://nearblocks.io/api/near-price")
+      this.axios.get("https://api.binance.com/api/v3/ticker/24hr?symbol=NEARUSDT")
         .then((response) => {
-          this.nearPrice = response.data.usd
+          this.nearPrice = response.data.lastPrice
           this.stastActivityCollection()
           this.stastTopSalesCollection()
         })
@@ -1127,7 +1127,7 @@ export default {
               time: moment.unix(parseInt(response.data[i].fecha / 1000000000)).format("Do MMM YYYY, h:mm A"),
             }
             if (response.data[i].price) {
-              collection.price_dollar = Number(response.data[i].price) * this.nearPrice
+              collection.price_dollar = (Number(response.data[i].price) * this.nearPrice).toFixed(2)
             }
 
             if (collection.action === "TRANSFER") {

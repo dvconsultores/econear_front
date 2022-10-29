@@ -258,60 +258,68 @@
 
 
     <!-- modal settings -->
-    <v-dialog
-      v-model="modalSettings"
-      max-width="62.358125em"
+    <v-form
+      ref="form"
+      v-model="valid"
+      lazy-validation
     >
-      <v-card color="var(--primary)" class="modalSettings">
-        <v-btn icon class="close" @click="modalSettings = false">
-          <img src="@/assets/icons/close.svg" alt="close" style="--w:0.921875em">
-        </v-btn>
-        <h3 class="h7_em tcenter">Settings</h3>
-        <v-sheet class="divcol center" style="padding:2em 3em">
-          <section class="fill_w divcol" style="margin-bottom:1em">
-            <v-text-field
-              label="Add Email"
-              placeholder="example@domain.com"
-              style="--c:#0000000"
-              solo
-            ></v-text-field>
-            <span class="h10_em">Notification preferences</span>
-            <div class="space">
-              <label for="nft-drop">NFT Drops</label>
-              <div id="nft-drop" class="switch" :style="`--color:${settings.nftdrops?'var(--success)':'var(--error)'}`"
-                :class="{active:settings.nftdrops}" @click="settings.nftdrops=!settings.nftdrops" />
-            </div>
-            
-            <div class="space">
-              <label for="transaction-notification">Notification your transaction</label>
-              <div id="transaction-notification" class="switch" :style="`--color:${settings.transactionNotification?'var(--success)':'var(--error)'}`"
-                :class="{active:settings.transactionNotification}" @click="settings.transactionNotification=!settings.transactionNotification" />
-            </div>
-
-            <div class="space gap2 wrap">
-              <aside class="divcol">
-                <label for="Minimum-offer">Minimum Offer Price</label>
-                <span class="light" style="max-width: 25ch;line-height:1.2">
-                  Set the minimum offer you want for your collectibles
-                </span>
-              </aside>
-
-              <v-text-field
-                id="Minimum-offer"
-                placeholder="123.45 N"
-                reverse solo
-                style="--c:#000000"
-                class="minimum"
-              ></v-text-field>
-            </div>
-          </section>
-
-          <v-btn class="btn h10_em" style="--bs:0 3px 4px 2px hsl(176, 60%, 70%, .4);width:100%;--br:.8vmax">
-            Save
+      <v-dialog
+        v-model="modalSettings"
+        max-width="62.358125em"
+      >
+        <v-card color="var(--primary)" class="modalSettings">
+          <v-btn icon class="close" @click="modalSettings = false">
+            <img src="@/assets/icons/close.svg" alt="close" style="--w:0.921875em">
           </v-btn>
-        </v-sheet>
-      </v-card>
-    </v-dialog>
+          <h3 class="h7_em tcenter">Settings</h3>
+          <v-sheet class="divcol center" style="padding:2em 3em">
+            <section class="fill_w divcol" style="margin-bottom:1em">
+              <v-text-field
+                v-model="settings.email"
+                label="Add Email"
+                placeholder="example@domain.com"
+                style="--c:#0000000"
+                :rules="rules.email"
+                solo
+              ></v-text-field>
+              <span class="h10_em">Notification preferences</span>
+              <div class="space">
+                <label for="nft-drop">NFT Drops</label>
+                <div id="nft-drop" class="switch" :style="`--color:${settings.nftdrops?'var(--success)':'var(--error)'}`"
+                  :class="{active:settings.nftdrops}" @click="settings.nftdrops=!settings.nftdrops" />
+              </div>
+              
+              <div class="space">
+                <label for="transaction-notification">Notification your transaction</label>
+                <div id="transaction-notification" class="switch" :style="`--color:${settings.transactionNotification?'var(--success)':'var(--error)'}`"
+                  :class="{active:settings.transactionNotification}" @click="settings.transactionNotification=!settings.transactionNotification" />
+              </div>
+
+              <!-- <div class="space gap2 wrap">
+                <aside class="divcol">
+                  <label for="Minimum-offer">Minimum Offer Price</label>
+                  <span class="light" style="max-width: 25ch;line-height:1.2">
+                    Set the minimum offer you want for your collectibles
+                  </span>
+                </aside>
+
+                <v-text-field
+                  id="Minimum-offer"
+                  placeholder="123.45 N"
+                  reverse solo
+                  style="--c:#000000"
+                  class="minimum"
+                ></v-text-field>
+              </div> -->
+            </section>
+
+            <v-btn class="btn h10_em" style="--bs:0 3px 4px 2px hsl(176, 60%, 70%, .4);width:100%;--br:.8vmax" @click="setSettings()">
+              Save
+            </v-btn>
+          </v-sheet>
+        </v-card>
+      </v-dialog>
+    </v-form>
 
 
     <!-- modal alert -->
@@ -420,6 +428,17 @@ export default {
   // },
   data() {
     return {
+      rules: {
+        date: [
+          v => !!v,
+        ],
+        long: [
+          v => (v || '' ).length <= 155 || '155 max',
+        ],
+        email: [
+          v => /.+@.+\..+/.test(v),// || 'E-mail tiene que ser valido',
+        ]
+      },
       balanceNear: 0,
       validateAccount: false,
       validateAccountDis: true,
@@ -432,7 +451,7 @@ export default {
       modalSwitchAccount: false,
       modalSettings: false,
       modalAlert: false,
-      settings: { nftdrops: false, transactionNotification: true },
+      settings: { nftdrops: false, transactionNotification: true, email: null },
       dataDrawer: {
         list: [
           { key: "home", name: "Home", to: "/" },
@@ -522,10 +541,60 @@ export default {
   },
   mounted () {
     this.verifyHeader()
+    this.getSettings()
     this.getBalance ()
     //this.get_accounts()
   },
   methods: {
+    async setSettings () {
+      if (this.settings.email === '' || this.settings.email === null || this.$refs.form.validate()) {
+        const near = await connect(config);
+        const wallet = new WalletConnection(near)
+
+        let item = {
+          user_id: wallet.getAccountId(),
+          email: this.settings.email || '',
+          nft_drop: this.settings.nftdrops,
+          noti_transaction: this.settings.transactionNotification
+        }
+        if (wallet.isSignedIn()) {
+          const url = "api/v1/tosettings"
+          this.axios.post(url, item
+          ).then((response) => {
+            this.$store.dispatch('GenerateAlert', {key:'success', title: 'Success!', desc: 'Settings saved successfully.'})
+            this.modalSettings = false
+          }).catch((error) => {
+            console.log(error)
+            this.modalSettings = false
+            this.$store.dispatch('GenerateAlert', {key:'error', title: 'Error!', desc: 'Something happened.'})
+          })
+        }
+      }
+    },
+    async getSettings() {
+      const url = "api/v1/yoursettings"
+      const near = await connect(config);
+      const wallet = new WalletConnection(near)
+
+      if (wallet.isSignedIn()) {
+        let item = {
+          user_id: wallet.getAccountId()
+        }
+        this.axios.post(url, item)
+          .then((response) => {
+            if (response.data[0]) {
+              let item = {
+                email: response.data[0].email,
+                nftdrops: response.data[0].nft_drop,
+                transactionNotification: response.data[0].noti_transaction,
+              }
+              this.settings = item
+            }
+          }).catch((error) => {
+            console.log(error)
+          })
+      }
+    },
     async getBalance () {
       const near = await connect(config);
       const wallet = new WalletConnection(near)
@@ -787,7 +856,7 @@ export default {
       }
     },
   },
-};
+}
 </script>
 
 <style src="./Header.scss" lang="scss"></style>

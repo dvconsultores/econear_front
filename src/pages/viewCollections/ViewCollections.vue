@@ -75,7 +75,7 @@
 
     <aside class="container-controls space gap2 fwrap_inv" style="--fb: 1 1 200px">
       <v-tabs>
-        <v-tab v-for="(item,i) in dataControls" :key="i" class="options" @click="getRanking(collection, item)">
+        <v-tab v-for="(item,i) in dataControls" :key="i" class="options">
           <h6 class="p" @click="orderList(item)">{{item.name}}</h6>
         </v-tab>
       </v-tabs>
@@ -115,17 +115,18 @@
         <span><b>Marketplace: </b><a style="color:var(--success)">{{item.marketplace}}</a></span>
         <div class="space gap2 wrap">
           <div class="acenter" style="gap:.6ch">
-            <span class="price">{{item.price}}</span>
-            <img src="@/assets/logos/near.svg" alt="near">
-            <span style="color: #9ca3af">~ ${{conversion(item.price_yocto)}}</span>
+            <span v-if="item.priceAux > 0" class="price">{{item.price}}</span>
+            <span v-else class="price text-decoration-line-through">SALE</span>
+            <img v-if = "item.priceAux > 0" src="@/assets/logos/near.svg" alt="near">
+            <span v-if="item.priceAux > 0" style="color: #9ca3af">~ ${{conversion(item.price_yocto)}}</span>
           </div>
 
-          <v-btn class="btn" @click="buy_nft(item)">Buy now</v-btn>
+          <v-btn v-if="item.priceAux > 0" class="btn" @click="buy_nft(item)">Buy now</v-btn>
         </div>
       </v-card>
     </section>
 
-    <v-btn v-if="variableCarga && seeMoreVisible" text :disabled="seeMoreDis" @click="seeMore()" class="align" style="color:var(--success); font-size: 1.4025em; margin-block:3em">See more...</v-btn>
+    <v-btn v-if="variableCarga && seeMoreVisible" text :disabled="seeMoreDis" @click="seeMore()" class="align" style="color:var(--success); font-size: 1.4025em; margin-block:3em">Load more...</v-btn>
 
     <center v-if="!variableCarga" style="margin-block:10em">
       <v-progress-circular
@@ -189,8 +190,8 @@ export default {
       },
       dataControls: [
         { id: 0, name: "Any", active: true },
-        { id: 1, name: "By high price", active: false },
-        { id: 2, name: "By low price", active: false },
+        { id: 1, name: "Sales by - High price", active: false },
+        { id: 2, name: "Sales by - Low price", active: false },
       ],
       search: "",
       limit: 36,
@@ -230,6 +231,7 @@ export default {
   },
   methods: {
     async buy_nft(item) {
+      console.log(item)
       const near = await connect(config);
       const wallet = new WalletConnection(near);
       // const contract = new Contract(wallet.account(), item.contract_market, {
@@ -291,14 +293,15 @@ export default {
       }
     },
     async priceNEAR(){
-      this.axios.get("https://nearblocks.io/api/near-price")
+      this.axios.get("https://api.binance.com/api/v3/ticker/24hr?symbol=NEARUSDT")
         .then((response) => {
-          this.nearPrice = response.data.usd
+          this.nearPrice = response.data.lastPrice
         })
         .catch((e) => {
           console.log(e)
         })
     },
+    
     conversion(item) {
       let valueYocto = Math.pow(10, 24)
       item = (item/valueYocto) * this.nearPrice
@@ -340,14 +343,17 @@ export default {
       if (this.dataControls[0].active === true) {
         item.order = ""
         item.type_order = ""
+        item.sales = null
       }
       else if (this.dataControls[1].active === true) {
         item.order = "precio"
         item.type_order = "desc"
+        item.sales = true
       }
       else if (this.dataControls[2].active === true) {
         item.order = "precio"
         item.type_order = "asc"
+        item.sales = true
       }
       this.axios.post(url, item)
         .then((response) => {
@@ -360,6 +366,7 @@ export default {
               contract: response.data.data[i].collection,
               marketplace: response.data.data[i].marketplace,
               price: response.data.data[i].precio_near,
+              priceAux: Number(response.data.data[i].precio_near),
               price_yocto: response.data.data[i].precio,
             }
             this.dataList2.push(collection)
@@ -390,9 +397,24 @@ export default {
         "type_order": "asc"
       }
 
+      if (this.dataControls[0].active === true) {
+        item.order = ""
+        item.type_order = ""
+        item.sales = null
+      }
+      else if (this.dataControls[1].active === true) {
+        item.order = "precio"
+        item.type_order = "desc"
+        item.sales = true
+      }
+      else if (this.dataControls[2].active === true) {
+        item.order = "precio"
+        item.type_order = "asc"
+        item.sales = true
+      }
+
       this.axios.post(url, item)
         .then((response) => {
-          console.log("seeNFTS",response.data)
           this.dataList2 = []
           for (var i = 0; i < response.data.data.length; i++) {
             let collection = {
@@ -401,7 +423,8 @@ export default {
               token_id: response.data.data[i].token_id,
               contract: response.data.data[i].collection,
               marketplace: response.data.data[i].marketplace,
-              price: precio_near,
+              price: response.data.data[i].precio_near,
+              priceAux: Number(response.data.data[i].precio_near),
               price_yocto: response.data.data[i].precio,
             }
             this.dataList2.push(collection)
@@ -413,7 +436,7 @@ export default {
           this.verifyMore()
         }).catch((error) => {
           this.seeMoreDis = false
-          console.log("ERRORRRR",error)
+          console.log(error)
         })
     },
     async verifyMore(){

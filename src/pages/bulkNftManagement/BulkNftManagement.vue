@@ -79,7 +79,7 @@
           </v-btn>
         </v-btn-toggle> -->
 
-        <v-btn v-if="variableCarga && seeMoreVisible" text :disabled="!seeMoreDis" @click="seeMore()" class="align" style="color:var(--success); font-size: 1.2025em">See more...</v-btn>
+        <v-btn v-if="variableCarga && seeMoreVisible" text :disabled="!seeMoreDis" @click="seeMore()" class="align" style="color:var(--success); font-size: 1.2025em">Load more...</v-btn>
 
         <div id="container-button" class="acenter" style="gap:1em">
           <!-- <div class="acenter" style="gap:.2em">

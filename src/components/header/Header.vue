@@ -291,7 +291,7 @@ export default {
           list: [
             { key: "profile", name: "My Profile" },
             //{ key: "portafolio", name: "My Portfolio" },
-            //{ key: "settings", name: "Settings" },
+            { key: "settings", name: "Settings" },
           ]
         },
         {

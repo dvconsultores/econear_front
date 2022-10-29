@@ -265,9 +265,9 @@ export default {
   },
   methods: {
     async priceNEAR2(){
-      axios.get("https://nearblocks.io/api/near-price")
+      this.axios.get("https://api.binance.com/api/v3/ticker/24hr?symbol=NEARUSDT")
         .then((response) => {
-          this.nearPrice2 = response.data.usd
+          this.nearPrice2 = response.data.lastPrice
         })
         .catch((e) => {
           console.log(e)
@@ -345,7 +345,7 @@ export default {
               name: response.data[i].name,
               user: response.data[i].nft_contract,
               near: parseFloat(response.data[i].price).toFixed(1) + " N",
-              dollar: "$"+(response.data[i].price * this.nearPrice2).toFixed(2),
+              dollar: "$"+(response.data[i].price * (this.nearPrice2)).toFixed(2),
               state: true,
             }
             this.dataBoard[2].list.push(collection)
