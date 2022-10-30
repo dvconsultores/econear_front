@@ -165,17 +165,16 @@
       
       <template v-slot:footer>
         <div class="fill_w center">
-          <v-btn-toggle mandatory color="#60D2CA">
-            <!-- <v-btn color="transparent">
-              <v-icon color="#707070">mdi-chevron-left</v-icon>
-            </v-btn> -->
+          <Pagination
+            :total-pages="sizeStats"
+            :current-page="currentPage"
+            @pagechanged="(page) => currentPage = page"
+          ></Pagination>
+          <!-- <v-btn-toggle mandatory color="#60D2CA">
             <v-btn v-for="n in sizeStats" :key="n" color="transparent" @click="fnPaginationStats(n)">
               <span>{{n}}</span>
             </v-btn>
-            <!-- <v-btn color="transparent">
-              <v-icon color="#707070">mdi-chevron-right</v-icon>
-            </v-btn> -->
-          </v-btn-toggle>
+          </v-btn-toggle> -->
         </div>
       </template>
     </v-data-table>
@@ -337,6 +336,7 @@
 </template>
 
 <script>
+import Pagination from '@/components/pagination'
 import * as nearAPI from 'near-api-js'
 const { connect, transactions, keyStores, WalletConnection, Contract, utils } = nearAPI
 const keyStore = new keyStores.BrowserLocalStorageKeyStore()
@@ -352,8 +352,10 @@ const config = {
 export default {
   name: "activeWalletsStats",
   i18n: require("./i18n"),
+  components: {Pagination},
   data() {
     return {
+      currentPage: 1,
       dataInfo: [
         { key: "seller", wallet: null },
         { key: "buyer", wallet: null },
