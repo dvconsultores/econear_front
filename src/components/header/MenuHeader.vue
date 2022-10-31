@@ -534,7 +534,7 @@ export default {
         contract: "", 
         frecuency: {
           value: 1,
-          items: [ {id:1, frecuency:"Only Once"},  {id:3, frecuency:"Always"} ] //{id:2, frecuency:"Once a day"},
+          items: [ {id:1, frecuency:"Only Once"},  {id:2, frecuency:"Always"} ] //{id:2, frecuency:"Once a day"},
         }
       },
     };
@@ -737,13 +737,14 @@ export default {
       } else if (this.dataAlert.type.value === 4) {
         item.alert_type_id = 4
         item.alert_type = this.dataAlert.type.items[index-1].type
-      } else if (this.dataAlert.type.value === 5) {
-        item.alert_type_id = 5
-        item.alert_type = this.dataAlert.type.items[index-1].type
-      } else if (this.dataAlert.type.value === 6) {
-        item.alert_type_id = 6
-        item.alert_type = this.dataAlert.type.items[index-1].type
-      }
+      } 
+      // else if (this.dataAlert.type.value === 5) {
+      //   item.alert_type_id = 5
+      //   item.alert_type = this.dataAlert.type.items[index-1].type
+      // } else if (this.dataAlert.type.value === 6) {
+      //   item.alert_type_id = 6
+      //   item.alert_type = this.dataAlert.type.items[index-1].type
+      // }
       let index2 = this.dataAlert.frecuency.value
       if (this.dataAlert.frecuency.value === 1) {
         item.frecuency_id = 1
@@ -751,10 +752,11 @@ export default {
       } else if (this.dataAlert.frecuency.value === 2) {
         item.frecuency_id = 2
         item.frecuency = this.dataAlert.frecuency.items[index2-1].frecuency
-      } else if (this.dataAlert.frecuency.value === 3) {
-        item.frecuency_id = 3
-        item.frecuency = this.dataAlert.frecuency.items[index2-1].frecuency
-      }
+      } 
+      // else if (this.dataAlert.frecuency.value === 3) {
+      //   item.frecuency_id = 3
+      //   item.frecuency = this.dataAlert.frecuency.items[index2-1].frecuency
+      // }
 
       this.save_alert(item)
     },
