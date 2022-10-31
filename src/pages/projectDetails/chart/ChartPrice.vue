@@ -226,8 +226,11 @@ export default {
             seriesAverage.push([x, yAverage]);
           }
 
-          this.dataPrice.floor.value = (contFloor / response.data.length).toFixed(2)
-          this.dataPrice.average.value = (contAverage / response.data.length).toFixed(2)
+          // this.dataPrice.floor.value = (contFloor / response.data.length).toFixed(2)
+          // this.dataPrice.average.value = (contAverage / response.data.length).toFixed(2)
+
+          this.dataPrice.floor.value = seriesFloor[response.data.length - 1][1]
+          this.dataPrice.average.value = seriesAverage[response.data.length - 1][1]
 
           this.chartSeries = [
             {

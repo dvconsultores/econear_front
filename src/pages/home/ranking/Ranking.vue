@@ -64,7 +64,7 @@
         </button>
       </template>
 
-      <template v-slot:[`header.price`]>
+      <!-- <template v-slot:[`header.price`]>
         <button class="acenter align" style="cursor:default;gap:.2em">
           <label for="price" style="cursor:pointer">Floor price</label>
           <v-select
@@ -78,7 +78,7 @@
             @change="getRanking()"
           ></v-select>
         </button>
-      </template>
+      </template> -->
 
       <template v-slot:[`item.number`]="{ item }">
         <span>{{dataTable.indexOf(item)+1}}</span>
@@ -214,7 +214,7 @@ export default {
         { value: "supply", text: "Supply", align: "center", sortable: false },
         { value: "owners", text: "Owners", align: "center", sortable: false },
         { value: "volume", text: "Volume", align: "center", sortable: false },
-        { value: "price", text: "Floor Price", align: "center", sortable: false },
+        { value: "price", text: "Floor Price 24h", align: "center", sortable: false },
         { value: "change", text: "Change 24h", align: "center", sortable: false },
         { value: "date", text: "Launch Date", align: "center", sortable: false },
         { value: "vote", text: "Vote", align: "center", sortable: false },

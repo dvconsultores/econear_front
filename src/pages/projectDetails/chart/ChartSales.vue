@@ -228,8 +228,11 @@ export default {
             seriesSellers.push([x, ySellers]);
           }
 
-          this.dataSales.sales.value = (contBuyers / response.data.length).toFixed(2)
-          this.dataSales.liquidity.value = (contSellers / response.data.length).toFixed(2)
+          //this.dataSales.sales.value = (contBuyers / response.data.length).toFixed(2)
+          this.dataSales.sales.value = seriesBuyers[response.data.length - 1][1]
+          this.dataSales.liquidity.value = seriesSellers[response.data.length - 1][1]
+          //this.dataSales.liquidity.value = (contSellers / response.data.length).toFixed(2)
+          
 
           this.chartSeries = [
             {

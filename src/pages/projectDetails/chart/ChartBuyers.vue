@@ -227,8 +227,8 @@ export default {
             seriesSellers.push([x, ySellers]);
           }
 
-          this.dataBuyers.buyers.value = (contBuyers / response.data.length).toFixed(2)
-          this.dataBuyers.sellers.value = (contSellers / response.data.length).toFixed(2)
+          this.dataBuyers.buyers.value = contBuyers//(contBuyers / response.data.length).toFixed(2)
+          this.dataBuyers.sellers.value = contSellers//(contSellers / response.data.length).toFixed(2)
 
           this.chartSeries = [
             {

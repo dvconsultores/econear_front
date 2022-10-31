@@ -227,8 +227,11 @@ export default {
             seriesAverage.push([x, yAverage]);
           }
 
-          this.dataMarket.marketcap.value = (contFloor / response.data.length).toFixed(2)
-          this.dataMarket.volume.value = (contAverage / response.data.length).toFixed(2)
+          // this.dataMarket.marketcap.value = (contFloor / response.data.length).toFixed(2)
+          // this.dataMarket.volume.value = (contAverage / response.data.length).toFixed(2)
+
+          this.dataMarket.marketcap.value = seriesFloor[response.data.length - 1][1]
+          this.dataMarket.volume.value = seriesAverage[response.data.length - 1][1]
 
           this.chartSeries = [
             {

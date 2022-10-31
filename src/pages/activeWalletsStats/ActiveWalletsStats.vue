@@ -29,7 +29,7 @@
               </v-chip>
             </div>
             
-            <span class="text bold" style="gap:.7em">{{item.wallet}}</span>
+            <span class="text bold" style="gap:.7em" :title="item.wallet">{{item.wallet.limitString(13)}}</span>
             
             <span v-show="item.key=='sale'" class="number">{{item.near}} NEAR</span>
           </div>
@@ -551,10 +551,10 @@ export default {
 
       this.axios.post(url, item)
         .then((response) => {
-          console.log("aqui2",response.data)
           let data = response.data.response
           this.sizeStats = Math.ceil(response.data.rows_count / parseInt(item.limit))
           this.dataTableStats = []
+          let dataTable = []
           for (var i = 0; i < data.length; i++) {
             let collection = { 
               img: require('@/assets/nfts/nft1.png'),
@@ -573,24 +573,12 @@ export default {
               collection.sale_wallet = "-"
               collection.sale_price = "-"
             }
-            this.dataTableStats.push(collection)
+            dataTable.push(collection)
           }
-          console.log(this.dataTableStats)
+          this.dataTableStats = []
+          this.dataTableStats = dataTable
           this.indexStats = this.indexStats + this.dataTableStats.length
           this.statsBool=true
-        //   dataTableStats: [
-        // { 
-        //   img: require('@/assets/nfts/nft1.png'),
-        //   wallet: "Collection o Nft Name",
-        //   spend: 12.0001,
-        //   bought: "1,203",
-        //   purchase_wallet: "MonkeONear #123",
-        //   purchase_price: "129,504.46",
-        //   total: "129,504.46",
-        //   sold: 220,
-        //   sale_wallet: "MonkeONear #3",
-        //   sale_price: "9,729,504.46",
-        // },
         }).catch((error) => {
           console.log(error)
           this.statsBool=true
