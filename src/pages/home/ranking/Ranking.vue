@@ -200,8 +200,8 @@ export default {
       //table
       sort: {
         volume: {
-          value: "24h",
-          items: ['24h', '48h', '7d']
+          value: "All time",
+          items: ['24h', '48h', '7d', 'All time']
         },
         price: {
           value: "24h",
@@ -414,13 +414,16 @@ export default {
         owner: wallet.getAccountId() || ""
       }
 
-      if (this.sort.volume.value == '24h') {
+      if (this.sort.volume.value == 'All time') {
+        item.horas_vol = 0
+      }
+      else if (this.sort.volume.value == '24h') {
         item.horas_vol = 24
       }
-      if (this.sort.volume.value == '48h') {
+      else if (this.sort.volume.value == '48h') {
         item.horas_vol = 48
       }
-      if (this.sort.volume.value == '7d') {
+      else if (this.sort.volume.value == '7d') {
         item.horas_vol = 168
       }
 

@@ -342,10 +342,24 @@
               id="value"
               v-model="dataAlert.contract"
               solo
+              class="customeFilter search openRankingSearch"
               :error="validateAccount"
-              @input="debounce()"
+              @click:append="searchCollection()"
+              @keydown.enter.prevent="searchCollection()"
+              @input="inputSearch(), debounce1(), debounce()"
             ></v-text-field>
           </div>
+          <v-menu ref="menu" v-model="menuSearch" bottom offset-y activator=".openRankingSearch">
+            <v-list id="menuSearch" class="card scrolly" v-show="dataMenuSearch.length != 0">
+              <v-list-item v-for="(item,i) in dataMenuSearch" :key="i" @click="clickSearch(item.contract)" v-show="dataMenuSearch.length != 0">
+                <img :src="item.img" alt="referencial image">
+                <div class="divcol">
+                  <h6 class="p bold">{{item.name}}</h6>
+                  <span>{{item.contract}}</span>
+                </div>
+              </v-list-item>
+            </v-list>
+          </v-menu>
           <div class="divcol">
             <label for="type">Alert Type</label>
             <v-select
@@ -428,6 +442,8 @@ export default {
   // },
   data() {
     return {
+      menuSearch: false,
+      dataMenuSearch: [],
       rules: {
         date: [
           v => !!v,
@@ -546,6 +562,51 @@ export default {
     //this.get_accounts()
   },
   methods: {
+    clickSearch(item) {
+      this.dataAlert.contract = item
+      this.validateAccountDis = false
+      this.debounce()
+    },
+    inputSearch () {
+      if (this.dataAlert.contract == '' || this.dataAlert.contract == null) {
+        this.dataMenuSearch = []
+        this.menuSearch = false
+        this.validateAccountDis = true
+      }
+    },
+    searchCollection() {
+      let item = {
+        search: this.dataAlert.contract,
+        top: 50
+      }
+      if (this.dataAlert.contract) {
+        const url = "api/v1/buscarcollection"
+        this.axios.post(url, item)
+          .then((response) => {
+            this.dataMenuSearch = []
+            for (var i = 0; i < response.data.length; i++) {
+              let item = {
+                img: response.data[i].icon,
+                name: response.data[i].name,
+                contract: response.data[i].nft_contract
+              }
+         
+              this.dataMenuSearch.push(item)
+            }
+            this.menuSearch = true
+          }).catch((error) => {
+            console.log(error)
+          })
+      } else {
+        this.dataMenuSearch = []
+        this.menuSearch = false
+      }
+    },
+    debounce1() {
+      clearTimeout(this.timer1)
+      //this.auxDebounce = true
+      this.timer1 = setTimeout(this.searchCollection, 500)
+    },
     async setSettings () {
       if (this.settings.email === '' || this.settings.email === null || this.$refs.form.validate()) {
         const near = await connect(config);
