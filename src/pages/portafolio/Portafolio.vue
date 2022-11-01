@@ -199,7 +199,7 @@ export default {
       search: "",
       dataProfit: [
         {
-          token: "Near",
+          token: "NEAR",
           img: "near.svg",
           crypto: null,
           dollar: null,
@@ -222,7 +222,7 @@ export default {
         //   state_profit: true,
         // },
         {
-          token: "Usdt",
+          token: "USDT",
           img: "usdt.svg",
           crypto: null,
           dollar: null,
@@ -234,7 +234,7 @@ export default {
           state_profit: true,
         },
         {
-          token: "Usdc",
+          token: "USDC",
           img: "usdc.svg",
           crypto: null,
           dollar: null,
@@ -246,7 +246,7 @@ export default {
           state_profit: true,
         },
         {
-          token: "Dai",
+          token: "DAI",
           img: "dai.svg",
           crypto: null,
           dollar: null,
@@ -258,7 +258,7 @@ export default {
           state_profit: true,
         },
         {
-          token: "Uto",
+          token: "UTO",
           img: "uto.svg",
           crypto: null,
           dollar: null,
@@ -270,7 +270,7 @@ export default {
           state_profit: true,
         },
         {
-          token: "Nexp",
+          token: "NEXP",
           img: 'nexp.png',
           crypto: null,
           dollar: null,
