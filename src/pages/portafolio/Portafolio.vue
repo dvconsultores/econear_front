@@ -347,7 +347,9 @@ export default {
       const result = await this.axios.get(serviceUrl);
       //console.log("AQUI",result.data)
       for (var i = 0; i < result.data.length; i++) {
-        await this.getNFTByContract(result.data[i], accountId)
+        if (!result.data[i].includes('mintbase')) {
+          await this.getNFTByContract(result.data[i], accountId)
+        }
       }
     }
   },
@@ -365,8 +367,6 @@ export default {
         from_index: "0",
         limit: 100
       });
-
-      console.log("AQUI", contract_id,result)
 
       const metadata = await contract.nft_metadata();
 
