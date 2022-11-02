@@ -16,11 +16,11 @@
     <section class="container-profit fwrap spacee acenter gap2">
       <v-card v-for="(item,i) in dataProfit" :key="i"
         class="card" style="--bg:hsl(212 47% 12% / .5);--p:clamp(.8em,2vw,2em);--b:none">
-        <v-sheet class="card" style="--bg:hsl(210, 48%, 13%)" max-height="186px">
+        <v-sheet :title="item.token" class="card" style="--bg:hsl(210, 48%, 13%)" max-height="186px">
           <aside class="divcol" style="gap:.5em">
             <div class="space gap2">
               <div class="acenter" style="gap:.5em">
-                <img :title="item.token" :src="require(`@/assets/token/${item.img}`)" alt="near" style="--w:2.2em; --h:2.2em">
+                <img  :src="require(`@/assets/token/${item.img}`)" alt="near" style="--w:2.2em; --h:2.2em">
                 <h3 class="h7_em p bold">{{item.crypto}}</h3>
               </div>
 
