@@ -35,7 +35,12 @@
     }
   }
   .container-profit {
-    @include media(max,x-small) {font-size: 12px}
+    --fb: 1 1 572px;
+    @include media(max, small) {--fb: 1 1 200px}
+    @include media(max,x-small) {
+      --fb: 1 1 150px;
+      font-size: 12px;
+    }
     @include media(max,300px) {font-size: 10px}
     .v-card {
       @include media(min,small) {max-width: 35.75em}
