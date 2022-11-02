@@ -765,7 +765,7 @@ export default {
               index: i,
               img: await this.buildMediaUrl(result[i].metadata.media, metadata.base_uri) || require("@/assets/nfts/nft1.png"),
               collection: contract_id,
-              name: result[i].metadata.title,
+              name: result[i].metadata.title || result[i].token_id,
               token_id: result[i].token_id,
               selected: false,
             }

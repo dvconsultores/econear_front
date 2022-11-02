@@ -82,7 +82,7 @@
       class="card"
       :headers="headersTable"
       :items="dataTable"
-      hide-default-footer
+      
       mobile-breakpoint="-1"
       style="--p:clamp(1em,2vw,2em)"
     >
@@ -366,18 +366,20 @@ export default {
         limit: 100
       });
 
+      console.log("AQUI", contract_id,result)
+
       const metadata = await contract.nft_metadata();
 
       for (var i = 0; i < result.length; i++) {
         let collection = { 
           img: await this.buildMediaUrl(result[i].metadata.media, metadata.base_uri) || require("@/assets/nfts/nft1.png"),
-          name: result[i].metadata.title,
+          name: result[i].metadata.title || result[i].token_id,
           desc: contract_id,
           token_id: result[i].token_id,
         }
           
         this.dataTable.push(collection)
-        //await this.getNFTById(contract_id, result[i].token_id)
+        // await this.getNFTById(contract_id, result[i].token_id)
       }
     } catch (err) {
       console.log("err", contract_id);
