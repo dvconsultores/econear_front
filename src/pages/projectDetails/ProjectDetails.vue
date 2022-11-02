@@ -60,9 +60,9 @@
               <img v-if="item.key=='volume'||item.key=='price'" src="@/assets/logos/near.svg" alt="near" style="--w:.8em">
               {{item.price}}
             </span>
-            <!-- <span class="percent" :style="`color:${item.percent.includes('+')?'var(--success)':'var(--error)'}`">
+            <span v-show="item.percent != ''" class="percent" :style="`color:${item.percent.includes('+')?'var(--success)':'var(--error)'}`">
               {{item.percent}}%
-            </span> -->
+            </span>
           </div>
 
           <!-- <v-chip class="btn center" 
@@ -779,10 +779,10 @@ export default {
         owners: null,
         total_volume: null,
         down: [
-          { key: "market", price: null, percent: "-0.12", number: null },
-          { key: "holders", price: null, percent: "+12.78", number: null },
-          { key: "volume", price: null, percent: "+73.26", number: null },
-          { key: "price", price: null, percent: "-1.78", number: null },
+          { key: "market", price: null, percent: "", number: null },
+          { key: "holders", price: null, percent: "", number: null },
+          { key: "volume", price: null, percent: "", number: null },
+          { key: "price", price: null, percent: "", number: null },
         ]
       },
       dataBuy: [
@@ -1330,13 +1330,20 @@ export default {
       }
       this.axios.post(url, item)
         .then((response) => {
+          console.log("AQUII", response.data)
           let data = response.data[0]
           this.dataInfo.down = [
-            { key: "market", price: Number(data.market_cap).toLocaleString("en-US"), percent: "-0.12", number: null },
-            { key: "holders", price: Number(data.holders).toLocaleString("en-US"), percent: "+12.78", number: null },
-            { key: "volume", price: Number(data.volumen24h).toLocaleString("en-US"), percent: "+73.26", number: null },
-            { key: "price", price: Number(data.floor_price).toLocaleString("en-US"), percent: "-1.78", number: null },
+            { key: "market", price: Number(data.market_cap).toLocaleString("en-US"), percent: "", number: null },
+            { key: "holders", price: Number(data.holders).toLocaleString("en-US"), percent: "", number: null },
+            { key: "volume", price: Number(data.volumen24h).toLocaleString("en-US"), percent: data.jsonvolumen24h[0].porcentaje, number: null },
+            { key: "price", price: Number(data.floor_price).toLocaleString("en-US"), percent: "", number: null },
           ]
+
+          if (this.dataInfo.down[2].percent > 0) {
+            this.dataInfo.down[2].percent = "+" + this.dataInfo.down[2].percent 
+          } else {
+            this.dataInfo.down[2].percent = "-" + this.dataInfo.down[2].percent 
+          }
         }).catch((error) => {
           console.log("ERRORRRR",error)
         })

@@ -291,3 +291,23 @@
     }
   }
 }
+
+#menuSearch {
+  --bg: hsl(212 47% 12% / .98);
+  --br: .5vmax;
+  max-height: 26.125em;
+  .v-list-item {
+    gap: 1em;
+    border-radius: .5vmax;
+    transition: .1s $ease-return;
+    &:hover {background-color: hsl(225 100% 100% / .1)}
+    img {
+      --w: clamp(3.8em, 4vw, 4em);
+      --br:50%;
+      font-size: clamp(.8em, 1vw, 1em)
+    }
+    h6 {font-size: clamp(1em, 1.2vw, 1.2em)}
+    span {font-size: clamp(.8em, 1vw, 1em)}
+    & ~ .v-list-item {margin-top: 1em}
+  }
+}

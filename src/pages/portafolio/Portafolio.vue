@@ -20,7 +20,7 @@
           <aside class="divcol" style="gap:.5em">
             <div class="space gap2">
               <div class="acenter" style="gap:.5em">
-                <img :src="require(`@/assets/logos/${item.token}.svg`)" alt="near" style="--w:2.2em; --h:2.2em">
+                <img :title="item.token" :src="require(`@/assets/token/${item.img}`)" alt="near" style="--w:2.2em; --h:2.2em">
                 <h3 class="h7_em p bold">{{item.crypto}}</h3>
               </div>
 
@@ -199,7 +199,8 @@ export default {
       search: "",
       dataProfit: [
         {
-          token: "near",
+          token: "NEAR",
+          img: "near.svg",
           crypto: null,
           dollar: null,
           percent: 12.8,
@@ -221,7 +222,8 @@ export default {
         //   state_profit: true,
         // },
         {
-          token: "usdt",
+          token: "USDT",
+          img: "usdt.svg",
           crypto: null,
           dollar: null,
           percent: 12.8,
@@ -232,7 +234,8 @@ export default {
           state_profit: true,
         },
         {
-          token: "usdc",
+          token: "USDC",
+          img: "usdc.svg",
           crypto: null,
           dollar: null,
           percent: 12.8,
@@ -243,7 +246,8 @@ export default {
           state_profit: true,
         },
         {
-          token: "dai",
+          token: "DAI",
+          img: "dai.svg",
           crypto: null,
           dollar: null,
           percent: 12.8,
@@ -253,6 +257,30 @@ export default {
           profit: "28,747",
           state_profit: true,
         },
+        {
+          token: "UTO",
+          img: "uto.svg",
+          crypto: null,
+          dollar: null,
+          percent: 12.8,
+          state_percent: true,
+          change: "28,747",
+          state_change: true,
+          profit: "28,747",
+          state_profit: true,
+        },
+        {
+          token: "NEXP",
+          img: 'nexp.png',
+          crypto: null,
+          dollar: null,
+          percent: 12.8,
+          state_percent: true,
+          change: "28,747",
+          state_change: true,
+          profit: "28,747",
+          state_profit: true,
+        }
       ],
       dataControlsCharts: [
         { key: "line", icon: "chart-line", name: "Line Chart", active: true },
@@ -362,6 +390,7 @@ export default {
 
       this.axios.post(url, item)
         .then((response) => {
+          console.log(response.data)
           this.dataProfit[1].crypto = Number(response.data.saldo_usdt).toFixed(2)
           this.dataProfit[1].dollar = (this.dataProfit[1].crypto * this.nearPrice).toFixed(2)
 
@@ -370,6 +399,12 @@ export default {
 
           this.dataProfit[3].crypto = Number(response.data.saldo_dai).toFixed(2)
           this.dataProfit[3].dollar = (this.dataProfit[3].crypto * this.nearPrice).toFixed(2)
+
+          this.dataProfit[4].crypto = Number(response.data.saldo_uto).toFixed(2)
+          this.dataProfit[4].dollar = (this.dataProfit[4].crypto * this.nearPrice).toFixed(2)
+
+          this.dataProfit[5].crypto = Number(response.data.saldo_nexp).toFixed(2)
+          this.dataProfit[5].dollar = (this.dataProfit[5].crypto * this.nearPrice).toFixed(2)
         }).catch((error) => {
           console.log(error)
         })

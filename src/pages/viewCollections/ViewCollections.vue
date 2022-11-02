@@ -374,8 +374,7 @@ export default {
           
           this.dataList = this.dataList2
           this.index = this.index + this.limit + response.data.excess + 1
-          
-          console.log(this.index)
+        
           //this.dataList = this.dataList.concat(this.dataList2)
           this.variableCarga = true
           this.verifyMore()
@@ -431,7 +430,7 @@ export default {
           }
           this.dataList = this.dataList.concat(this.dataList2)
           this.index = this.index + this.limit + response.data.excess
-          console.log(this.index)
+       
           this.seeMoreDis = false
           this.verifyMore()
         }).catch((error) => {
@@ -450,6 +449,22 @@ export default {
         "sales": true,
         "order": "precio",
         "type_order": "asc"
+      }
+
+      if (this.dataControls[0].active === true) {
+        item.order = ""
+        item.type_order = ""
+        item.sales = null
+      }
+      else if (this.dataControls[1].active === true) {
+        item.order = "precio"
+        item.type_order = "desc"
+        item.sales = true
+      }
+      else if (this.dataControls[2].active === true) {
+        item.order = "precio"
+        item.type_order = "asc"
+        item.sales = true
       }
       
       this.axios.post(url, item)

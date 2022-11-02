@@ -433,8 +433,6 @@ export default {
         }
         let txs = []
         for (var i = 0; i < this.itemListNfts.length; i++) {
-          console.log(this.minimumStorage)
-          console.log(this.minimumStorage)
           txs.push(
             {
               receiverId: this.itemListNfts[i].marketplace,
@@ -533,7 +531,22 @@ export default {
           }
           let txs = []
           for (var i = 0; i < this.itemListNfts.length; i++) {
-            txs.push({
+            txs.push(
+              {
+                receiverId: this.marketplaces.marketplace.marketplace,
+                functionCalls: [
+                  {
+                    methodName: "storage_deposit",
+                    receiverId: this.marketplaces.marketplace.marketplace,
+                    gas: "200000000000000",
+                    args: {
+                      receiverId: wallet.getAccountId(),
+                    },
+                    deposit: utils.format.parseNearAmount(this.minimumStorage),
+                  },
+                ],
+              },
+              {
               receiverId: this.itemListNfts[i].collection,
               functionCalls: [
                 {
@@ -564,39 +577,40 @@ export default {
             market_type: "sale",
             ft_token_id: "near"
           }
-          let txs = [
-            {
-              receiverId: this.marketplaces.marketplace.marketplace,
-              functionCalls: [
-                {
-                  methodName: "storage_deposit",
-                  receiverId: this.marketplaces.marketplace.marketplace,
-                  gas: "200000000000000",
-                  args: {
-                    receiverId: wallet.getAccountId(),
-                  },
-                  deposit: utils.format.parseNearAmount(this.minimumStorage),
-                },
-              ],
-            }
-          ]
+          let txs = []
           for (var i = 0; i < this.itemListNfts.length; i++) {
-            txs.push({
-              receiverId: this.itemListNfts[i].collection,
-              functionCalls: [
-                {
-                  methodName: "nft_approve",
-                  receiverId: this.itemListNfts[i].collection,
-                  gas: "300000000000000",
-                  args: {
-                    token_id: String(this.itemListNfts[i].token_id),
-                    account_id: this.marketplaces.marketplace.marketplace,
-                    msg: JSON.stringify(msgs),
+            txs.push(
+              {
+                receiverId: this.marketplaces.marketplace.marketplace,
+                functionCalls: [
+                  {
+                    methodName: "storage_deposit",
+                    receiverId: this.marketplaces.marketplace.marketplace,
+                    gas: "200000000000000",
+                    args: {
+                      receiverId: wallet.getAccountId(),
+                    },
+                    deposit: utils.format.parseNearAmount(this.minimumStorage),
                   },
-                  deposit: "350000000000000000000",
-                },
-              ],
-            })
+                ],
+              },
+              {
+                receiverId: this.itemListNfts[i].collection,
+                functionCalls: [
+                  {
+                    methodName: "nft_approve",
+                    receiverId: this.itemListNfts[i].collection,
+                    gas: "300000000000000",
+                    args: {
+                      token_id: String(this.itemListNfts[i].token_id),
+                      account_id: this.marketplaces.marketplace.marketplace,
+                      msg: JSON.stringify(msgs),
+                    },
+                    deposit: "350000000000000000000",
+                  },
+                ],
+              }
+            )
           }
           
           localStorage.tipohash = 'transfer'

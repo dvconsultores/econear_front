@@ -462,12 +462,12 @@ export default {
           
           this.axios.post(url, item)
           .then((response) => {
-            if (alerta.type_id === 1 && response.data[0].price > alerta.value ) {
+            if (alerta.type_id === 1 && Number(response.data[0].price) > alerta.value ) {
               this.notificacion(response.data[0].collection, response.data[0].icon, "Price rose above " + Number(alerta.value).toFixed(2) + " to " + Number(response.data[0].price).toFixed(2))
               if (alerta.frecuency_id === 1) {
                 this.deleteAlert(alerta)
               }
-            } else if (alerta.type_id === 2 && response.data[0].price < alerta.value ) {
+            } else if (alerta.type_id === 2 && Number(response.data[0].price) < alerta.value ) {
               this.notificacion(response.data[0].collection, response.data[0].icon, "Price dropped from "  + Number(alerta.value).toFixed(2) + " to " + Number(response.data[0].price).toFixed(2))
               if (alerta.frecuency_id === 1) {
                 this.deleteAlert(alerta)
@@ -484,12 +484,12 @@ export default {
           
           this.axios.post(url, item)
           .then((response) => {
-            if (alerta.type_id === 3 && response.data[0].volumen > alerta.value ) {
+            if (alerta.type_id === 3 && Number(response.data[0].volumen) > alerta.value ) {
               this.notificacion(response.data[0].collection, response.data[0].icon, "Volumen rose above " + Number(alerta.value).toFixed(2) + " to " + Number(response.data[0].volumen).toFixed(2))
               if (alerta.frecuency_id === 1) {
                 this.deleteAlert(alerta)
               }
-            } else if (alerta.type_id === 4 && response.data[0].volumen < alerta.value ) {
+            } else if (alerta.type_id === 4 && Number(response.data[0].volumen) < alerta.value ) {
               this.notificacion(response.data[0].collection, response.data[0].icon, "Volumen dropped from " + Number(alerta.value).toFixed(2) + " to " + Number(response.data[0].volumen).toFixed(2))
               if (alerta.frecuency_id === 1) {
                 this.deleteAlert(alerta)

@@ -342,10 +342,24 @@
               id="value"
               v-model="dataAlert.contract"
               solo
+              class="customeFilter search openRankingSearch"
               :error="validateAccount"
-              @input="debounce()"
+              @click:append="searchCollection()"
+              @keydown.enter.prevent="searchCollection()"
+              @input="inputSearch(), debounce1(), debounce()"
             ></v-text-field>
           </div>
+          <v-menu ref="menu" v-model="menuSearch" bottom offset-y activator=".openRankingSearch">
+            <v-list id="menuSearch" class="card scrolly" v-show="dataMenuSearch.length != 0">
+              <v-list-item v-for="(item,i) in dataMenuSearch" :key="i" @click="clickSearch(item.contract)" v-show="dataMenuSearch.length != 0">
+                <img :src="item.img" alt="referencial image">
+                <div class="divcol">
+                  <h6 class="p bold">{{item.name}}</h6>
+                  <span>{{item.contract}}</span>
+                </div>
+              </v-list-item>
+            </v-list>
+          </v-menu>
           <div class="divcol">
             <label for="type">Alert Type</label>
             <v-select
@@ -428,6 +442,8 @@ export default {
   // },
   data() {
     return {
+      menuSearch: false,
+      dataMenuSearch: [],
       rules: {
         date: [
           v => !!v,
@@ -534,7 +550,7 @@ export default {
         contract: "", 
         frecuency: {
           value: 1,
-          items: [ {id:1, frecuency:"Only Once"},  {id:3, frecuency:"Always"} ] //{id:2, frecuency:"Once a day"},
+          items: [ {id:1, frecuency:"Only Once"},  {id:2, frecuency:"Always"} ] //{id:2, frecuency:"Once a day"},
         }
       },
     };
@@ -546,6 +562,51 @@ export default {
     //this.get_accounts()
   },
   methods: {
+    clickSearch(item) {
+      this.dataAlert.contract = item
+      this.validateAccountDis = false
+      this.debounce()
+    },
+    inputSearch () {
+      if (this.dataAlert.contract == '' || this.dataAlert.contract == null) {
+        this.dataMenuSearch = []
+        this.menuSearch = false
+        this.validateAccountDis = true
+      }
+    },
+    searchCollection() {
+      let item = {
+        search: this.dataAlert.contract,
+        top: 50
+      }
+      if (this.dataAlert.contract) {
+        const url = "api/v1/buscarcollection"
+        this.axios.post(url, item)
+          .then((response) => {
+            this.dataMenuSearch = []
+            for (var i = 0; i < response.data.length; i++) {
+              let item = {
+                img: response.data[i].icon,
+                name: response.data[i].name,
+                contract: response.data[i].nft_contract
+              }
+         
+              this.dataMenuSearch.push(item)
+            }
+            this.menuSearch = true
+          }).catch((error) => {
+            console.log(error)
+          })
+      } else {
+        this.dataMenuSearch = []
+        this.menuSearch = false
+      }
+    },
+    debounce1() {
+      clearTimeout(this.timer1)
+      //this.auxDebounce = true
+      this.timer1 = setTimeout(this.searchCollection, 500)
+    },
     async setSettings () {
       if (this.settings.email === '' || this.settings.email === null || this.$refs.form.validate()) {
         const near = await connect(config);
@@ -737,13 +798,14 @@ export default {
       } else if (this.dataAlert.type.value === 4) {
         item.alert_type_id = 4
         item.alert_type = this.dataAlert.type.items[index-1].type
-      } else if (this.dataAlert.type.value === 5) {
-        item.alert_type_id = 5
-        item.alert_type = this.dataAlert.type.items[index-1].type
-      } else if (this.dataAlert.type.value === 6) {
-        item.alert_type_id = 6
-        item.alert_type = this.dataAlert.type.items[index-1].type
-      }
+      } 
+      // else if (this.dataAlert.type.value === 5) {
+      //   item.alert_type_id = 5
+      //   item.alert_type = this.dataAlert.type.items[index-1].type
+      // } else if (this.dataAlert.type.value === 6) {
+      //   item.alert_type_id = 6
+      //   item.alert_type = this.dataAlert.type.items[index-1].type
+      // }
       let index2 = this.dataAlert.frecuency.value
       if (this.dataAlert.frecuency.value === 1) {
         item.frecuency_id = 1
@@ -751,10 +813,11 @@ export default {
       } else if (this.dataAlert.frecuency.value === 2) {
         item.frecuency_id = 2
         item.frecuency = this.dataAlert.frecuency.items[index2-1].frecuency
-      } else if (this.dataAlert.frecuency.value === 3) {
-        item.frecuency_id = 3
-        item.frecuency = this.dataAlert.frecuency.items[index2-1].frecuency
-      }
+      } 
+      // else if (this.dataAlert.frecuency.value === 3) {
+      //   item.frecuency_id = 3
+      //   item.frecuency = this.dataAlert.frecuency.items[index2-1].frecuency
+      // }
 
       this.save_alert(item)
     },
