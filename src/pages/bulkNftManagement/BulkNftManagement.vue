@@ -430,7 +430,8 @@ export default {
     }
   },
   mounted() {
-    this.getNftCollection()
+    // this.getNftCollection()
+    this.getNFTContractsByAccount()
     this.getUnlistedNft()
     this.Responsive()
     window.onresize = () => this.Responsive()
@@ -701,7 +702,7 @@ export default {
       const url = "api/v1/ListNftOwner"
       let item = {
         "owner": wallet.getAccountId(),
-        "limit": "20",
+        "limit": "2",
         "index": this.index
       }
 
@@ -729,6 +730,71 @@ export default {
           console.log(error)
         })
     },
+    async getNFTContractsByAccount() {
+    const near = await connect(config);
+    const wallet = new WalletConnection(near)
+    if (wallet.isSignedIn()) {
+      let accountId = wallet.getAccountId()
+      const serviceUrl = `https://api.kitwallet.app/account/${accountId}/likelyNFTs`;
+      const result = await this.axios.get(serviceUrl);
+      //console.log("AQUI",result.data)
+      for (var i = 0; i < result.data.length; i++) {
+        await this.getNFTByContract(result.data[i], accountId)
+      }
+    }
+  },
+  async getNFTByContract(contract_id, owner_account_id) {
+    try {
+      const near = await connect(config);
+      const wallet = new WalletConnection(near)
+      const contract = new Contract(wallet.account(), contract_id, {
+        viewMethods: ["nft_tokens_for_owner", "nft_metadata"],
+        sender: wallet.account(),
+      });
+
+      const result = await contract.nft_tokens_for_owner({
+        account_id: owner_account_id,
+        from_index: "0",
+        limit: 100
+      });
+
+      const metadata = await contract.nft_metadata();
+
+      for (var i = 0; i < result.length; i++) {
+        let collection = {
+              index: i,
+              img: await this.buildMediaUrl(result[i].metadata.media, metadata.base_uri) || require("@/assets/nfts/nft1.png"),
+              collection: contract_id,
+              name: result[i].metadata.title,
+              token_id: result[i].token_id,
+              selected: false,
+            }
+          
+        this.dataNfts.push(collection)
+      }
+    } catch (err) {
+      console.log("err", contract_id);
+      return [];
+    }
+  },
+  buildMediaUrl (media, base_uri) {
+      if (!media || media.includes('://') || media.startsWith('data:image')) {
+          return media;
+      }
+
+      if (base_uri) {
+          return `${base_uri}/${media}`;
+      }
+
+      return `https://cloudflare-ipfs.com/ipfs/${media}`;
+  },
+
+
+
+
+
+
+
     async getListedNft(){
       const near = await connect(config);
       const wallet = new WalletConnection(near);
@@ -744,8 +810,6 @@ export default {
       this.axios.post(url, item)
         .then((response) => {
           this.dataBulk.listed = []
-
-          console.log("AQUIIII",response.data)
 
           for (var i = 0; i < response.data.length; i++) {
             let collection = {
@@ -902,7 +966,7 @@ export default {
       const url = "api/v1/ListNftOwner"
       let item = {
         "owner": wallet.getAccountId(),//"legendkiller.near",//wallet.getAccountId(),
-        "limit": "20",
+        "limit": "2",
         "index": this.index
       }
       
@@ -935,7 +999,7 @@ export default {
       const url = "api/v1/ListNftOwner"
       let item = {
         "owner": wallet.getAccountId(),//"legendkiller.near",//wallet.getAccountId(),
-        "limit": "20",
+        "limit": "2",
         "index": this.index
       }
       this.axios.post(url, item)
