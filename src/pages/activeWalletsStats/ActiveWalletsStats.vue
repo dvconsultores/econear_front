@@ -168,7 +168,7 @@
           <Pagination
             :total-pages="sizeStats"
             :current-page="currentPage"
-            @pagechanged="(page) => currentPage = page"
+            @pagechanged="(page) => {currentPage = page, hola(page)}"
           ></Pagination>
           <!-- <v-btn-toggle mandatory color="#60D2CA">
             <v-btn v-for="n in sizeStats" :key="n" color="transparent" @click="fnPaginationStats(n)">
@@ -471,8 +471,8 @@ export default {
     // this.activeWalletsMarket()
   },
   methods: {
-    hola() {
-      console.log(this.currentPage)
+    hola(page) {
+      console.log(page)
     },
     async activeWalletHeader(){
       const near = await connect(config);
