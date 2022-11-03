@@ -16,11 +16,11 @@
     <section class="container-profit fwrap spacee acenter gap2">
       <v-card v-for="(item,i) in dataProfit" :key="i"
         class="card" style="--bg:hsl(212 47% 12% / .5);--p:clamp(.8em,2vw,2em);--b:none">
-        <v-sheet class="card" style="--bg:hsl(210, 48%, 13%)" max-height="186px">
+        <v-sheet :title="item.token" class="card" style="--bg:hsl(210, 48%, 13%)" max-height="186px">
           <aside class="divcol" style="gap:.5em">
             <div class="space gap2">
               <div class="acenter" style="gap:.5em">
-                <img :title="item.token" :src="require(`@/assets/token/${item.img}`)" alt="near" style="--w:2.2em; --h:2.2em">
+                <img  :src="require(`@/assets/token/${item.img}`)" alt="near" style="--w:2.2em; --h:2.2em">
                 <h3 class="h7_em p bold">{{item.crypto}}</h3>
               </div>
 
@@ -64,14 +64,14 @@
           </v-tab>
         </v-tabs>
 
-        <v-tabs class="tab-right doble" >
+        <!-- <v-tabs class="tab-right doble" >
           <v-tab @click="changeCoin('near')">
             <img class="flr" src="@/assets/logos/near.png" alt="near" style="--w:19.2px">
           </v-tab>
           <v-tab style="color:#FFFFFF;font-size:1em" @click="changeCoin('dolar')">
             $
           </v-tab>
-        </v-tabs>
+        </v-tabs> -->
       </div>
     </aside>
 
@@ -82,7 +82,7 @@
       class="card"
       :headers="headersTable"
       :items="dataTable"
-      hide-default-footer
+      
       mobile-breakpoint="-1"
       style="--p:clamp(1em,2vw,2em)"
     >
@@ -138,21 +138,21 @@
             </span> -->
           </div>
 
-          <div class="space h11_em">
+          <!-- <div class="space h11_em">
             <span>Price</span>
             <span v-show="seeCoin == 1">{{item.price}}</span>
             <span v-show="seeCoin == 2">{{item.price_usd}}</span>
-          </div>
+          </div> -->
 
           <!-- <div class="space h11_em">
             <span>Floor Price</span>
             <span>{{item.price}}</span>
           </div> -->
 
-          <div class="space h11_em">
+          <!-- <div class="space h11_em">
             <span>Market</span>
             <span>{{item.market_name}}</span>
-          </div>
+          </div> -->
 
           <!-- <div class="space">
             <span class="h11_em">Rarity</span>
@@ -308,8 +308,8 @@ export default {
       headersTable: [
         { value: "nft", text: "NFT", align: "center", sortable: false },
         { value: "token_id", text: "Token ID", align: "center", sortable: false },
-        { value: "price", text: "Price", align: "center", sortable: false },
-        { value: "market_icon", text: "Marketplace", align: "center", sortable: false },
+        // { value: "price", text: "Price", align: "center", sortable: false },
+        // { value: "market_icon", text: "Marketplace", align: "center", sortable: false },
         // { value: "holdings", text: "Holdings", align: "center", sortable: false },
       ],
       dataTable2: [],
@@ -334,10 +334,85 @@ export default {
   },
   async mounted() {
     this.priceNEAR()
-    this.getNftCollection()
-    
+    // this.getNftCollection()
+    this.getNFTContractsByAccount()
   },
   methods: {
+  async getNFTContractsByAccount() {
+    const near = await connect(config);
+    const wallet = new WalletConnection(near)
+    if (wallet.isSignedIn()) {
+      let accountId = wallet.getAccountId()
+      const serviceUrl = `https://api.kitwallet.app/account/${accountId}/likelyNFTs`;
+      const result = await this.axios.get(serviceUrl);
+      //console.log("AQUI",result.data)
+      for (var i = 0; i < result.data.length; i++) {
+        if (!result.data[i].includes('mintbase')) {
+          await this.getNFTByContract(result.data[i], accountId)
+        }
+      }
+    }
+  },
+  async getNFTByContract(contract_id, owner_account_id) {
+    try {
+      const near = await connect(config);
+      const wallet = new WalletConnection(near)
+      const contract = new Contract(wallet.account(), contract_id, {
+        viewMethods: ["nft_tokens_for_owner", "nft_metadata"],
+        sender: wallet.account(),
+      });
+
+      const result = await contract.nft_tokens_for_owner({
+        account_id: owner_account_id,
+        from_index: "0",
+        limit: 100
+      });
+
+      const metadata = await contract.nft_metadata();
+
+      for (var i = 0; i < result.length; i++) {
+        let collection = { 
+          img: await this.buildMediaUrl(result[i].metadata.media, metadata.base_uri) || require("@/assets/nfts/nft1.png"),
+          name: result[i].metadata.title || result[i].token_id,
+          desc: contract_id,
+          token_id: result[i].token_id,
+        }
+          
+        this.dataTable.push(collection)
+        // await this.getNFTById(contract_id, result[i].token_id)
+      }
+    } catch (err) {
+      console.log("err", contract_id);
+      return [];
+    }
+  },
+  buildMediaUrl (media, base_uri) {
+      if (!media || media.includes('://') || media.startsWith('data:image')) {
+          return media;
+      }
+
+      if (base_uri) {
+          return `${base_uri}/${media}`;
+      }
+
+      return `https://cloudflare-ipfs.com/ipfs/${media}`;
+  },
+  async getNFTById(nft_contract_id, nft_id) {
+    const near = await connect(config);
+    const wallet = new WalletConnection(near)
+    const contract = new Contract(wallet.account(), nft_contract_id, {
+      viewMethods: ["nft_token"],
+      sender: wallet.account(),
+    });
+
+    const params = { token_id: nft_id };
+
+    const result = await contract.nft_token(params);
+    console.log("AQUI3", result)
+  },
+
+
+
     verificar(item, num) {
       if (item.length > num) {
         return item.substring(0, num) + "..."
@@ -373,7 +448,6 @@ export default {
           this.getBalances()
         })
         .catch((e) => {
-          console.log(e)
           this.getBalance()
           this.getBalances()
         })
@@ -390,7 +464,6 @@ export default {
 
       this.axios.post(url, item)
         .then((response) => {
-          console.log(response.data)
           this.dataProfit[1].crypto = Number(response.data.saldo_usdt).toFixed(2)
           this.dataProfit[1].dollar = (this.dataProfit[1].crypto * this.nearPrice).toFixed(2)
 
@@ -432,13 +505,13 @@ export default {
               name: response.data[i].titulo,
               desc: response.data[i].collection,
               token_id: response.data[i].token_id,
-              price_yocto: response.data[i].precio,
-              market_icon: response.data[i].market_icon,
-              market_name: response.data[i].market_name || "-",
-              marketplace: response.data[i].marketplace || "-",
-              holdings: "1234/3333",
-              state_change: false,
-              rarity: "common",
+              // price_yocto: response.data[i].precio,
+              // market_icon: response.data[i].market_icon,
+              // market_name: response.data[i].market_name || "-",
+              // marketplace: response.data[i].marketplace || "-",
+              // holdings: "1234/3333",
+              // state_change: false,
+              // rarity: "common",
             }
             if (collection.price_yocto) {
               collection.price = utils.format.formatNearAmount(collection.price_yocto) + " N"
@@ -447,8 +520,6 @@ export default {
               collection.price = "-"
               collection.price_usd = "-"
             }
-
-            console.log(collection)
             
             this.dataTable2.push(collection)
             //this.dataNfts.push(collection)
