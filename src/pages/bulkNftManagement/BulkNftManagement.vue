@@ -431,6 +431,7 @@ export default {
   },
   mounted() {
     // this.getNftCollection()
+    this.pushHome()
     this.getNFTContractsByAccount()
     this.getUnlistedNft()
     this.Responsive()
@@ -465,6 +466,13 @@ export default {
     }
   },
   methods: {
+    async pushHome () {
+    const near = await connect(config);
+    const wallet = new WalletConnection(near)
+    if (!wallet.isSignedIn()) {
+      this.$router.push("/")
+    }
+  },
     fnPaginationUnlisted(item, n) {
       if (n == 1) {
         this.dataBulk.unlisted[item.index].pagination = 0

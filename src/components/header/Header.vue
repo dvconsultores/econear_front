@@ -788,6 +788,7 @@ export default {
         wallet.signOut()
       }
       this.$router.push({ path: '/' })
+      location.reload()
     },
     // OcultarNavbar() {
     //   let Desplazamiento_Actual = window.pageYOffset;

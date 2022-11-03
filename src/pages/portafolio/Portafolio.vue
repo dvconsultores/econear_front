@@ -333,11 +333,19 @@ export default {
     }
   },
   async mounted() {
+    this.pushHome()
     this.priceNEAR()
     // this.getNftCollection()
     this.getNFTContractsByAccount()
   },
   methods: {
+  async pushHome () {
+    const near = await connect(config);
+    const wallet = new WalletConnection(near)
+    if (!wallet.isSignedIn()) {
+      this.$router.push("/")
+    }
+  },
   async getNFTContractsByAccount() {
     const near = await connect(config);
     const wallet = new WalletConnection(near)

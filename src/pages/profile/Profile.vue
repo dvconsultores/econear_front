@@ -413,12 +413,20 @@ export default {
     },
   },
   mounted() {
+    this.pushHome()
     this.avatar = this.$store.state.dataUser.avatar
     this.getData()
     this.get_projects()
     this.get_alert()
   },
   methods: {
+    async pushHome () {
+      const near = await connect(config);
+      const wallet = new WalletConnection(near)
+      if (!wallet.isSignedIn()) {
+        this.$router.push("/")
+      }
+    },
     async get_projects(){
       const near = await connect(config);
       // create wallet connection
