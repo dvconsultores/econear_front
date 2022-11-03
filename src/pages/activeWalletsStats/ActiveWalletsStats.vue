@@ -29,7 +29,7 @@
               </v-chip>
             </div>
             
-            <span class="text bold" style="gap:.7em" :title="item.wallet">{{item.wallet.limitString(13)}}</span>
+            <span v-if="item.wallet" class="text bold" style="gap:.7em" :title="item.wallet">{{item.wallet.limitString(13)}}</span>
             
             <span v-show="item.key=='sale'" class="number">{{item.near}} NEAR</span>
           </div>
@@ -471,6 +471,9 @@ export default {
     // this.activeWalletsMarket()
   },
   methods: {
+    hola() {
+      console.log(this.currentPage)
+    },
     async activeWalletHeader(){
       const near = await connect(config);
       const wallet = new WalletConnection(near);
