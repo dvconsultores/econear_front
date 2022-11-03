@@ -4,6 +4,9 @@
 /* // // bulkNftManagement // // */ 
 // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // /
 #bulkNftManagement {
+  --size: 18em;
+  .grid:not(:has(>:only-of-type)) {--pi: center}
+  @include media(max, 400px) {.grid {--pi: center}}
   padding-top: 1em;
   padding-inline: var(--margin-global);
   position: relative;
@@ -52,7 +55,7 @@
   #container-nfts {
     .v-card {
       position: relative;
-      max-width: 449px !important;
+      max-width: var(--size) !important;
       &.active::after {
         content: "";
         @include absolute(0,0);
@@ -62,7 +65,7 @@
         background-color: var(--primary);
         border: 6px solid var(--secondary);
       }
-      &.widthLimiter {max-width: 20.2225em}
+      img {aspect-ratio: 1 / 1.05}
       h6 {
         font-size: 1.25em;
         text-align: center;
@@ -82,6 +85,12 @@
     }
   }
   #container-bulk {
+    .v-sheet {
+      .v-card {
+        max-width: var(--size) !important;
+        img {aspect-ratio: 1 / 1.05}
+      }
+    }
     .v-card {
       .nfts {
         width: 100%;

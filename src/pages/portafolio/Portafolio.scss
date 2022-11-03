@@ -167,6 +167,7 @@
     .v-card {
       width: var(--size);
       @include media(max,897px) {width: 100%}
+      img {aspect-ratio: 1 / 1.05}
     }
     aside.contenido {
       padding-inline: 2em;

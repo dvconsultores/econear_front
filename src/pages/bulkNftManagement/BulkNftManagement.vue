@@ -29,9 +29,9 @@
 
     <!-- My NFTS -->
     <section v-show="dataControls[dataControls.findIndex(e=>e.key=='nfts')].active" id="container-nfts" class="card divcol gap2">
-      <div class="grid" style="--gtc: repeat(auto-fit,minmax(min(100%,20.2225em),1fr));gap:3.5em">
-        <v-card v-for="(item,i) in dataNfts" :key="i" color="transparent" @click="selected(item)" class="divcol" :class="{widthLimiter: widthLimiter, active: item.selected}">
-          <img :src="item.img || image" alt="nft images" style="--w:100%; --of: cover; --h:391px"  class="pointer">
+      <div class="grid" style="--gtc: repeat(auto-fit,minmax(min(100%,var(--size)),1fr));gap:3.5em">
+        <v-card v-for="(item,i) in dataNfts" :key="i" color="transparent" @click="selected(item)" class="divcol" :class="{active: item.selected}">
+          <img :src="item.img || image" alt="nft images" style="--w:100%; --of: cover;"  class="pointer">
 
           <v-sheet class="card" style="--p:1em">
             <h6>{{item.name}}</h6>
@@ -108,7 +108,7 @@
           <v-card v-for="(item,i) in dataBulk.unlisted" :key="i" class="card">
             <v-sheet color="transparent" class="fwrap acenter gap1" style="--fb: 1 1 12.5em" :class="{active: item.show}">
               <div class="nfts" :title="item.name" :class="{active: false}">
-                <img :src="item.img || image" alt="nft images" style="--w:100%;--max-h: 10.468125em">
+                <img :src="item.img || image" alt="nft images" class="aspect" style="--w:100%;">
               </div>
               <v-sheet class="card">
                 <div class="acenter" style="gap:.5em">
@@ -143,7 +143,7 @@
               </v-btn>
             </v-sheet>
 
-            <v-sheet v-show="item.show" color="transparent" class="grid" style="--gtc: repeat(auto-fit, minmax(min(100%,20.16375em),1fr));gap:2em">
+            <v-sheet v-show="item.show" color="transparent" class="grid" style="--gtc: repeat(auto-fit, minmax(min(100%,var(--size)),1fr));gap:2em">
               <v-card v-for="(item2,i2) in item.dataNfts" :key="i2" @click="selectedUnlisted(item, item2)" class="divcol" :class="{widthLimiter: widthLimiter, active: item2.selected}" color="var(--primary)">
                 <img :src="item2.img" alt="nft images" style="--w:100%; --of: cover" class="pointer">
                 <span class="bold">{{item2.name}}</span>
@@ -209,7 +209,7 @@
           <v-card v-for="(item,i) in dataBulk.listed" :key="i" class="card">
             <v-sheet color="transparent"  class="fwrap acenter gap1" style="--fb: 1 1 12.5em" :class="{active: item.show}">
               <div class="nfts" :title="item.name" :class="{active: false}">
-                <img :src="item.img || image" alt="nft images" style="--w:100%; --of: cover;--max-h: 10.468125em">
+                <img :src="item.img || image" alt="nft images" class="aspect" style="--w:100%; --of: cover">
               </div>
               <v-sheet class="card">
                 <div class="acenter" style="gap:.5em">
