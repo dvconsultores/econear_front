@@ -25,12 +25,12 @@
     </v-btn>
     <!-- Visible Buttons End -->
 
-    <v-btn
+    <!-- <v-btn
       v-if="totalPages > 1"
       :disabled="isInLastPage" text
       :class="{ active: isInLastPage }"
       @click="onClickLastPage"
-    >{{totalPages}}</v-btn>
+    >{{totalPages}}</v-btn> -->
     
     <button
       :style="isInLastPage ? 'opacity: .5' : 'opacity: 1'"
