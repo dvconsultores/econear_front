@@ -217,7 +217,7 @@ export default {
             },
             {
               name: this.letraMayuscula(datos[2].rareza),
-              data: [Number(datos[3].cantidad)]
+              data: [Number(datos[2].cantidad)]
             },
             {
               name: this.letraMayuscula(datos[3].rareza),

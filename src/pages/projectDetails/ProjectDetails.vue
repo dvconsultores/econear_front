@@ -1349,16 +1349,28 @@ export default {
         .then((response) => {
           let data = response.data[0]
           this.dataInfo.down = [
-            { key: "market", price: Number(data.market_cap).toLocaleString("en-US"), percent: "", number: null },
+            { key: "market", price: Number(data.jsonmarket_cap[0].market_cap).toLocaleString("en-US"), percent: Number(data.jsonmarket_cap[0].porcentaje).toFixed(2), number: null },
             { key: "holders", price: Number(data.holders).toLocaleString("en-US"), percent: "", number: null },
-            { key: "volume", price: Number(data.volumen24h).toLocaleString("en-US"), percent: Number(data.jsonvolumen24h[0].porcentaje).toFixed(2), number: null },
-            { key: "price", price: Number(data.floor_price).toLocaleString("en-US"), percent: "", number: null },
+            { key: "volume", price: Number(data.jsonvolumen24h[0].volumen24h).toLocaleString("en-US"), percent: Number(data.jsonvolumen24h[0].porcentaje).toFixed(2), number: null },
+            { key: "price", price: Number(data.jsonfloor_price[0].floor_price).toLocaleString("en-US"), percent: Number(data.jsonfloor_price[0].porcentaje).toFixed(2), number: null },
           ]
+
+          if (this.dataInfo.down[0].percent > 0) {
+            this.dataInfo.down[0].percent = "+" + this.dataInfo.down[0].percent 
+          } else {
+            this.dataInfo.down[0].percent = String(this.dataInfo.down[0].percent )
+          }
 
           if (this.dataInfo.down[2].percent > 0) {
             this.dataInfo.down[2].percent = "+" + this.dataInfo.down[2].percent 
           } else {
-            this.dataInfo.down[2].percent = "-" + this.dataInfo.down[2].percent 
+            this.dataInfo.down[2].percent = String(this.dataInfo.down[2].percent )
+          }
+
+          if (this.dataInfo.down[3].percent > 0) {
+            this.dataInfo.down[3].percent = "+" + this.dataInfo.down[3].percent 
+          } else {
+            this.dataInfo.down[3].percent = String(this.dataInfo.down[3].percent )
           }
         }).catch((error) => {
           console.log("ERRORRRR",error)

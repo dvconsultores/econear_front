@@ -532,59 +532,65 @@ export default {
         .then((response) => {
           let data = response.data[0]
           let token
+
+          token = {
+            dollar: String(data.current_price.toFixed(2)),
+            value: data.current_price,
+            percent: data.price_change_percentage_24h
+          }
+          if (token.percent >= 0) {
+            token.percent = "+" + token.percent.toFixed(2)
+          } else {
+            token.percent = String(token.percent.toFixed(2))
+          }
+
           if (coin === "near" ) {
-            token = {
-              dollar: String(data.current_price.toFixed(2)),
-              value: data.current_price,
-              percent: data.price_change_percentage_24h
-            }
-            if (token.percent >= 0) {
-              token.percent = "+" + token.percent.toFixed(2)
-            } else {
-              token.percent = "-" + token.percent.toFixed(2)
-            }
             this.dataStatistics.near = token
           } else if (coin === "usdt" ) {
-            token = {
-              dollar: String(data.current_price.toFixed(2)),
-              value: data.current_price,
-              percent: data.price_change_percentage_24h
-            }
-            if (token.percent >= 0) {
-              token.percent = "+" + token.percent.toFixed(2)
-            } else {
-              token.percent = "-" + token.percent.toFixed(2)
-            }
             this.dataStatistics.usdt = token
           } else if (coin === "usdc" ) {
-            token = {
-              dollar: String(data.current_price.toFixed(2)),
-              value: data.current_price,
-              percent: data.price_change_percentage_24h
-            }
-            if (token.percent >= 0) {
-              token.percent = "+" + token.percent.toFixed(2)
-            } else {
-              token.percent = "-" + token.percent.toFixed(2)
-            }
             this.dataStatistics.usdc = token
           } else if (coin === "dai" ) {
-            token = {
-              dollar: String(data.current_price.toFixed(2)),
-              value: data.current_price,
-              percent: data.price_change_percentage_24h
-            }
-            if (token.percent >= 0) {
-              token.percent = "+" + token.percent.toFixed(2)
-            } else {
-              token.percent = "-" + token.percent.toFixed(2)
-            }
             this.dataStatistics.dai = token
           }
         })
         .catch((e) => {
-          console.log(e)
+          this.getPriceChangeBinance(coin)
         })
+    },
+    getPriceChangeBinance(coin) {
+      if (coin !== 'usdt' && coin !== 'usdc') {
+        this.axios.get("https://api.binance.com/api/v3/ticker/24hr?symbol=" + coin.toUpperCase() +"USDT")
+          .then((response) => {
+            console.log(coin, response.data)
+            let data = response.data
+            let token
+
+            token = {
+              dollar: String(Number(data.lastPrice).toFixed(2)),
+              value: Number(data.lastPrice),
+              percent: Number(data.priceChangePercent)
+            }
+            if (token.percent >= 0) {
+              token.percent = "+" + token.percent.toFixed(2)
+            } else {
+              token.percent = String(token.percent.toFixed(2))
+            }
+
+            if (coin === "near" ) {
+              this.dataStatistics.near = token
+            } else if (coin === "usdt" ) {
+              this.dataStatistics.usdt = token
+            } else if (coin === "usdc" ) {
+              this.dataStatistics.usdc = token
+            } else if (coin === "dai" ) {
+              this.dataStatistics.dai = token
+            }
+          })
+          .catch((e) => {
+            console.log(e)
+          })
+      }
     },
     async pushHome () {
       const near = await connect(config);
@@ -756,8 +762,6 @@ export default {
         .catch((e) => {
           return 0
         })
-
-      console.log(result)
 
       return Number(result)
     },
