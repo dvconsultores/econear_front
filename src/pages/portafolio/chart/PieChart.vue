@@ -21,23 +21,23 @@
 
 
     <!-- chart 2 -->
-    <aside class="container-linechart divcol">
-      <!-- <div class="toolbar responsive_actions">
+    <!-- <aside class="container-linechart divcol">
+      <div class="toolbar responsive_actions">
         <v-btn v-for="(item,i) in dataControls" :key="i" @click="updateData2(item.key)"
           :class="{active: selection2===item.key}">
           {{item.name}}
         </v-btn>
-      </div> -->
+      </div>
 
-      <!-- <apexchart
+      <apexchart
         width="100%"
         height="422.76px"
         type="donut"
         ref="chart2" 
         :options="chartOptions"
         :series="chartSeries"
-      ></apexchart> -->
-    </aside>
+      ></apexchart>
+    </aside> -->
   </section>
 </template>
 

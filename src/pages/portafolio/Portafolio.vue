@@ -99,7 +99,7 @@
 
         <div class="fwrap spacee acenter gap2 gap2">
           <!-- near -->
-          <v-card class="card" style="--bg:hsl(212 47% 12% / .5);--p:clamp(.8em,2vw,2em);--b:none">
+          <v-card class="card" style="--bg:hsl(212 47% 12% / .5);--p:clamp(.8em,2vw,2em);--b:none;" max-width="400px">
             <v-sheet class="card" style="--bg:hsl(210, 48%, 13%)" max-height="186px">
               <aside class="divcol" style="gap:.5em">
                 <div class="space gap2">
@@ -130,7 +130,7 @@
           </v-card>
           
           <!-- usdt -->
-          <v-card class="card" style="--bg:hsl(212 47% 12% / .5);--p:clamp(.8em,2vw,2em);--b:none">
+          <v-card class="card" style="--bg:hsl(212 47% 12% / .5);--p:clamp(.8em,2vw,2em);--b:none" max-width="400px">
             <v-sheet class="card" style="--bg:hsl(210, 48%, 13%)" max-height="186px">
               <aside class="divcol" style="gap:.5em">
                 <div class="space gap2">
@@ -161,7 +161,7 @@
           </v-card>
 
            <!-- usdc -->
-           <v-card class="card" style="--bg:hsl(212 47% 12% / .5);--p:clamp(.8em,2vw,2em);--b:none">
+           <v-card class="card" style="--bg:hsl(212 47% 12% / .5);--p:clamp(.8em,2vw,2em);--b:none" max-width="400px">
             <v-sheet class="card" style="--bg:hsl(210, 48%, 13%)" max-height="186px">
               <aside class="divcol" style="gap:.5em">
                 <div class="space gap2">
@@ -192,7 +192,7 @@
           </v-card>
 
           <!-- dai -->
-          <v-card class="card" style="--bg:hsl(212 47% 12% / .5);--p:clamp(.8em,2vw,2em);--b:none">
+          <v-card class="card" style="--bg:hsl(212 47% 12% / .5);--p:clamp(.8em,2vw,2em);--b:none" max-width="400px">
             <v-sheet class="card" style="--bg:hsl(210, 48%, 13%)" max-height="186px">
               <aside class="divcol" style="gap:.5em">
                 <div class="space gap2">
