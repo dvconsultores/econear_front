@@ -66,10 +66,11 @@
 
       <template v-slot:[`item.rareness`]="{ item }">
         <v-chip style="border-radius: .3vmax"
-          :color="item.rareness=='rare'?'#26A17B':
-          item.rareness=='common'?'var(--warning)':
-          item.rareness=='legendary'?'#0000B6':
-          item.rareness=='mystic'?'#6A25D2':null">
+          :color="item.rareness=='common'?'#26A17B':
+          item.rareness=='uncommon'?'#F7972C':
+          item.rareness=='rare'?'#EF3340':
+          item.rareness=='epic'?'#0000B6':
+          item.rareness=='legendary'?'#6A25D2':null">
           <span class="tfirst">{{item.rareness}}</span>
         </v-chip>
       </template>
@@ -121,7 +122,7 @@ export default {
       headersTable: [
         { value: "nft", text: "Collection NFT", align: "center", sortable: false },
         { value: "supply", text: "Supply", align: "center", sortable: false },
-        //{ value: "rareness", text: "Rareness", align: "center", sortable: false },
+        { value: "rareness", text: "Rareness", align: "center", sortable: false },
         { value: "price", text: "Price", align: "center", sortable: false },
         { value: "market", text: "Market", align: "center", sortable: false },
         { value: "buy", text: "Buy", align: "center", sortable: false },
@@ -207,7 +208,7 @@ export default {
     scrolledTable(event) {
       const container = event.target
       if (Math.ceil(container.scrollHeight - container.scrollTop) <= container.clientHeight) {
-        // console.log("funcion para traer mas data aqui <----------------------------------------------------------------------------------------")
+        //console.log("funcion para traer mas data aqui <----------------------------------------------------------------------------------------")
         // his.dataTable = this.dataTable.concat(this.dataTable2.slice(this.dataTable.length, this.dataTable.length + 5))
         clearTimeout(this.timer)
         this.timer = setTimeout(this.addDataTable, 300)
@@ -227,6 +228,7 @@ export default {
               img: response.data[i].icon,
               name: response.data[i].name,
               nft_contract: response.data[i].nft_contract,
+              rareness: response.data[i].rareza.toLowerCase(),
               supply: response.data[i].total_supply,
               price: parseFloat(response.data[i].price).toFixed(1) + " N",
               marketplace: response.data[i].marketplace,
@@ -286,6 +288,7 @@ export default {
               img: response.data[i].icon,
               name: response.data[i].name,
               nft_contract: response.data[i].nft_contract,
+              rareness: response.data[i].rareza.toLowerCase(),
               supply: response.data[i].total_supply,
               price: parseFloat(response.data[i].price).toFixed(1) + " N",
               marketplace: response.data[i].marketplace,
@@ -319,16 +322,31 @@ export default {
         .then((response) => {
           this.dataTable = []
           this.dataTable2 = []
+          console.log(response.data)
           for (var i = 0; i < response.data.length; i++) {
             let collection = {
               img: response.data[i].icon,
               name: response.data[i].name,
               nft_contract: response.data[i].nft_contract,
+              rareness: response.data[i].rareza.toLowerCase(),
               supply: response.data[i].total_supply,
               price: parseFloat(response.data[i].price).toFixed(1) + " N",
               marketplace: response.data[i].marketplace,
               state_price: true,
             }
+
+            // if (i === 0) {
+            //   collection.rareness = 'common'
+            // } else if (i === 1) {
+            //   collection.rareness = 'uncommon'
+            // } else if (i === 2) {
+            //   collection.rareness = 'rare'
+            // } else if (i === 3) {
+            //   collection.rareness = 'epic'
+            // } else if (i === 4) {
+            //   collection.rareness = 'legendary'
+            // }
+
             this.dataTable2.push(collection)
           }
           this.dataTable = this.dataTable2

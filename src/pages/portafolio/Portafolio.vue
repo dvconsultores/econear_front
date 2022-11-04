@@ -51,6 +51,180 @@
       </v-card>
     </section>
 
+    <aside class="container-controls space gap2 wrap responsive_controls">
+      <v-tabs>
+        <v-tab v-for="(item,i) in dataControlsCharts" :key="i" @click="dataControlsCharts.forEach(e=>{e.active=false});item.active=true">
+          <v-icon>mdi-{{item.icon}}</v-icon>
+          <h6 class="p">{{item.name}}</h6>
+        </v-tab>
+      </v-tabs>
+
+      <!-- <v-tabs class="tab-right doble">
+        <v-tab>
+          <img class="flr" src="@/assets/logos/near.png" alt="near" style="--w:19.2px">
+        </v-tab>
+        <v-tab style="color:#FFFFFF">
+          $
+        </v-tab>
+      </v-tabs> -->
+    </aside>
+
+    <section class="container-charts card" style="--bg:hsl(212 47% 12% / .5);--p:clamp(.8em,1vw,2em);--b:none">
+      <!-- <LineChart ref="linechart" v-show="dataControlsCharts[dataControlsCharts.findIndex(e=>e.key=='line')].active"></LineChart> -->
+      <PieChart ref="piechart" v-show="dataControlsCharts[dataControlsCharts.findIndex(e=>e.key=='pie')].active"></PieChart>
+      
+      <section v-show="dataControlsCharts[dataControlsCharts.findIndex(e=>e.key=='statistics')].active" class="container-profit divcol gap2">
+        <!-- profit -->
+        <!-- <v-card class="card profit" style="--bg:hsl(212 47% 12% / .5);--p:clamp(.8em,2vw,2em);--b:none">
+          <v-sheet class="card" style="--bg:hsl(210, 48%, 13%)" max-height="186px">
+            <aside class="divcol" style="gap:.5em">
+              <div class="space gap2">
+                <h3 class="h7_em p bold">Total Profit / Loss</h3>
+                
+                <v-chip class="btn h11_em" :style="`--b:none;--bs:none;--bg:hsl(210, 48%, 9%);--p:1em .8em;
+                  --c:${dataStatistics.profit.percent.includes('+')?'var(--success)':'var(--error)'}`">
+                  {{dataStatistics.profit.percent}}%
+                </v-chip>
+              </div>
+
+              <div class="acenter" style="gap:.2em">
+                <img src="@/assets/logos/near.svg" alt="near" style="--w:1.055625em">
+                <span class="bold">{{dataStatistics.profit.crypto}}</span>
+              </div>
+            </aside>
+
+            <span>$ {{dataStatistics.profit.dollar}}</span>
+          </v-sheet>
+        </v-card> -->
+
+        <div class="fwrap spacee acenter gap2 gap2">
+          <!-- near -->
+          <v-card class="card" style="--bg:hsl(212 47% 12% / .5);--p:clamp(.8em,2vw,2em);--b:none">
+            <v-sheet class="card" style="--bg:hsl(210, 48%, 13%)" max-height="186px">
+              <aside class="divcol" style="gap:.5em">
+                <div class="space gap2">
+                  <div class="acenter" style="gap:.5em">
+                    <img src="@/assets/token/near.svg" alt="econear" style="--w:2.2em">
+                    <h3 class="h7_em p bold">NEAR</h3>
+                  </div>
+
+                  <v-chip class="btn h11_em" :style="`--b:none;--bs:none;--bg:hsl(210, 48%, 9%);--p:1em .8em;
+                    --c:${dataStatistics.near.percent.includes('+')?'var(--success)':'var(--error)'}`">
+                    <span v-if="dataStatistics.near.percent != '---'" >{{dataStatistics.near.percent}}%</span> 
+                    <span v-else >{{dataStatistics.near.percent}}</span> 
+                  </v-chip>
+                </div>
+                <span class="h11_em">Best Performace</span>
+              </aside>
+
+              <aside class="divcol" style="gap:.2em">
+                <!-- <div class="acenter" style="gap:.2em">
+                  <img src="@/assets/logos/econear.svg" alt="econear" style="--w:1.055625em">
+                  <span class="bold">{{dataStatistics.econear.crypto}}</span>
+                </div> -->
+
+                <span v-if="dataStatistics.near.dollar != '---'">$ {{dataStatistics.near.dollar}}</span>
+                <span v-else >{{dataStatistics.near.dollar}}</span>
+              </aside>
+            </v-sheet>
+          </v-card>
+          
+          <!-- usdt -->
+          <v-card class="card" style="--bg:hsl(212 47% 12% / .5);--p:clamp(.8em,2vw,2em);--b:none">
+            <v-sheet class="card" style="--bg:hsl(210, 48%, 13%)" max-height="186px">
+              <aside class="divcol" style="gap:.5em">
+                <div class="space gap2">
+                  <div class="acenter" style="gap:.5em">
+                    <img src="@/assets/token/usdt.svg" alt="econear" style="--w:2.2em">
+                    <h3 class="h7_em p bold">USDT</h3>
+                  </div>
+
+                  <v-chip class="btn h11_em" :style="`--b:none;--bs:none;--bg:hsl(210, 48%, 9%);--p:1em .8em;
+                    --c:${dataStatistics.usdt.percent.includes('+')?'var(--success)':'var(--error)'}`">
+                    <span v-if="dataStatistics.usdt.percent != '---'" >{{dataStatistics.usdt.percent}}%</span> 
+                    <span v-else >{{dataStatistics.usdt.percent}}</span> 
+                  </v-chip>
+                </div>
+                <span class="h11_em">Best Performace</span>
+              </aside>
+
+              <aside class="divcol" style="gap:.2em">
+                <!-- <div class="acenter" style="gap:.2em">
+                  <img src="@/assets/logos/econear.svg" alt="econear" style="--w:1.055625em">
+                  <span class="bold">{{dataStatistics.econear.crypto}}</span>
+                </div> -->
+
+                <span v-if="dataStatistics.usdt.dollar != '---'">$ {{dataStatistics.usdt.dollar}}</span>
+                <span v-else >{{dataStatistics.usdt.dollar}}</span>
+              </aside>
+            </v-sheet>
+          </v-card>
+
+           <!-- usdc -->
+           <v-card class="card" style="--bg:hsl(212 47% 12% / .5);--p:clamp(.8em,2vw,2em);--b:none">
+            <v-sheet class="card" style="--bg:hsl(210, 48%, 13%)" max-height="186px">
+              <aside class="divcol" style="gap:.5em">
+                <div class="space gap2">
+                  <div class="acenter" style="gap:.5em">
+                    <img src="@/assets/token/usdc.svg" alt="econear" style="--w:2.2em">
+                    <h3 class="h7_em p bold">USDC</h3>
+                  </div>
+
+                  <v-chip class="btn h11_em" :style="`--b:none;--bs:none;--bg:hsl(210, 48%, 9%);--p:1em .8em;
+                    --c:${dataStatistics.usdc.percent.includes('+')?'var(--success)':'var(--error)'}`">
+                    <span v-if="dataStatistics.usdc.percent != '---'" >{{dataStatistics.usdc.percent}}%</span> 
+                    <span v-else >{{dataStatistics.usdc.percent}}</span> 
+                  </v-chip>
+                </div>
+                <span class="h11_em">Best Performace</span>
+              </aside>
+
+              <aside class="divcol" style="gap:.2em">
+                <!-- <div class="acenter" style="gap:.2em">
+                  <img src="@/assets/logos/econear.svg" alt="econear" style="--w:1.055625em">
+                  <span class="bold">{{dataStatistics.econear.crypto}}</span>
+                </div> -->
+
+                <span v-if="dataStatistics.usdc.dollar != '---'">$ {{dataStatistics.usdc.dollar}}</span>
+                <span v-else >{{dataStatistics.usdc.dollar}}</span>
+              </aside>
+            </v-sheet>
+          </v-card>
+
+          <!-- dai -->
+          <v-card class="card" style="--bg:hsl(212 47% 12% / .5);--p:clamp(.8em,2vw,2em);--b:none">
+            <v-sheet class="card" style="--bg:hsl(210, 48%, 13%)" max-height="186px">
+              <aside class="divcol" style="gap:.5em">
+                <div class="space gap2">
+                  <div class="acenter" style="gap:.5em">
+                    <img src="@/assets/token/dai.svg" alt="econear" style="--w:2.2em">
+                    <h3 class="h7_em p bold">DAI</h3>
+                  </div>
+
+                  <v-chip class="btn h11_em" :style="`--b:none;--bs:none;--bg:hsl(210, 48%, 9%);--p:1em .8em;
+                    --c:${dataStatistics.dai.percent.includes('+')?'var(--success)':'var(--error)'}`">
+                    <span v-if="dataStatistics.dai.percent != '---'" >{{dataStatistics.dai.percent}}%</span> 
+                    <span v-else >{{dataStatistics.dai.percent}}</span> 
+                  </v-chip>
+                </div>
+                <span class="h11_em">Best Performace</span>
+              </aside>
+
+              <aside class="divcol" style="gap:.2em">
+                <!-- <div class="acenter" style="gap:.2em">
+                  <img src="@/assets/logos/econear.svg" alt="econear" style="--w:1.055625em">
+                  <span class="bold">{{dataStatistics.econear.crypto}}</span>
+                </div> -->
+
+                <span v-if="dataStatistics.dai.dollar != '---'">$ {{dataStatistics.dai.dollar}}</span>
+                <span v-else >{{dataStatistics.dai.dollar}}</span>
+              </aside>
+            </v-sheet>
+          </v-card>
+        </div>
+      </section>
+    </section>
+
     <aside class="space gap2 responsive_controls">
       <h2 class="h9_em p">Assets</h2>
 
@@ -283,8 +457,8 @@ export default {
         }
       ],
       dataControlsCharts: [
-        { key: "line", icon: "chart-line", name: "Line Chart", active: true },
-        { key: "pie", icon: "chart-pie", name: "Pie Chart", active: false },
+        // { key: "line", icon: "chart-line", name: "Line Chart", active: true },
+        { key: "pie", icon: "chart-pie", name: "Pie Chart", active: true },
         { key: "statistics", icon: "chart-line-variant", name: "Statistics", active: false },
       ],
       dataStatistics: {
@@ -293,15 +467,25 @@ export default {
           dollar: "232,245.65",
           percent: "+12.8",
         },
-        econear: {
-          crypto: "36,379",
-          dollar: "32,245.65",
-          percent: "-1.8",
-        },
         near: {
-          crypto: "46,529",
-          dollar: "232,245.65",
-          percent: "+12.8",
+          crypto: "---",
+          dollar: "---",
+          percent: "---",
+        },
+        usdt: {
+          crypto: "---",
+          dollar: "---",
+          percent: "---",
+        },
+        usdc: {
+          crypto: "---",
+          dollar: "---",
+          percent: "---",
+        },
+        dai: {
+          crypto: "---",
+          dollar: "---",
+          percent: "---",
         },
       },
       organizationStyle: true,
@@ -337,15 +521,78 @@ export default {
     this.priceNEAR()
     // this.getNftCollection()
     this.getNFTContractsByAccount()
+    this.getPriceChange("near")
+    this.getPriceChange("usdt")
+    this.getPriceChange("usdc")
+    this.getPriceChange("dai")
   },
   methods: {
-  async pushHome () {
-    const near = await connect(config);
-    const wallet = new WalletConnection(near)
-    if (!wallet.isSignedIn()) {
-      this.$router.push("/")
-    }
-  },
+    getPriceChange(coin) {
+      this.axios.get("https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=" + coin)
+        .then((response) => {
+          let data = response.data[0]
+          let token
+          if (coin === "near" ) {
+            token = {
+              dollar: String(data.current_price.toFixed(2)),
+              value: data.current_price,
+              percent: data.price_change_percentage_24h
+            }
+            if (token.percent >= 0) {
+              token.percent = "+" + token.percent.toFixed(2)
+            } else {
+              token.percent = "-" + token.percent.toFixed(2)
+            }
+            this.dataStatistics.near = token
+          } else if (coin === "usdt" ) {
+            token = {
+              dollar: String(data.current_price.toFixed(2)),
+              value: data.current_price,
+              percent: data.price_change_percentage_24h
+            }
+            if (token.percent >= 0) {
+              token.percent = "+" + token.percent.toFixed(2)
+            } else {
+              token.percent = "-" + token.percent.toFixed(2)
+            }
+            this.dataStatistics.usdt = token
+          } else if (coin === "usdc" ) {
+            token = {
+              dollar: String(data.current_price.toFixed(2)),
+              value: data.current_price,
+              percent: data.price_change_percentage_24h
+            }
+            if (token.percent >= 0) {
+              token.percent = "+" + token.percent.toFixed(2)
+            } else {
+              token.percent = "-" + token.percent.toFixed(2)
+            }
+            this.dataStatistics.usdc = token
+          } else if (coin === "dai" ) {
+            token = {
+              dollar: String(data.current_price.toFixed(2)),
+              value: data.current_price,
+              percent: data.price_change_percentage_24h
+            }
+            if (token.percent >= 0) {
+              token.percent = "+" + token.percent.toFixed(2)
+            } else {
+              token.percent = "-" + token.percent.toFixed(2)
+            }
+            this.dataStatistics.dai = token
+          }
+        })
+        .catch((e) => {
+          console.log(e)
+        })
+    },
+    async pushHome () {
+      const near = await connect(config);
+      const wallet = new WalletConnection(near)
+      if (!wallet.isSignedIn()) {
+        this.$router.push("/")
+      }
+    },
   async getNFTContractsByAccount() {
     const near = await connect(config);
     const wallet = new WalletConnection(near)
@@ -416,7 +663,6 @@ export default {
     const params = { token_id: nft_id };
 
     const result = await contract.nft_token(params);
-    console.log("AQUI3", result)
   },
 
 
@@ -471,24 +717,49 @@ export default {
       }
 
       this.axios.post(url, item)
-        .then((response) => {
+        .then(async (response) => {
           this.dataProfit[1].crypto = Number(response.data.saldo_usdt).toFixed(2)
-          this.dataProfit[1].dollar = (this.dataProfit[1].crypto * this.nearPrice).toFixed(2)
+          this.dataProfit[1].dollar = (this.dataProfit[1].crypto * await this.getTokenPrice("dac17f958d2ee523a2206206994597c13d831ec7.factory.bridge.near")).toFixed(2)
+          //this.dataProfit[1].dollar = (this.dataProfit[1].crypto * this.nearPrice).toFixed(2)
 
           this.dataProfit[2].crypto = Number(response.data.saldo_usdc).toFixed(2)
-          this.dataProfit[2].dollar = (this.dataProfit[2].crypto * this.nearPrice).toFixed(2)
+          this.dataProfit[2].dollar = (this.dataProfit[2].crypto * await this.getTokenPrice("a0b86991c6218b36c1d19d4a2e9eb0ce3606eb48.factory.bridge.near")).toFixed(2)
+          //this.dataProfit[2].dollar = (this.dataProfit[2].crypto * this.nearPrice).toFixed(2)
 
           this.dataProfit[3].crypto = Number(response.data.saldo_dai).toFixed(2)
-          this.dataProfit[3].dollar = (this.dataProfit[3].crypto * this.nearPrice).toFixed(2)
+          this.dataProfit[3].dollar = (this.dataProfit[3].crypto * await this.getTokenPrice("6b175474e89094c44da98b954eedeac495271d0f.factory.bridge.near")).toFixed(2)
+          //this.dataProfit[3].dollar = (this.dataProfit[3].crypto * this.nearPrice).toFixed(2)
 
           this.dataProfit[4].crypto = Number(response.data.saldo_uto).toFixed(2)
-          this.dataProfit[4].dollar = (this.dataProfit[4].crypto * this.nearPrice).toFixed(2)
+          this.dataProfit[4].dollar = (this.dataProfit[4].crypto * await this.getTokenPrice("utopia.secretskelliessociety.near")).toFixed(2)
+          //this.dataProfit[4].dollar = (this.dataProfit[4].crypto * this.nearPrice).toFixed(2)
 
           this.dataProfit[5].crypto = Number(response.data.saldo_nexp).toFixed(2)
-          this.dataProfit[5].dollar = (this.dataProfit[5].crypto * this.nearPrice).toFixed(2)
+          this.dataProfit[5].dollar = (this.dataProfit[5].crypto * await this.getTokenPrice("nexp.near")).toFixed(2)
+          //this.dataProfit[5].dollar = (this.dataProfit[5].crypto * this.nearPrice).toFixed(2)
+
+          let chartSeries = [Number(this.dataProfit[0].dollar), Number(this.dataProfit[1].dollar), Number(this.dataProfit[2].dollar), Number(this.dataProfit[3].dollar), Number(this.dataProfit[4].dollar), Number(this.dataProfit[5].dollar)]
+
+          this.$refs.piechart.getGrafica(chartSeries)
         }).catch((error) => {
           console.log(error)
         })
+    },
+    async getTokenPrice(token) {
+      let result = await this.axios.get("https://indexer.ref.finance/get-token-price?token_id=" + token)
+        .then((response) => {
+          if (response.data.price === "N/A") {
+            return 0
+          }
+          return response.data.price
+        })
+        .catch((e) => {
+          return 0
+        })
+
+      console.log(result)
+
+      return Number(result)
     },
     async getNftCollection(){
       const near = await connect(config);

@@ -2,12 +2,12 @@
   <section id="linechart" class="charts fwrap card">
     <!-- chart 1 -->
     <aside class="divcol">
-      <div class="toolbar responsive_actions">
+      <!-- <div class="toolbar responsive_actions">
         <v-btn v-for="(item,i) in dataControls" :key="i" @click="updateData(item.key)"
           :class="{active: selection===item.key}">
           {{item.name}}
         </v-btn>
-      </div>
+      </div> -->
 
       <apexchart
         width="100%"
@@ -22,12 +22,12 @@
 
     <!-- chart 2 -->
     <aside class="divcol">
-      <div class="toolbar responsive_actions">
+      <!-- <div class="toolbar responsive_actions">
         <v-btn v-for="(item,i) in dataControls" :key="i" @click="updateData2(item.key)"
           :class="{active: selection2===item.key}">
           {{item.name}}
         </v-btn>
-      </div>
+      </div> -->
 
       <apexchart
         width="100%"

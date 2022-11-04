@@ -74,7 +74,6 @@ function generateDayWiseTimeSeries(baseval, count, yrange) {
     baseval += 86400000;
     i++;
   }
-  console.log("SERIESSSSSSS", series)
   return series;
 }
 // autogenerate series functioin for style test

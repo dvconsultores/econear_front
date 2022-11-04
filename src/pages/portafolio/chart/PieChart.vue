@@ -1,17 +1,17 @@
 <template>
   <section id="piechart" class="charts fwrap card">
     <!-- chart 1 -->
-    <aside class="container-linechart divcol">
-      <div class="toolbar responsive_actions">
+    <aside  v-if="chartSeries.length > 0" class="container-linechart divcol">
+      <!-- <div class="toolbar responsive_actions">
         <v-btn v-for="(item,i) in dataControls" :key="i" @click="updateData(item.key)"
           :class="{active: selection===item.key}">
           {{item.name}}
         </v-btn>
-      </div>
+      </div> -->
 
       <apexchart
         width="100%"
-        height="422.76px"
+        height="600px"
         type="donut"
         ref="chart" 
         :options="chartOptions"
@@ -22,21 +22,21 @@
 
     <!-- chart 2 -->
     <aside class="container-linechart divcol">
-      <div class="toolbar responsive_actions">
+      <!-- <div class="toolbar responsive_actions">
         <v-btn v-for="(item,i) in dataControls" :key="i" @click="updateData2(item.key)"
           :class="{active: selection2===item.key}">
           {{item.name}}
         </v-btn>
-      </div>
+      </div> -->
 
-      <apexchart
+      <!-- <apexchart
         width="100%"
         height="422.76px"
         type="donut"
         ref="chart2" 
         :options="chartOptions"
         :series="chartSeries"
-      ></apexchart>
+      ></apexchart> -->
     </aside>
   </section>
 </template>
@@ -58,15 +58,15 @@ export default {
       selection: '24h',
       selection2: '24h',
       // series
-      chartSeries: [ 34, 55, 41 ],
+      chartSeries: [],
       // options
       chartOptions: {
       defaultLocale: 'en',
       legend: {
         position: 'bottom'
       },
-      labels: [ "NFT", "NEAR", "ECO" ],
-      colors: [ "#6A25D2", "#6FFFE9", "#F7931E" ],
+      labels: [ "NEAR", "USDT", "USDC", "DAI", "UTO", "NEXP" ],
+      colors: [ "#6A25D2", "#259976", "#2774CA", "#F5AC37", "#202124", "#48C558" ],
       
       // responsive
       responsive: [{
@@ -84,6 +84,11 @@ export default {
     };
   },
   methods: {
+    getGrafica(chartSeries) {
+      this.chartSeries = []
+      this.chartSeries = chartSeries
+      //this.chartSeries = [15, 20, 60, 30, 45, 32]
+    },
     updateData: function(timeline) {
       this.selection = timeline
       

@@ -79,7 +79,9 @@
           </v-btn>
         </v-btn-toggle> -->
 
-        <v-btn v-if="variableCarga && seeMoreVisible" text :disabled="!seeMoreDis" @click="seeMore()" class="align" style="color:var(--success); font-size: 1.2025em">Load more...</v-btn>
+        <!-- <v-btn v-if="variableCarga && seeMoreVisible" text :disabled="!seeMoreDis" @click="seeMore()" class="align" style="color:var(--success); font-size: 1.2025em">Load more...</v-btn> -->
+
+        <v-btn v-if="indexMore !== dataNfts3.length" text @click="seeMore()" class="align" style="color:var(--success); font-size: 1.2025em">Load more...</v-btn>
 
         <div id="container-button" class="acenter" style="gap:1em">
           <!-- <div class="acenter" style="gap:.2em">
@@ -334,6 +336,7 @@ export default {
       seeMoreVisible: false,
       seeMoreDis: true,
       dataNfts2: [],
+      dataNfts3: [],
       dataNfts: [
         //{
             //   img: require("@/assets/nfts/nft1.png"),
@@ -426,7 +429,8 @@ export default {
           //   ]
           // },
         ]
-      }
+      },
+      indexMore: 0
     }
   },
   mounted() {
@@ -633,7 +637,7 @@ export default {
           items.push(this.dataBulk.unlisted[item.index].dataNfts[i])
         }
       }
-      console.log(items)
+ 
       this.$refs.menu.modalListNfts=true
       this.$refs.menu.itemListNfts = items
     },
@@ -645,7 +649,7 @@ export default {
           items.push(this.dataBulk.listed[item.index].dataNfts[i])
         }
       }
-      console.log("AQIU",items)
+ 
       this.$refs.menu.modalUpdate=true
       this.$refs.menu.itemListNfts = items
     },
@@ -751,6 +755,10 @@ export default {
           await this.getNFTByContract(result.data[i], accountId)
         }
       }
+      let index = 12
+      this.dataNfts = this.dataNfts3.slice(0, 12)
+      this.indexMore = this.dataNfts.length
+      console.log(this.indexMore)
     }
   },
   async getNFTByContract(contract_id, owner_account_id) {
@@ -780,8 +788,9 @@ export default {
               selected: false,
             }
           
-        this.dataNfts.push(collection)
+        this.dataNfts3.push(collection)
       }
+
     } catch (err) {
       console.log("err", contract_id);
       return [];
@@ -865,7 +874,6 @@ export default {
 
         this.axios.post(url, item)
           .then((response) => {
-            console.log("NFTS", response.data)
             this.dataBulk.listed[collection.index].dataNfts = []
 
             for (var i = 0; i < response.data.length; i++) {
@@ -968,7 +976,12 @@ export default {
         this.dataBulk.unlisted[collection.index].pagination = 0
       }
     },
-    async seeMore(){
+    seeMore() {
+      let array = this.dataNfts3.slice(this.indexMore, this.indexMore + 12)
+      this.dataNfts = this.dataNfts.concat(array)
+      this.indexMore = this.dataNfts.length
+    },
+    async seeMoreOLD(){
       this.seeMoreDis = true
       const near = await connect(config);
       const wallet = new WalletConnection(near);

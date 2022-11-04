@@ -1,16 +1,15 @@
 <template>
-  <section class="charts card" style="--p:clamp(1.5em,2vw,2em)">
+  <section v-if="chartSeries.length > 0" class="charts card" style="--p:clamp(1.5em,2vw,2em)" >
     <div class="toolbar divcol not_margin">
       <h3 class="h9_em">Rarity Distribution</h3>
 
       <div class="acenter gap2 wrap">
         <aside class="divcol">
           <div class="legend acenter">
-            <div class="marker" style="--color: #F7931E" />
+            <div class="marker" style="--color: #26A17B" />
             <span>Common</span>
-            <img src="@/assets/icons/info-gray.svg" alt="info">
+            <!-- <img src="@/assets/icons/info-gray.svg" alt="info"> -->
           </div>
-
           <div class="values acenter gap1">
             <h6 class="p bold">{{dataDisrtibution.common}}</h6>
           </div>
@@ -18,9 +17,21 @@
         
         <aside class="divcol">
           <div class="legend acenter">
-            <div class="marker" style="--color: #26A17B" />
+            <div class="marker" style="--color: #F7972C" />
+            <span>Uncommon</span>
+            <!-- <img src="@/assets/icons/info-gray.svg" alt="info"> -->
+          </div>
+
+          <div class="values acenter gap1">
+            <h6 class="p bold">{{dataDisrtibution.uncommon}}</h6>
+          </div>
+        </aside>
+        
+        <aside class="divcol">
+          <div class="legend acenter">
+            <div class="marker" style="--color: #EF3340" />
             <span>Rare</span>
-            <img src="@/assets/icons/info-gray.svg" alt="info">
+            <!-- <img src="@/assets/icons/info-gray.svg" alt="info"> -->
           </div>
 
           <div class="values acenter gap1">
@@ -30,37 +41,25 @@
         
         <aside class="divcol">
           <div class="legend acenter">
-            <div class="marker" style="--color: #EF3340" />
-            <span>Super rare</span>
-            <img src="@/assets/icons/info-gray.svg" alt="info">
-          </div>
-
-          <div class="values acenter gap1">
-            <h6 class="p bold">{{dataDisrtibution.superRare}}</h6>
-          </div>
-        </aside>
-        
-        <aside class="divcol">
-          <div class="legend acenter">
             <div class="marker" style="--color: #0000B6" />
-            <span>Legendary</span>
-            <img src="@/assets/icons/info-gray.svg" alt="info">
+            <span>Epic</span>
+            <!-- <img src="@/assets/icons/info-gray.svg" alt="info"> -->
           </div>
 
           <div class="values acenter gap1">
-            <h6 class="p bold">{{dataDisrtibution.legendary}}</h6>
+            <h6 class="p bold">{{dataDisrtibution.epic}}</h6>
           </div>
         </aside>
         
         <aside class="divcol">
           <div class="legend acenter">
             <div class="marker" style="--color: #6A25D2" />
-            <span>Mythic</span>
-            <img src="@/assets/icons/info-gray.svg" alt="info">
+            <span>Legendary</span>
+            <!-- <img src="@/assets/icons/info-gray.svg" alt="info"> -->
           </div>
 
           <div class="values acenter gap1">
-            <h6 class="p bold">{{dataDisrtibution.mythic}}</h6>
+            <h6 class="p bold">{{dataDisrtibution.legendary}}</h6>
           </div>
         </aside>
       </div>
@@ -90,23 +89,24 @@ export default {
   },
   data() {
     return {
-      dataDisrtibution: { common: 146, rare: 116, superRare: 82, legendary: 57, mythic: 23 },
+      contract_nft: this.$route.params.id,
+      dataDisrtibution: { common: 0, uncommon: 0, rare: 0, epic: 0, legendary: 0 },
       // series
       chartSeries: [
         {
-          data: [100]
+          data: [0]
         },
         {
-          data: [80]
+          data: [0]
         },
         {
-          data: [60]
+          data: [0]
         },
         {
-          data: [40]
+          data: [0]
         },
         {
-          data: [20]
+          data: [0]
         },
       ],
       // options
@@ -115,7 +115,7 @@ export default {
         grid: {
           borderColor: '#90A4AE',
         },
-        colors: ["#F7931E", "#26A17B", "#EF3340", "#0000B6", "#6A25D2", "6A25D2"],
+        colors: ["#26A17B", "#F7972C", "#EF3340", "#0000B6", "#6A25D2"],
         chart: {
           stacked: false,
           toolbar: {
@@ -156,7 +156,89 @@ export default {
       },
     };
   },
+  mounted() {
+    this.getGrafica()
+  },
   methods: {
+    getGrafica() {
+      const url = "api/v1/StastRarityDistributionCollection"
+      let item = {
+        "collection": this.contract_nft,
+      }
+      this.axios.post(url, item)
+        .then((response) => {
+          let datos = [
+            {
+              rareza: 'common',
+              cantidad: '0'
+            },
+            {
+              rareza: 'uncommon',
+              cantidad: '0'
+            },
+            {
+              rareza: 'rare',
+              cantidad: '0'
+            },
+            {
+              rareza: 'epic',
+              cantidad: '0'
+            },
+            {
+              rareza: 'legendary',
+              cantidad: '0'
+            }
+          ]
+
+          for (var i = 0; i < response.data.length; i++) { 
+            if (response.data[i].rareza === 'common') {
+              datos[0].cantidad = response.data[i].cantidad
+            } else if (response.data[i].rareza === 'uncommon') {
+              datos[1].cantidad = response.data[i].cantidad
+            } else if (response.data[i].rareza === 'rare') {
+              datos[2].cantidad = response.data[i].cantidad
+            } else if (response.data[i].rareza === 'epic') {
+              datos[3].cantidad = response.data[i].cantidad
+            } else if (response.data[i].rareza === 'legendary') {
+              datos[4].cantidad = response.data[i].cantidad
+            }
+          }
+
+          this.dataDisrtibution = { common: Number(datos[0].cantidad), uncommon: Number(datos[1].cantidad), rare: Number(datos[2].cantidad), epic: Number(datos[3].cantidad), legendary: Number(datos[4].cantidad) },
+
+          this.chartSeries = [
+            {
+              name: this.letraMayuscula(datos[0].rareza),
+              data: [Number(datos[0].cantidad)]
+            },
+            {
+              name: this.letraMayuscula(datos[1].rareza),
+              data: [Number(datos[1].cantidad)]
+            },
+            {
+              name: this.letraMayuscula(datos[2].rareza),
+              data: [Number(datos[3].cantidad)]
+            },
+            {
+              name: this.letraMayuscula(datos[3].rareza),
+              data: [Number(datos[3].cantidad)]
+            },
+            {
+              name: this.letraMayuscula(datos[4].rareza),
+              data: [Number(datos[4].cantidad)]
+            }
+          ]
+        }).catch((error) => {
+          console.log(error)
+        })
+      // console.log("SERIESSSSSSS", series)
+      // return series;
+    },
+    letraMayuscula (cadena) {
+      const primerCaracter = cadena.charAt(0).toUpperCase();
+      const restoDeLaCadena = cadena.substring(1, cadena.length);
+      return primerCaracter.concat(restoDeLaCadena);
+    }
   },
 };
 </script>

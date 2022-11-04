@@ -297,7 +297,7 @@ export default {
           }
           this.marketsArray = response.data
         }).catch((error) => {
-          console.log("ERRORRRR",error)
+          console.log("ERR",error)
         })
     },
   }

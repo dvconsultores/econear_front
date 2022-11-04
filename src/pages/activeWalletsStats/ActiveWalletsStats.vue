@@ -83,49 +83,49 @@
       <template v-slot:[`header.number`]>
         <center class="center">
           <span>#</span>
-          <img src="@/assets/icons/sort.svg" alt="sortable icon" style="--w: 0.5em;margin-left:.3em">
+          <!-- <img src="@/assets/icons/sort.svg" alt="sortable icon" style="--w: 0.5em;margin-left:.3em"> -->
         </center>
       </template>
       
       <template v-slot:[`header.spend`]>
         <center class="center">
           <span>Total Spend</span>
-          <img src="@/assets/icons/sort.svg" alt="sortable icon" style="--w: 0.5em;margin-left:.3em">
+          <!-- <img src="@/assets/icons/sort.svg" alt="sortable icon" style="--w: 0.5em;margin-left:.3em"> -->
         </center>
       </template>
       
       <template v-slot:[`header.bought`]>
         <center class="center">
           <span># NFTs Bought</span>
-          <img src="@/assets/icons/sort.svg" alt="sortable icon" style="--w: 0.5em;margin-left:.3em">
+          <!-- <img src="@/assets/icons/sort.svg" alt="sortable icon" style="--w: 0.5em;margin-left:.3em"> -->
         </center>
       </template>
       
       <template v-slot:[`header.purchase`]>
         <center class="center">
           <span>Highest Purchase</span>
-          <img src="@/assets/icons/sort.svg" alt="sortable icon" style="--w: 0.5em;margin-left:.3em">
+          <!-- <img src="@/assets/icons/sort.svg" alt="sortable icon" style="--w: 0.5em;margin-left:.3em"> -->
         </center>
       </template>
       
       <template v-slot:[`header.toal`]>
         <center class="center">
           <span>Total Sales</span>
-          <img src="@/assets/icons/sort.svg" alt="sortable icon" style="--w: 0.5em;margin-left:.3em">
+          <!-- <img src="@/assets/icons/sort.svg" alt="sortable icon" style="--w: 0.5em;margin-left:.3em"> -->
         </center>
       </template>
       
       <template v-slot:[`header.sold`]>
         <center class="center">
           <span># NFTs Sold</span>
-          <img src="@/assets/icons/sort.svg" alt="sortable icon" style="--w: 0.5em;margin-left:.3em">
+          <!-- <img src="@/assets/icons/sort.svg" alt="sortable icon" style="--w: 0.5em;margin-left:.3em"> -->
         </center>
       </template>
       
       <template v-slot:[`header.sale`]>
         <center class="center">
           <span>Highest Sale</span>
-          <img src="@/assets/icons/sort.svg" alt="sortable icon" style="--w: 0.5em;margin-left:.3em">
+          <!-- <img src="@/assets/icons/sort.svg" alt="sortable icon" style="--w: 0.5em;margin-left:.3em"> -->
         </center>
       </template>
       
@@ -168,7 +168,7 @@
           <Pagination
             :total-pages="sizeStats"
             :current-page="currentPage"
-            @pagechanged="(page) => {currentPage = page, hola(page)}"
+            @pagechanged="(page) => {currentPage = page, fnPaginationStats(page)}"
           ></Pagination>
           <!-- <v-btn-toggle mandatory color="#60D2CA">
             <v-btn v-for="n in sizeStats" :key="n" color="transparent" @click="fnPaginationStats(n)">
@@ -466,13 +466,18 @@ export default {
     }
   },
   async mounted() {
+    this.pushHome()
     this.activeWalletHeader()
     this.activeWallets()
     // this.activeWalletsMarket()
   },
   methods: {
-    hola(page) {
-      console.log(page)
+    async pushHome () {
+      const near = await connect(config);
+      const wallet = new WalletConnection(near)
+      if (!wallet.isSignedIn()) {
+        this.$router.push("/")
+      }
     },
     async activeWalletHeader(){
       const near = await connect(config);

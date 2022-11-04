@@ -252,7 +252,7 @@
     <!-- nft section -->
     <template v-if="dataControls[dataControls.findIndex(e=>e.key=='nft')].active">
       <!-- chart rarity distribution -->
-      <!-- <ChartRarityDistribution ref="chartraritydistribution" :Height="chartHeight"></ChartRarityDistribution> -->
+      <ChartRarityDistribution ref="chartraritydistribution" :Height="chartHeight"></ChartRarityDistribution>
 
       <!-- chart rarity and price -->
       <!-- <ChartRarityPrice ref="chartrarityprice" :Height="chartHeight"></ChartRarityPrice> -->
@@ -305,23 +305,34 @@
                   <span>Token ID:</span>
                   <span>{{item.token_id}}</span>
                 </div>
-                <!-- <div class="space">
+                
+
+                <div class="space">
+                  <span>Last Price:</span>
+                  <span v-if="item.price > 0" class="price">{{item.price}} N</span>
+                  <span v-else class="price text-decoration-line-through">SALE</span>
+                  <!-- <img v-if = "item.price > 0" src="@/assets/logos/near.svg" alt="near"> -->
+                </div> 
+
+                <div class="space">
                   <span>Rarity rank:</span>
                   <v-chip class="btn center" id="rank"
                     style="--bg:#0D1A26;--c:var(--secondary);--bs:none;font-size:1.25em;--p:0;--w:min(199%, 2.75875em);--h:1.868125em">
-                    #{{item.rank}}
+                    #{{item.ranking}}
                   </v-chip>
-                </div> -->
-                <!-- <div class="space">
+                </div>
+
+                <div class="space">
                   <span>Rarity:</span>
                   <v-chip style="border-radius: .3vmax" id="rarity"
-                    :color="item.rarity=='rare'?'#26A17B':
-                    item.rarity=='common'?'var(--warning)':
-                    item.rarity=='legendary'?'#0000B6':
-                    item.rarity=='mystic'?'#6A25D2':null">
+                    :color="item.rarity=='common'?'#26A17B':
+                    item.rarity=='uncommon'?'#F7972C':
+                    item.rarity=='rare'?'#EF3340':
+                    item.rarity=='epic'?'#0000B6':
+                    item.rarity=='legendary'?'#6A25D2':null">
                     <span class="tfirst">{{item.rarity}}</span>
                   </v-chip>
-                </div> -->
+                </div>
               </div>
             </v-sheet>
           </v-card>
@@ -456,7 +467,7 @@
             <template v-slot:[`header.number`]>
               <center class="center">
                 <span>#</span>
-                <img src="@/assets/icons/sort.svg" alt="sortable icon" style="--w: 0.5em;margin-left:.3em">
+                <!-- <img src="@/assets/icons/sort.svg" alt="sortable icon" style="--w: 0.5em;margin-left:.3em"> -->
               </center>
             </template>
             
@@ -469,7 +480,7 @@
             
             <template v-slot:[`header.near`]>
               <span>Buy volume (N)</span>
-              <img src="@/assets/icons/sort.svg" alt="sortable icon" style="--w: 0.5em;margin-left:.3em">
+              <!-- <img src="@/assets/icons/sort.svg" alt="sortable icon" style="--w: 0.5em;margin-left:.3em"> -->
             </template>
 
             
@@ -519,21 +530,21 @@
             <template v-slot:[`header.number`]>
               <center class="center">
                 <span>#</span>
-                <img src="@/assets/icons/sort.svg" alt="sortable icon" style="--w: 0.5em;margin-left:.3em">
+                <!-- <img src="@/assets/icons/sort.svg" alt="sortable icon" style="--w: 0.5em;margin-left:.3em"> -->
               </center>
             </template>
             
             <template v-slot:[`header.sold`]>
               <center class="center">
                 <span>Sold</span>
-                <img src="@/assets/icons/sort.svg" alt="sortable icon" style="--w: 0.5em;margin-left:.3em">
+                <!-- <img src="@/assets/icons/sort.svg" alt="sortable icon" style="--w: 0.5em;margin-left:.3em"> -->
               </center>
             </template>
             
             <template v-slot:[`header.near`]>
               <center class="center">
                 <span>Buy volume (N)</span>
-                <img src="@/assets/icons/sort.svg" alt="sortable icon" style="--w: 0.5em;margin-left:.3em">
+                <!-- <img src="@/assets/icons/sort.svg" alt="sortable icon" style="--w: 0.5em;margin-left:.3em"> -->
               </center>
             </template>
             
@@ -798,7 +809,7 @@ export default {
       dataControls: [
         { key: "overview", name: "Overview", active: true },
         // { key: "social", name: "Social", active: false },
-        { key: "nft", name: "NFTs", active: false },
+        { key: "nft", name: "NFTs & Rarity", active: false },
         { key: "leaderboard", name: "Leaderboard", active: false },
         { key: "activity", name: "Activity", active: false },
       ],
@@ -1210,6 +1221,9 @@ export default {
             let collection = {
               img: response.data.data[i].media,//,
               name: response.data.data[i].titulo,
+              rarity: response.data.data[i].rareza.toLowerCase(),
+              ranking: response.data.data[i].ranking,
+              price: Number(response.data.data[i].precio_near),
               token_id: response.data.data[i].token_id,
               contract: response.data.data[i].collection
             }
@@ -1262,6 +1276,9 @@ export default {
             let collection = {
               img: response.data.data[i].media,//,
               name: response.data.data[i].titulo,
+              rarity: response.data.data[i].rareza.toLowerCase(),
+              ranking: response.data.data[i].ranking,
+              price: Number(response.data.data[i].precio_near),
               token_id: response.data.data[i].token_id,
               contract: response.data.data[i].collection
             }
@@ -1330,12 +1347,11 @@ export default {
       }
       this.axios.post(url, item)
         .then((response) => {
-          console.log("AQUII", response.data)
           let data = response.data[0]
           this.dataInfo.down = [
             { key: "market", price: Number(data.market_cap).toLocaleString("en-US"), percent: "", number: null },
             { key: "holders", price: Number(data.holders).toLocaleString("en-US"), percent: "", number: null },
-            { key: "volume", price: Number(data.volumen24h).toLocaleString("en-US"), percent: data.jsonvolumen24h[0].porcentaje, number: null },
+            { key: "volume", price: Number(data.volumen24h).toLocaleString("en-US"), percent: Number(data.jsonvolumen24h[0].porcentaje).toFixed(2), number: null },
             { key: "price", price: Number(data.floor_price).toLocaleString("en-US"), percent: "", number: null },
           ]
 

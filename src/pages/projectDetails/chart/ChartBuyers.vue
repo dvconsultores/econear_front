@@ -213,7 +213,6 @@ export default {
       }
       var contBuyers = 0
       var contSellers = 0
-      console.log(item)
       this.axios.post(url, item)
         .then((response) => {
           for (var i = 0; i < response.data.length; i++) {

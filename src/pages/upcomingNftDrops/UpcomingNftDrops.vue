@@ -76,10 +76,10 @@
               <!-- <v-icon>mdi-arrow-up-bold</v-icon> -->
               <v-icon>mdi-thumb-up</v-icon>
             </v-btn>
-            <v-btn class="btn" style="--p:.45em 1.5em;min-width:max-content;height:max-content;
+            <!-- <v-btn class="btn" style="--p:.45em 1.5em;min-width:max-content;height:max-content;
               --c:#000000;--bs:0 2px 3px 1px hsl(171, 100%, 72%, .4)" :href="item.website"  target="_blank">
               Mint
-            </v-btn>
+            </v-btn> -->
           </div>
         </aside>
       </v-card>
