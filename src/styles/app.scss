@@ -57,11 +57,16 @@
 }
 
 //- data tables -//
-.v-data-table__wrapper {
-  span, td {
-    font-size: 1em !important;
+.v-data-table {
+  .v-data-table__wrapper {
+    span, td {
+      font-size: 1em !important;
+    }
+    &::-webkit-scrollbar {display: none}
   }
-  &::-webkit-scrollbar {display: none}
+  .v-data-footer {
+    *, ::before, ::after {color: #fff !important}
+  }
 }
 
 //- delete controls to slide -//
