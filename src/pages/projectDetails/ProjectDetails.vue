@@ -188,7 +188,7 @@
           <template v-slot:[`item.name`]="{ item }">
             <div class="acenter gap1 tstart">
               <img :src="item.img" alt="nft image" style="--w:4.710625em">
-              <span style="max-width:18ch" :title="item.name" class="bold">{{verificar(item.name, 20)}}</span>
+              <span style="max-width:18ch" :title="item.name" class="bold">{{verificar(item.name, 37)}}</span>
             </div>
           </template>
 
@@ -761,6 +761,20 @@ import ChartTwitter from './chart/ChartTwitter.vue'
 import ChartRarityDistribution from './chart/ChartRarityDistribution.vue'
 import ChartRarityPrice from './chart/ChartRarityPrice.vue'
 import moment from 'moment'
+
+import * as nearAPI from 'near-api-js'
+
+const { connect, transactions, keyStores, WalletConnection, Contract, utils } = nearAPI
+const keyStore = new keyStores.BrowserLocalStorageKeyStore()
+
+const config = {
+  networkId: "mainnet",
+  keyStore, 
+  nodeUrl: "https://rpc.mainnet.near.org",
+  walletUrl: "https://wallet.mainnet.near.org",
+  helperUrl: "https://helper.mainnet.near.org",
+  explorerUrl: "https://explorer.mainnet.near.org",
+};
 export default {
   name: "details",
   i18n: require("./i18n"),
@@ -996,7 +1010,8 @@ export default {
       search: null,
     }
   },
-  mounted() {
+  async mounted() {
+    await this.pushHome()
     this.priceNEAR()
     this.getNftCollection()
     this.getDataCollection()
@@ -1008,6 +1023,41 @@ export default {
     window.onresize = () => this.Responsive()
   },
   methods: {
+    async pushHome () {
+      const near = await connect(config);
+      const wallet = new WalletConnection(near)
+      if (!wallet.isSignedIn()) {
+        this.$router.push("/")
+      } else {
+        const result = await this.isHolderMonke()
+        if (result === 0 && this.contract_nft !== "monkeonear.neartopia.near") {
+          this.$router.push("/contact") //No Holder
+        }
+      }
+    },
+    async isHolderMonke() {
+      const CONTRACT_NAME = 'monkeonear.neartopia.near'
+      // connect to NEAR
+      const near = await connect(config)
+      // create wallet connection
+      const wallet = new WalletConnection(near)
+      if (wallet.isSignedIn()) {
+        const contract = new Contract(wallet.account(), CONTRACT_NAME, {
+          viewMethods: ['nft_supply_for_owner'],
+          sender: wallet.account()
+        })
+        let res = await contract.nft_supply_for_owner({
+          account_id: wallet.getAccountId(),
+        })
+          .then((response) => {
+            return Number(response)
+          }).catch((error) => {
+            console.log("ERR",error)
+            return 0
+          })
+        return res
+      }
+    },
     clickSearch (item) {
       this.token_id = item.token_id
       this.getNftCollection()
