@@ -159,129 +159,14 @@ export default {
         //     { name: "telegram", url: "#" },
         //   ],
         // },
-        // {
-        //   img: require("@/assets/nfts/nft4.png"),
-        //   name: "Collection o NFT Name",
-        //   type: "Utility",
-        //   desc: "The first ever community voting tool and wallet management tool that comes with built-in data analysis system to find the best project on NEAR PROTOCOL",
-        //   price: "9 NEAR",
-        //   supply: "3333",
-        //   date: "01 FEB 2022 17:00:00",
-        //   votes: "6,917",
-        //   cronometer: [ {time: '02'}, {time: '11'}, {time: '31'}, {time: '42'} ],
-        //   redes: [
-        //     { name: "twitter", url: "#" },
-        //     { name: "discord", url: "#" },
-        //     { name: "telegram", url: "#" },
-        //   ],
-        // },
-        // {
-        //   img: require("@/assets/nfts/nft1.png"),
-        //   name: "Collection o NFT Name",
-        //   type: "Utility",
-        //   desc: "The first ever community voting tool and wallet management tool that comes with built-in data analysis system to find the best project on NEAR PROTOCOL",
-        //   price: "9 NEAR",
-        //   supply: "3333",
-        //   date: "01 FEB 2022 17:00:00",
-        //   votes: "6,917",
-        //   cronometer: [ {time: '02'}, {time: '11'}, {time: '31'}, {time: '42'} ],
-        //   redes: [
-        //     { name: "twitter", url: "#" },
-        //     { name: "discord", url: "#" },
-        //     { name: "telegram", url: "#" },
-        //   ],
-        // },
-        // {
-        //   img: require("@/assets/nfts/nft2.png"),
-        //   name: "Collection o NFT Name",
-        //   type: "Utility",
-        //   desc: "The first ever community voting tool and wallet management tool that comes with built-in data analysis system to find the best project on NEAR PROTOCOL",
-        //   price: "9 NEAR",
-        //   supply: "3333",
-        //   date: "01 FEB 2022 17:00:00",
-        //   votes: "6,917",
-        //   cronometer: [ {time: '02'}, {time: '11'}, {time: '31'}, {time: '42'} ],
-        //   redes: [
-        //     { name: "twitter", url: "#" },
-        //     { name: "discord", url: "#" },
-        //     { name: "telegram", url: "#" },
-        //   ],
-        // },
-        // {
-        //   img: require("@/assets/nfts/nft3.png"),
-        //   name: "Collection o NFT Name",
-        //   type: "Utility",
-        //   desc: "The first ever community voting tool and wallet management tool that comes with built-in data analysis system to find the best project on NEAR PROTOCOL",
-        //   price: "9 NEAR",
-        //   supply: "3333",
-        //   date: "01 FEB 2022 17:00:00",
-        //   votes: "6,917",
-        //   cronometer: [ {time: '02'}, {time: '11'}, {time: '31'}, {time: '42'} ],
-        //   redes: [
-        //     { name: "twitter", url: "#" },
-        //     { name: "discord", url: "#" },
-        //     { name: "telegram", url: "#" },
-        //   ],
-        // },
-        // {
-        //   img: require("@/assets/nfts/nft4.png"),
-        //   name: "Collection o NFT Name",
-        //   type: "Utility",
-        //   desc: "The first ever community voting tool and wallet management tool that comes with built-in data analysis system to find the best project on NEAR PROTOCOL",
-        //   price: "9 NEAR",
-        //   supply: "3333",
-        //   date: "01 FEB 2022 17:00:00",
-        //   votes: "6,917",
-        //   cronometer: [ {time: '02'}, {time: '11'}, {time: '31'}, {time: '42'} ],
-        //   redes: [
-        //     { name: "twitter", url: "#" },
-        //     { name: "discord", url: "#" },
-        //     { name: "telegram", url: "#" },
-        //   ],
-        // },
       ]
     }
   },
   async mounted() {
-    await this.pushHome()
+    await this.$store.dispatch('pushHomeNormal')
     this.getNewProjects()
   },
   methods: {
-    async pushHome () {
-      const near = await connect(config);
-      const wallet = new WalletConnection(near)
-      if (!wallet.isSignedIn()) {
-        this.$router.push("/")
-      } else {
-        const result = await this.isHolderMonke()
-        if (result === 0) {
-          this.$router.push("/restringed") //No Holder
-        }
-      }
-    },
-    async isHolderMonke() {
-      const CONTRACT_NAME = 'monkeonear.neartopia.near'
-      // connect to NEAR
-      const near = await connect(config)
-      // create wallet connection
-      const wallet = new WalletConnection(near)
-      if (wallet.isSignedIn()) {
-        const contract = new Contract(wallet.account(), CONTRACT_NAME, {
-          viewMethods: ['nft_supply_for_owner'],
-          sender: wallet.account()
-        })
-        let res = await contract.nft_supply_for_owner({
-          account_id: wallet.getAccountId(),
-        })
-          .then((response) => {
-            return Number(response)
-          }).catch((error) => {
-            console.log("ERR",error)
-            return 0
-          })
-        return res
-      }
-    },
     async votar (contract_id, vote) {
       document.documentElement.style.cursor = "progress"
       const CONTRACT_NAME = 'backend.monkeonnear.near'

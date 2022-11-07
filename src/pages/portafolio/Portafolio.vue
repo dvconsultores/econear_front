@@ -539,7 +539,7 @@ export default {
     }
   },
   async mounted() {
-    await this.pushHome()
+    await this.$store.dispatch('pushHomeNormal')
     this.priceNEAR()
     // this.getNftCollection()
     this.getNFTContractsByAccount()
@@ -631,43 +631,6 @@ export default {
         
       }
     },
-    async pushHome () {
-      const near = await connect(config);
-      const wallet = new WalletConnection(near)
-      if (!wallet.isSignedIn()) {
-        this.$router.push("/")
-      } 
-      // else {
-      //   const result = await this.isHolderMonke()
-      //   if (result === 0) {
-      //     this.$router.push("/restringed") //No Holder
-      //   }
-      // }
-    },
-    async isHolderMonke() {
-      //const CONTRACT_NAME = 'monkeonear.neartopia.near'
-      const CONTRACT_NAME = 'degenlizard.near'
-      // connect to NEAR
-      const near = await connect(config)
-      // create wallet connection
-      const wallet = new WalletConnection(near)
-      if (wallet.isSignedIn()) {
-        const contract = new Contract(wallet.account(), CONTRACT_NAME, {
-          viewMethods: ['nft_supply_for_owner'],
-          sender: wallet.account()
-        })
-        let res = await contract.nft_supply_for_owner({
-          account_id: wallet.getAccountId(),
-        })
-          .then((response) => {
-            return Number(response)
-          }).catch((error) => {
-            console.log("ERR",error)
-            return 0
-          })
-        return res
-      }
-    },
   async getNFTContractsByAccount() {
     const near = await connect(config);
     const wallet = new WalletConnection(near)
@@ -725,10 +688,8 @@ export default {
       "collection": collection,
       "token_id": token_id
     }
-    console.log(collection, token_id, index)
     this.axios.post(url, item)
       .then((response) => {
-        console.log(response.data)
         if (response.data[0]) {
           this.dataTable[index-1].rarity = response.data[0].rareza
           this.dataTable[index-1].rarity_score = Number(response.data[0].rarity_score).toFixed(2)

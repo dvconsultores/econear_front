@@ -133,7 +133,7 @@ export default new Router({
           component: () => import('@/pages/contact/Contact'),
         },
         {
-          path: '/restringed',
+          path: '/restricted',
           name: 'restringed',
           component: () => import('@/pages/restringed/Restringed'),
         },

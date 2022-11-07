@@ -11,7 +11,7 @@
 
       <apexchart
         width="100%"
-        height="600px"
+        height="430x"
         type="donut"
         ref="chart" 
         :options="chartOptions"

@@ -153,46 +153,11 @@ export default {
     }
   },
   async mounted(){
-    await this.pushHome()
+    await this.$store.dispatch('pushHomeNormal')
     this.upcomingListed()
     this.date = new Date().toDateString();
   },
   methods: {
-    async pushHome () {
-      const near = await connect(config);
-      const wallet = new WalletConnection(near)
-      if (!wallet.isSignedIn()) {
-        this.$router.push("/")
-      } else {
-        const result = await this.isHolderMonke()
-        if (result === 0) {
-          this.$router.push("/restringed") //No Holder
-        }
-      }
-    },
-    async isHolderMonke() {
-      const CONTRACT_NAME = 'monkeonear.neartopia.near'
-      // connect to NEAR
-      const near = await connect(config)
-      // create wallet connection
-      const wallet = new WalletConnection(near)
-      if (wallet.isSignedIn()) {
-        const contract = new Contract(wallet.account(), CONTRACT_NAME, {
-          viewMethods: ['nft_supply_for_owner'],
-          sender: wallet.account()
-        })
-        let res = await contract.nft_supply_for_owner({
-          account_id: wallet.getAccountId(),
-        })
-          .then((response) => {
-            return Number(response)
-          }).catch((error) => {
-            console.log("ERR",error)
-            return 0
-          })
-        return res
-      }
-    },
     async upcomingListed(){
       this.dataProjects = []
       const url = "api/v1/upcominglisted"
