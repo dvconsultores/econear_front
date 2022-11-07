@@ -205,6 +205,7 @@ export default {
     }
   },
   async mounted() {
+    await this.pushHome()
     localStorage.nft_contract = this.contract_nft
     const queryString = window.location.search; // tomo mi url
     const urlParams = new URLSearchParams(queryString); // tomo los paramtros de url
@@ -230,6 +231,41 @@ export default {
     this.getDataCollection()
   },
   methods: {
+    async pushHome () {
+      const near = await connect(config);
+      const wallet = new WalletConnection(near)
+      if (!wallet.isSignedIn()) {
+        this.$router.push("/")
+      } else {
+        const result = await this.isHolderMonke()
+        if (result === 0 && this.contract_nft !== "monkeonear.neartopia.near") {
+          this.$router.push("/contact") //No Holder
+        }
+      }
+    },
+    async isHolderMonke() {
+      const CONTRACT_NAME = 'monkeonear.neartopia.near'
+      // connect to NEAR
+      const near = await connect(config)
+      // create wallet connection
+      const wallet = new WalletConnection(near)
+      if (wallet.isSignedIn()) {
+        const contract = new Contract(wallet.account(), CONTRACT_NAME, {
+          viewMethods: ['nft_supply_for_owner'],
+          sender: wallet.account()
+        })
+        let res = await contract.nft_supply_for_owner({
+          account_id: wallet.getAccountId(),
+        })
+          .then((response) => {
+            return Number(response)
+          }).catch((error) => {
+            console.log("ERR",error)
+            return 0
+          })
+        return res
+      }
+    },
     async buy_nft(item) {
       console.log(item)
       const near = await connect(config);

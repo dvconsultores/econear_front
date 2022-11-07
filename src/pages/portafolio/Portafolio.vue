@@ -558,7 +558,7 @@ export default {
           this.getPriceChangeBinance(coin)
         })
     },
-    getPriceChangeBinance(coin) {
+    async getPriceChangeBinance(coin) {
       if (coin !== 'usdt' && coin !== 'usdc') {
         this.axios.get("https://api.binance.com/api/v3/ticker/24hr?symbol=" + coin.toUpperCase() +"USDT")
           .then((response) => {
@@ -590,6 +590,24 @@ export default {
           .catch((e) => {
             console.log(e)
           })
+      } else {
+        let price 
+        if (coin === "usdt") {
+          price = await this.getTokenPrice("dac17f958d2ee523a2206206994597c13d831ec7.factory.bridge.near")
+        } else if (coin === "usdc") {
+          price = await this.getTokenPrice("a0b86991c6218b36c1d19d4a2e9eb0ce3606eb48.factory.bridge.near")
+        }
+        let token = {
+          dollar: String(Number(price).toFixed(2)),
+          value: Number(price),
+          percent: "+0"
+        }
+        if (coin === "usdt") {
+          this.dataStatistics.usdt = token
+        } else if (coin === "usdc") {
+          this.dataStatistics.usdc = token
+        }
+        
       }
     },
     async pushHome () {
@@ -597,6 +615,35 @@ export default {
       const wallet = new WalletConnection(near)
       if (!wallet.isSignedIn()) {
         this.$router.push("/")
+      } else {
+        const result = await this.isHolderMonke()
+        if (result === 0) {
+          this.$router.push("/contact") //No Holder
+        }
+      }
+    },
+    async isHolderMonke() {
+      const CONTRACT_NAME = 'monkeonear.neartopia.near'
+      //const CONTRACT_NAME = 'degenlizard.near'
+      // connect to NEAR
+      const near = await connect(config)
+      // create wallet connection
+      const wallet = new WalletConnection(near)
+      if (wallet.isSignedIn()) {
+        const contract = new Contract(wallet.account(), CONTRACT_NAME, {
+          viewMethods: ['nft_supply_for_owner'],
+          sender: wallet.account()
+        })
+        let res = await contract.nft_supply_for_owner({
+          account_id: wallet.getAccountId(),
+        })
+          .then((response) => {
+            return Number(response)
+          }).catch((error) => {
+            console.log("ERR",error)
+            return 0
+          })
+        return res
       }
     },
   async getNFTContractsByAccount() {

@@ -150,6 +150,20 @@ import ChartTotalSale from './ChartTotalSale.vue'
 import ChartDiscord from './ChartDiscord.vue'
 import ChartTwitter from './ChartTwitter.vue'
 
+import * as nearAPI from 'near-api-js'
+
+const { connect, transactions, keyStores, WalletConnection, Contract, utils } = nearAPI
+const keyStore = new keyStores.BrowserLocalStorageKeyStore()
+
+const config = {
+  networkId: "mainnet",
+  keyStore, 
+  nodeUrl: "https://rpc.mainnet.near.org",
+  walletUrl: "https://wallet.mainnet.near.org",
+  helperUrl: "https://helper.mainnet.near.org",
+  explorerUrl: "https://explorer.mainnet.near.org",
+};
+
 export default {
   name: "marketplaceStats",
   i18n: require("./i18n"),
@@ -226,11 +240,47 @@ export default {
     }
   },
   mounted() {
+    this.pushHome()
     this.getDataMarketplace()
     this.Responsive()
     window.onresize = () => this.Responsive()
   },
   methods: {
+    async pushHome () {
+      const near = await connect(config);
+      const wallet = new WalletConnection(near)
+      if (!wallet.isSignedIn()) {
+        this.$router.push("/")
+      } else {
+        const result = await this.isHolderMonke()
+        if (result === 0) {
+          this.$router.push("/contact") //No Holder
+        }
+      }
+    },
+    async isHolderMonke() {
+      const CONTRACT_NAME = 'monkeonear.neartopia.near'
+      // connect to NEAR
+      const near = await connect(config)
+      // create wallet connection
+      const wallet = new WalletConnection(near)
+      if (wallet.isSignedIn()) {
+        const contract = new Contract(wallet.account(), CONTRACT_NAME, {
+          viewMethods: ['nft_supply_for_owner'],
+          sender: wallet.account()
+        })
+        let res = await contract.nft_supply_for_owner({
+          account_id: wallet.getAccountId(),
+        })
+          .then((response) => {
+            return Number(response)
+          }).catch((error) => {
+            console.log("ERR",error)
+            return 0
+          })
+        return res
+      }
+    },
     async search2() {
       //await this.get_market()
       const search = document.getElementById('search')
