@@ -293,6 +293,17 @@
           {{item.marketplace}}
         </span> -->
       </template>
+
+      <template v-slot:[`item.rarity`]="{ item }">
+        <v-chip style="border-radius: .3vmax"
+          :color="item.rarity=='common'?'#26A17B':
+          item.rarity=='uncommon'?'#F7972C':
+          item.rarity=='rare'?'#EF3340':
+          item.rarity=='epic'?'#0000B6':
+          item.rarity=='legendary'?'#6A25D2':null">
+          <span class="tfirst">{{item.rarity}}</span>
+        </v-chip>
+      </template>
     </v-data-table>
 
     <!-- mosaico -->
@@ -306,6 +317,15 @@
             <span>Token ID</span>
             <span :title="item.token_id">
               {{verificar(item.token_id, 14)}}
+            </span>
+            <!-- <span :style="item.state_change?'color:#22B573':'color:var(--error)'">
+              {{item.state_change?'+':'-'}}{{item.change}}%
+            </span> -->
+          </div>
+          <div class="space h11_em">
+            <span>Rarity Score</span>
+            <span>
+              {{item.rarity_score}}
             </span>
             <!-- <span :style="item.state_change?'color:#22B573':'color:var(--error)'">
               {{item.state_change?'+':'-'}}{{item.change}}%
@@ -328,16 +348,17 @@
             <span>{{item.market_name}}</span>
           </div> -->
 
-          <!-- <div class="space">
+          <div class="space">
             <span class="h11_em">Rarity</span>
             <v-chip style="border-radius: .3vmax"
-              :color="item.rarity=='rare'?'#26A17B':
-              item.rarity=='common'?'var(--warning)':
-              item.rarity=='legendary'?'#0000B6':
-              item.rarity=='mystic'?'#6A25D2':null">
-              <span class="tfirst h11_em">{{item.rarity}}</span>
+              :color="item.rarity=='common'?'#26A17B':
+              item.rarity=='uncommon'?'#F7972C':
+              item.rarity=='rare'?'#EF3340':
+              item.rarity=='epic'?'#0000B6':
+              item.rarity=='legendary'?'#6A25D2':null">
+              <span class="tfirst">{{item.rarity}}</span>
             </v-chip>
-          </div> -->
+          </div>
         </aside>
       </v-card>
     </section>
@@ -492,7 +513,8 @@ export default {
       headersTable: [
         { value: "nft", text: "NFT", align: "center", sortable: false },
         { value: "token_id", text: "Token ID", align: "center", sortable: false },
-        // { value: "price", text: "Price", align: "center", sortable: false },
+        { value: "rarity_score", text: "Rarity Score", align: "center", sortable: false },
+        { value: "rarity", text: "Rareness", align: "center", sortable: false },
         // { value: "market_icon", text: "Marketplace", align: "center", sortable: false },
         // { value: "holdings", text: "Holdings", align: "center", sortable: false },
       ],
@@ -517,7 +539,7 @@ export default {
     }
   },
   async mounted() {
-    this.pushHome()
+    await this.pushHome()
     this.priceNEAR()
     // this.getNftCollection()
     this.getNFTContractsByAccount()
@@ -562,7 +584,6 @@ export default {
       if (coin !== 'usdt' && coin !== 'usdc') {
         this.axios.get("https://api.binance.com/api/v3/ticker/24hr?symbol=" + coin.toUpperCase() +"USDT")
           .then((response) => {
-            console.log(coin, response.data)
             let data = response.data
             let token
 
@@ -615,16 +636,17 @@ export default {
       const wallet = new WalletConnection(near)
       if (!wallet.isSignedIn()) {
         this.$router.push("/")
-      } else {
-        const result = await this.isHolderMonke()
-        if (result === 0) {
-          this.$router.push("/contact") //No Holder
-        }
-      }
+      } 
+      // else {
+      //   const result = await this.isHolderMonke()
+      //   if (result === 0) {
+      //     this.$router.push("/restringed") //No Holder
+      //   }
+      // }
     },
     async isHolderMonke() {
-      const CONTRACT_NAME = 'monkeonear.neartopia.near'
-      //const CONTRACT_NAME = 'degenlizard.near'
+      //const CONTRACT_NAME = 'monkeonear.neartopia.near'
+      const CONTRACT_NAME = 'degenlizard.near'
       // connect to NEAR
       const near = await connect(config)
       // create wallet connection
@@ -684,15 +706,36 @@ export default {
           name: result[i].metadata.title || result[i].token_id,
           desc: contract_id,
           token_id: result[i].token_id,
+          rarity: "---",
+          rarity_score: "---"
         }
           
         this.dataTable.push(collection)
+        this.rarityNft(contract_id, result[i].token_id, this.dataTable.length)
         // await this.getNFTById(contract_id, result[i].token_id)
       }
     } catch (err) {
       console.log("err", contract_id);
       return [];
     }
+  },
+  rarityNft(collection, token_id, index) {
+    const url = "api/v1/rarezastoken"
+    let item = {
+      "collection": collection,
+      "token_id": token_id
+    }
+    console.log(collection, token_id, index)
+    this.axios.post(url, item)
+      .then((response) => {
+        console.log(response.data)
+        if (response.data[0]) {
+          this.dataTable[index-1].rarity = response.data[0].rareza
+          this.dataTable[index-1].rarity_score = Number(response.data[0].rarity_score).toFixed(2)
+        }
+      }).catch((error) => {
+        console.log(error)
+      })
   },
   buildMediaUrl (media, base_uri) {
       if (!media || media.includes('://') || media.startsWith('data:image')) {

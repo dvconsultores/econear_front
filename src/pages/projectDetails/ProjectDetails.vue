@@ -1031,7 +1031,7 @@ export default {
       } else {
         const result = await this.isHolderMonke()
         if (result === 0 && this.contract_nft !== "monkeonear.neartopia.near") {
-          this.$router.push("/contact") //No Holder
+          this.$router.push("/restringed") //No Holder
         }
       }
     },

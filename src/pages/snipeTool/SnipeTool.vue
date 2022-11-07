@@ -180,7 +180,7 @@ export default {
       } else {
         const result = await this.isHolderMonke()
         if (result === 0) {
-          this.$router.push("/contact") //No Holder
+          this.$router.push("/restringed") //No Holder
         }
       }
     },

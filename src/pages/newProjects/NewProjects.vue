@@ -243,7 +243,7 @@ export default {
     }
   },
   async mounted() {
-    this.pushHome()
+    await this.pushHome()
     this.getNewProjects()
   },
   methods: {
@@ -255,7 +255,7 @@ export default {
       } else {
         const result = await this.isHolderMonke()
         if (result === 0) {
-          this.$router.push("/contact") //No Holder
+          this.$router.push("/restringed") //No Holder
         }
       }
     },

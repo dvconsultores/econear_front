@@ -412,8 +412,8 @@ export default {
       return this.$store.state.dataUser.avatar
     },
   },
-  mounted() {
-    this.pushHome()
+  async mounted() {
+    await this.pushHome()
     this.avatar = this.$store.state.dataUser.avatar
     this.getData()
     this.get_projects()

@@ -433,9 +433,9 @@ export default {
       indexMore: 0
     }
   },
-  mounted() {
+  async mounted() {
     // this.getNftCollection()
-    this.pushHome()
+    await this.pushHome()
     this.getNFTContractsByAccount()
     this.getUnlistedNft()
     this.Responsive()
@@ -478,7 +478,7 @@ export default {
       } else {
         const result = await this.isHolderMonke()
         if (result === 0) {
-          this.$router.push("/contact") //No Holder
+          this.$router.push("/restringed") //No Holder
         }
       }
     },
