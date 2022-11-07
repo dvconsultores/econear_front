@@ -132,6 +132,11 @@ export default new Router({
           name: 'contact',
           component: () => import('@/pages/contact/Contact'),
         },
+        {
+          path: '/restringed',
+          name: 'restringed',
+          component: () => import('@/pages/restringed/Restringed'),
+        },
       ],
     },
     // path 3
