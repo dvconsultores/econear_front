@@ -50,17 +50,18 @@
               <!-- <div class="space">
                 <span>Holdings</span>
                 <span>{{item.holdings}}</span>
-              </div>
+              </div> -->
               <div class="space">
                 <span>Rarity</span>
-                <v-chip style="border-radius: .3vmax" id="rarity"
-                  :color="item.rarity=='rare'?'#26A17B':
-                  item.rarity=='common'?'var(--warning)':
-                  item.rarity=='legendary'?'#0000B6':
-                  item.rarity=='mystic'?'#6A25D2':null">
+                <v-chip style="border-radius: .3vmax"
+                  :color="item.rarity=='common'?'#26A17B':
+                  item.rarity=='uncommon'?'#F7972C':
+                  item.rarity=='rare'?'#EF3340':
+                  item.rarity=='epic'?'#0000B6':
+                  item.rarity=='legendary'?'#6A25D2':null">
                   <span class="tfirst">{{item.rarity}}</span>
                 </v-chip>
-              </div> -->
+              </div>
             </div>
           </v-sheet>
         </v-card>
@@ -779,15 +780,32 @@ export default {
               name: result[i].metadata.title || result[i].token_id,
               token_id: result[i].token_id,
               selected: false,
+              rarity: "-"
             }
           
         this.dataNfts3.push(collection)
+        this.rarityNft(contract_id, result[i].token_id, this.dataNfts3.length)
       }
 
     } catch (err) {
       console.log("err", contract_id);
       return [];
     }
+  },
+  rarityNft(collection, token_id, index) {
+    const url = "api/v1/rarezastoken"
+    let item = {
+      "collection": collection,
+      "token_id": token_id
+    }
+    this.axios.post(url, item)
+      .then((response) => {
+        if (response.data[0]) {
+          this.dataNfts3[index-1].rarity = response.data[0].rareza
+        }
+      }).catch((error) => {
+        console.log(error)
+      })
   },
   buildMediaUrl (media, base_uri) {
       if (!media || media.includes('://') || media.startsWith('data:image')) {

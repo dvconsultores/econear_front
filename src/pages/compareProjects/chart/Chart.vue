@@ -2,6 +2,25 @@
   <section id="linechart" class="charts fwrap card">
     <!-- chart 1 -->
     <aside class="divcol">
+      <div class="divcol">
+        <!-- <h3 class="h9_em">Buyers &amp; Traders</h3> -->
+
+        <div class="space gap2">
+          <aside class="divcol">
+            <div class="legend acenter">
+              <div class="marker" style="--color: #6A25D2" />
+              <span>Buyers</span>
+            </div>
+          </aside>
+
+          <aside class="divcol">
+            <div class="legend acenter">
+              <div class="marker" style="--color: #6FFFE9" />
+              <span>Sellers</span>
+            </div>
+          </aside>
+        </div>
+      </div>
       <div class="toolbar responsive_actions">
         <v-btn v-for="(item,i) in dataControls" :key="i" @click="updateDate(item)"
           :class="{active: selection===item.key}">
@@ -21,7 +40,7 @@
 
 
     <!-- chart 2 -->
-    <aside class="divcol">
+    <!-- <aside class="divcol">
       <div class="toolbar responsive_actions">
         <v-btn v-for="(item,i) in dataControls" :key="i" @click="updateDate2(item)"
           :class="{active: selection2===item.key}">
@@ -37,7 +56,7 @@
         :options="chartOptions2"
         :series="chartSeries2"
       ></apexchart>
-    </aside>
+    </aside> -->
   </section>
 </template>
 
@@ -78,6 +97,18 @@ export default {
       itemDate2: { key: "24h", name: "24h" },
       selection: '24h',
       selection2: '24h',
+      auxChart: [
+        {
+          name: 'Project 1',
+          data: [],
+          active: false
+        },
+        {
+          name: 'Project 2',
+          data: [],
+          active: false
+        }
+      ],
       // series
       chartSeries1: [
       ],
@@ -89,7 +120,7 @@ export default {
         grid: {
           show: false,
         },
-        colors: ["#92C5FC"],
+        colors: ["#92C5FC", "#FF0000"],
         chart: {
           stacked: false,
           toolbar: {
@@ -209,6 +240,8 @@ export default {
       this.selection = item.key
       this.itemDate = item
 
+      this.updateDate2(item)
+
       if (this.controls === "Floor price") {
         this.getGraficaFloor(this.collecion1)
       } else if (this.controls === "Volume") {
@@ -219,8 +252,22 @@ export default {
         this.getGraficaLiquidity()
       }
     },
- 
+    resetChart() {
+      this.auxChart = [
+        {
+          name: 'Project 1',
+          data: [],
+          active: false
+        },
+        {
+          name: 'Project 2',
+          data: [],
+          active: false
+        }
+      ]
+    },
     getGraficaFloor(collection) {
+      this.resetChart()
       this.collecion1 = collection
       var seriesAverage = [];
       const url = "api/v1/stastpricecollection"
@@ -258,17 +305,30 @@ export default {
             seriesAverage.push([x, yAverage]);
           }
 
-          this.chartSeries1 = [
-            {
-              name: 'Floor Price',
-              data: seriesAverage
-            },
-          ]
+          this.auxChart[0].name = collection
+          this.auxChart[0].data = seriesAverage
+          this.auxChart[0].active = true
+
+          if (this.auxChart[1].active === true) {
+            this.chartSeries1 = [
+              {
+                name: this.auxChart[0].name,
+                data: this.auxChart[0].data
+              },
+              {
+                name: this.auxChart[1].name,
+                data: this.auxChart[1].data
+              },
+            ]
+          }
+
+          
         }).catch((error) => {
           console.log(error)
         })
     },
     getGraficaFloor2(collection) {
+      this.resetChart()
       this.collecion2 = collection
       var seriesAverage = [];
       const url = "api/v1/stastpricecollection"
@@ -305,18 +365,36 @@ export default {
             let yAverage = Number(response.data[i].floor_price).toFixed(2)
             seriesAverage.push([x, yAverage]);
           }
+
+          this.auxChart[1].name = collection
+          this.auxChart[1].data = seriesAverage
+          this.auxChart[1].active = true
+
+          if (this.auxChart[0].active === true) {
+            this.chartSeries1 = [
+              {
+                name: this.auxChart[0].name,
+                data: this.auxChart[0].data
+              },
+              {
+                name: this.auxChart[1].name,
+                data: this.auxChart[1].data
+              },
+            ]
+          }
           
-          this.chartSeries2 = [
-            {
-              name: 'Floor Price',
-              data: seriesAverage
-            },
-          ]
+          // this.chartSeries2 = [
+          //   {
+          //     name: 'Floor Price',
+          //     data: seriesAverage
+          //   },
+          // ]
         }).catch((error) => {
           console.log(error)
         })
     },
     getGraficaVolume() {
+      this.resetChart()
       var seriesFloor = [];
       var seriesAverage = [];
       const url = "api/v1/stastmarketcapvolumencollection"
@@ -356,17 +434,35 @@ export default {
             seriesAverage.push([x, yAverage]);
           }
 
-          this.chartSeries1 = [
-            {
-              name: 'Volume',
-              data: seriesAverage
-            },
-          ]
+          this.auxChart[0].name = "Project 1"
+          this.auxChart[0].data = seriesAverage
+          this.auxChart[0].active = true
+
+          if (this.auxChart[1].active === true) {
+            this.chartSeries1 = [
+              {
+                name: this.auxChart[0].name,
+                data: this.auxChart[0].data
+              },
+              {
+                name: this.auxChart[1].name,
+                data: this.auxChart[1].data
+              },
+            ]
+          }
+
+          // this.chartSeries1 = [
+          //   {
+          //     name: 'Volume',
+          //     data: seriesAverage
+          //   },
+          // ]
         }).catch((error) => {
           console.log(error)
         })
     },
     getGraficaSales() {
+      this.resetChart()
       var seriesAverage = [];
       const url = "api/v1/StastSalesLiquidCollection"
       let item = {
@@ -403,17 +499,35 @@ export default {
             seriesAverage.push([x, yAverage]);
           }
 
-          this.chartSeries1 = [
-            {
-              name: 'Sales',
-              data: seriesAverage
-            },
-          ]
+          this.auxChart[0].name = "Project 1"
+          this.auxChart[0].data = seriesAverage
+          this.auxChart[0].active = true
+
+          if (this.auxChart[1].active === true) {
+            this.chartSeries1 = [
+              {
+                name: this.auxChart[0].name,
+                data: this.auxChart[0].data
+              },
+              {
+                name: this.auxChart[1].name,
+                data: this.auxChart[1].data
+              },
+            ]
+          }
+
+          // this.chartSeries1 = [
+          //   {
+          //     name: 'Sales',
+          //     data: seriesAverage
+          //   },
+          // ]
         }).catch((error) => {
           console.log(error)
         })
     },
     getGraficaLiquidity() {
+      this.resetChart()
       var seriesAverage = [];
       const url = "api/v1/StastSalesLiquidCollection"
       let item = {
@@ -450,12 +564,29 @@ export default {
             seriesAverage.push([x, yAverage]);
           }
 
-          this.chartSeries1 = [
-            {
-              name: 'Liquidity',
-              data: seriesAverage
-            },
-          ]
+          this.auxChart[0].name = "Project 1"
+          this.auxChart[0].data = seriesAverage
+          this.auxChart[0].active = true
+
+          if (this.auxChart[1].active === true) {
+            this.chartSeries1 = [
+              {
+                name: this.auxChart[0].name,
+                data: this.auxChart[0].data
+              },
+              {
+                name: this.auxChart[1].name,
+                data: this.auxChart[1].data
+              },
+            ]
+          }
+
+          // this.chartSeries1 = [
+          //   {
+          //     name: 'Liquidity',
+          //     data: seriesAverage
+          //   },
+          // ]
         }).catch((error) => {
           console.log(error)
         })
@@ -474,6 +605,7 @@ export default {
       }
     },
     getGraficaVolume2() {
+      this.resetChart()
       var seriesFloor = [];
       var seriesAverage = [];
       const url = "api/v1/stastmarketcapvolumencollection"
@@ -513,17 +645,35 @@ export default {
             seriesAverage.push([x, yAverage]);
           }
 
-          this.chartSeries2 = [
-            {
-              name: 'Volume',
-              data: seriesAverage
-            },
-          ]
+          this.auxChart[1].name = "Project 2"
+          this.auxChart[1].data = seriesAverage
+          this.auxChart[1].active = true
+
+          if (this.auxChart[0].active === true) {
+            this.chartSeries1 = [
+              {
+                name: this.auxChart[0].name,
+                data: this.auxChart[0].data
+              },
+              {
+                name: this.auxChart[1].name,
+                data: this.auxChart[1].data
+              },
+            ]
+          }
+
+          // this.chartSeries2 = [
+          //   {
+          //     name: 'Volume',
+          //     data: seriesAverage
+          //   },
+          // ]
         }).catch((error) => {
           console.log(error)
         })
     },
     getGraficaSales2() {
+      this.resetChart()
       var seriesAverage = [];
       const url = "api/v1/StastSalesLiquidCollection"
       let item = {
@@ -561,17 +711,35 @@ export default {
             seriesAverage.push([x, yAverage]);
           }
 
-          this.chartSeries2 = [
-            {
-              name: 'Sales',
-              data: seriesAverage
-            },
-          ]
+          this.auxChart[1].name = "Project 2"
+          this.auxChart[1].data = seriesAverage
+          this.auxChart[1].active = true
+
+          if (this.auxChart[0].active === true) {
+            this.chartSeries1 = [
+              {
+                name: this.auxChart[0].name,
+                data: this.auxChart[0].data
+              },
+              {
+                name: this.auxChart[1].name,
+                data: this.auxChart[1].data
+              },
+            ]
+          }
+
+          // this.chartSeries2 = [
+          //   {
+          //     name: 'Sales',
+          //     data: seriesAverage
+          //   },
+          // ]
         }).catch((error) => {
           console.log(error)
         })
     },
     getGraficaLiquidity2() {
+      this.resetChart()
       var seriesAverage = [];
       const url = "api/v1/StastSalesLiquidCollection"
       let item = {
@@ -609,12 +777,29 @@ export default {
             seriesAverage.push([x, yAverage]);
           }
 
-          this.chartSeries2 = [
-            {
-              name: 'Liquidity',
-              data: seriesAverage
-            },
-          ]
+          this.auxChart[1].name = "Project 2"
+          this.auxChart[1].data = seriesAverage
+          this.auxChart[1].active = true
+
+          if (this.auxChart[0].active === true) {
+            this.chartSeries1 = [
+              {
+                name: this.auxChart[0].name,
+                data: this.auxChart[0].data
+              },
+              {
+                name: this.auxChart[1].name,
+                data: this.auxChart[1].data
+              },
+            ]
+          }
+
+          // this.chartSeries2 = [
+          //   {
+          //     name: 'Liquidity',
+          //     data: seriesAverage
+          //   },
+          // ]
         }).catch((error) => {
           console.log(error)
         })

@@ -669,8 +669,8 @@ export default {
           name: result[i].metadata.title || result[i].token_id,
           desc: contract_id,
           token_id: result[i].token_id,
-          rarity: "---",
-          rarity_score: "---"
+          rarity: "-",
+          rarity_score: "-"
         }
           
         this.dataTable.push(collection)
