@@ -66,7 +66,7 @@
           style="--w:min-content;--h:42px;--p:0 0 0 .5em;--bg:#1F6C64;--bs: none;--c:#FFFFFF;--br:.4vmax"
           :menu-props="{ contentClass: 'selectGreen' }"
           class="customeFilter"
-          @change="activeWallets()"
+          @change="activeWallets(true)"
         ></v-select>
       </div>
     </aside>
@@ -518,7 +518,7 @@ export default {
       clearTimeout(this.timer)
       this.timer = setTimeout(this.activeWalletsMarket, 1000)
     },
-    async activeWallets(){
+    async activeWallets(aux){
       this.statsBool = false
       this.dataTableStats = []
       const url = "api/v1/activeWallets"
@@ -549,6 +549,10 @@ export default {
         item.wallet = "%"
       } else {
         item.wallet = this.searchStats
+      }
+
+      if (aux === true) {
+        item.index = "0"
       }
 
       console.log("ITEM", item)
