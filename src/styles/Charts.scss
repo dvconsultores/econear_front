@@ -206,6 +206,21 @@
         }
       }
     }
+    
+    &.doble2 {
+      .apexcharts-tooltip {
+        &-series-group {
+          &:first-of-type {
+            background-color: hsl(211, 95%, 78%, .6) !important;
+            span {color: #ffffff !important}
+          }
+          &:last-of-type {
+            background-color: hsl(0, 100%, 50%, .6) !important;
+            span {color: #ffffff !important}
+          }
+        }
+      }
+    }
 
     // triple stroke linecharts //
     &.triple {

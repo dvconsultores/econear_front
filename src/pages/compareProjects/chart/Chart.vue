@@ -1,31 +1,34 @@
 <template>
-  <section id="linechart" class="charts fwrap card">
+  <section id="linechart" class="charts fwrap card doble2">
     <!-- chart 1 -->
     <aside class="divcol">
-      <div class="divcol">
-        <!-- <h3 class="h9_em">Buyers &amp; Traders</h3> -->
+      <div class="toolbar responsive_actions wrap">
+        <div class="divcol">
+          <!-- <h3 class="h9_em">Buyers &amp; Traders</h3> -->
 
-        <div class="space gap2">
-          <aside class="divcol">
-            <div class="legend acenter">
-              <div class="marker" style="--color: #6A25D2" />
-              <span>Buyers</span>
-            </div>
-          </aside>
-
-          <aside class="divcol">
-            <div class="legend acenter">
-              <div class="marker" style="--color: #6FFFE9" />
-              <span>Sellers</span>
-            </div>
-          </aside>
+          <div class="space gap2">
+            <aside class="divcol">
+              <div class="legend acenter">
+                <div class="marker" style="--color: #92C5FC" />
+                <span>Buyers</span>
+              </div>
+            </aside>
+            
+            <aside class="divcol">
+              <div class="legend acenter">
+                <div class="marker" style="--color: #FF0000" />
+                <span>Sellers</span>
+              </div>
+            </aside>
+          </div>
         </div>
-      </div>
-      <div class="toolbar responsive_actions">
-        <v-btn v-for="(item,i) in dataControls" :key="i" @click="updateDate(item)"
-          :class="{active: selection===item.key}">
-          {{item.name}}
-        </v-btn>
+
+        <v-btn-toggle mandatory background-color="var(--primary)">
+          <v-btn v-for="(item,i) in dataControls" :key="i" @click="updateDate(item)"
+            :class="{active: selection===item.key}">
+            {{item.name}}
+          </v-btn>
+        </v-btn-toggle>
       </div>
 
       <apexchart
@@ -139,7 +142,7 @@ export default {
         markers: {
           size: 0,
           style: "hollow",
-          colors: ["#60D2CA"],
+          colors: ["#92C5FC", "#FF0000"],
           hover: {
             size: 8,
           },

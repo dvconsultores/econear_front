@@ -22,7 +22,7 @@
           ></v-file-input>
       
           <v-avatar width="8.130625em" height="8.130625em">
-            <img :src="avatar" alt="avatar" style="--b:3px solid var(--success);--br:50%;--w:100%">
+            <img :src="avatar" alt="avatar" style="--b:3px solid var(--success);--br:50%;--w:100%; --h: 100%; object-fit: cover">
           </v-avatar>
         </section>
         <v-form
