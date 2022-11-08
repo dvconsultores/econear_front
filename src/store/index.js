@@ -41,27 +41,25 @@ export default new Vuex.Store({
       layout.$children[1].GenerateAlert(key, title, desc);
     },
     async pushHomeNormal({dispatch}) {
-      console.log(this.router)
       const near = await connect(CONFIG(new keyStores.BrowserLocalStorageKeyStore()));
       const wallet = new WalletConnection(near)
       if (!wallet.isSignedIn()) {
         router.push("/")
       } else {
         const result = await dispatch("isHolderMonke")
-        if (result === 0 && wallet.getAccountId() !== "hrpalencia.near" && wallet.getAccountId() !== "jochando.near" && wallet.getAccountId() !== "andresdom.near") {
+        if (result === 0 && wallet.getAccountId() !== "hrpalencia.near" && wallet.getAccountId() !== "jochando.near" && wallet.getAccountId() !== "andresdom.near" && wallet.getAccountId() !== "globaldv_dev.near" && wallet.getAccountId() !== "hrpalencia.near") {
           router.push("/restricted") //No Holder
         }
       }
     },
     async pushHomeMonke({dispatch}, contract_nft) {
-      console.log(this.router)
       const near = await connect(CONFIG(new keyStores.BrowserLocalStorageKeyStore()));
       const wallet = new WalletConnection(near)
       if (!wallet.isSignedIn()) {
         router.push("/")
       } else {
         const result = await dispatch("isHolderMonke")
-        if (result === 0 && contract_nft !== "monkeonear.neartopia.near" && wallet.getAccountId() !== "hrpalencia.near" && wallet.getAccountId() !== "jochando.near" && wallet.getAccountId() !== "andresdom.near") {
+        if (result === 0 && contract_nft !== "monkeonear.neartopia.near" && wallet.getAccountId() !== "hrpalencia.near" && wallet.getAccountId() !== "jochando.near" && wallet.getAccountId() !== "andresdom.near" && wallet.getAccountId() !== "globaldv_dev.near" && wallet.getAccountId() !== "hrpalencia.near") {
           router.push("/restricted") //No Holder
         }
       }

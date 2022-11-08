@@ -511,6 +511,7 @@ export default {
     },
     debounce () {
       clearTimeout(this.timer)
+      this.indexStats = 0
       this.timer = setTimeout(this.activeWallets, 1000)
     },
     debounceMarket () {
@@ -549,6 +550,8 @@ export default {
       } else {
         item.wallet = this.searchStats
       }
+
+      console.log("ITEM", item)
 
       this.axios.post(url, item)
         .then((response) => {
