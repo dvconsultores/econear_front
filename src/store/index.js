@@ -81,7 +81,7 @@ export default new Vuex.Store({
           .then((response) => {
             return Number(response)
           }).catch((error) => {
-            console.log("ERR",error)
+            //console.log("ERR",error)
             return 0
           })
         return res

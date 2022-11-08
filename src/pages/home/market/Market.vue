@@ -270,7 +270,7 @@ export default {
           this.nearPrice2 = response.data.lastPrice
         })
         .catch((e) => {
-          console.log(e)
+          //console.log(e)
         })
     },
     async priceNEAR(){
@@ -287,7 +287,7 @@ export default {
           }
         })
         .catch((e) => {
-          console.log(e)
+          //console.log(e)
         })
     },
     async pricePARAS(){
@@ -304,7 +304,7 @@ export default {
           }
         })
         .catch((e) => {
-          console.log(e)
+          //console.log(e)
         })
     },
     async salesOfTheDay(){
@@ -327,7 +327,7 @@ export default {
             this.dataBoard[1].list.push(collection)
           }
         }).catch((error) => {
-          console.log(error)
+          //console.log(error)
         })
     },
     async recentlyListed(){
@@ -351,7 +351,7 @@ export default {
             this.dataBoard[2].list.push(collection)
           }
         }).catch((error) => {
-          console.log(error)
+          //console.log(error)
         })
     },
     async highestVolGainerss(){
@@ -376,7 +376,7 @@ export default {
             this.dataBoard[0].list.push(collection)
           }
         }).catch((error) => {
-          console.log(error)
+          //console.log(error)
         })
     },
     async estMcap(){
@@ -394,7 +394,7 @@ export default {
             this.dataMarket[0].state = false
           }
         }).catch((error) => {
-          console.log(error)
+          //console.log(error)
         })
     },
     async volumen24h(){
@@ -412,7 +412,7 @@ export default {
             this.dataMarket[3].state = false
           }
         }).catch((error) => {
-          console.log(error)
+          //console.log(error)
         })
     },
     async volumen7d(){
@@ -430,7 +430,7 @@ export default {
             this.dataMarket[4].state = false
           }
         }).catch((error) => {
-          console.log(error)
+          //console.log(error)
         })
     },
   }

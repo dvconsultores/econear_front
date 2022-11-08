@@ -386,7 +386,7 @@ export default {
                 '1')
                 .then((response) => {
                 }).catch((error) => {
-                  console.log(error)
+                  //console.log(error)
                 })
             }
           } else {
@@ -436,7 +436,7 @@ export default {
           this.nearPrice = response.data.lastPrice
         })
         .catch((e) => {
-          console.log(e)
+          //console.log(e)
         })
     },
     async priceNEAR2(){
@@ -445,7 +445,7 @@ export default {
           this.nearPrice = response.data[0]
         })
         .catch((e) => {
-          console.log(e)
+          //console.log(e)
         })
     },
     async salesOfTheDay(){
@@ -470,7 +470,7 @@ export default {
             this.dataSales.push(collection)
           }
         }).catch((error) => {
-          console.log(error)
+          //console.log(error)
         })
     },
   }

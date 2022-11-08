@@ -333,7 +333,7 @@ export default {
 
           
         }).catch((error) => {
-          console.log(error)
+          //console.log(error)
         })
     },
     getGraficaFloor2(collection, project) {
@@ -401,7 +401,7 @@ export default {
           //   },
           // ]
         }).catch((error) => {
-          console.log(error)
+          //console.log(error)
         })
     },
     getGraficaVolume() {
@@ -470,7 +470,7 @@ export default {
           //   },
           // ]
         }).catch((error) => {
-          console.log(error)
+          //console.log(error)
         })
     },
     getGraficaSales() {
@@ -536,7 +536,7 @@ export default {
           //   },
           // ]
         }).catch((error) => {
-          console.log(error)
+          //console.log(error)
         })
     },
     getGraficaLiquidity() {
@@ -602,7 +602,7 @@ export default {
           //   },
           // ]
         }).catch((error) => {
-          console.log(error)
+          //console.log(error)
         })
     },
     updateDate2(item) {
@@ -684,7 +684,7 @@ export default {
           //   },
           // ]
         }).catch((error) => {
-          console.log(error)
+          //console.log(error)
         })
     },
     getGraficaSales2() {
@@ -751,7 +751,7 @@ export default {
           //   },
           // ]
         }).catch((error) => {
-          console.log(error)
+          //console.log(error)
         })
     },
     getGraficaLiquidity2() {
@@ -818,7 +818,7 @@ export default {
           //   },
           // ]
         }).catch((error) => {
-          console.log(error)
+          //console.log(error)
         })
     },
     Responsive() {

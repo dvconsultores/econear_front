@@ -222,7 +222,7 @@ export default {
     scrolledTable(event) {
       const container = event.target
       if (Math.ceil(container.scrollHeight - container.scrollTop) <= container.clientHeight) {
-        //console.log("funcion para traer mas data aqui <----------------------------------------------------------------------------------------")
+        ////console.log("funcion para traer mas data aqui <----------------------------------------------------------------------------------------")
         // his.dataTable = this.dataTable.concat(this.dataTable2.slice(this.dataTable.length, this.dataTable.length + 5))
         clearTimeout(this.timer)
         this.timer = setTimeout(this.addDataTable, 300)
@@ -256,7 +256,7 @@ export default {
           
           this.indexData = this.indexData + 5
         }).catch((error) => {
-          console.log(error)
+          //console.log(error)
         })
     },
     tracking () {
@@ -292,10 +292,10 @@ export default {
         "limit": this.dataTable.length,
         "index": 0
       }
-      console.log(item)
+      //console.log(item)
       this.axios.post(url, item)
         .then((response) => {
-          console.log(response.data)
+          //console.log(response.data)
           let dataTable2 = []
           for (var i = 0; i < response.data.length; i++) {
             let collection = {
@@ -323,7 +323,7 @@ export default {
             })
           }
         }).catch((error) => {
-          console.log(error)
+          //console.log(error)
         })
     },
     async recentlyListed(){
@@ -336,7 +336,7 @@ export default {
         .then((response) => {
           this.dataTable = []
           this.dataTable2 = []
-          console.log(response.data)
+          //console.log(response.data)
           for (var i = 0; i < response.data.length; i++) {
             let collection = {
               img: response.data[i].icon,
@@ -369,7 +369,7 @@ export default {
 
           //localStorage.snipetool = JSON.stringify(this.dataTable)
         }).catch((error) => {
-          console.log(error)
+          //console.log(error)
         })
     },
   }

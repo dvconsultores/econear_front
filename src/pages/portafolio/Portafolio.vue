@@ -609,7 +609,7 @@ export default {
             }
           })
           .catch((e) => {
-            console.log(e)
+            //console.log(e)
           })
       } else {
         let price 
@@ -638,7 +638,7 @@ export default {
       let accountId = wallet.getAccountId()
       const serviceUrl = `https://api.kitwallet.app/account/${accountId}/likelyNFTs`;
       const result = await this.axios.get(serviceUrl);
-      //console.log("AQUI",result.data)
+      ////console.log("AQUI",result.data)
       for (var i = 0; i < result.data.length; i++) {
         if (!result.data[i].includes('mintbase')) {
           await this.getNFTByContract(result.data[i], accountId)
@@ -678,7 +678,7 @@ export default {
         // await this.getNFTById(contract_id, result[i].token_id)
       }
     } catch (err) {
-      console.log("err", contract_id);
+      //console.log("err", contract_id);
       return [];
     }
   },
@@ -695,7 +695,7 @@ export default {
           this.dataTable[index-1].rarity_score = Number(response.data[0].rarity_score).toFixed(2)
         }
       }).catch((error) => {
-        console.log(error)
+        //console.log(error)
       })
   },
   buildMediaUrl (media, base_uri) {
@@ -799,7 +799,7 @@ export default {
 
           this.$refs.piechart.getGrafica(chartSeries)
         }).catch((error) => {
-          console.log(error)
+          //console.log(error)
         })
     },
     async getTokenPrice(token) {
@@ -863,7 +863,7 @@ export default {
           //this.verifyMore()
 
         }).catch((error) => {
-          console.log(error)
+          //console.log(error)
         })
     },
   }

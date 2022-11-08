@@ -623,7 +623,7 @@ export default {
         .then((response) => {
           this.$refs.menu.marketplaces.items=response.data
         }).catch((error) => {
-          console.log(error)
+          //console.log(error)
         })
       var items = []
       for (var i = 0; i < this.dataBulk.unlisted[item.index].dataNfts.length; i++) {
@@ -733,7 +733,7 @@ export default {
           this.verifyMore()
 
         }).catch((error) => {
-          console.log(error)
+          //console.log(error)
         })
     },
     async getNFTContractsByAccount() {
@@ -743,7 +743,7 @@ export default {
       let accountId = wallet.getAccountId()
       const serviceUrl = `https://api.kitwallet.app/account/${accountId}/likelyNFTs`;
       const result = await this.axios.get(serviceUrl);
-      //console.log("AQUI",result.data)
+      ////console.log("AQUI",result.data)
       for (var i = 0; i < result.data.length; i++) {
         if (!result.data[i].includes('mintbase')) {
           await this.getNFTByContract(result.data[i], accountId)
@@ -752,7 +752,7 @@ export default {
       let index = 12
       this.dataNfts = this.dataNfts3.slice(0, 12)
       this.indexMore = this.dataNfts.length
-      console.log(this.indexMore)
+      //console.log(this.indexMore)
     }
   },
   async getNFTByContract(contract_id, owner_account_id) {
@@ -788,7 +788,7 @@ export default {
       }
 
     } catch (err) {
-      console.log("err", contract_id);
+      //console.log("err", contract_id);
       return [];
     }
   },
@@ -804,7 +804,7 @@ export default {
           this.dataNfts3[index-1].rarity = response.data[0].rareza
         }
       }).catch((error) => {
-        console.log(error)
+        //console.log(error)
       })
   },
   buildMediaUrl (media, base_uri) {
@@ -862,7 +862,7 @@ export default {
             //this.dataNfts.push(collection)
           }
         }).catch((error) => {
-          console.log(error)
+          //console.log(error)
         })
     },
     async showNFTListed(collection, aux) {
@@ -902,7 +902,7 @@ export default {
               this.dataBulk.listed[collection.index].dataNfts.push(nft)
             }
           }).catch((error) => {
-            console.log(error)
+            //console.log(error)
           })
       } else {
         this.dataBulk.listed[collection.index].pagination = 0
@@ -944,7 +944,7 @@ export default {
             //this.dataNfts.push(collection)
           }
         }).catch((error) => {
-          console.log(error)
+          //console.log(error)
         })
     },
     async showNFTUnlisted(collection, aux) {
@@ -981,7 +981,7 @@ export default {
               this.dataBulk.unlisted[collection.index].dataNfts.push(nft)
             }
           }).catch((error) => {
-            console.log(error)
+            //console.log(error)
           })
       } else {
         this.dataBulk.unlisted[collection.index].pagination = 0
@@ -1050,9 +1050,9 @@ export default {
       const url = "api/v1/RefrescarNft"
       this.axios.post(url)
         .then((response) => {
-          console.log(response)
+          //console.log(response)
         }).catch((error) => {
-          console.log(error)
+          //console.log(error)
         })
     },
     async createTransactionFn(

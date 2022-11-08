@@ -321,7 +321,7 @@ export default {
       }).then((response) => {
         this.storageBalance = utils.format.formatNearAmount(response)
       }).catch(err => {
-        console.log(err)
+        //console.log(err)
       })
     },
     async storage_minimum() {
@@ -336,7 +336,7 @@ export default {
       .then((response) => {
         this.minimumStorage = utils.format.formatNearAmount(response)
       }).catch(err => {
-        console.log(err)
+        //console.log(err)
       })
     },
     async storage_balance() {
@@ -352,7 +352,7 @@ export default {
       }).then((response) => {
         this.storageBalance = utils.format.formatNearAmount(response)
       }).catch(err => {
-        console.log(err)
+        //console.log(err)
       })
     },
     async transfer_nft() {
@@ -371,7 +371,7 @@ export default {
         },'300000000000000',
         "1").then((response) => {
         }).catch(err => {
-          console.log(err)
+          //console.log(err)
         })
       } else {
         let txs = []
@@ -492,11 +492,11 @@ export default {
       .then((response) => {
         this.minimumStorage = utils.format.formatNearAmount(response)
       }).catch(err => {
-        console.log(err)
+        //console.log(err)
       })
     },
     async listar_nft() {
-      console.log(this.itemListNfts)
+      //console.log(this.itemListNfts)
       if (this.priceNft && this.marketplaces.marketplace.marketplace) {
         const near = await connect(CONFIG(new keyStores.BrowserLocalStorageKeyStore()));
         const wallet = new WalletConnection(near);
@@ -521,7 +521,7 @@ export default {
           // //"340000000000000000000").then((response) => {
            
           // }).catch(err => {
-          //   console.log(err)
+          //   //console.log(err)
           // })
 
           let msgs = {

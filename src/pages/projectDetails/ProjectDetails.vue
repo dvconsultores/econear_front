@@ -1051,7 +1051,7 @@ export default {
             }
             this.menuSearch = true
           }).catch((error) => {
-            console.log(error)
+            //console.log(error)
           })
       } else {
         this.dataMenuSearch = []
@@ -1086,7 +1086,7 @@ export default {
             this.dataTableTopBuyers.push(collection)
           }
         }).catch((error) => {
-          console.log(error)
+          //console.log(error)
         })
     },
     async stastTopSellers(){
@@ -1109,7 +1109,7 @@ export default {
             this.dataTableTopSellers.push(collection)
           }
         }).catch((error) => {
-          console.log(error)
+          //console.log(error)
         })
     },
     async priceNEAR(){
@@ -1163,7 +1163,7 @@ export default {
             this.dataTableActivity.push(collection)
           }
         }).catch((error) => {
-          console.log(error)
+          //console.log(error)
         })
     },
     changeTopSales(item) {
@@ -1214,7 +1214,7 @@ export default {
             this.dataTableTopSales.push(collection)
           }
         }).catch((error) => {
-          console.log(error)
+          //console.log(error)
         })
     },
     async getNftCollection(){
@@ -1251,7 +1251,7 @@ export default {
           // this.variableCarga = true
           this.verifyMore()
         }).catch((error) => {
-          console.log(error)
+          //console.log(error)
         })
     },
     async verifyMore(){
@@ -1271,7 +1271,7 @@ export default {
             this.seeMoreVisible = true
           }
         }).catch((error) => {
-          console.log(error)
+          //console.log(error)
         })
     },
     async seeMore(){
@@ -1305,7 +1305,7 @@ export default {
           this.verifyMore()
         }).catch((error) => {
           this.seeMoreDis = false
-          console.log(error)
+          //console.log(error)
         })
     },
     Responsive() {
@@ -1333,7 +1333,7 @@ export default {
           }
      
         }).catch((error) => {
-          console.log(error)
+          //console.log(error)
         })
     },
     async getDataBuyOn(){
@@ -1352,7 +1352,7 @@ export default {
             this.dataBuy.push(collection)
           }
         }).catch((error) => {
-          console.log("ERRORRRR",error)
+          //console.log("ERRORRRR",error)
         })
     },
     async projectsDetailsHeader(){
@@ -1388,7 +1388,7 @@ export default {
             this.dataInfo.down[3].percent = String(this.dataInfo.down[3].percent )
           }
         }).catch((error) => {
-          console.log("ERRORRRR",error)
+          //console.log("ERRORRRR",error)
         })
     },
 

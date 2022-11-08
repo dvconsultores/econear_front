@@ -393,10 +393,10 @@ export default {
           .then((response) => {
             this.refreshVote()
             
-            console.log(response)
+            //console.log(response)
             aux = true            
           }).catch((error) => {
-            console.log(error)
+            //console.log(error)
             aux = false
           })
         // if (aux) {
@@ -414,7 +414,7 @@ export default {
           document.documentElement.style.cursor = "default"
           document.querySelectorAll("#vote #container-top .v-btn").forEach(item => item.style.pointerEvents = "all")
         }).catch((error) => {
-          console.log(error)
+          //console.log(error)
         })
     },
     async theMostVoted(){
@@ -448,7 +448,7 @@ export default {
             this.getVotaciones()
           }
         }).catch((error) => {
-          console.log(error)
+          //console.log(error)
         })
     },
     async recentlyAdded(){
@@ -482,7 +482,7 @@ export default {
             this.getVotacionesRecently()
           }
         }).catch((error) => {
-          console.log(error)
+          //console.log(error)
         })
     },
     async getVotacionesRecently() {
@@ -505,7 +505,7 @@ export default {
               this.dataAdded[i].positivo = response.positivo
               this.dataAdded[i].negativo = response.negativo
             }).catch((error) => {
-              console.log(error)
+              //console.log(error)
               this.dataAdded[i].positivo = 0
               this.dataAdded[i].negativo = 0
             })
@@ -532,7 +532,7 @@ export default {
               this.dataVoted[i].positivo = response.positivo
               this.dataVoted[i].negativo = response.negativo
             }).catch((error) => {
-              console.log(error)
+              //console.log(error)
               this.dataVoted[i].positivo = 0
               this.dataVoted[i].negativo = 0
             })

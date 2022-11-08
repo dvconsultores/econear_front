@@ -66,7 +66,7 @@ export default {
             this.$store.dispatch('GenerateAlert', {key:'success', title: 'Success!', desc: 'Successful subscription.'})
             this.input= ''
           }).catch((error) => {
-            console.log("ERR",error)
+            //console.log("ERR",error)
             this.$store.dispatch('GenerateAlert', {key:'error', title: 'Error!', desc: 'Something happened.'})
           })
       }

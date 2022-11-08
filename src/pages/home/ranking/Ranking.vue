@@ -330,7 +330,7 @@ export default {
           document.documentElement.style.cursor = "default"
           this.getRanking()
         }).catch((error) => {
-          console.log(error)
+          //console.log(error)
           document.documentElement.style.cursor = "default"
         })
     },
@@ -355,7 +355,7 @@ export default {
           .then((response) => {
             aux = true            
           }).catch((error) => {
-            console.log(error)
+            //console.log(error)
             aux = false
           })
         if (aux) {
@@ -388,7 +388,7 @@ export default {
             }
             this.menuSearch = true
           }).catch((error) => {
-            console.log(error)
+            //console.log(error)
           })
       } else {
         this.dataMenuSearch = []
@@ -486,7 +486,7 @@ export default {
           this.dataTableBool = true
           this.getVotaciones()
         }).catch((error) => {
-          console.log(error)
+          //console.log(error)
         })
     },
     async getVotaciones() {
@@ -509,7 +509,7 @@ export default {
               this.dataTable[i].positivo = response.positivo
               this.dataTable[i].negativo = response.negativo
             }).catch((error) => {
-              console.log(error)
+              //console.log(error)
               this.dataTable[i].positivo = 0
               this.dataTable[i].negativo = 0
             })

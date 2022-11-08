@@ -242,9 +242,9 @@ export default {
             },
           ]
         }).catch((error) => {
-          console.log("ERRORRRR",error)
+          //console.log("ERRORRRR",error)
         })
-      // console.log("SERIESSSSSSS", series)
+      // //console.log("SERIESSSSSSS", series)
       // return series;
     },
     updateData: function(timeline) {

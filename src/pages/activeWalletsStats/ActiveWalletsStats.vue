@@ -490,7 +490,7 @@ export default {
             { key: "rank", wallet: response.data[0].your_rankinfo[0].wallet, number: response.data[0].your_rankinfo[0].ranking },
           ]
         }).catch((error) => {
-          console.log(error)
+          //console.log(error)
         })
     },
     fnPaginationStats(n) {
@@ -586,7 +586,7 @@ export default {
           this.indexStats = this.indexStats + this.dataTableStats.length
           this.statsBool=true
         }).catch((error) => {
-          console.log(error)
+          //console.log(error)
           this.statsBool=true
         })
     },
@@ -622,11 +622,11 @@ export default {
     //     item.wallet = this.searchMarket
     //   }
 
-    //   console.log(item)
+    //   //console.log(item)
 
     //   this.axios.post(url, item)
     //     .then((response) => {
-    //       console.log("DATAMARKET",response.data)
+    //       //console.log("DATAMARKET",response.data)
     //       let data = response.data.response
     //       this.sizeMarket = Math.ceil(response.data.rows_count / parseInt(item.limit))
     //       this.dataTableMarket = []
@@ -645,7 +645,7 @@ export default {
     //       this.indexMarket = this.indexMarket + this.dataTableMarket.length
     //       this.marketBool=true
     //     }).catch((error) => {
-    //       console.log(error)
+    //       //console.log(error)
     //       this.marketBool=true
     //     })
     // },

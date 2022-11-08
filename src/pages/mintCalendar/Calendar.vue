@@ -76,7 +76,7 @@ export default {
   },
   methods: {
     console(key) {
-      console.log(key)
+      //console.log(key)
     },
     getEventColor (event) {
       return event.color
@@ -115,8 +115,8 @@ export default {
             if (response.data[i].fecha_lanzamiento === 0 || response.data[i].fecha_lanzamiento === "0" || !response.data[i].fecha_lanzamiento) {
               response.data[i].fecha_lanzamiento = parseInt(response.data[i].fecha_creacion)
             }
-            // console.log("Lanzamiento: ",response.data[i].fecha_lanzamiento)
-            // console.log("FECHA",moment(response.data[i].fecha_lanzamiento / 1000000).format("Do MMM YYYY, h:mm A"))
+            // //console.log("Lanzamiento: ",response.data[i].fecha_lanzamiento)
+            // //console.log("FECHA",moment(response.data[i].fecha_lanzamiento / 1000000).format("Do MMM YYYY, h:mm A"))
             let collection = {
               img: response.data[i].icon || require("@/assets/images/whitelist-image.jpg"),
               name: response.data[i].name,
@@ -136,8 +136,8 @@ export default {
                 { name: "telegram", url: "https://t.me/" + response.data[i].telegram },
               ],
             }
-            //console.log(collection)
-            //console.log(moment(collection.fecha_lanzamiento / 1000000).format("YYYY-MM-DD HH:mm"),)
+            ////console.log(collection)
+            ////console.log(moment(collection.fecha_lanzamiento / 1000000).format("YYYY-MM-DD HH:mm"),)
             this.events.push({
               img: collection.img,
               name: collection.name,
@@ -155,7 +155,7 @@ export default {
             })
           }
         }).catch((error) => {
-          console.log(error)
+          //console.log(error)
         })
     },
     async upcomingListed(){
@@ -205,7 +205,7 @@ export default {
          
           }
         }).catch((error) => {
-          console.log(error)
+          //console.log(error)
         })
     },
     async getTime (timeEnd) {

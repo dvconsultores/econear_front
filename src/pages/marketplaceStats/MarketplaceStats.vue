@@ -301,7 +301,7 @@ export default {
 
       this.axios.post(url)
         .then((response) => {
-          console.log(response.data)
+          //console.log(response.data)
           for (var i = 0; i < response.data.length; i++) {
             let collection = {
               index: i,
@@ -313,7 +313,7 @@ export default {
           }
           this.marketsArray = response.data
         }).catch((error) => {
-          console.log("ERR",error)
+          //console.log("ERR",error)
         })
     },
   }
