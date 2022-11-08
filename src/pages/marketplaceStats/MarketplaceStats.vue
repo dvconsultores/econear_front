@@ -60,7 +60,7 @@
           <p class="p vermobile tcenter" style="font-size:1.7em">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc volutpat ligula orci, ac imperdiet tortor cursus vitae. Nunc fringilla lacus vel tempus</p>
         </v-card>
 
-        <!-- <p class="p eliminarmobile" style="font-size:clamp(1em,1.8vw,1.8em)">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc volutpat ligula orci, ac imperdiet tortor cursus vitae. Nunc fringilla lacus vel tempus</p> -->
+        <p class="p eliminarmobile" style="font-size:clamp(1em,1.8vw,1.8em)">{{dataStats.desc}}</p>
       </div>
 
       <v-card id="container-info" class="card fwrap">
@@ -275,6 +275,7 @@ export default {
       this.dataStats = {
         img: this.marketsArray[i].market_icon || this.image,
         name: this.marketsArray[i].market_name,
+        desc: this.marketsArray[i].market_description,
         dataSocialRed: [
           { social: "clip", link: this.marketsArray[i].market_web },
           // { social: "twitter", link: "#" },

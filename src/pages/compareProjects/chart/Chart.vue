@@ -229,8 +229,8 @@ export default {
       this.controls = item.name
 
       if (this.controls === "Floor price") {
-        this.getGraficaFloor(this.collecion1)
-        this.getGraficaFloor2(this.collecion2)
+        this.getGraficaFloor(this.collecion1, this.project1)
+        this.getGraficaFloor2(this.collecion2, this.project2)
       } else if (this.controls === "Volume") {
         this.getGraficaVolume()
         this.getGraficaVolume2()
@@ -250,7 +250,7 @@ export default {
       this.updateDate2(item)
 
       if (this.controls === "Floor price") {
-        this.getGraficaFloor(this.collecion1)
+        this.getGraficaFloor(this.collecion1, this.project1)
       } else if (this.controls === "Volume") {
         this.getGraficaVolume()
       } else if (this.controls === "Sales") {
@@ -609,7 +609,7 @@ export default {
       this.selection2 = item.key
       this.itemDate2 = item
       if (this.controls === "Floor price") {
-        this.getGraficaFloor2(this.collecion2)
+        this.getGraficaFloor2(this.collecion2, this.project2)
       } else if (this.controls === "Volume") {
         this.getGraficaVolume2()
       } else if (this.controls === "Sales") {
