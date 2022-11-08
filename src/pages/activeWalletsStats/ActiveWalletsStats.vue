@@ -555,8 +555,6 @@ export default {
         item.index = "0"
       }
 
-      console.log("ITEM", item)
-
       this.axios.post(url, item)
         .then((response) => {
           let data = response.data.response

@@ -223,6 +223,7 @@ export default {
   },
   methods: {
     changeGrafic(item) {
+      document.documentElement.style.cursor = "progress"
       this.controls = item.name
 
       if (this.controls === "Floor price") {
@@ -240,6 +241,7 @@ export default {
       }
     },
     updateDate(item) {
+      document.documentElement.style.cursor = "progress"
       this.selection = item.key
       this.itemDate = item
 
@@ -323,6 +325,7 @@ export default {
                 data: this.auxChart[1].data
               },
             ]
+            document.documentElement.style.cursor = "default"
           }
 
           
@@ -384,6 +387,7 @@ export default {
                 data: this.auxChart[1].data
               },
             ]
+            document.documentElement.style.cursor = "default"
           }
           
           // this.chartSeries2 = [
@@ -452,6 +456,7 @@ export default {
                 data: this.auxChart[1].data
               },
             ]
+            document.documentElement.style.cursor = "default"
           }
 
           // this.chartSeries1 = [
@@ -517,6 +522,7 @@ export default {
                 data: this.auxChart[1].data
               },
             ]
+            document.documentElement.style.cursor = "default"
           }
 
           // this.chartSeries1 = [
@@ -582,6 +588,7 @@ export default {
                 data: this.auxChart[1].data
               },
             ]
+            document.documentElement.style.cursor = "default"
           }
 
           // this.chartSeries1 = [
@@ -663,6 +670,7 @@ export default {
                 data: this.auxChart[1].data
               },
             ]
+            document.documentElement.style.cursor = "default"
           }
 
           // this.chartSeries2 = [
@@ -729,6 +737,7 @@ export default {
                 data: this.auxChart[1].data
               },
             ]
+            document.documentElement.style.cursor = "default"
           }
 
           // this.chartSeries2 = [
@@ -795,6 +804,7 @@ export default {
                 data: this.auxChart[1].data
               },
             ]
+            document.documentElement.style.cursor = "default"
           }
 
           // this.chartSeries2 = [
