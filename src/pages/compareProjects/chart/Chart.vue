@@ -10,14 +10,14 @@
             <aside class="divcol">
               <div class="legend acenter">
                 <div class="marker" style="--color: #92C5FC" />
-                <span>Buyers</span>
+                <span>{{project1}}</span>
               </div>
             </aside>
             
             <aside class="divcol">
               <div class="legend acenter">
                 <div class="marker" style="--color: #FF0000" />
-                <span>Sellers</span>
+                <span>{{project2}}</span>
               </div>
             </aside>
           </div>
@@ -214,6 +214,8 @@ export default {
       },
       collecion1: null,
       collecion2: null,
+      project1: "",
+      project2: "",
       controls: "Floor price"
     };
   },
@@ -271,9 +273,10 @@ export default {
         }
       ]
     },
-    getGraficaFloor(collection) {
+    getGraficaFloor(collection, project) {
       this.resetChart()
       this.collecion1 = collection
+      this.project1 = project
       var seriesAverage = [];
       const url = "api/v1/stastpricecollection"
       let item = {
@@ -310,7 +313,7 @@ export default {
             seriesAverage.push([x, yAverage]);
           }
 
-          this.auxChart[0].name = collection
+          this.auxChart[0].name = this.project1
           this.auxChart[0].data = seriesAverage
           this.auxChart[0].active = true
 
@@ -333,9 +336,10 @@ export default {
           console.log(error)
         })
     },
-    getGraficaFloor2(collection) {
+    getGraficaFloor2(collection, project) {
       this.resetChart()
       this.collecion2 = collection
+      this.project2 = project
       var seriesAverage = [];
       const url = "api/v1/stastpricecollection"
       let item = {
@@ -372,7 +376,7 @@ export default {
             seriesAverage.push([x, yAverage]);
           }
 
-          this.auxChart[1].name = collection
+          this.auxChart[1].name = this.project2
           this.auxChart[1].data = seriesAverage
           this.auxChart[1].active = true
 
@@ -441,7 +445,7 @@ export default {
             seriesAverage.push([x, yAverage]);
           }
 
-          this.auxChart[0].name = "Project 1"
+          this.auxChart[0].name = this.project1
           this.auxChart[0].data = seriesAverage
           this.auxChart[0].active = true
 
@@ -507,7 +511,7 @@ export default {
             seriesAverage.push([x, yAverage]);
           }
 
-          this.auxChart[0].name = "Project 1"
+          this.auxChart[0].name = this.project1
           this.auxChart[0].data = seriesAverage
           this.auxChart[0].active = true
 
@@ -573,7 +577,7 @@ export default {
             seriesAverage.push([x, yAverage]);
           }
 
-          this.auxChart[0].name = "Project 1"
+          this.auxChart[0].name = this.project1
           this.auxChart[0].data = seriesAverage
           this.auxChart[0].active = true
 
@@ -655,7 +659,7 @@ export default {
             seriesAverage.push([x, yAverage]);
           }
 
-          this.auxChart[1].name = "Project 2"
+          this.auxChart[1].name = this.project2
           this.auxChart[1].data = seriesAverage
           this.auxChart[1].active = true
 
@@ -722,7 +726,7 @@ export default {
             seriesAverage.push([x, yAverage]);
           }
 
-          this.auxChart[1].name = "Project 2"
+          this.auxChart[1].name = this.project2
           this.auxChart[1].data = seriesAverage
           this.auxChart[1].active = true
 
@@ -789,7 +793,7 @@ export default {
             seriesAverage.push([x, yAverage]);
           }
 
-          this.auxChart[1].name = "Project 2"
+          this.auxChart[1].name = this.project2
           this.auxChart[1].data = seriesAverage
           this.auxChart[1].active = true
 

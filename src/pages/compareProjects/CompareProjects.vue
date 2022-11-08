@@ -596,8 +596,8 @@ export default {
     },
     compareFn() {
       this.showCompareInfo=true
-      this.$refs.chart.getGraficaFloor(this.project1.collection)
-      this.$refs.chart.getGraficaFloor2(this.project2.collection)
+      this.$refs.chart.getGraficaFloor(this.project1.collection, this.project1.name)
+      this.$refs.chart.getGraficaFloor2(this.project2.collection, this.project2.name)
       this.resetData()
       this.getDataCollection1(this.project1.collection)
       this.getDataCollection2(this.project2.collection)
