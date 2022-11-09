@@ -72,11 +72,11 @@ export default new Router({
           name: 'projectDetails',
           component: () => import('@/pages/projectDetails/ProjectDetails'),
         },
-        {
-          path: '/project-details2/:id?',
-          name: 'projectDetails2',
-          component: () => import('@/pages/projectDetails/ProjectDetails2'),
-        },
+        // {
+        //   path: '/project-details2/:id?',
+        //   name: 'projectDetails2',
+        //   component: () => import('@/pages/projectDetails/ProjectDetails2'),
+        // },
         {
           path: '/view-collections/:id?',
           name: 'viewCollections',
@@ -87,11 +87,11 @@ export default new Router({
           name: 'marketplaceStats',
           component: () => import('@/pages/marketplaceStats/MarketplaceStats'),
         },
-        {
-          path: '/marketplace-stats2',
-          name: 'marketplaceStats',
-          component: () => import('@/pages/marketplaceStats/MarketplaceStats2'),
-        },
+        // {
+        //   path: '/marketplace-stats2',
+        //   name: 'marketplaceStats',
+        //   component: () => import('@/pages/marketplaceStats/MarketplaceStats2'),
+        // },
         {
           path: '/bulk-nft-management',
           name: 'bulkNftManagement',
