@@ -14,6 +14,7 @@
       padding: 1em;
     }
     .sectionDown {
+      @include media(min, 500px) {font-size: clamp(12px, 1vw, 16px)}
       @include media(max, 500px) {font-size: 12px}
       @include media(max, 320px) {font-size: 10px}
       .v-card {

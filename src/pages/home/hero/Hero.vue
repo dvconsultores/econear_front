@@ -2,7 +2,7 @@
   <section id="hero" class="divcol acenter gap2">
     <v-card id="sales" class="divcol card fill_w">
       <div class="center">
-        <h3 class="h9_em">Sales Of The Day</h3>
+        <h3 class="h9_em">Recent Sales</h3>
       </div>
 
       <section id="containerSliderHero" class="scrollx">
@@ -449,9 +449,9 @@ export default {
         })
     },
     async salesOfTheDay(){
-      const url = "api/v1/salesoftheday"
+      const url = "api/v1/recentsales"
       let item = {
-        top: 3
+        top: 5
       }
       this.axios.post(url, item)
         .then((response) => {

@@ -80,6 +80,7 @@
 
 <script>
 import axios from 'axios'
+import { cp } from 'fs';
 import ModalMarketMore from './ModalMarketMore.vue'
 export default {
   name: "market",
@@ -188,7 +189,7 @@ export default {
           ]
         },
         {
-          title: "Recently Added",
+          title: "Top Floor Movers",
           list: [
             {
               img: require('@/assets/nfts/nft1.png'),
@@ -331,10 +332,9 @@ export default {
         })
     },
     async recentlyListed(){
-      const url = "api/v1/recentlyadded"
+      const url = "api/v1/TopFloorMovers"
       let item = {
-        top: 10,
-        order: "fecha"
+        top: 10
       }
       this.axios.post(url, item)
         .then((response) => {
@@ -343,11 +343,18 @@ export default {
             let collection = {
               img: response.data[i].icon,
               name: response.data[i].name,
-              user: response.data[i].nft_contract,
-              near: parseFloat(response.data[i].price).toFixed(1) + " N",
-              dollar: "$"+(response.data[i].price * (this.nearPrice2)).toFixed(2),
+              user: response.data[i].collection,
+              near: parseInt(response.data[i].porcentaje),
+              dollar: Number(response.data[i].floor_price).toFixed(2) + " N",
               state: true,
             }
+            if (collection.near < 0) {
+              collection.state = false
+              collection.near = collection.near + "%"
+            } else {
+              collection.near = "+" + collection.near + "%"
+            }
+
             this.dataBoard[2].list.push(collection)
           }
         }).catch((error) => {
