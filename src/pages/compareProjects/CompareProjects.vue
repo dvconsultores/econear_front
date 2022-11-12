@@ -559,7 +559,7 @@ export default {
             }
             this.menuSearch = true
           }).catch((error) => {
-            console.log(error)
+            //console.log(error)
           })
       } else {
         this.dataMenuSearch = []
@@ -587,7 +587,8 @@ export default {
             }
             this.menuSearch2 = true
           }).catch((error) => {
-            console.log(error)
+            //console.log(error)
+            ////console.log("juan")
           })
       } else {
         this.dataMenuSearch2 = []
@@ -596,8 +597,8 @@ export default {
     },
     compareFn() {
       this.showCompareInfo=true
-      this.$refs.chart.getGraficaFloor(this.project1.collection)
-      this.$refs.chart.getGraficaFloor2(this.project2.collection)
+      this.$refs.chart.getGraficaFloor(this.project1.collection, this.project1.name)
+      this.$refs.chart.getGraficaFloor2(this.project2.collection, this.project2.name)
       this.resetData()
       this.getDataCollection1(this.project1.collection)
       this.getDataCollection2(this.project2.collection)
@@ -676,7 +677,7 @@ export default {
           this.dataTableMarket[8].project1 = Number(data.low_sales24h).toFixed(2)
           this.dataTableMarket[9].project1 = Number(data.hig_sales24h).toFixed(2)
         }).catch((error) => {
-          console.log(error)
+          //console.log(error)
         })
     },
     getDataCollection2(collection) {
@@ -699,7 +700,7 @@ export default {
           this.dataTableMarket[8].project2 = Number(data.low_sales24h).toFixed(2)
           this.dataTableMarket[9].project2 = Number(data.hig_sales24h).toFixed(2)
         }).catch((error) => {
-          console.log(error)
+          //console.log(error)
         })
     },
     debounce1() {
@@ -782,7 +783,7 @@ export default {
             this.validateDis = true
           }
         }).catch((error) => {
-          console.log(error)
+          //console.log(error)
         })
     },
     async getData2(collection){
@@ -813,7 +814,7 @@ export default {
             this.validateDis = true
           }
         }).catch((error) => {
-          console.log(error)
+          //console.log(error)
         })
     },
   }

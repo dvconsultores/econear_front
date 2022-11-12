@@ -48,7 +48,7 @@ export default new Vuex.Store({
       } else {
         const result = await dispatch("isHolderMonke")
         if (result === 0 && wallet.getAccountId() !== "hrpalencia.near" && wallet.getAccountId() !== "jochando.near" && wallet.getAccountId() !== "andresdom.near" && wallet.getAccountId() !== "globaldv_dev.near" && wallet.getAccountId() !== "hrpalencia.near") {
-          router.push("/restricted") //No Holder
+          //router.push("/restricted") //No Holder
         }
       }
     },
@@ -60,7 +60,7 @@ export default new Vuex.Store({
       } else {
         const result = await dispatch("isHolderMonke")
         if (result === 0 && contract_nft !== "monkeonear.neartopia.near" && wallet.getAccountId() !== "hrpalencia.near" && wallet.getAccountId() !== "jochando.near" && wallet.getAccountId() !== "andresdom.near" && wallet.getAccountId() !== "globaldv_dev.near" && wallet.getAccountId() !== "hrpalencia.near") {
-          router.push("/restricted") //No Holder
+          //router.push("/restricted") //No Holder
         }
       }
     },
@@ -81,7 +81,7 @@ export default new Vuex.Store({
           .then((response) => {
             return Number(response)
           }).catch((error) => {
-            console.log("ERR",error)
+            //console.log("ERR",error)
             return 0
           })
         return res

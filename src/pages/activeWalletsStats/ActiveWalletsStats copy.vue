@@ -546,7 +546,7 @@ export default {
         //   sale_price: "9,729,504.46",
         // },
         }).catch((error) => {
-          console.log(error)
+          //console.log(error)
           this.statsBool=true
         })
     },
@@ -582,11 +582,11 @@ export default {
     //     item.wallet = this.searchMarket
     //   }
 
-    //   console.log(item)
+    //   //console.log(item)
 
     //   this.axios.post(url, item)
     //     .then((response) => {
-    //       console.log("DATAMARKET",response.data)
+    //       //console.log("DATAMARKET",response.data)
     //       let data = response.data.response
     //       this.sizeMarket = Math.ceil(response.data.rows_count / parseInt(item.limit))
     //       this.dataTableMarket = []
@@ -605,7 +605,7 @@ export default {
     //       this.indexMarket = this.indexMarket + this.dataTableMarket.length
     //       this.marketBool=true
     //     }).catch((error) => {
-    //       console.log(error)
+    //       //console.log(error)
     //       this.marketBool=true
     //     })
     // },

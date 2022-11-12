@@ -185,10 +185,10 @@ export default {
           voto: vote,
         })
           .then((response) => {
-            console.log(response)
+            //console.log(response)
             aux = true            
           }).catch((error) => {
-            console.log(error)
+            //console.log(error)
             aux = false
           })
         if (aux) {
@@ -206,7 +206,7 @@ export default {
           document.documentElement.style.cursor = "default"
           this.getNewProjects()
         }).catch((error) => {
-          console.log(error)
+          //console.log(error)
           document.documentElement.style.cursor = "default"
         })
     },
@@ -261,8 +261,8 @@ export default {
             if (response.data[i].fecha_lanzamiento === 0 || response.data[i].fecha_lanzamiento === "0" || !response.data[i].fecha_lanzamiento) {
               response.data[i].fecha_lanzamiento = parseInt(response.data[i].fecha_creacion)
             }
-            // console.log("Lanzamiento: ",response.data[i].fecha_lanzamiento)
-            // console.log("FECHA",moment(response.data[i].fecha_lanzamiento / 1000000).format("Do MMM YYYY, h:mm A"))
+            // //console.log("Lanzamiento: ",response.data[i].fecha_lanzamiento)
+            // //console.log("FECHA",moment(response.data[i].fecha_lanzamiento / 1000000).format("Do MMM YYYY, h:mm A"))
             let collection = {
               img: response.data[i].icon || require("@/assets/nfts/nft1.png"),
               name: response.data[i].name,
@@ -286,7 +286,7 @@ export default {
           }
           this.variableCarga = true
         }).catch((error) => {
-          console.log(error)
+          //console.log(error)
         })
     },
   }

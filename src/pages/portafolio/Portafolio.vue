@@ -16,12 +16,21 @@
     <section class="container-profit fwrap spacee acenter gap2">
       <v-card v-for="(item,i) in dataProfit" :key="i"
         class="card" style="--bg:hsl(212 47% 12% / .5);--p:clamp(.8em,2vw,2em);--b:none">
-        <v-sheet :title="item.token" class="card" style="--bg:hsl(210, 48%, 13%)" max-height="186px">
+        <v-sheet class="card" style="--bg:hsl(210, 48%, 13%)" max-height="186px">
           <aside class="divcol" style="gap:.5em">
             <div class="space gap2">
               <div class="acenter" style="gap:.5em">
-                <img  :src="require(`@/assets/token/${item.img}`)" alt="near" style="--w:2.2em; --h:2.2em">
-                <h3 class="h7_em p bold">{{item.crypto}}</h3>
+                <h3 class="h9_em p bold">{{item.token}}</h3>
+              </div>
+            </div>
+            
+            
+          </aside>
+          <div class="space gap2">
+              <div class="acenter" style="gap:.5em">
+                <!-- <img  :src="require(`@/assets/token/${item.img}`)" alt="near" style="--w:2.2em; --h:2.2em"> -->
+                <h3 v-if="item.crypto == '---'" class="h9_em p bold">{{item.crypto}}</h3>
+                <h3 v-else class="h9_em p bold">{{item.crypto}} N</h3>
               </div>
 
               <!-- <v-chip class="btn h11_em" :style="`--b:none;--bs:none;--bg:hsl(210, 48%, 9%);--p:1em .8em;
@@ -29,8 +38,8 @@
                 {{item.state_percent?'+':'-'}}{{item.percent}}%
               </v-chip> -->
             </div>
-            <span class="h11_em">$ <span class="light">{{item.dollar}}</span></span>
-          </aside>
+            <span v-if="item.crypto == '---'" class="h11_em"><span class="light">{{item.dollar}}</span></span>
+            <span v-else class="h11_em">$ <span class="light">{{item.dollar}}</span></span>
 <!-- 
           <aside class="divcol" style="gap:.2em">
             <span>
@@ -323,6 +332,15 @@
             </span> -->
           </div>
           <div class="space h11_em">
+            <span>Floor Price</span>
+            <span>
+              {{item.price}}
+            </span>
+            <!-- <span :style="item.state_change?'color:#22B573':'color:var(--error)'">
+              {{item.state_change?'+':'-'}}{{item.change}}%
+            </span> -->
+          </div>
+          <div class="space h11_em">
             <span>Rarity Score</span>
             <span>
               {{item.rarity_score}}
@@ -394,10 +412,10 @@ export default {
       search: "",
       dataProfit: [
         {
-          token: "NEAR",
+          token: "Total Account Value",
           img: "near.svg",
-          crypto: null,
-          dollar: null,
+          crypto: "---",
+          dollar: "---",
           percent: 12.8,
           state_percent: true,
           change: "28,747",
@@ -405,22 +423,11 @@ export default {
           profit: "28,747",
           state_profit: true,
         },
-        // {
-        //   token: "ethereum",
-        //   crypto: "36,379",
-        //   dollar: "32,245.65",
-        //   percent: 1.8,
-        //   state_percent: false,
-        //   change: "8,747",
-        //   state_change: false,
-        //   profit: "28,747",
-        //   state_profit: true,
-        // },
         {
-          token: "USDT",
+          token: "Total Floor Price",
           img: "usdt.svg",
-          crypto: null,
-          dollar: null,
+          crypto: 0,
+          dollar: "---",
           percent: 12.8,
           state_percent: true,
           change: "28,747",
@@ -429,10 +436,10 @@ export default {
           state_profit: true,
         },
         {
-          token: "USDC",
+          token: "Liquid Near",
           img: "usdc.svg",
-          crypto: null,
-          dollar: null,
+          crypto: "---",
+          dollar: "---",
           percent: 12.8,
           state_percent: true,
           change: "28,747",
@@ -441,10 +448,10 @@ export default {
           state_profit: true,
         },
         {
-          token: "DAI",
+          token: "Validator Staked Near",
           img: "dai.svg",
-          crypto: null,
-          dollar: null,
+          crypto: "---",
+          dollar: "---",
           percent: 12.8,
           state_percent: true,
           change: "28,747",
@@ -452,30 +459,6 @@ export default {
           profit: "28,747",
           state_profit: true,
         },
-        {
-          token: "UTO",
-          img: "uto.svg",
-          crypto: null,
-          dollar: null,
-          percent: 12.8,
-          state_percent: true,
-          change: "28,747",
-          state_change: true,
-          profit: "28,747",
-          state_profit: true,
-        },
-        {
-          token: "NEXP",
-          img: 'nexp.png',
-          crypto: null,
-          dollar: null,
-          percent: 12.8,
-          state_percent: true,
-          change: "28,747",
-          state_change: true,
-          profit: "28,747",
-          state_profit: true,
-        }
       ],
       dataControlsCharts: [
         // { key: "line", icon: "chart-line", name: "Line Chart", active: true },
@@ -513,6 +496,7 @@ export default {
       headersTable: [
         { value: "nft", text: "NFT", align: "center", sortable: false },
         { value: "token_id", text: "Token ID", align: "center", sortable: false },
+        { value: "price", text: "Floor Price", align: "center", sortable: false },
         { value: "rarity_score", text: "Rarity Score", align: "center", sortable: false },
         { value: "rarity", text: "Rareness", align: "center", sortable: false },
         // { value: "market_icon", text: "Marketplace", align: "center", sortable: false },
@@ -535,14 +519,18 @@ export default {
       ],
       index: 0,
       nearPrice: 0,
-      seeCoin: 1
+      seeCoin: 1,
+      cont: 0,
+      mostrarTotal: false,
+      mostrarTotal2: false
     }
   },
   async mounted() {
     await this.$store.dispatch('pushHomeNormal')
+    await this.getNFTContractsByAccount()
     this.priceNEAR()
     // this.getNftCollection()
-    this.getNFTContractsByAccount()
+    
     this.getPriceChange("near")
     this.getPriceChange("usdt")
     this.getPriceChange("usdc")
@@ -609,7 +597,7 @@ export default {
             }
           })
           .catch((e) => {
-            console.log(e)
+            //console.log(e)
           })
       } else {
         let price 
@@ -632,17 +620,22 @@ export default {
       }
     },
   async getNFTContractsByAccount() {
+    this.cont = 0
     const near = await connect(config);
     const wallet = new WalletConnection(near)
     if (wallet.isSignedIn()) {
       let accountId = wallet.getAccountId()
       const serviceUrl = `https://api.kitwallet.app/account/${accountId}/likelyNFTs`;
       const result = await this.axios.get(serviceUrl);
-      //console.log("AQUI",result.data)
+      ////console.log("AQUI",result.data)
       for (var i = 0; i < result.data.length; i++) {
+        if (i === result.data.length - 1) {
+          this.mostrarTotal = true
+        }
         if (!result.data[i].includes('mintbase')) {
           await this.getNFTByContract(result.data[i], accountId)
         }
+
       }
     }
   },
@@ -663,6 +656,17 @@ export default {
 
       const metadata = await contract.nft_metadata();
 
+      if (result.length === 0) {
+        if (this.mostrarTotal) {
+          this.dataProfit[1].crypto = this.cont.toFixed(2)
+          this.dataProfit[1].dollar = (this.cont * this.nearPrice).toFixed(2)
+
+          if (this.dataProfit[2].crypto != '---') {
+            this.dataProfit[0].crypto = this.dataProfit[1].crypto + this.dataProfit[2].crypto + this.dataProfit[3].crypto
+          }
+        }
+      }
+
       for (var i = 0; i < result.length; i++) {
         let collection = { 
           img: await this.buildMediaUrl(result[i].metadata.media, metadata.base_uri) || require("@/assets/nfts/nft1.png"),
@@ -674,8 +678,13 @@ export default {
         }
           
         this.dataTable.push(collection)
-        this.rarityNft(contract_id, result[i].token_id, this.dataTable.length)
-        // await this.getNFTById(contract_id, result[i].token_id)
+        if (this.mostrarTotal) {
+          if (i == result.length - 1) {
+            this.mostrarTotal2 = true
+          }
+        }
+        await this.rarityNft(contract_id, result[i].token_id, this.dataTable.length)
+        
       }
     } catch (err) {
       console.log("err", contract_id);
@@ -692,7 +701,18 @@ export default {
       .then((response) => {
         if (response.data[0]) {
           this.dataTable[index-1].rarity = response.data[0].rareza
+          this.dataTable[index-1].price = response.data[0].floor_price
           this.dataTable[index-1].rarity_score = Number(response.data[0].rarity_score).toFixed(2)
+          //this.dataProfit[1].crypto += Number(response.data[0].floor_price)
+          this.cont += Number(response.data[0].floor_price)
+        }
+        if (this.mostrarTotal && this.mostrarTotal2) {
+          this.dataProfit[1].crypto = this.cont.toFixed(2)
+          this.dataProfit[1].dollar = (this.cont * this.nearPrice).toFixed(2)
+
+          if (this.dataProfit[2].crypto != '---') {
+            this.dataProfit[0].crypto = this.dataProfit[1].crypto + this.dataProfit[2].crypto + this.dataProfit[3].crypto
+          }
         }
       }).catch((error) => {
         console.log(error)
@@ -735,13 +755,24 @@ export default {
       const wallet = new WalletConnection(near)
       if (wallet.isSignedIn()) {
         const account = await near.account(wallet.getAccountId());
-        const response = await account.state();
-        let valueStorage = Math.pow(10, 19)
+    
+        const response = await account.getAccountBalance();
         let valueYocto = Math.pow(10, 24)
 
-        const storage = (response.storage_usage * valueStorage) / valueYocto 
-        this.dataProfit[0].crypto = ((response.amount / valueYocto) - storage).toFixed(2)
-        this.dataProfit[0].dollar = (this.dataProfit[0].crypto * this.nearPrice).toFixed(2)
+        this.dataProfit[2].crypto = (response.available / valueYocto).toFixed(2)
+        this.dataProfit[2].dollar = (this.dataProfit[2].crypto * this.nearPrice).toFixed(2)
+
+        this.dataProfit[3].crypto = (response.staked / valueYocto).toFixed(2)
+        this.dataProfit[3].dollar = (this.dataProfit[3].crypto * this.nearPrice).toFixed(2)
+
+        if (this.dataProfit[1].crypto >= 0) {
+          this.dataProfit[0].crypto = Number(this.dataProfit[1].crypto) + Number(this.dataProfit[2].crypto) + Number(this.dataProfit[3].crypto)
+          this.dataProfit[0].dollar = (this.dataProfit[0].crypto * this.nearPrice).toFixed(2)
+
+          let chartSeries = [Number(this.dataProfit[1].crypto), Number(this.dataProfit[2].crypto), Number(this.dataProfit[3].crypto)]
+
+          this.$refs.piechart.getGrafica(chartSeries)
+        }
       }
     },
     changeCoin(item) {
@@ -755,12 +786,16 @@ export default {
       this.axios.get("https://api.binance.com/api/v3/ticker/24hr?symbol=NEARUSDT")
         .then((response) => {
           this.nearPrice = response.data.lastPrice
+          if (this.dataProfit[1].crypto > 0) {
+            this.dataProfit[1].dollar = (this.dataProfit[1].crypto * this.nearPrice).toFixed(2)
+          }
           this.getBalance()
-          this.getBalances()
+          // this.getBalances()
         })
         .catch((e) => {
+          this.nearPrice = 0
           this.getBalance()
-          this.getBalances()
+          // this.getBalances()
         })
     },
 
@@ -799,7 +834,7 @@ export default {
 
           this.$refs.piechart.getGrafica(chartSeries)
         }).catch((error) => {
-          console.log(error)
+          //console.log(error)
         })
     },
     async getTokenPrice(token) {
@@ -863,7 +898,7 @@ export default {
           //this.verifyMore()
 
         }).catch((error) => {
-          console.log(error)
+          //console.log(error)
         })
     },
   }

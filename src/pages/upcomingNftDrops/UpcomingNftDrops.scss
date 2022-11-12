@@ -16,6 +16,12 @@
       background-color: rgba($success, .5);
     }
   }
+  .container-controls {
+    .tab-right {
+      --o: visible;
+      .v-item-group {background-color: hsl(212 47% 12% / .5) !important;border-radius: .5vmax !important}
+    }
+  }
   .section-down {
     background-color: hsl(212 47% 12% / .5);
     padding: clamp(.5em, 2vw, 2em);

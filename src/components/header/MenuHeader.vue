@@ -595,7 +595,7 @@ export default {
             }
             this.menuSearch = true
           }).catch((error) => {
-            console.log(error)
+            //console.log(error)
           })
       } else {
         this.dataMenuSearch = []
@@ -625,7 +625,7 @@ export default {
             this.$store.dispatch('GenerateAlert', {key:'success', title: 'Success!', desc: 'Settings saved successfully.'})
             this.modalSettings = false
           }).catch((error) => {
-            console.log(error)
+            //console.log(error)
             this.modalSettings = false
             this.$store.dispatch('GenerateAlert', {key:'error', title: 'Error!', desc: 'Something happened.'})
           })
@@ -652,7 +652,7 @@ export default {
               this.settings = item
             }
           }).catch((error) => {
-            console.log(error)
+            //console.log(error)
           })
       }
     },
@@ -876,7 +876,7 @@ export default {
             this.dataAlert.value = 0
             this.$store.dispatch('GenerateAlert', {key:'success', title: 'Success!', desc: 'Alert created successfully.'})
           }).catch((error) => {
-            console.log(error)
+            //console.log(error)
             this.modalAlert = false
             this.validateAccountDis = false
             this.ResProgress = false

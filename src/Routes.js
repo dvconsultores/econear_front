@@ -72,11 +72,11 @@ export default new Router({
           name: 'projectDetails',
           component: () => import('@/pages/projectDetails/ProjectDetails'),
         },
-        {
-          path: '/project-details2/:id?',
-          name: 'projectDetails2',
-          component: () => import('@/pages/projectDetails/ProjectDetails2'),
-        },
+        // {
+        //   path: '/project-details2/:id?',
+        //   name: 'projectDetails2',
+        //   component: () => import('@/pages/projectDetails/ProjectDetails2'),
+        // },
         {
           path: '/view-collections/:id?',
           name: 'viewCollections',

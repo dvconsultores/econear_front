@@ -62,20 +62,20 @@
       </div>
 
       <v-card id="container-info" class="card fwrap">
-        <!-- <div class="center">
+        <div class="center">
           <div class="divcol">
             <label class="semibold">Total Supply NFT</label>
             <span class="bold">{{dataStats.info.supply}}</span>
           </div>
-        </div> -->
-<!--         
+        </div>
+        
         <div class="center">
           <div class="divcol">
             <label class="semibold">Subscribers</label>
             <span class="bold">{{dataStats.info.subscribers}}</span>
           </div>
         </div>
-         -->
+        
         <div class="center">
           <div class="divcol">
             <label class="semibold">Total Volume</label>
@@ -86,14 +86,14 @@
           </div>
         </div>
         
-        <!-- <div class="center">
+        <div class="center">
           <div class="divcol">
             <label class="semibold">Total estimated users</label>
             <span class="bold">{{dataStats.info.users}}</span>
           </div>
         </div>
-         -->
-        <!-- <div class="center">
+        
+        <div class="center">
           <div class="end">
             <v-btn icon style="--p:1.6em">
               <img src="@/assets/icons/heart.svg" alt="like icon" style="--w:2.396875em">
@@ -107,7 +107,7 @@
               <img src="@/assets/icons/bell-white.svg" alt="bell icon" style="--w:2.396875em">
             </v-btn>
           </div>
-        </div> -->
+        </div>
       </v-card>
 
       <section class="infodown fwrap">
@@ -287,10 +287,10 @@ export default {
           volume: "",
           // users: "",
           dataDown: [
-            // { key: "market", price: "71,629", percent: "-0.12", number: 3 },
-            // { key: "biggest", price: "361", percent: "+12.78", number: 23 },
-            // { key: "volume", price: "318", percent: "+73.26", number: 2 },
-            // { key: "price", price: "175", percent: "-1.78", number: 3970 },
+            { key: "market", price: "71,629", percent: "-0.12", number: 3 },
+            { key: "biggest", price: "361", percent: "+12.78", number: 23 },
+            { key: "volume", price: "318", percent: "+73.26", number: 2 },
+            { key: "price", price: "175", percent: "-1.78", number: 3970 },
           ]
         },
       },
@@ -366,7 +366,7 @@ export default {
 
       this.axios.post(url)
         .then((response) => {
-          console.log(response.data)
+          //console.log(response.data)
           for (var i = 0; i < response.data.length; i++) {
             let collection = {
               index: i,
@@ -378,7 +378,7 @@ export default {
           }
           this.marketsArray = response.data
         }).catch((error) => {
-          console.log("ERR",error)
+          //console.log("ERR",error)
         })
     },
   }

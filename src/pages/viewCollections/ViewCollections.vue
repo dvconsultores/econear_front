@@ -220,7 +220,7 @@ export default {
     }
     if (urlParams.get("errorCode") !== null) {
       // error de transaccion
-      console.log("ERRORRRRR")
+      //console.log("ERRORRRRR")
       history.replaceState(null, location.href.split("?")[0], '/#/view-collections/'  + localStorage.nft_contract);
     }
 
@@ -232,7 +232,7 @@ export default {
   },
   methods: {
     async buy_nft(item) {
-      console.log(item)
+      //console.log(item)
       const near = await connect(config);
       const wallet = new WalletConnection(near);
       // const contract = new Contract(wallet.account(), item.contract_market, {
@@ -248,7 +248,7 @@ export default {
       },'300000000000000',
       item.price_yocto).then((response) => {
       }).catch(err => {
-        console.log(err)
+        //console.log(err)
       })
     },
     clickSearch (item) {
@@ -286,7 +286,7 @@ export default {
             }
             this.menuSearch = true
           }).catch((error) => {
-            console.log(error)
+            //console.log(error)
           })
       } else {
         this.dataMenuSearch = []
@@ -299,7 +299,7 @@ export default {
           this.nearPrice = response.data.lastPrice
         })
         .catch((e) => {
-          console.log(e)
+          //console.log(e)
         })
     },
     
@@ -380,7 +380,7 @@ export default {
           this.variableCarga = true
           this.verifyMore()
         }).catch((error) => {
-          console.log("ERRORRRR1",error)
+          //console.log("ERRORRRR1",error)
         })
     },
     async seeMore(){
@@ -436,7 +436,7 @@ export default {
           this.verifyMore()
         }).catch((error) => {
           this.seeMoreDis = false
-          console.log(error)
+          //console.log(error)
         })
     },
     async verifyMore(){
@@ -476,7 +476,7 @@ export default {
             this.seeMoreVisible = true
           }
         }).catch((error) => {
-          console.log("ERRORRRR",error)
+          //console.log("ERRORRRR",error)
         })
     },
     async getDataCollection(){
@@ -495,7 +495,7 @@ export default {
           }
     
         }).catch((error) => {
-          console.log("ERRORRRR",error)
+          //console.log("ERRORRRR",error)
         })
     },
  

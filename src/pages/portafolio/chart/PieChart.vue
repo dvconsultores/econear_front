@@ -65,8 +65,10 @@ export default {
       legend: {
         position: 'bottom'
       },
-      labels: [ "NEAR", "USDT", "USDC", "DAI", "UTO", "NEXP" ],
-      colors: [ "#6A25D2", "#259976", "#2774CA", "#F5AC37", "#202124", "#48C558" ],
+      // labels: [ "NEAR", "USDT", "USDC", "DAI", "UTO", "NEXP" ],
+      labels: [ "Total Floor Price", "Liquid Near", "Staked Near"],
+      // colors: [ "#6A25D2", "#259976", "#2774CA", "#F5AC37", "#202124", "#48C558" ],
+      colors: [ "#6A25D2", "#F5AC37", "#48C558"],
       
       // responsive
       responsive: [{

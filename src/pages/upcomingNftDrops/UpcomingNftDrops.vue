@@ -323,7 +323,7 @@ export default {
           .then((response) => {
             aux = true            
           }).catch((error) => {
-            console.log(error)
+            //console.log(error)
             aux = false
           })
         if (aux) {
@@ -338,7 +338,7 @@ export default {
         .then((response) => {
           this.upcomingListed()
         }).catch((error) => {
-          console.log(error)
+          //console.log(error)
         })
     },
     async updateTime () {
@@ -414,7 +414,7 @@ export default {
             this.updateTime()
           }.bind(this), 1000);
         }).catch((error) => {
-          console.log(error)
+          //console.log(error)
         })
     },
   }

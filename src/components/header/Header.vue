@@ -447,7 +447,7 @@ export default {
             }
             this.startIntervals()
           }).catch((error) => {
-            console.log("ERR",error)
+            //console.log("ERR",error)
           })
       }
     },
@@ -474,7 +474,7 @@ export default {
               }
             }
           }).catch((error) => {
-            console.log(error)
+            //console.log(error)
           })
         } else if (alerta.type_id === 3 || alerta.type_id === 4) {
           const url = "api/v1/alertvolumen"
@@ -496,7 +496,7 @@ export default {
               }
             }
           }).catch((error) => {
-            console.log(error)
+            //console.log(error)
           })
         } 
       }
@@ -545,7 +545,7 @@ export default {
             this.get_alert()
        
           }).catch((error) => {
-            console.log("ERR",error)
+            //console.log("ERR",error)
          })
       }
     },
@@ -589,7 +589,7 @@ export default {
           }
           return null
         }).catch((error) => {
-          console.log(error)
+          //console.log(error)
           return null
         })
       return result
@@ -672,7 +672,7 @@ export default {
               this.$store.state.dataUser.avatar = response.data[0].img
             }
           }).catch((error) => {
-            console.log(error)
+            //console.log(error)
           })
       }
     },

@@ -10,14 +10,14 @@
             <aside class="divcol">
               <div class="legend acenter">
                 <div class="marker" style="--color: #92C5FC" />
-                <span>Buyers</span>
+                <span>{{project1}}</span>
               </div>
             </aside>
             
             <aside class="divcol">
               <div class="legend acenter">
                 <div class="marker" style="--color: #FF0000" />
-                <span>Sellers</span>
+                <span>{{project2}}</span>
               </div>
             </aside>
           </div>
@@ -214,6 +214,8 @@ export default {
       },
       collecion1: null,
       collecion2: null,
+      project1: "",
+      project2: "",
       controls: "Floor price"
     };
   },
@@ -223,11 +225,12 @@ export default {
   },
   methods: {
     changeGrafic(item) {
+      document.documentElement.style.cursor = "progress"
       this.controls = item.name
 
       if (this.controls === "Floor price") {
-        this.getGraficaFloor(this.collecion1)
-        this.getGraficaFloor2(this.collecion2)
+        this.getGraficaFloor(this.collecion1, this.project1)
+        this.getGraficaFloor2(this.collecion2, this.project2)
       } else if (this.controls === "Volume") {
         this.getGraficaVolume()
         this.getGraficaVolume2()
@@ -240,13 +243,14 @@ export default {
       }
     },
     updateDate(item) {
+      document.documentElement.style.cursor = "progress"
       this.selection = item.key
       this.itemDate = item
 
       this.updateDate2(item)
 
       if (this.controls === "Floor price") {
-        this.getGraficaFloor(this.collecion1)
+        this.getGraficaFloor(this.collecion1, this.project1)
       } else if (this.controls === "Volume") {
         this.getGraficaVolume()
       } else if (this.controls === "Sales") {
@@ -269,9 +273,10 @@ export default {
         }
       ]
     },
-    getGraficaFloor(collection) {
+    getGraficaFloor(collection, project) {
       this.resetChart()
       this.collecion1 = collection
+      this.project1 = project
       var seriesAverage = [];
       const url = "api/v1/stastpricecollection"
       let item = {
@@ -308,7 +313,7 @@ export default {
             seriesAverage.push([x, yAverage]);
           }
 
-          this.auxChart[0].name = collection
+          this.auxChart[0].name = this.project1
           this.auxChart[0].data = seriesAverage
           this.auxChart[0].active = true
 
@@ -323,16 +328,18 @@ export default {
                 data: this.auxChart[1].data
               },
             ]
+            document.documentElement.style.cursor = "default"
           }
 
           
         }).catch((error) => {
-          console.log(error)
+          //console.log(error)
         })
     },
-    getGraficaFloor2(collection) {
+    getGraficaFloor2(collection, project) {
       this.resetChart()
       this.collecion2 = collection
+      this.project2 = project
       var seriesAverage = [];
       const url = "api/v1/stastpricecollection"
       let item = {
@@ -369,7 +376,7 @@ export default {
             seriesAverage.push([x, yAverage]);
           }
 
-          this.auxChart[1].name = collection
+          this.auxChart[1].name = this.project2
           this.auxChart[1].data = seriesAverage
           this.auxChart[1].active = true
 
@@ -384,6 +391,7 @@ export default {
                 data: this.auxChart[1].data
               },
             ]
+            document.documentElement.style.cursor = "default"
           }
           
           // this.chartSeries2 = [
@@ -393,7 +401,7 @@ export default {
           //   },
           // ]
         }).catch((error) => {
-          console.log(error)
+          //console.log(error)
         })
     },
     getGraficaVolume() {
@@ -437,7 +445,7 @@ export default {
             seriesAverage.push([x, yAverage]);
           }
 
-          this.auxChart[0].name = "Project 1"
+          this.auxChart[0].name = this.project1
           this.auxChart[0].data = seriesAverage
           this.auxChart[0].active = true
 
@@ -452,6 +460,7 @@ export default {
                 data: this.auxChart[1].data
               },
             ]
+            document.documentElement.style.cursor = "default"
           }
 
           // this.chartSeries1 = [
@@ -461,7 +470,7 @@ export default {
           //   },
           // ]
         }).catch((error) => {
-          console.log(error)
+          //console.log(error)
         })
     },
     getGraficaSales() {
@@ -502,7 +511,7 @@ export default {
             seriesAverage.push([x, yAverage]);
           }
 
-          this.auxChart[0].name = "Project 1"
+          this.auxChart[0].name = this.project1
           this.auxChart[0].data = seriesAverage
           this.auxChart[0].active = true
 
@@ -517,6 +526,7 @@ export default {
                 data: this.auxChart[1].data
               },
             ]
+            document.documentElement.style.cursor = "default"
           }
 
           // this.chartSeries1 = [
@@ -526,7 +536,7 @@ export default {
           //   },
           // ]
         }).catch((error) => {
-          console.log(error)
+          //console.log(error)
         })
     },
     getGraficaLiquidity() {
@@ -567,7 +577,7 @@ export default {
             seriesAverage.push([x, yAverage]);
           }
 
-          this.auxChart[0].name = "Project 1"
+          this.auxChart[0].name = this.project1
           this.auxChart[0].data = seriesAverage
           this.auxChart[0].active = true
 
@@ -582,6 +592,7 @@ export default {
                 data: this.auxChart[1].data
               },
             ]
+            document.documentElement.style.cursor = "default"
           }
 
           // this.chartSeries1 = [
@@ -591,14 +602,14 @@ export default {
           //   },
           // ]
         }).catch((error) => {
-          console.log(error)
+          //console.log(error)
         })
     },
     updateDate2(item) {
       this.selection2 = item.key
       this.itemDate2 = item
       if (this.controls === "Floor price") {
-        this.getGraficaFloor2(this.collecion2)
+        this.getGraficaFloor2(this.collecion2, this.project2)
       } else if (this.controls === "Volume") {
         this.getGraficaVolume2()
       } else if (this.controls === "Sales") {
@@ -648,7 +659,7 @@ export default {
             seriesAverage.push([x, yAverage]);
           }
 
-          this.auxChart[1].name = "Project 2"
+          this.auxChart[1].name = this.project2
           this.auxChart[1].data = seriesAverage
           this.auxChart[1].active = true
 
@@ -663,6 +674,7 @@ export default {
                 data: this.auxChart[1].data
               },
             ]
+            document.documentElement.style.cursor = "default"
           }
 
           // this.chartSeries2 = [
@@ -672,7 +684,7 @@ export default {
           //   },
           // ]
         }).catch((error) => {
-          console.log(error)
+          //console.log(error)
         })
     },
     getGraficaSales2() {
@@ -714,7 +726,7 @@ export default {
             seriesAverage.push([x, yAverage]);
           }
 
-          this.auxChart[1].name = "Project 2"
+          this.auxChart[1].name = this.project2
           this.auxChart[1].data = seriesAverage
           this.auxChart[1].active = true
 
@@ -729,6 +741,7 @@ export default {
                 data: this.auxChart[1].data
               },
             ]
+            document.documentElement.style.cursor = "default"
           }
 
           // this.chartSeries2 = [
@@ -738,7 +751,7 @@ export default {
           //   },
           // ]
         }).catch((error) => {
-          console.log(error)
+          //console.log(error)
         })
     },
     getGraficaLiquidity2() {
@@ -780,7 +793,7 @@ export default {
             seriesAverage.push([x, yAverage]);
           }
 
-          this.auxChart[1].name = "Project 2"
+          this.auxChart[1].name = this.project2
           this.auxChart[1].data = seriesAverage
           this.auxChart[1].active = true
 
@@ -795,6 +808,7 @@ export default {
                 data: this.auxChart[1].data
               },
             ]
+            document.documentElement.style.cursor = "default"
           }
 
           // this.chartSeries2 = [
@@ -804,7 +818,7 @@ export default {
           //   },
           // ]
         }).catch((error) => {
-          console.log(error)
+          //console.log(error)
         })
     },
     Responsive() {

@@ -80,6 +80,7 @@
 
 <script>
 import axios from 'axios'
+import { cp } from 'fs';
 import ModalMarketMore from './ModalMarketMore.vue'
 export default {
   name: "market",
@@ -188,7 +189,7 @@ export default {
           ]
         },
         {
-          title: "Recently Added",
+          title: "Top Floor Movers",
           list: [
             {
               img: require('@/assets/nfts/nft1.png'),
@@ -270,7 +271,7 @@ export default {
           this.nearPrice2 = response.data.lastPrice
         })
         .catch((e) => {
-          console.log(e)
+          //console.log(e)
         })
     },
     async priceNEAR(){
@@ -287,7 +288,7 @@ export default {
           }
         })
         .catch((e) => {
-          console.log(e)
+          //console.log(e)
         })
     },
     async pricePARAS(){
@@ -304,7 +305,7 @@ export default {
           }
         })
         .catch((e) => {
-          console.log(e)
+          //console.log(e)
         })
     },
     async salesOfTheDay(){
@@ -327,14 +328,13 @@ export default {
             this.dataBoard[1].list.push(collection)
           }
         }).catch((error) => {
-          console.log(error)
+          //console.log(error)
         })
     },
     async recentlyListed(){
-      const url = "api/v1/recentlyadded"
+      const url = "api/v1/TopFloorMovers"
       let item = {
-        top: 10,
-        order: "fecha"
+        top: 10
       }
       this.axios.post(url, item)
         .then((response) => {
@@ -343,15 +343,22 @@ export default {
             let collection = {
               img: response.data[i].icon,
               name: response.data[i].name,
-              user: response.data[i].nft_contract,
-              near: parseFloat(response.data[i].price).toFixed(1) + " N",
-              dollar: "$"+(response.data[i].price * (this.nearPrice2)).toFixed(2),
+              user: response.data[i].collection,
+              near: parseInt(response.data[i].porcentaje),
+              dollar: Number(response.data[i].floor_price).toFixed(2) + " N",
               state: true,
             }
+            if (collection.near < 0) {
+              collection.state = false
+              collection.near = collection.near + "%"
+            } else {
+              collection.near = "+" + collection.near + "%"
+            }
+
             this.dataBoard[2].list.push(collection)
           }
         }).catch((error) => {
-          console.log(error)
+          //console.log(error)
         })
     },
     async highestVolGainerss(){
@@ -376,7 +383,7 @@ export default {
             this.dataBoard[0].list.push(collection)
           }
         }).catch((error) => {
-          console.log(error)
+          //console.log(error)
         })
     },
     async estMcap(){
@@ -394,7 +401,7 @@ export default {
             this.dataMarket[0].state = false
           }
         }).catch((error) => {
-          console.log(error)
+          //console.log(error)
         })
     },
     async volumen24h(){
@@ -412,7 +419,7 @@ export default {
             this.dataMarket[3].state = false
           }
         }).catch((error) => {
-          console.log(error)
+          //console.log(error)
         })
     },
     async volumen7d(){
@@ -430,7 +437,7 @@ export default {
             this.dataMarket[4].state = false
           }
         }).catch((error) => {
-          console.log(error)
+          //console.log(error)
         })
     },
   }

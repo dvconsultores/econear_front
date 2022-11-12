@@ -453,7 +453,7 @@ export default {
             this.dataTableProjects.push(collection)
           }
         }).catch((error) => {
-          console.log(error)
+          //console.log(error)
           this.marketBool=true
         })
         // dataTableProjects: [
@@ -497,7 +497,7 @@ export default {
               }
             }
           }).catch((error) => {
-            console.log("ERR",error)
+            //console.log("ERR",error)
            
           })
       }
@@ -523,7 +523,7 @@ export default {
             this.get_alert()
             this.deleteDis = false
           }).catch((error) => {
-            console.log("ERR",error)
+            //console.log("ERR",error)
             this.deleteDis = false
             this.$store.dispatch('GenerateAlert', {key:'error', title: 'Error!', desc: 'Something happened.'})
           })

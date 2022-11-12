@@ -176,6 +176,19 @@ export default {
           type: "datetime",
           categories: [1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998]
         },
+        yaxis: [
+          {
+            title: {
+              text: ""
+            },
+          },
+          {
+            opposite: true,
+            title: {
+              text: ""
+            }
+          }
+        ],
       },
     };
   },
@@ -246,9 +259,9 @@ export default {
             },
           ]
         }).catch((error) => {
-          console.log(error)
+          //console.log(error)
         })
-      // console.log("SERIESSSSSSS", series)
+      // //console.log("SERIESSSSSSS", series)
       // return series;
     },
     updateData: function(timeline) {

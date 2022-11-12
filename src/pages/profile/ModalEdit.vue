@@ -190,7 +190,7 @@ export default {
               this.dataModalEdit = perfil
             }
           }).catch((error) => {
-            console.log(error)
+            //console.log(error)
           })
       }
     },
@@ -226,7 +226,7 @@ export default {
             this.$store.state.dataUser.avatar = this.avatar
             this.modalEdit = false
           }).catch((error) => {
-            console.log(error)
+            //console.log(error)
             this.$store.dispatch('GenerateAlert', {key:'error', title: 'Error!', desc: 'Something happened.'})
           })
         }

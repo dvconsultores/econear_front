@@ -229,9 +229,9 @@ export default {
             }
           ]
         }).catch((error) => {
-          console.log(error)
+          //console.log(error)
         })
-      // console.log("SERIESSSSSSS", series)
+      // //console.log("SERIESSSSSSS", series)
       // return series;
     },
     letraMayuscula (cadena) {

@@ -2,7 +2,7 @@
   <section id="hero" class="divcol acenter gap2">
     <v-card id="sales" class="divcol card fill_w">
       <div class="center">
-        <h3 class="h9_em">Sales Of The Day</h3>
+        <h3 class="h9_em">Recent Sales</h3>
       </div>
 
       <section id="containerSliderHero" class="scrollx">
@@ -386,7 +386,7 @@ export default {
                 '1')
                 .then((response) => {
                 }).catch((error) => {
-                  console.log(error)
+                  //console.log(error)
                 })
             }
           } else {
@@ -436,7 +436,7 @@ export default {
           this.nearPrice = response.data.lastPrice
         })
         .catch((e) => {
-          console.log(e)
+          //console.log(e)
         })
     },
     async priceNEAR2(){
@@ -445,13 +445,13 @@ export default {
           this.nearPrice = response.data[0]
         })
         .catch((e) => {
-          console.log(e)
+          //console.log(e)
         })
     },
     async salesOfTheDay(){
-      const url = "api/v1/salesoftheday"
+      const url = "api/v1/recentsales"
       let item = {
-        top: 3
+        top: 5
       }
       this.axios.post(url, item)
         .then((response) => {
@@ -470,7 +470,7 @@ export default {
             this.dataSales.push(collection)
           }
         }).catch((error) => {
-          console.log(error)
+          //console.log(error)
         })
     },
   }
