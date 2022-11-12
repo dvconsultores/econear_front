@@ -4,7 +4,7 @@
     <aside class="divcol center gap1 tcenter">
       <h2 class="h5_em p bold">Vote</h2>
       <p class="h10_em" style="max-width:60ch">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut facilisis accumsan nisl, et blandit orci pellentesque
+        Vote for your favorite projects
       </p>
     </aside>
 
