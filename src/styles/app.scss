@@ -10,6 +10,14 @@
 
 ///////////////////// global ///////////////////////
 
+.v-tabs:has(.v-item-group) {
+  background-color: hsl(212 47% 12% / .5) !important;
+  .v-item-group {
+    background-color: hsl(212 47% 12% / .5) !important;
+    border-radius: .5vmax !important;
+  }
+}
+
 //mi selector pro
 .selectJuan {
   .v-list-item {
