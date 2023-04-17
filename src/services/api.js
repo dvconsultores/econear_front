@@ -2,7 +2,7 @@
 // const API_PROXY_PREFIX='/api'
 //const BASE_URL = process.env.NODE_ENV === 'production' ? process.env.VUE_APP_API_BASE_URL : API_PROXY_PREFIX
 const BASE_URL = 'http://127.0.0.1:8001/apis/v1'
-const NODE_URL =  'http://127.0.0.1:3070/api'
+const NODE_URL =  'http://127.0.0.1:3071/api'
 const NETWORK = 'mainnet'//process.env.NODE_ENV === 'development' ? 'testnet' : 'testnet'
 
 function CONFIG(keyStores) {

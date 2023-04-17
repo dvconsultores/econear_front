@@ -19,7 +19,7 @@ if (!String.prototype.limitString) {
 }
 
 Vue.use(VueAxios,axios);
-axios.defaults.baseURL='https://www.econear.in:3070/'
+axios.defaults.baseURL='https://www.econear.in:3071/'
 
 Vue.config.productionTip = false
 
