@@ -138,7 +138,7 @@ export default new Router({
           component: () => import('@/pages/restringed/Restringed'),
         },
         {
-          path: '/check-my-monkes',
+          path: '/walletsubmission',
           name: 'checkMyMonkes',
           component: () => import('@/pages/checkMyMonkes/CheckMyMonkes'),
         },
