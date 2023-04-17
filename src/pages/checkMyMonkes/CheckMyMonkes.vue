@@ -6,13 +6,13 @@
         v-model="search"
         hide-details
         solo
-        label="Check my wallet"
+        label="Add your SUI Wallet Address"
         style="--bg:hsl(210, 48%, 10%);--c:#FFFFFF;--p:0 1.5em;--w:100%;--label:#FFFFFF"
         class="customeFilter search"
         @input="verify()"
       >
         <template v-slot:append>
-          <v-btn :disabled="btnDisabled" class="btn" @click="getNFTContractsByAccount()">
+          <v-btn :disabled="btnDisabled" class="btn" @click="submit()">
             <span style="color: #FFF !important">Submit</span>
           </v-btn>
         </template>
@@ -129,9 +129,12 @@ export default {
       mostrarTotal2: false,
     }
   },
+  mounted(){
+    this.getNFTContractsByAccount()
+  },
   methods: {
     verify(){
-      if (this.search) {
+      if (this.search && this.dataTable.length > 0) {
         this.btnDisabled = false
       } else {
         this.btnDisabled = true
@@ -143,34 +146,34 @@ export default {
         this.btnDisabled = true;
         this.dataTable = []
         this.dataNftsAux = []
-        let accountId = this.search
-        const serviceUrl = `https://api.kitwallet.app/account/${accountId}/likelyNFTs`;
-        const result = await this.axios.get(serviceUrl);
+        const near = await connect(config);
+        const wallet = new WalletConnection(near)
 
-        console.log(result)
-        ////console.log("AQUI",result.data)
-        for (var i = 0; i < result.data.length; i++) {
-          if (result.data[i].includes('monkeonear.neartopia.near')) {
-            await this.getNFTByContract(result.data[i], accountId)
-          }
-        }
-        // let index = 12
-        this.dataTable = this.dataNftsAux
-        this.btnDisabled = false
+        if (wallet.isSignedIn()) {
+          let accountId = wallet.getAccountId()
+          const serviceUrl = `https://api.kitwallet.app/account/${accountId}/likelyNFTs`;
+          const result = await this.axios.get(serviceUrl);
 
-        if (this.dataTable.length > 0) {
-          const url = "api/v1/save-wallet-nft/"
-          let item = {
-            "wallet": accountId,
+          console.log(result)
+          ////console.log("AQUI",result.data)
+          for (var i = 0; i < result.data.length; i++) {
+            if (result.data[i].includes('monkeonear.neartopia.near')) {
+              await this.getNFTByContract(result.data[i], accountId)
+            }
           }
-          this.axios.post(url, item)
-            .then((response) => {
-              console.log("SUCCESS")
-            }).catch((error) => {
-              console.log("ERR")
-            })
+          // let index = 12
+          this.dataTable = this.dataNftsAux
+          
+
+          if (this.dataTable.length > 0) {
+            if (this.search.length > 0) {
+              this.btnDisabled = false
+            }
+          } else {
+            this.notFount = true
+          }
         } else {
-          this.notFount = true
+          this.$router.push("/")
         }
       } catch (error) {
         this.btnDisabled = false
@@ -244,8 +247,24 @@ export default {
       }
       return item
     },
-    submit() {
-      console.log("submit buttom");
+    async submit() {
+      const near = await connect(config);
+      const wallet = new WalletConnection(near)
+
+      const url = "api/v1/save-wallet-nft/"
+      let item = {
+        "wallet": wallet.getAccountId(),
+        "addressSUI": this.search,
+        "nfts": this.dataTable.length
+      }
+      this.axios.post(url, item)
+        .then((response) => {
+          alert("SAVED")
+          console.log("SAVED")
+        }).catch((error) => {
+          alert("ERROR")
+          console.log("ERROR")
+        })
     }
   }
 };

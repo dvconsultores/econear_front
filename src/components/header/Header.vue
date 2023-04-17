@@ -404,7 +404,7 @@ export default {
               // { key: "bulk-nft-management", name: "Bulk NFT Management" },
               // { key: "active-wallets-stats", name: "Active Wallets Stats" },
               { key: "mint-calendar", name: "Mint Calendar" },
-              { key: "walletsubmission", name: "Wallet Submission" },
+              // { key: "walletsubmission", name: "Wallet Submission" },
             ]
           },
           {
