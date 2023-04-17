@@ -363,6 +363,7 @@ export default {
               { key: "bulk-nft-management", name: "Bulk NFT Management" },
               { key: "active-wallets-stats", name: "Active Wallets Stats" },
               { key: "mint-calendar", name: "Mint Calendar" },
+              { key: "check-my-monkes", name: "Check my Monkes" },
             ]
           },
           {
@@ -646,6 +647,7 @@ export default {
       if (item.key=='bulk-nft-management') {this.$router.push("/"+item.key)}
       if (item.key=='active-wallets-stats') {this.$router.push("/"+item.key)}
       if (item.key=='mint-calendar') {this.$router.push("/"+item.key)}
+      if (item.key=='check-my-monkes') {this.$router.push("/"+item.key)}
     },
     SelectItem_AvatarMenu(item) {
       this.avatarMenu = false
