@@ -167,6 +167,7 @@ export default {
 
           if (this.dataTable.length > 0) {
             if (this.search.length > 0) {
+              alert("Congratulations please place your SUI wallet to be on the AirDrop list!")
               this.btnDisabled = false
             }
           } else {
