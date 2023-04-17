@@ -47,9 +47,9 @@ export default new Vuex.Store({
         router.push("/")
       } else {
         const result = await dispatch("isHolderMonke")
-        if (result === 0 && wallet.getAccountId() !== "hrpalencia.near" && wallet.getAccountId() !== "jochando.near" && wallet.getAccountId() !== "andresdom.near" && wallet.getAccountId() !== "globaldv_dev.near" && wallet.getAccountId() !== "hrpalencia.near") {
-          //router.push("/restricted") //No Holder
-        }
+        // if (result === 0 && wallet.getAccountId() !== "hrpalencia.near" && wallet.getAccountId() !== "jochando.near" && wallet.getAccountId() !== "andresdom.near" && wallet.getAccountId() !== "globaldv_dev.near" && wallet.getAccountId() !== "hrpalencia.near") {
+        //   //router.push("/restricted") //No Holder
+        // }
       }
     },
     async pushHomeMonke({dispatch}, contract_nft) {
@@ -59,9 +59,9 @@ export default new Vuex.Store({
         router.push("/")
       } else {
         const result = await dispatch("isHolderMonke")
-        if (result === 0 && contract_nft !== "monkeonear.neartopia.near" && wallet.getAccountId() !== "hrpalencia.near" && wallet.getAccountId() !== "jochando.near" && wallet.getAccountId() !== "andresdom.near" && wallet.getAccountId() !== "globaldv_dev.near" && wallet.getAccountId() !== "hrpalencia.near") {
-          //router.push("/restricted") //No Holder
-        }
+        // if (result === 0 && contract_nft !== "monkeonear.neartopia.near" && wallet.getAccountId() !== "hrpalencia.near" && wallet.getAccountId() !== "jochando.near" && wallet.getAccountId() !== "andresdom.near" && wallet.getAccountId() !== "globaldv_dev.near" && wallet.getAccountId() !== "hrpalencia.near") {
+        //   //router.push("/restricted") //No Holder
+        // }
       }
     },
     async isHolderMonke() {

@@ -138,7 +138,7 @@ export default {
         // {
         //   list: [
         //     { title: "NFTS" },
-        //     { key: "compare-projects", name: "Compare Projectss" },
+        //     { key: "compare-projects", name: "Compare Projects" },
         //     { key: "upcoming-projects", name: "Upcoming Projects (Drops)" },
         //     { key: "new-projects", name: "New Projects" },
         //   ]
@@ -202,7 +202,7 @@ export default {
           {
             list: [
               { title: "NFTS" },
-              { key: "compare-projects", name: "Compare Projectss" },
+              { key: "compare-projects", name: "Compare Projects" },
               { key: "new-projects", name: "New Projects" },
             ]
           },
@@ -242,7 +242,7 @@ export default {
           {
             list: [
               { title: "NFTS" },
-              { key: "compare-projects", name: "Compare Projectss" },
+              { key: "compare-projects", name: "Compare Projects" },
               { key: "new-projects", name: "New Projects" },
             ]
           },
