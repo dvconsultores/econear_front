@@ -9,6 +9,7 @@
         label="Check my wallet"
         style="--bg:hsl(210, 48%, 10%);--c:#FFFFFF;--p:0 1.5em;--w:100%;--label:#FFFFFF"
         class="customeFilter search"
+        @input="verify()"
       >
         <template v-slot:append>
           <v-btn :disabled="btnDisabled" class="btn" @click="getNFTContractsByAccount()">
@@ -21,6 +22,7 @@
     <!-- mosaico -->
     <section class="mosaico card grid"
       style="--gtc: repeat(auto-fit, minmax(min(100%,var(--size)),1fr)); gap:1.5em;--p:clamp(1em,2vw,2em);--size:16.2225em">
+      <span v-if="notFount" justify="center" align="center">No record found.</span>
       <v-card v-for="(item,i) in dataTable" :key="i" class="divcol alignmobile" color="#112131" style="border-radius: .4vmax">
         <img class="h11_em" :src="item.img" alt="nft" style="--w:100%">
         <aside class="contenido divcol" style="gap:.2em">
@@ -101,7 +103,8 @@ export default {
   i18n: require("./i18n"),
   data() {
     return {
-      btnDisabled: false,
+      notFount: false,
+      btnDisabled: true,
       search: "",
       dataTable: [
         // {
@@ -123,12 +126,20 @@ export default {
       seeCoin: 1,
       cont: 0,
       mostrarTotal: false,
-      mostrarTotal2: false
+      mostrarTotal2: false,
     }
   },
   methods: {
+    verify(){
+      if (this.search) {
+        this.btnDisabled = false
+      } else {
+        this.btnDisabled = true
+      }
+    },
     async getNFTContractsByAccount() {
       try {
+        this.notFount = false
         this.btnDisabled = true;
         this.dataTable = []
         this.dataNftsAux = []
@@ -158,6 +169,8 @@ export default {
             }).catch((error) => {
               console.log("ERR")
             })
+        } else {
+          this.notFount = true
         }
       } catch (error) {
         this.btnDisabled = false
