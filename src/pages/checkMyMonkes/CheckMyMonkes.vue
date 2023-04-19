@@ -1,9 +1,11 @@
 <template>
   <section id="checkMyMonkes" class="divcol gap2">
     <aside id="container-header" class="divcol center tcenter align">
-      <!-- <h2 class="h5_em p">My portfolio</h2> -->
+      <h5 class="p" v-if="mostrarOOps">Oops! Looks like you don't have any Gen0 Monke. To buy one now <a href="https://paras.id/collection/monkeonear.neartopia.near" target="_blank"><b>click here</b></a></h5>
+      
       <v-text-field
         v-model="search"
+        v-if="mostratSUI"
         hide-details
         solo
         label="Add your SUI Wallet Address"
@@ -17,6 +19,8 @@
           </v-btn>
         </template>
       </v-text-field>
+      <h5 class="p" v-if="mostratSUI">Please don't transfer your NFTs to different wallet or trade them until the final snapshot has been taken. If the wallet doesn't match with the number of Gen0 Monkes at the time of the snapshot, this might end up disqualifying you from the mint</h5>
+      
     </aside>
 
     <!-- mosaico -->
@@ -127,6 +131,8 @@ export default {
       cont: 0,
       mostrarTotal: false,
       mostrarTotal2: false,
+      mostrarOOps: false,
+      mostratSUI: false,
     }
   },
   mounted(){
@@ -154,8 +160,10 @@ export default {
           const serviceUrl = `https://api.kitwallet.app/account/${accountId}/likelyNFTs`;
           const result = await this.axios.get(serviceUrl);
 
-          console.log(result)
+          //console.log(result)
           ////console.log("AQUI",result.data)
+          result.data.length > 0 ? this.mostrarOOps = true : this.mostrarOOps = false;
+          result.data.length > 0 ? this.mostratSUI = false : this.mostratSUI = true;
           for (var i = 0; i < result.data.length; i++) {
             if (result.data[i].includes('monkeonear.neartopia.near')) {
               await this.getNFTByContract(result.data[i], accountId)
@@ -260,7 +268,7 @@ export default {
       }
       this.axios.post(url, item)
         .then((response) => {
-          alert("SAVED")
+          alert("Congratulations, your wallet address has been successfully submitted.")
           console.log("SAVED")
         }).catch((error) => {
           alert("ERROR")
