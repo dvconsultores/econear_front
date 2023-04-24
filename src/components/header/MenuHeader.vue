@@ -443,6 +443,7 @@ export default {
   data() {
     return {
       menuSearch: false,
+      valid: true,
       dataMenuSearch: [],
       rules: {
         date: [

@@ -1,6 +1,8 @@
 <template>
   <section id="home" class="divcol">
-    <check-my-monkes ref="checkMyMonkes"></check-my-monkes>
+    <Hero ref="hero"></Hero>
+    <Market ref="market"></Market>
+    <Ranking ref="ranking"></Ranking>
   </section>
 </template>
 
@@ -8,10 +10,10 @@
 import Hero from './hero/Hero'
 import Market from './market/Market'
 import Ranking from './ranking/Ranking'
-import CheckMyMonkes from './checkMyMonkes/CheckMyMonkes.vue';
+import CheckMyMonke from './checkMyMonkes/CheckMyMonkes.vue';
 export default {
   name: "home",
-  components: { Hero, Market, Ranking, CheckMyMonkes },
+  components: { Hero, Market, Ranking },
   data() {
     return {
     }

@@ -20,6 +20,66 @@
             only. Before purchasing any NFT, please DYOR. 
           </p>
         </aside>
+
+        <aside class="divcol gap2mobile" style="gap:8em">
+          <div class="acenter gap2 fwrapmobile" style="--fb: 1 1 70px">
+            <a v-for="(item,i) in dataFooter" :key="i" @click="$router.push(item.to)" class="h11_em">
+              {{item.name}}
+            </a>
+            <v-menu offset-y>
+              <template v-slot:activator="{ on, attrs}">
+                <button class="h11_em" v-on="on" v-bind="attrs">
+                  More<v-icon medium color="var(--success)">mdi-chevron-down</v-icon>
+                </button>
+              </template>
+              
+              <v-card id="footer" class="menu_list morelist">
+                <v-list v-for="(item,i) in dataMore" :key="i" color="hsl(212 47% 12% / .7)">
+                  <template v-for="(item2,i2) in item.list">
+                    <v-list-item :key="i2" disabled>
+                      <v-list-item-title class="Title">{{item2.title}}</v-list-item-title>
+                    </v-list-item>
+
+                    <v-list-item :key="i2" @click="$emit('SelectMore',item2)">
+                      <v-list-item-title>{{item2.name}}</v-list-item-title>
+                    </v-list-item>
+                  </template>
+                </v-list>
+
+                <aside class="divcol center">
+                  <span>Join us on:</span>
+                  <div class="acenter" style="gap:.5em">
+                    <v-btn icon href="https://twitter.com/econear" target="_blank">
+                      <img src="@/assets/icons/twitter.svg" alt="twitter" style="--w:1.5625em">
+                    </v-btn> 
+                    <v-btn icon href="https://discord.gg/EpMDUY5ueZ" target="_blank">
+                      <img src="@/assets/icons/discord.svg" alt="discord" style="--w:1.5625em">
+                    </v-btn>
+                    <!-- <v-btn icon>
+                      <img src="@/assets/icons/telegram.svg" alt="telegram" style="--w:1.5625em">
+                    </v-btn> -->
+                  </div>
+                </aside>
+              </v-card>
+            </v-menu>
+          </div>
+
+          <v-text-field
+            v-model="input"
+            solo
+            :rules="[rules.email]"
+            label="example@email.com"
+            style="--p: 0 0 0 12px;margin-left:auto;--w:clamp(20em, 24vw, 24.848125em);
+              --h:clamp(2.6em, 3vw, 3em);--label:black"
+          >
+            <template v-slot:append>
+              <v-btn rounded class="btn h11_em" @click="SendEmail()"
+                style="--b: 1px solid #6FFFE9;--bg:var(--clr-btn);--h:clamp(2.7em, 3.1vw, 3.1em);--p:0 16px;--bs:none">
+                <span style="color:#FFFFFF !important">Subscribe</span>
+              </v-btn>
+            </template>
+          </v-text-field>
+        </aside>
       </section>
 
       <a class="h11_em marginaleft" href="https://www.dvconsultores.com" target="_blank">Powered by GlobalDv</a>

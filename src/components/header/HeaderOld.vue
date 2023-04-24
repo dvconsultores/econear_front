@@ -10,7 +10,65 @@
         </router-link>
       </aside>
 
- 
+      <aside class="middle acenter eliminarmobile">
+        <a v-for="(item,i) in dataHeader" :key="i" @click="$router.push(item.to)" class="h11_em eliminarmobile">
+          {{item.name}}
+        </a>
+        <v-menu offset-y>
+          <!-- slot more -->
+          <template v-slot:activator="{ on, attrs}">
+            <button class="acenter h11_em eliminarmobile" v-on="on" v-bind="attrs">
+              <span>More</span>
+              <v-icon color="var(--success)" size="1.3em">mdi-chevron-down</v-icon>
+            </button>
+          </template>
+
+          <v-card class="menu_list morelist">
+            <v-list v-for="(item,i) in dataMore" :key="i" color="hsl(212 47% 12% / .7)">
+              <template v-for="(item2,i2) in item.list">
+                <v-list-item :key="i2" disabled>
+                  <v-list-item-title class="Title">{{item2.title}}</v-list-item-title>
+                </v-list-item>
+
+                <v-list-item :key="i2" @click="SelectItem_More(item2)">
+                  <v-list-item-title>{{item2.name}}</v-list-item-title>
+                </v-list-item>
+              </template>
+            </v-list>
+
+            <aside class="divcol center">
+              <span>Join us on:</span>
+              <div class="acenter" style="gap:.5em">
+                <v-btn icon href="https://twitter.com/econear" target="_blank">
+                  <img src="@/assets/icons/twitter.svg" alt="twitter" style="--w:1.5625em">
+                </v-btn> 
+                <v-btn icon href="https://discord.gg/EpMDUY5ueZ" target="_blank">
+                  <img src="@/assets/icons/discord.svg" alt="discord" style="--w:1.5625em">
+                </v-btn>
+                <!-- <v-btn icon>
+                  <img src="@/assets/icons/telegram.svg" alt="telegram" style="--w:1.5625em">
+                </v-btn> -->
+              </div>
+            </aside>
+          </v-card>
+        </v-menu>
+
+        <!-- <v-menu offset-y>
+          <template v-slot:activator="{ on, attrs}">
+            <button v-show="!user" class="acenter h11_em" v-on="on" v-bind="attrs">
+              <span>{{languageText}}</span>
+              <v-icon color="var(--success)" size="1.3em">mdi-chevron-down</v-icon>
+            </button>
+          </template>
+
+          <v-list class="menu_list">
+            <v-list-item v-for="(item, i) in dataLanguage" :key="i" :class="{active:item.active}"
+              @click="CambiarLanguage(item.key);dataLanguage.forEach(e=>{e.active=false});item.active=true;languageText=item.key">
+              <v-list-item-title class="h11_em">{{item.name}}</v-list-item-title>
+            </v-list-item>
+          </v-list>
+        </v-menu> -->
+      </aside>
 
       <aside class="right acenter eliminarmobile" style="gap:clamp(1em, 1.5vw, 1.5em)">
         <v-menu offset-y>
@@ -231,6 +289,14 @@ export default {
       dataLogout: [
         {
           list: [
+            { key: "profile", name: "My Profile" },
+            //{ key: "portafolio", name: "My Portfolio" },
+            { key: "settings", name: "Settings" },
+          ]
+        },
+        {
+          list: [
+            { key: "switch", name: "Switch Account" },
             { key: "logout", name: "Log out" },
           ]
         },
