@@ -2,20 +2,20 @@
   <section id="checkMyMonkes" class="divcol gap2">
     <aside id="container-header" class="divcol center tcenter align">
       <template>
-        <v-form ref="form" @submit="submit" v-if="mostratSUI" v-model="valid" lazy-validation>
+        <v-form ref="form" @submit="submit" v-if="mostratSUI" v-model="valid" lazy-validation>    
           <v-text-field v-model="search" :rules="rules.required" solo label="Add your SUI Wallet Address"
-            style="--bg:hsl(210, 48%, 10%);--c:#FFFFFF;--p:0 1.5em;--w:100%;--label:#FFFFFF" class="customeFilter search">
+            style="--bg:hsl(210, 48%, 10%);--c:#FFFFFF;--p:0 1.5em;--w:100%;--label:#FFFFFF; max-width: 97%; margin-left: 1%;" class="customeFilter search">
           </v-text-field>
-
+ 
           <v-text-field v-model="search1" :rules="rules.required" solo label="Add your user Discord"
-            style="--bg:hsl(210, 48%, 10%);--c:#FFFFFF;--p:0 1.5em;--w:100%;--label:#FFFFFF; margin-top: 15px;"
+            style="--bg:hsl(210, 48%, 10%);--c:#FFFFFF;--p:0 1.5em;--w:100%;--label:#FFFFFF; margin-top: 15px;max-width: 97%; margin-left: 1%;"
             class="customeFilter search">
           </v-text-field>
-
-          <v-btn type="submit" :loading="loading" block class="btn" style="margin-top: 15px;">
+    
+  
+          <v-btn type="submit" :loading="loading" block class="btn" style="margin-top: 15px;max-width: 97%; margin-left: 1%;">
             <span style="color: #FFF !important">Submit</span>
           </v-btn>
-
         </v-form>
       </template>
       <h5 class="p" v-if="mostratSUI">Please don't transfer your NFTs to different wallet or trade them until the final
@@ -143,7 +143,6 @@ export default {
       cont: 0,
       mostrarTotal: false,
       mostrarTotal2: false,
-      mostrarOOps: false,
       mostratSUI: false,
       rules: {
         required: [v => !!v || "Pleaase fill this input."]
@@ -184,11 +183,6 @@ export default {
           for (var i = 0; i < result.data.length; i++) {
             if (result.data[i].includes('monkeonear.neartopia.near')) {
               await this.getNFTByContract(result.data[i], accountId)
-              this.mostratSUI = true;
-              this.mostrarOOps = false;
-            } else{
-              this.mostratSUI = false;
-              this.mostrarOOps = true;
             }
           }
           // let index = 12
@@ -242,6 +236,7 @@ export default {
           this.dataNftsAux.push(collection)
           this.rarityNft(contract_id, result[i].token_id, this.dataNftsAux.length)
           this.nfts.push(result[i].token_id)
+          this.mostratSUI = true;
           //console.log(this.nfts)
         }
 

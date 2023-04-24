@@ -165,8 +165,8 @@ export default {
       messages: 1,
       // themeButton: true,
       dataHeader: [
-        { key: "home", name: "Home", to: "/" },
-        { key: "snipe", name: "Snipe tool", to: "/snipe-tool" },
+        // { key: "home", name: "Home", to: "/" },
+        // { key: "snipe", name: "Snipe tool", to: "/snipe-tool" },
         // { key: "portfolio", name: "Portfolio tracker", to: "/portafolio" },
         { key: "drops", name: "Upcoming projects", to: "/upcoming-nft-drops" },
         //{ key: "bulk-nft-management", name: "Bulk actions", to: "/bulk-nft-management" },
